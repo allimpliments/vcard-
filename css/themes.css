@@ -25,7 +25,6 @@
   --transition: all 0.3s ease;
 }
 
-/* Common Styles */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -84,7 +83,6 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* Sections */
 #sections-container > div {
   padding: 20px;
   border-top: 1px solid var(--border);
@@ -99,54 +97,6 @@ h1 {
   margin-bottom: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-}
-
-/* Buttons */
-button, .btn {
-  display: inline-block;
-  padding: 12px 28px;
-  border-radius: var(--btn-radius);
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: var(--transition);
-  text-decoration: none;
-  text-align: center;
-  letter-spacing: 0.3px;
-}
-
-.btn-primary {
-  background: var(--primary);
-  color: var(--text-light);
-  box-shadow: 0 4px 15px rgba(26,115,232,0.3);
-}
-.btn-primary:hover {
-  background: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(26,115,232,0.4);
-}
-
-.btn-accent {
-  background: var(--accent);
-  color: var(--text-light);
-  box-shadow: 0 4px 15px rgba(255,109,0,0.3);
-}
-.btn-accent:hover {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255,109,0,0.4);
-}
-
-.btn-outline {
-  background: transparent;
-  color: var(--primary);
-  border: 2px solid var(--primary);
-}
-.btn-outline:hover {
-  background: var(--primary);
-  color: var(--text-light);
 }
 
 #save-contact {
@@ -197,7 +147,6 @@ button, .btn {
   box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
-/* Brand Colors on Hover */
 .social-icons a.fa-whatsapp:hover { background: #25D366; color: #fff; }
 .social-icons a.fa-instagram:hover { background: #E4405F; color: #fff; }
 .social-icons a.fa-facebook:hover,
@@ -212,7 +161,6 @@ button, .btn {
 .social-icons a.fa-pinterest:hover { background: #BD081C; color: #fff; }
 .social-icons a.fa-globe:hover { background: var(--primary); color: #fff; }
 
-/* QR Box */
 #qr-box {
   text-align: center;
   padding: 20px;
@@ -221,7 +169,6 @@ button, .btn {
   margin: 0 auto;
 }
 
-/* Loader & Error */
 #loader, #error {
   text-align: center;
   padding: 40px 20px;
@@ -309,24 +256,3 @@ body.wedding {
   --accent: #ffd700;
   --accent-hover: #ffc107;
 }
-* { box-sizing: border-box; margin:0; padding:0; }
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  transition: background 0.3s, color 0.3s;
-}
-#card-container {
-  max-width: 450px; margin: 20px auto; background: var(--card-bg);
-  border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; text-align: center;
-}
-#profile-img { width:120px; height:120px; border-radius:50%; object-fit:cover; margin:0 auto 15px; }
-#lottie-box { margin-bottom: 15px; }
-#sections-container > div { margin: 15px 0; }
-.social-icons a { margin: 0 8px; text-decoration: none; }
-.edit-mode { padding: 20px; }
-#editor-container { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow); }
-#editor-container label { display: block; margin-top: 10px; font-weight: bold; }
-#editor-container input, #editor-container textarea, #editor-container select { width:100%; padding:8px; margin-top:4px; }
-#section-order { list-style: none; }
-#section-order li { padding: 10px; margin:5px 0; background: #f0f0f0; cursor: move; border-radius:4px; }
