@@ -11,6 +11,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
   <div id="card-container" style="display:none;">
@@ -44,21 +45,5 @@
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script src="js/viewer.js"></script>
 
-  <script>
-    // Lottie animation load karo - sirf ek baar
-    setTimeout(function() {
-      const animDiv = document.getElementById('main-anim');
-      if (animDiv && typeof lottie !== 'undefined') {
-        lottie.loadAnimation({
-          container: animDiv,
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-          path: 'assets/lottie/Welcome.json'
-        });
-        console.log('✅ Lottie loaded!');
-      }
-    }, 500);
-  </script>
 </body>
 </html>
