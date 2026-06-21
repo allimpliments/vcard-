@@ -1,0 +1,36 @@
+:root {
+  --bg: #f5f7fa;
+  --card-bg: #ffffff;
+  --text: #212529;
+  --primary: #0d6efd;
+  --accent: #ffc107;
+  --radius: 24px;
+  --shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+body.default { }
+body.healthcare {
+  --bg: #e6f7f1;
+  --card-bg: #ffffff;
+  --primary: #20c997;
+  --accent: #ff6b6b;
+}
+body.saloon {
+  --bg: #fff0f5;
+  --card-bg: #fff;
+  --primary: #d63384;
+  --accent: #ffc107;
+}
+body.tech {
+  --bg: #eef2ff;
+  --card-bg: #ffffff;
+  --primary: #4f46e5;
+  --accent: #f59e0b;
+}
+body.dark {
+  --bg: #1e1e2f;
+  --card-bg: #2d2d44;
+  --text: #e0e0e0;
+  --primary: #7c3aed;
+  --accent: #fbbf24;
+}
