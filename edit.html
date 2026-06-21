@@ -16,20 +16,33 @@
   <div id="editor-container" style="display:none;">
     <h2>✏️ अपना कार्ड एडिट करें</h2>
     <form id="edit-form">
+
       <label>नाम:</label><input type="text" id="e-name" required>
       <label>पद / टाइटल:</label><input type="text" id="e-title">
       <label>फ़ोन:</label><input type="tel" id="e-phone">
       <label>ईमेल:</label><input type="email" id="e-email">
       <label>वेबसाइट:</label><input type="url" id="e-website">
+
       <label>अबाउट (About):</label><textarea id="e-about" rows="3"></textarea>
-      <label>About इमेज URL (वैकल्पिक):</label><input type="url" id="e-about-img" placeholder="https://...">
+      <label>About इमेज:</label>
+      <input type="file" id="e-about-img-file" accept="image/*" style="padding: 8px; width: 100%;">
+      <p style="font-size: 12px; color: #64748b; margin: 4px 0;">— या —</p>
+      <input type="url" id="e-about-img" placeholder="या About इमेज URL डालें...">
+      <img id="e-about-img-preview" src="" style="max-width: 100px; max-height: 100px; display: none; margin-top: 8px; border-radius: 10px;">
+
       <label>About PDF लिंक (वैकल्पिक):</label><input type="url" id="e-about-pdf" placeholder="https://... (PDF URL)">
-      <label>प्रोफ़ाइल इमेज URL:</label><input type="url" id="e-img" placeholder="https://...">
-      <label>या फ़ाइल अपलोड करें:</label>
-<input type="file" id="e-img-file" accept="image/*" style="padding: 8px;">
-<img id="e-img-preview" src="" style="max-width: 100px; max-height: 100px; display: none; margin-top: 8px; border-radius: 10px;">
-      <label>QR कोड इमेज URL (वैकल्पिक):</label><input type="url" id="e-qr" placeholder="https://...  (खाली छोड़ें तो ऑटो जनरेट होगा)">
-      <div id="img-preview"></div>
+
+      <label>प्रोफ़ाइल इमेज:</label>
+      <input type="file" id="e-img-file" accept="image/*" style="padding: 8px; width: 100%;">
+      <p style="font-size: 12px; color: #64748b; margin: 4px 0;">— या —</p>
+      <input type="url" id="e-img" placeholder="या इमेज URL डालें...">
+      <img id="e-img-preview" src="" style="max-width: 120px; max-height: 120px; display: none; margin-top: 8px; border-radius: 50%; object-fit: cover;">
+
+      <label>QR कोड इमेज:</label>
+      <input type="file" id="e-qr-file" accept="image/*" style="padding: 8px; width: 100%;">
+      <p style="font-size: 12px; color: #64748b; margin: 4px 0;">— या —</p>
+      <input type="url" id="e-qr" placeholder="या QR इमेज URL डालें (खाली छोड़ें तो ऑटो जनरेट होगा)...">
+      <img id="e-qr-preview" src="" style="max-width: 100px; max-height: 100px; display: none; margin-top: 8px; border-radius: 10px;">
 
       <h3>सोशल लिंक्स</h3>
       <div id="social-links"></div>
@@ -37,11 +50,15 @@
 
       <h3>थीम चुनें</h3>
       <select id="e-theme">
-        <option value="default">डिफ़ॉल्ट</option>
-        <option value="healthcare">हेल्थकेयर</option>
-        <option value="saloon">सैलून</option>
-        <option value="tech">टेक</option>
-        <option value="dark">डार्क</option>
+        <option value="default">डिफ़ॉल्ट (नीला)</option>
+        <option value="healthcare">हेल्थकेयर (हरा)</option>
+        <option value="saloon">सैलून (गुलाबी)</option>
+        <option value="tech">टेक (बैंगनी)</option>
+        <option value="dark">डार्क प्रीमियम</option>
+        <option value="restaurant">रेस्टोरेंट (नारंगी)</option>
+        <option value="realestate">रियल एस्टेट</option>
+        <option value="education">एजुकेशन</option>
+        <option value="wedding">वेडिंग</option>
       </select>
 
       <h3>सेक्शन का क्रम (Drag करके बदलें)</h3>
