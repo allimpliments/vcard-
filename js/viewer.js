@@ -125,7 +125,39 @@ if (!slug) {
           height: 100
         });
       }
+      // Share Button
+      document.getElementById('btn-share').addEventListener('click', function() {
+        const url = window.location.href;
+        const text = data.name + ' - ' + (data.title || '') + ' - Digital vCard';
+        if (navigator.share) {
+          navigator.share({ title: text, text: text, url: url }).catch(() => {});
+        } else {
+          navigator.clipboard.writeText(url).then(function() {
+            alert('🔗 लिंक कॉपी हो गया! अब WhatsApp या कहीं भी पेस्ट करें।');
+          });
+        }
+      });
 
+      // PDF Button
+      document.getElementById('btn-pdf').addEventListener('click', function() {
+        window.print();
+      });
+
+      // Save Contact Button
+      document.getElementById('save-contact').addEventListener('click', function() {
+        let vcf = 'BEGIN:VCARD\nVERSION:3.0\n';
+        vcf += 'FN:' + (data.name || '') + '\n';
+        vcf += 'TITLE:' + (data.title || '') + '\n';
+        vcf += 'TEL:' + (data.phone || '') + '\n';
+        vcf += 'EMAIL:' + (data.email || '') + '\n';
+        vcf += 'URL:' + (data.website || '') + '\n';
+        vcf += 'END:VCARD';
+        const blob = new Blob([vcf], { type: 'text/vcard' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = (data.name || 'contact') + '.vcf';
+        link.click();
+      });
       console.log('✅ Card successfully displayed!');
     })
     .catch((error) => {
