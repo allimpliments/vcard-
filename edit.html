@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit vCard</title>
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+</head>
+<body class="edit-mode">
+  <div id="editor-container" style="display:none;">
+    <h2>✏️ अपना कार्ड एडिट करें</h2>
+    <form id="edit-form">
+      <label>नाम:</label><input type="text" id="e-name" required>
+      <label>पद / टाइटल:</label><input type="text" id="e-title">
+      <label>फ़ोन:</label><input type="tel" id="e-phone">
+      <label>ईमेल:</label><input type="email" id="e-email">
+      <label>वेबसाइट:</label><input type="url" id="e-website">
+      <label>अबाउट (About):</label><textarea id="e-about" rows="3"></textarea>
+      <label>प्रोफ़ाइल इमेज URL:</label><input type="url" id="e-img" placeholder="https://...">
+      <div id="img-preview"></div>
+
+      <h3>सोशल लिंक्स</h3>
+      <div id="social-links"></div>
+      <button type="button" id="add-social">+ सोशल लिंक जोड़ें</button>
+
+      <h3>थीम चुनें</h3>
+      <select id="e-theme">
+        <option value="default">डिफ़ॉल्ट</option>
+        <option value="healthcare">हेल्थकेयर</option>
+        <option value="saloon">सैलून</option>
+        <option value="tech">टेक</option>
+        <option value="dark">डार्क</option>
+      </select>
+
+      <h3>सेक्शन का क्रम (Drag करके बदलें)</h3>
+      <ul id="section-order">
+        <li data-section="about">About</li>
+        <li data-section="contact">Contact</li>
+        <li data-section="social">Social Links</li>
+      </ul>
+
+      <button type="submit">💾 सेव और पब्लिश करें</button>
+    </form>
+    <div id="publish-link" style="display:none;"></div>
+  </div>
+  <div id="access-denied" style="display:none;">⛔ अनधिकृत एक्सेस</div>
+  <script src="js/editor.js"></script>
+</body>
+</html>

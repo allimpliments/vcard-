@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>डिजिटल vCard</title>
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
+</head>
+<body>
+  <div id="card-container" style="display:none;">
+    <!-- Lottie Animation -->
+    <div id="lottie-box">
+      <lottie-player id="main-anim" background="transparent" speed="1" style="width:100%; height:180px;" loop autoplay></lottie-player>
+    </div>
+    <!-- Profile Image -->
+    <img id="profile-img" src="assets/default-user.png" alt="Profile" crossorigin="anonymous">
+    <h1 id="name"></h1>
+    <p id="title"></p>
+    <div id="sections-container"></div>
+    <button id="save-contact">📇 Save to Phone</button>
+    <div id="qr-box"></div>
+  </div>
+  <div id="loader">⏳ लोड हो रहा है...</div>
+  <div id="error" style="display:none;">❌ कार्ड नहीं मिला</div>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script src="js/viewer.js"></script>
+</body>
+</html>
