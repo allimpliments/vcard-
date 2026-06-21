@@ -93,10 +93,21 @@ if (!slug) {
           const iconsDiv = div.querySelector('.social-icons');
           const platforms = Object.keys(data.social);
           for (let j = 0; j < platforms.length; j++) {
-            const platform = platforms[j];
-            const url = data.social[platform];
+            const platform = platforms[j].toLowerCase();
+            const url = data.social[platforms[j]];
             if (url) {
-              iconsDiv.innerHTML += '<a href="' + url + '" target="_blank">' + platform + '</a> ';
+              let iconClass = 'fa-globe';
+              if (platform.includes('whatsapp')) iconClass = 'fa-whatsapp';
+              else if (platform.includes('instagram')) iconClass = 'fa-instagram';
+              else if (platform.includes('facebook')) iconClass = 'fa-facebook';
+              else if (platform.includes('youtube')) iconClass = 'fa-youtube';
+              else if (platform.includes('linkedin')) iconClass = 'fa-linkedin';
+              else if (platform.includes('twitter') || platform.includes('x')) iconClass = 'fa-x-twitter';
+              else if (platform.includes('telegram')) iconClass = 'fa-telegram';
+              else if (platform.includes('snapchat')) iconClass = 'fa-snapchat';
+              else if (platform.includes('pinterest')) iconClass = 'fa-pinterest';
+              
+              iconsDiv.innerHTML += '<a href="' + url + '" target="_blank" class="fa-brands ' + iconClass + '"></a>';
             }
           }
         }
