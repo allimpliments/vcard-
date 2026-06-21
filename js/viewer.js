@@ -44,6 +44,28 @@ if (!slug) {
       } else {
         console.log('❌ Lottie container or library not found');
       }
+            // Action Buttons
+      const btnCall = document.getElementById('btn-call');
+      const btnEmail = document.getElementById('btn-email');
+      const btnWhatsapp = document.getElementById('btn-whatsapp');
+      
+      if (data.phone) {
+        btnCall.href = 'tel:' + data.phone;
+      } else {
+        btnCall.style.display = 'none';
+      }
+      
+      if (data.email) {
+        btnEmail.href = 'mailto:' + data.email;
+      } else {
+        btnEmail.style.display = 'none';
+      }
+      
+      if (data.phone) {
+        btnWhatsapp.href = 'https://wa.me/' + data.phone.replace(/[^0-9]/g, '');
+      } else {
+        btnWhatsapp.style.display = 'none';
+      }
       document.getElementById('profile-img').src = data.profileImage || 'assets/default-user.png';
       document.getElementById('name').textContent = data.name || '';
       document.getElementById('title').textContent = data.title || '';
