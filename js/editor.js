@@ -36,6 +36,7 @@
   document.getElementById('e-website').value = cardData.website || '';
   document.getElementById('e-about').value = cardData.about || '';
   document.getElementById('e-img').value = cardData.profileImage || '';
+  document.getElementById('e-qr').value = cardData.qrImage || '';
   document.getElementById('e-theme').value = cardData.theme || 'default';
 
   // Social links dynamic list
