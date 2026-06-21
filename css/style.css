@@ -1,21 +1,157 @@
-* { box-sizing: border-box; margin:0; padding:0; }
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  transition: background 0.3s, color 0.3s;
+/* ============================================
+   MAIN STYLES + EDITOR STYLES
+   ============================================ */
+
+/* Editor Mode */
+.edit-mode {
+  background: #f1f5f9 !important;
+  padding: 20px;
 }
-#card-container {
-  max-width: 450px; margin: 20px auto; background: var(--card-bg);
-  border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; text-align: center;
+
+#editor-container {
+  max-width: 550px;
+  margin: auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
 }
-#profile-img { width:120px; height:120px; border-radius:50%; object-fit:cover; margin:0 auto 15px; }
-#lottie-box { margin-bottom: 15px; }
-#sections-container > div { margin: 15px 0; }
-.social-icons a { margin: 0 8px; text-decoration: none; }
-.edit-mode { padding: 20px; }
-#editor-container { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow); }
-#editor-container label { display: block; margin-top: 10px; font-weight: bold; }
-#editor-container input, #editor-container textarea, #editor-container select { width:100%; padding:8px; margin-top:4px; }
-#section-order { list-style: none; }
-#section-order li { padding: 10px; margin:5px 0; background: #f0f0f0; cursor: move; border-radius:4px; }
+
+#editor-container h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#editor-container label {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#editor-container input,
+#editor-container textarea,
+#editor-container select {
+  width: 100%;
+  padding: 10px 14px;
+  margin-top: 4px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+#editor-container input:focus,
+#editor-container textarea:focus,
+#editor-container select:focus {
+  border-color: #1a73e8;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+}
+
+#editor-container button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  margin-top: 20px;
+  background: #1a73e8;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#editor-container button[type="submit"]:hover {
+  background: #1557b0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(26,115,232,0.3);
+}
+
+#section-order {
+  list-style: none;
+  padding: 0;
+}
+
+#section-order li {
+  padding: 12px 16px;
+  margin: 6px 0;
+  background: #f8fafc;
+  border: 2px dashed #e2e8f0;
+  border-radius: 10px;
+  cursor: move;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+#section-order li:hover {
+  background: #eff6ff;
+  border-color: #1a73e8;
+}
+
+#social-links input {
+  width: 48%;
+  display: inline-block;
+  margin-right: 2%;
+}
+
+.remove-social {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#add-social {
+  background: #10b981;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin-top: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+#publish-link {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#access-denied {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #dc2626;
+}
+
+/* Loader & Error */
+#loader, #error {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 18px;
+  color: #ffffff;
+}
+#error {
+  color: #ff5252;
+  background: rgba(255,255,255,0.9);
+  border-radius: 20px;
+  max-width: 400px;
+  margin: 40px auto;
+}
