@@ -30,33 +30,6 @@
   <div id="error" style="display:none;">❌ कार्ड नहीं मिला</div>
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script src="js/viewer.js"></script>
-<script>
-  // Direct Lottie animation load
-  const animDiv = document.getElementById('main-anim');
-  if (animDiv && typeof lottie !== 'undefined') {
-    lottie.loadAnimation({
-      container: animDiv,
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      path: 'assets/lottie/Welcome.json'
-    });
-    console.log('✅ Direct Lottie loaded!');
-  } else {
-    console.log('❌ Lottie not available, retrying...');
-    setTimeout(function() {
-      if (typeof lottie !== 'undefined') {
-        lottie.loadAnimation({
-          container: document.getElementById('main-anim'),
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-          path: 'assets/lottie/Welcome.json'
-        });
-        console.log('✅ Lottie loaded on retry!');
-      }
-    }, 1000);
-  }
-</script>
+
 </body>
 </html>
