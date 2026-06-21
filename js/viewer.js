@@ -44,7 +44,6 @@ if (!slug) {
       } else {
         console.log('❌ Lottie container or library not found');
       }
-
       document.getElementById('profile-img').src = data.profileImage || 'assets/default-user.png';
       document.getElementById('name').textContent = data.name || '';
       document.getElementById('title').textContent = data.title || '';
