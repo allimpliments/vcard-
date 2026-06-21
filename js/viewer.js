@@ -115,16 +115,35 @@ if (!slug) {
         container.appendChild(div);
       }
 
-      // QR Code
+      // QR Code Section
+      const qrImage = document.getElementById('qr-image');
       const qrBox = document.getElementById('qr-box');
-      if (qrBox && typeof QRCode !== 'undefined') {
-        qrBox.innerHTML = '';
+      const cardUrlText = document.getElementById('card-url-text');
+      const currentUrl = window.location.href;
+      
+      cardUrlText.textContent = currentUrl;
+
+      // Check if user uploaded a QR image
+      if (data.qrImage && data.qrImage.trim() !== '') {
+        qrImage.src = data.qrImage;
+        qrImage.style.display = 'block';
+      } else if (qrBox && typeof QRCode !== 'undefined') {
+        // Generate QR code
         new QRCode(qrBox, {
-          text: window.location.href,
-          width: 100,
-          height: 100
+          text: currentUrl,
+          width: 200,
+          height: 200
         });
       }
+
+      // Copy URL Button
+      document.getElementById('btn-copy-url').addEventListener('click', function() {
+        navigator.clipboard.writeText(currentUrl).then(function() {
+          alert('✅ URL कॉपी हो गया!');
+        }).catch(function() {
+          prompt('URL को कॉपी करें:', currentUrl);
+        });
+      });
       // Share Button
       document.getElementById('btn-share').addEventListener('click', function() {
         const url = window.location.href;
