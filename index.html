@@ -74,6 +74,19 @@
     </div>
     <div id="sections-container"></div>
     <button id="save-contact">📇 Save to Phone</button>
+        <!-- Share & PDF Buttons -->
+    <div style="padding: 0 20px 10px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+      <button id="btn-share" style="flex: 1; min-width: 100px; padding: 12px 15px; background: #6366f1; color: #fff; border: none; border-radius: 50px; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(99,102,241,0.3); transition: all 0.3s ease;"
+        onmouseover="this.style.background='#4f46e5'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(99,102,241,0.5)';"
+        onmouseout="this.style.background='#6366f1'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(99,102,241,0.3)';">
+        📤 Share Card
+      </button>
+      <button id="btn-pdf" style="flex: 1; min-width: 100px; padding: 12px 15px; background: #ef4444; color: #fff; border: none; border-radius: 50px; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(239,68,68,0.3); transition: all 0.3s ease;"
+        onmouseover="this.style.background='#dc2626'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(239,68,68,0.5)';"
+        onmouseout="this.style.background='#ef4444'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(239,68,68,0.3)';">
+        📄 Save as PDF
+      </button>
+    </div>
     <div id="qr-box"></div>
   </div>
   <div id="loader">⏳ लोड हो रहा है...</div>
