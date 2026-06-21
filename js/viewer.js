@@ -17,7 +17,7 @@ if (!slug) {
         console.log('Document nahi mila');
         document.getElementById('loader').style.display = 'none';
         document.getElementById('error').style.display = 'block';
-        return;
+        return;ab
       }
 
       const data = docSnap.data();
@@ -80,7 +80,26 @@ if (!slug) {
         const div = document.createElement('div');
 
         if (sec === 'about' && data.about) {
-          div.innerHTML = '<h3>About</h3><p>' + data.about + '</p>';
+          let aboutHTML = '<h3>About Us</h3>';
+          
+          // About Image (agar ho)
+          if (data.aboutImage && data.aboutImage.trim() !== '') {
+            aboutHTML += '<div style="text-align: center; margin-bottom: 15px;">';
+            aboutHTML += '<img src="' + data.aboutImage + '" alt="About" style="max-width: 200px; max-height: 200px; border-radius: 15px; object-fit: cover; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">';
+            aboutHTML += '</div>';
+          }
+          
+          // About Text
+          aboutHTML += '<p style="font-size: 14px; line-height: 1.7; color: var(--text-secondary); text-align: center; margin-bottom: 15px;">' + data.about + '</p>';
+          
+          // PDF Download Button (agar PDF link ho)
+          if (data.aboutPdf && data.aboutPdf.trim() !== '') {
+            aboutHTML += '<div style="text-align: center;">';
+            aboutHTML += '<a href="' + data.aboutPdf + '" target="_blank" style="display: inline-block; padding: 12px 25px; background: #ef4444; color: #fff; text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 14px; box-shadow: 0 4px 15px rgba(239,68,68,0.3); transition: all 0.3s ease;" onmouseover="this.style.background=\'#dc2626\'; this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.background=\'#ef4444\'; this.style.transform=\'translateY(0)\';">📥 Download PDF</a>';
+            aboutHTML += '</div>';
+          }
+          
+          div.innerHTML = aboutHTML;
         } 
         else if (sec === 'contact') {
           div.innerHTML = '<h3>Contact</h3>' +
