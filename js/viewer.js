@@ -1,5 +1,3 @@
-// Firebase SDK से db पहले ही firebase-config.js में बन चुका है
-
 const params = new URLSearchParams(window.location.search);
 const slug = params.get('id');
 
@@ -25,35 +23,32 @@ if (!slug) {
       const data = docSnap.data();
       console.log('Data mila:', data);
 
-      // Theme apply karo
       document.body.className = data.theme || 'default';
-      
-      // Loader hide, card show
       document.getElementById('loader').style.display = 'none';
       document.getElementById('card-container').style.display = 'block';
 
-      // Lottie animation
+      // Lottie animation - FIXED
       const anim = document.getElementById('main-anim');
-      if (anim && data.animation) {
-        anim.setAttribute('src', 'assets/lottie/' + data.animation + '.json');
+      if (anim) {
+        const animName = data.animation || 'wave';
+        const animPath = 'assets/lottie/' + animName + '.json';
+        console.log('Lottie path:', animPath);
+        anim.setAttribute('src', animPath);
+        anim.addEventListener('ready', function() {
+          console.log('✅ Lottie animation loaded!');
+        });
+        anim.addEventListener('error', function(e) {
+          console.error('❌ Lottie load error:', e);
+        });
       }
 
-      // Profile image
-      const img = document.getElementById('profile-img');
-      if (img) {
-        img.src = data.profileImage || 'assets/default-user.png';
-      }
+      document.getElementById('profile-img').src = data.profileImage || 'assets/default-user.png';
+      document.getElementById('name').textContent = data.name || '';
+      document.getElementById('title').textContent = data.title || '';
 
-      // Name and Title
-      const nameEl = document.getElementById('name');
-      const titleEl = document.getElementById('title');
-      if (nameEl) nameEl.textContent = data.name || '';
-      if (titleEl) titleEl.textContent = data.title || '';
-
-      // Sections
       const container = document.getElementById('sections-container');
-      if (!container) return;
-
+      container.innerHTML = '';
+      
       const order = data.sectionOrder || ['about', 'contact', 'social'];
 
       for (let i = 0; i < order.length; i++) {
@@ -72,7 +67,6 @@ if (!slug) {
         else if (sec === 'social' && data.social) {
           div.innerHTML = '<h3>Social</h3><div class="social-icons"></div>';
           const iconsDiv = div.querySelector('.social-icons');
-          
           const platforms = Object.keys(data.social);
           for (let j = 0; j < platforms.length; j++) {
             const platform = platforms[j];
@@ -89,6 +83,7 @@ if (!slug) {
       // QR Code
       const qrBox = document.getElementById('qr-box');
       if (qrBox && typeof QRCode !== 'undefined') {
+        qrBox.innerHTML = '';
         new QRCode(qrBox, {
           text: window.location.href,
           width: 100,
