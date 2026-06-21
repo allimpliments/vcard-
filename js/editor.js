@@ -35,6 +35,8 @@
   document.getElementById('e-email').value = cardData.email || '';
   document.getElementById('e-website').value = cardData.website || '';
   document.getElementById('e-about').value = cardData.about || '';
+  document.getElementById('e-about-img').value = cardData.aboutImage || '';
+  document.getElementById('e-about-pdf').value = cardData.aboutPdf || '';
   document.getElementById('e-img').value = cardData.profileImage || '';
   document.getElementById('e-qr').value = cardData.qrImage || '';
   document.getElementById('e-theme').value = cardData.theme || 'default';
@@ -99,6 +101,8 @@
       email: document.getElementById('e-email').value.trim(),
       website: document.getElementById('e-website').value.trim(),
       about: document.getElementById('e-about').value.trim(),
+      aboutImage: document.getElementById('e-about-img').value.trim(),
+      aboutPdf: document.getElementById('e-about-pdf').value.trim(),
       profileImage: document.getElementById('e-img').value.trim(),
       qrImage: document.getElementById('e-qr').value.trim(),
       theme: document.getElementById('e-theme').value,
