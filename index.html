@@ -112,6 +112,19 @@
 
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script src="js/viewer.js"></script>
+  <script>
+  // Cart functions
+  let cart = [];
+  function addToCart(name, price, img) {
+    cart.push({ name, price, img });
+    alert('✅ Product added to cart!\n\n' + name + '\n💰 ' + price);
+    updateCartCount();
+  }
+  function updateCartCount() {
+    const badge = document.getElementById('cart-count');
+    if (badge) badge.textContent = cart.length;
+  }
+</script>
 
 </body>
 </html>
