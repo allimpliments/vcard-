@@ -38,6 +38,31 @@
   document.getElementById('e-about-img').value = cardData.aboutImage || '';
   document.getElementById('e-about-pdf').value = cardData.aboutPdf || '';
   document.getElementById('e-img').value = cardData.profileImage || '';
+    // Preview existing image
+  if (cardData.profileImage) {
+    document.getElementById('e-img-preview').src = cardData.profileImage;
+    document.getElementById('e-img-preview').style.display = 'block';
+  }
+
+  // File upload handler
+  document.getElementById('e-img-file').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    if (file.size > 1000000) {
+      alert('❌ इमेज 1 MB से छोटी होनी चाहिए!');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const base64 = ev.target.result;
+      document.getElementById('e-img').value = base64;
+      document.getElementById('e-img-preview').src = base64;
+      document.getElementById('e-img-preview').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  });
   document.getElementById('e-qr').value = cardData.qrImage || '';
   document.getElementById('e-theme').value = cardData.theme || 'default';
 
