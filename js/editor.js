@@ -100,6 +100,7 @@
       website: document.getElementById('e-website').value.trim(),
       about: document.getElementById('e-about').value.trim(),
       profileImage: document.getElementById('e-img').value.trim(),
+      qrImage: document.getElementById('e-qr').value.trim(),
       theme: document.getElementById('e-theme').value,
       social: newSocial,
       sectionOrder: currentOrder
