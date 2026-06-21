@@ -87,7 +87,25 @@
         📄 Save as PDF
       </button>
     </div>
-    <div id="qr-box"></div>
+        <!-- QR Code Section -->
+    <div id="qr-section" style="padding: 20px; text-align: center; border-top: 1px solid var(--border);">
+      <h3 style="font-size: 16px; font-weight: 600; color: var(--primary); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px;">
+        📱 Scan QR Code
+      </h3>
+      <div id="qr-box" style="display: inline-block; padding: 15px; background: #fff; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 15px;">
+        <!-- QR image uploaded by client -->
+        <img id="qr-image" src="" alt="QR Code" style="display: none; width: 200px; height: 200px; object-fit: contain; margin: 0 auto;">
+        <!-- Generated QR canvas -->
+      </div>
+      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; word-break: break-all;">
+        <span id="card-url-text"></span>
+      </p>
+      <button id="btn-copy-url" style="padding: 12px 25px; background: var(--primary); color: #fff; border: none; border-radius: 50px; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(26,115,232,0.3); transition: all 0.3s ease;"
+        onmouseover="this.style.background='var(--primary-hover)'; this.style.transform='translateY(-2px)';"
+        onmouseout="this.style.background='var(--primary)'; this.style.transform='translateY(0)';">
+        📋 Copy URL
+      </button>
+    </div>
   </div>
   <div id="loader">⏳ लोड हो रहा है...</div>
   <div id="error" style="display:none;">❌ कार्ड नहीं मिला</div>
