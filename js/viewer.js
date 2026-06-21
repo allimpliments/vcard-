@@ -135,6 +135,43 @@ if (data.profileImage && data.profileImage.trim() !== '') {
             }
           }
         }
+                else if (sec === 'products' && data.products && data.products.length > 0) {
+          let prodHTML = '<h3>🛍️ Online Shop</h3><div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">';
+          
+          for (let k = 0; k < data.products.length; k++) {
+            const p = data.products[k];
+            const phone = data.phone ? data.phone.replace(/[^0-9]/g, '') : '';
+            const waLink = phone ? 'https://wa.me/' + phone + '?text=I%20am%20interested%20in%20' + encodeURIComponent(p.name) + '%20Price:%20' + p.sellingPrice : '#';
+            
+            prodHTML += '<div style="width: 140px; background: var(--card-bg-secondary); border-radius: var(--radius-sm); padding: 12px; text-align: center; box-shadow: var(--shadow-sm);">';
+            
+            // Product Image
+            if (p.image) {
+              prodHTML += '<img src="' + p.image + '" alt="' + p.name + '" style="width: 100%; height: 100px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;">';
+            }
+            
+            // Product Name
+            prodHTML += '<p style="font-weight: 600; font-size: 13px; margin: 5px 0;">' + p.name + '</p>';
+            
+            // Prices
+            if (p.actualPrice) {
+              prodHTML += '<p style="text-decoration: line-through; color: #ef4444; font-size: 12px; margin: 2px 0;">₹' + p.actualPrice + '</p>';
+            }
+            prodHTML += '<p style="font-weight: 700; color: var(--primary); font-size: 16px; margin: 2px 0;">₹' + p.sellingPrice + '</p>';
+            
+            // WhatsApp Button
+            prodHTML += '<a href="' + waLink + '" target="_blank" style="display: inline-block; width: 30px; height: 30px; background: #25d366; color: #fff; border-radius: 50%; text-decoration: none; font-size: 16px; line-height: 30px; margin: 3px;">💬</a>';
+            
+            // Quantity + Add to Cart
+            prodHTML += '<div style="margin-top: 6px;"><input type="number" min="1" value="1" id="qty-' + k + '" style="width: 45px; padding: 3px; border: 1px solid var(--border); border-radius: 5px; text-align: center; font-size: 12px;">';
+            prodHTML += '<button onclick="addToCart(\'' + p.name + '\', \'' + p.sellingPrice + '\', \'' + (p.image || '') + '\')" style="margin-left: 4px; padding: 4px 8px; background: var(--accent); color: #fff; border: none; border-radius: 5px; font-size: 11px; cursor: pointer;">Add to Cart</button></div>';
+            
+            prodHTML += '</div>';
+          }
+          
+          prodHTML += '</div>';
+          div.innerHTML = prodHTML;
+        }
 
         container.appendChild(div);
       }
