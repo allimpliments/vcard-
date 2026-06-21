@@ -28,8 +28,25 @@
   </div>
   <div id="loader">⏳ लोड हो रहा है...</div>
   <div id="error" style="display:none;">❌ कार्ड नहीं मिला</div>
+
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script src="js/viewer.js"></script>
 
+  <script>
+    // Lottie animation load karo - sirf ek baar
+    setTimeout(function() {
+      const animDiv = document.getElementById('main-anim');
+      if (animDiv && typeof lottie !== 'undefined') {
+        lottie.loadAnimation({
+          container: animDiv,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: 'assets/lottie/Welcome.json'
+        });
+        console.log('✅ Lottie loaded!');
+      }
+    }, 500);
+  </script>
 </body>
 </html>
