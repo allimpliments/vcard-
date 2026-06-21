@@ -30,7 +30,7 @@
   <div id="error" style="display:none;">❌ कार्ड नहीं मिला</div>
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script src="js/viewer.js"></script>
-  <script>
+<script>
   // Direct Lottie animation load
   const animDiv = document.getElementById('main-anim');
   if (animDiv && typeof lottie !== 'undefined') {
@@ -44,7 +44,6 @@
     console.log('✅ Direct Lottie loaded!');
   } else {
     console.log('❌ Lottie not available, retrying...');
-    // Retry after 1 second
     setTimeout(function() {
       if (typeof lottie !== 'undefined') {
         lottie.loadAnimation({
