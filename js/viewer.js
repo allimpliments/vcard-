@@ -27,19 +27,22 @@ if (!slug) {
       document.getElementById('loader').style.display = 'none';
       document.getElementById('card-container').style.display = 'block';
 
-      // Lottie animation - FIXED
-      const anim = document.getElementById('main-anim');
-      if (anim) {
+      // Lottie animation with bodymovin
+      const animContainer = document.getElementById('main-anim');
+      if (animContainer && typeof lottie !== 'undefined') {
         const animName = data.animation || 'wave';
         const animPath = 'assets/lottie/' + animName + '.json';
         console.log('Lottie path:', animPath);
-        anim.setAttribute('src', animPath);
-        anim.addEventListener('ready', function() {
-          console.log('✅ Lottie animation loaded!');
+        lottie.loadAnimation({
+          container: animContainer,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: animPath
         });
-        anim.addEventListener('error', function(e) {
-          console.error('❌ Lottie load error:', e);
-        });
+        console.log('✅ Lottie animation started!');
+      } else {
+        console.log('❌ Lottie container or library not found');
       }
 
       document.getElementById('profile-img').src = data.profileImage || 'assets/default-user.png';
