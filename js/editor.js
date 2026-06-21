@@ -111,6 +111,71 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
   setupImageUpload('e-img-file', 'e-img-preview', 'e-img');
   setupImageUpload('e-about-img-file', 'e-about-img-preview', 'e-about-img');
   setupImageUpload('e-qr-file', 'e-qr-preview', 'e-qr');
+    // Products
+  const productsDiv = document.getElementById('products-list');
+  const productsData = cardData.products || [];
+  function renderProducts() {
+    productsDiv.innerHTML = '';
+    productsData.forEach((p, i) => {
+      const row = document.createElement('div');
+      row.style.border = '1px solid #e2e8f0';
+      row.style.padding = '10px';
+      row.style.margin = '8px 0';
+      row.style.borderRadius = '10px';
+      row.innerHTML = `
+        <label>प्रोडक्ट इमेज:</label>
+        <input type="file" class="prod-img-file" accept="image/*" style="padding: 6px; width: 100%;">
+        <p style="font-size: 11px; color: #64748b;">— या —</p>
+        <input type="url" class="prod-img-url" value="${p.image || ''}" placeholder="इमेज URL" style="width: 100%;">
+        <img class="prod-img-preview" src="${p.image || ''}" style="max-width: 80px; max-height: 80px; display: ${p.image ? 'block' : 'none'}; margin-top: 5px; border-radius: 8px;">
+        <label>प्रोडक्ट नाम:</label>
+        <input type="text" class="prod-name" value="${p.name || ''}" placeholder="प्रोडक्ट नाम">
+        <label>सेलिंग प्राइस (₹):</label>
+        <input type="text" class="prod-selling" value="${p.sellingPrice || ''}" placeholder="999">
+        <label>एक्चुअल प्राइस (₹):</label>
+        <input type="text" class="prod-actual" value="${p.actualPrice || ''}" placeholder="1999">
+        <button type="button" class="remove-product" style="background:#ef4444; color:#fff; border:none; padding:6px 12px; border-radius:6px; margin-top:8px;">हटाएँ</button>
+      `;
+      
+      // Image upload handler
+      const fileInput = row.querySelector('.prod-img-file');
+      const urlInput = row.querySelector('.prod-img-url');
+      const preview = row.querySelector('.prod-img-preview');
+      
+      fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          const img = new Image();
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            let w = img.width, h = img.height, max = 300;
+            if (w > max) { h = (h * max) / w; w = max; }
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            const resized = canvas.toDataURL('image/jpeg', 0.6);
+            urlInput.value = resized;
+            preview.src = resized;
+            preview.style.display = 'block';
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+      
+      row.querySelector('.remove-product').onclick = () => {
+        productsData.splice(i, 1);
+        renderProducts();
+      };
+      productsDiv.appendChild(row);
+    });
+  }
+  renderProducts();
+  document.getElementById('add-product').onclick = () => {
+    productsData.push({ name: '', sellingPrice: '', actualPrice: '', image: '' });
+    renderProducts();
+  };
 
   // Social links
   const socialDiv = document.getElementById('social-links');
@@ -177,6 +242,15 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
       qrImage: document.getElementById('e-qr').value.trim(),
       theme: document.getElementById('e-theme').value,
       social: newSocial,
+      products: productsData.map((p, i) => {
+        const row = productsDiv.children[i];
+        return {
+          name: row.querySelector('.prod-name').value.trim(),
+          sellingPrice: row.querySelector('.prod-selling').value.trim(),
+          actualPrice: row.querySelector('.prod-actual').value.trim(),
+          image: row.querySelector('.prod-img-url').value.trim()
+        };
+      }),
       sectionOrder: currentOrder
     };
 
