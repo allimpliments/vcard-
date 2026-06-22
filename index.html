@@ -74,7 +74,41 @@
     <a id="btn-email" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:#f59e0b;color:#fff;text-align:center;text-decoration:none;border-radius:16px;font-weight:600;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;"><span style="font-size:22px;">✉️</span> Email</a>
     <a id="btn-whatsapp" href="#" target="_blank" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:#25d366;color:#fff;text-align:center;text-decoration:none;border-radius:16px;font-weight:600;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;"><span style="font-size:22px;">💬</span> WhatsApp</a>
   </div>
-
+      <!-- Language Selector -->
+    <div id="lang-section" style="text-align:center;padding:10px 20px;display:none;">
+      <select id="lang-select" onchange="changeLanguage()" style="padding:10px 20px;border-radius:25px;background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);color:var(--text);font-weight:600;font-size:14px;cursor:pointer;">
+        <option value="en">🇬🇧 English</option>
+        <option value="hi">🇮🇳 हिंदी</option>
+        <option value="mr">🇮🇳 मराठी</option>
+        <option value="gu">🇮🇳 ગુજરાતી</option>
+        <option value="ta">🇮🇳 தமிழ்</option>
+        <option value="te">🇮🇳 తెలుగు</option>
+        <option value="bn">🇮🇳 বাংলা</option>
+        <option value="kn">🇮🇳 ಕನ್ನಡ</option>
+        <option value="ml">🇮🇳 മലയാളം</option>
+        <option value="pa">🇮🇳 ਪੰਜਾਬੀ</option>
+        <option value="or">🇮🇳 ଓଡ଼ିଆ</option>
+        <option value="as">🇮🇳 অসমীয়া</option>
+        <option value="ur">🇮🇳 اردو</option>
+        <option value="sa">🇮🇳 संस्कृतम्</option>
+        <option value="ks">🇮🇳 کٲشُر / Kashmiri</option>
+        <option value="kok">🇮🇳 कोंकणी</option>
+        <option value="mai">🇮🇳 मैथिली</option>
+        <option value="ne">🇳🇵 नेपाली</option>
+        <option value="sd">🇮🇳 سنڌي</option>
+        <option value="mni">🇮🇳 Manipuri (Meitei)</option>
+        <option value="doi">🇮🇳 डोगरी</option>
+        <option value="bho">🇮🇳 भोजपुरी</option>
+        <option value="sat">🇮🇳 Santali</option>
+        <option value="rw">🌍 Kinyarwanda</option>
+        <option value="sw">🌍 Kiswahili</option>
+        <option value="ar">🇸🇦 العربية</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="pt">🇵🇹 Português</option>
+      </select>
+    </div>
   <div id="sections-container"></div>
   <button id="save-contact">📇 Save to Phone</button>
 
@@ -185,6 +219,57 @@ document.addEventListener('click', function(e) {
   btn.appendChild(ripple);
   setTimeout(function(){ ripple.remove(); }, 600);
 });
+</script>
+  <script>
+  var translations = {
+    en: {
+      about: "About Us", contact: "Contact", social: "Social Links",
+      products: "Online Shop", services: "Products & Services",
+      gallery: "Gallery", youtube: "YouTube Videos", reels: "Reels & Posts",
+      payment: "Payment Info", bank: "Bank Details", feedback: "Feedback",
+      location: "Location", contactform: "Contact Us",
+      save: "Save to Phone", share: "Share Card", pdf: "Save as PDF",
+      qr: "Scan QR Code", copy: "Copy URL", call: "Call", email: "Email", whatsapp: "WhatsApp"
+    },
+    hi: {
+      about: "हमारे बारे में", contact: "संपर्क", social: "सोशल लिंक्स",
+      products: "ऑनलाइन शॉप", services: "प्रोडक्ट्स और सर्विसेज़",
+      gallery: "गैलरी", youtube: "यूट्यूब वीडियो", reels: "रील्स और पोस्ट",
+      payment: "पेमेंट जानकारी", bank: "बैंक डिटेल", feedback: "फीडबैक",
+      location: "लोकेशन", contactform: "संपर्क फॉर्म",
+      save: "फ़ोन में सेव करें", share: "कार्ड शेयर करें", pdf: "PDF सेव करें",
+      qr: "QR कोड स्कैन करें", copy: "URL कॉपी करें", call: "कॉल", email: "ईमेल", whatsapp: "व्हाट्सएप"
+    }
+  };
+
+  function changeLanguage() {
+    var lang = document.getElementById('lang-select').value;
+    var t = translations[lang] || translations.en;
+    
+    // Update section headings
+    var headings = document.querySelectorAll('#sections-container h3');
+    var keys = ['about','contact','social','products','services','gallery','youtube','reels','payment','bank','feedback','location','contactform'];
+    headings.forEach(function(h, i) {
+      if (keys[i] && t[keys[i]]) h.textContent = t[keys[i]];
+    });
+    
+    // Update buttons
+    var btnSave = document.getElementById('save-contact');
+    if (btnSave) btnSave.textContent = '📇 ' + (t.save || 'Save to Phone');
+    var btnShare = document.getElementById('btn-share');
+    if (btnShare) btnShare.textContent = '📤 ' + (t.share || 'Share Card');
+    var btnPdf = document.getElementById('btn-pdf');
+    if (btnPdf) btnPdf.textContent = '📄 ' + (t.pdf || 'Save as PDF');
+    
+    localStorage.setItem('vcard-lang', lang);
+  }
+
+  // Load saved language
+  (function() {
+    var saved = localStorage.getItem('vcard-lang');
+    if (saved) document.getElementById('lang-select').value = saved;
+    document.getElementById('lang-section').style.display = 'block';
+  })();
 </script>
 </body>
 </html>
