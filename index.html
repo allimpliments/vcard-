@@ -188,5 +188,28 @@
     document.getElementById('lightbox-img').src = lbImages[lbIndex];
   };
 </script>
+  <script>
+  function changeQty(id, delta) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var qty = parseInt(el.textContent) + delta;
+    if (qty < 1) qty = 1;
+    if (qty > 99) qty = 99;
+    el.textContent = qty;
+  }
+  
+  function orderNow(name, price, qtyId, phone) {
+    var qtyEl = document.getElementById(qtyId);
+    var qty = qtyEl ? parseInt(qtyEl.textContent) : 1;
+    if (!phone) { alert('Phone number not available!'); return; }
+    var msg = '%F0%9F%9B%8D%EF%B8%8F *New Order!*%0A%0A';
+    msg += '*Product:* ' + encodeURIComponent(name) + '%0A';
+    msg += '*Price:* %E2%82%B9' + price + '%0A';
+    msg += '*Quantity:* ' + qty + '%0A';
+    msg += '*Total:* %E2%82%B9' + (parseFloat(price) * qty) + '%0A%0A';
+    msg += 'Please confirm my order!';
+    window.open('https://wa.me/' + phone + '?text=' + msg, '_blank');
+  }
+</script>
 </body>
 </html>
