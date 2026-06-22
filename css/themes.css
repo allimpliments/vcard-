@@ -1,303 +1,215 @@
 /* ============================================
-   10 UNIQUE PROFESSIONAL THEMES
-   Color Palettes from ColorHunt
-   Each theme has unique fonts, buttons, cards & animations
+   10 UNIQUE THEMES - Only Palette Colors
+   No external colors, pure palette design
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600&display=swap');
 
 /* ============================================
    THEME 1: WARM BLUSH
-   Palette: #FFFAF3, #FFF2DB, #FFE5BF, #F62440
-   Font: Cormorant + Inter | Button: Soft Pill | Card: Rounded
+   #FFFAF3 #FFF2DB #FFE5BF #F62440
    ============================================ */
 :root, body.default {
+  --c1: #FFFAF3; --c2: #FFF2DB; --c3: #FFE5BF; --c4: #F62440;
   --font-heading: 'Cormorant Garamond', serif;
   --font-body: 'Inter', sans-serif;
-  --bg: #FFF2DB;
-  --card-bg: rgba(255,250,243,0.9);
-  --card-bg-secondary: #FFFAF3;
-  --text: #4a2020;
-  --text-secondary: #8a6060;
-  --primary: #F62440;
-  --accent: #FFE5BF;
-  --border: #FFE5BF;
-  --radius: 20px;
-  --radius-sm: 14px;
+  --bg: var(--c2); --card-bg: rgba(255,250,243,0.9); --card-bg2: var(--c1);
+  --text: #4a2020; --text2: #8a6060;
+  --btn-text: #fff;
+  --radius: 20px; --radius-sm: 14px;
   --shadow: 0 4px 24px rgba(246,36,64,0.08);
   --shadow-sm: 0 2px 12px rgba(246,36,64,0.04);
-  --btn-radius: 30px;
-  --btn-padding: 12px 28px;
+  --btn-radius: 30px; --btn-padding: 12px 28px;
   --glass-bg: rgba(255,250,243,0.8);
   --glass-border: rgba(246,36,64,0.1);
-  --profile-border: 3px solid #FFE5BF;
-  --whatsapp: #25d366;
-  --transition: all 0.3s ease;
+  --profile-border: 3px solid var(--c3);
 }
 
 /* ============================================
    THEME 2: COASTAL BLUE
-   Palette: #355872, #7AAACE, #9CD5FF, #F7F8F0
-   Font: Raleway | Button: Round | Card: Glass
+   #355872 #7AAACE #9CD5FF #F7F8F0
    ============================================ */
 body.coastal {
+  --c1: #F7F8F0; --c2: #9CD5FF; --c3: #7AAACE; --c4: #355872;
   --font-heading: 'Raleway', sans-serif;
   --font-body: 'Raleway', sans-serif;
-  --bg: linear-gradient(135deg, #F7F8F0 0%, #9CD5FF 50%, #F7F8F0 100%);
-  --card-bg: rgba(255,255,255,0.7);
-  --card-bg-secondary: rgba(247,248,240,0.8);
-  --text: #355872;
-  --text-secondary: #7AAACE;
-  --primary: #355872;
-  --accent: #7AAACE;
-  --border: rgba(53,88,114,0.1);
-  --radius: 24px;
-  --radius-sm: 16px;
+  --bg: linear-gradient(135deg, var(--c1) 0%, var(--c2) 50%, var(--c1) 100%);
+  --card-bg: rgba(255,255,255,0.7); --card-bg2: rgba(247,248,240,0.8);
+  --text: #1a2a3a; --text2: #5a7a8a;
+  --btn-text: #fff;
+  --radius: 24px; --radius-sm: 16px;
   --shadow: 0 8px 32px rgba(53,88,114,0.1);
   --shadow-sm: 0 4px 16px rgba(53,88,114,0.05);
-  --btn-radius: 40px;
-  --btn-padding: 13px 30px;
+  --btn-radius: 40px; --btn-padding: 13px 30px;
   --glass-bg: rgba(255,255,255,0.6);
   --glass-border: rgba(53,88,114,0.15);
-  --profile-border: 3px solid #7AAACE;
-  --whatsapp: #25d366;
-  --transition: all 0.35s ease;
+  --profile-border: 3px solid var(--c3);
 }
 
 /* ============================================
    THEME 3: SOFT ROSE
-   Palette: #FCF8F8, #FBEFEF, #F9DFDF, #F5AFAF
-   Font: Playfair + DM Sans | Button: Elegant | Card: Soft
+   #FCF8F8 #FBEFEF #F9DFDF #F5AFAF
    ============================================ */
 body.rose {
+  --c1: #FCF8F8; --c2: #FBEFEF; --c3: #F9DFDF; --c4: #F5AFAF;
   --font-heading: 'Playfair Display', serif;
   --font-body: 'DM Sans', sans-serif;
-  --bg: #FBEFEF;
-  --card-bg: #FCF8F8;
-  --card-bg-secondary: #FCF8F8;
-  --text: #4a2a2a;
-  --text-secondary: #8a5a5a;
-  --primary: #F5AFAF;
-  --accent: #F9DFDF;
-  --border: #F9DFDF;
-  --radius: 30px;
-  --radius-sm: 20px;
+  --bg: var(--c2); --card-bg: var(--c1); --card-bg2: var(--c1);
+  --text: #4a2a2a; --text2: #8a5a5a;
+  --btn-text: #fff;
+  --radius: 30px; --radius-sm: 20px;
   --shadow: 0 4px 20px rgba(245,175,175,0.12);
   --shadow-sm: 0 2px 10px rgba(245,175,175,0.06);
-  --btn-radius: 25px;
-  --btn-padding: 12px 26px;
+  --btn-radius: 25px; --btn-padding: 12px 26px;
   --glass-bg: rgba(252,248,248,0.85);
   --glass-border: rgba(245,175,175,0.2);
-  --profile-border: 4px solid #F5AFAF;
-  --whatsapp: #25d366;
-  --transition: all 0.4s ease;
+  --profile-border: 4px solid var(--c4);
 }
 
 /* ============================================
    THEME 4: WARM EARTH
-   Palette: #F9F8F6, #EFE9E3, #D9CFC7, #C9B59C
-   Font: Cormorant + Montserrat | Button: Soft Square | Card: Subtle
+   #F9F8F6 #EFE9E3 #D9CFC7 #C9B59C
    ============================================ */
 body.earth {
+  --c1: #F9F8F6; --c2: #EFE9E3; --c3: #D9CFC7; --c4: #C9B59C;
   --font-heading: 'Cormorant Garamond', serif;
   --font-body: 'Montserrat', sans-serif;
-  --bg: #EFE9E3;
-  --card-bg: #F9F8F6;
-  --card-bg-secondary: #F9F8F6;
-  --text: #3a2a1a;
-  --text-secondary: #8a6a5a;
-  --primary: #C9B59C;
-  --accent: #D9CFC7;
-  --border: #D9CFC7;
-  --radius: 12px;
-  --radius-sm: 8px;
+  --bg: var(--c2); --card-bg: var(--c1); --card-bg2: var(--c1);
+  --text: #3a2a1a; --text2: #8a6a5a;
+  --btn-text: #fff;
+  --radius: 12px; --radius-sm: 8px;
   --shadow: 0 2px 16px rgba(201,181,156,0.1);
   --shadow-sm: 0 1px 8px rgba(201,181,156,0.05);
-  --btn-radius: 6px;
-  --btn-padding: 11px 24px;
+  --btn-radius: 6px; --btn-padding: 11px 24px;
   --glass-bg: rgba(249,248,246,0.9);
   --glass-border: rgba(201,181,156,0.15);
-  --profile-border: 3px solid #C9B59C;
-  --whatsapp: #25d366;
-  --transition: all 0.3s ease;
+  --profile-border: 3px solid var(--c4);
 }
 
 /* ============================================
    THEME 5: MODERN SLATE
-   Palette: #EAEFEF, #BFC9D1, #25343F, #FF9B51
-   Font: Plus Jakarta | Button: Sharp | Card: Flat
+   #EAEFEF #BFC9D1 #25343F #FF9B51
    ============================================ */
 body.slate {
+  --c1: #EAEFEF; --c2: #BFC9D1; --c3: #25343F; --c4: #FF9B51;
   --font-heading: 'Plus Jakarta Sans', sans-serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
-  --bg: #EAEFEF;
-  --card-bg: #ffffff;
-  --card-bg-secondary: #EAEFEF;
-  --text: #25343F;
-  --text-secondary: #BFC9D1;
-  --primary: #25343F;
-  --accent: #FF9B51;
-  --border: #BFC9D1;
-  --radius: 8px;
-  --radius-sm: 4px;
+  --bg: var(--c1); --card-bg: #fff; --card-bg2: var(--c1);
+  --text: #1a1a2a; --text2: #6a7a8a;
+  --btn-text: #fff;
+  --radius: 8px; --radius-sm: 4px;
   --shadow: 0 2px 12px rgba(37,52,63,0.06);
   --shadow-sm: 0 1px 6px rgba(37,52,63,0.03);
-  --btn-radius: 4px;
-  --btn-padding: 10px 22px;
-  --glass-bg: #ffffff;
+  --btn-radius: 4px; --btn-padding: 10px 22px;
+  --glass-bg: #fff;
   --glass-border: rgba(37,52,63,0.1);
-  --profile-border: 2px solid #25343F;
-  --whatsapp: #25d366;
-  --transition: all 0.2s ease;
+  --profile-border: 2px solid var(--c3);
 }
 
 /* ============================================
    THEME 6: FOREST DEEP
-   Palette: #F5E5E1, #F9B487, #427A76, #174143
-   Font: Playfair + Inter | Button: Round | Card: Organic
+   #F5E5E1 #F9B487 #427A76 #174143
    ============================================ */
 body.forest {
+  --c1: #F5E5E1; --c2: #F9B487; --c3: #427A76; --c4: #174143;
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
-  --bg: linear-gradient(135deg, #F5E5E1 0%, #F9B487 50%, #F5E5E1 100%);
-  --card-bg: rgba(255,255,255,0.7);
-  --card-bg-secondary: rgba(245,229,225,0.8);
-  --text: #174143;
-  --text-secondary: #427A76;
-  --primary: #427A76;
-  --accent: #F9B487;
-  --border: rgba(66,122,118,0.15);
-  --radius: 24px;
-  --radius-sm: 16px;
+  --bg: linear-gradient(135deg, var(--c1) 0%, var(--c2) 50%, var(--c1) 100%);
+  --card-bg: rgba(255,255,255,0.7); --card-bg2: rgba(245,229,225,0.8);
+  --text: #0a2a2a; --text2: #3a6a6a;
+  --btn-text: #fff;
+  --radius: 24px; --radius-sm: 16px;
   --shadow: 0 8px 32px rgba(66,122,118,0.1);
   --shadow-sm: 0 4px 16px rgba(66,122,118,0.05);
-  --btn-radius: 30px;
-  --btn-padding: 13px 28px;
+  --btn-radius: 30px; --btn-padding: 13px 28px;
   --glass-bg: rgba(255,255,255,0.65);
   --glass-border: rgba(66,122,118,0.2);
-  --profile-border: 3px solid #427A76;
-  --whatsapp: #25d366;
-  --transition: all 0.4s ease;
+  --profile-border: 3px solid var(--c3);
 }
 
 /* ============================================
    THEME 7: VINTAGE PASTEL
-   Palette: #81A6C6, #AACDDC, #F3E3D0, #D2C4B4
-   Font: Nunito | Button: Soft Pill | Card: Floating
+   #81A6C6 #AACDDC #F3E3D0 #D2C4B4
    ============================================ */
 body.vintage {
+  --c1: #F3E3D0; --c2: #AACDDC; --c3: #81A6C6; --c4: #D2C4B4;
   --font-heading: 'Nunito', sans-serif;
   --font-body: 'Nunito', sans-serif;
-  --bg: #F3E3D0;
-  --card-bg: rgba(255,255,255,0.85);
-  --card-bg-secondary: #F3E3D0;
-  --text: #4a3a2a;
-  --text-secondary: #8a7a6a;
-  --primary: #81A6C6;
-  --accent: #D2C4B4;
-  --border: #AACDDC;
-  --radius: 20px;
-  --radius-sm: 14px;
+  --bg: var(--c1); --card-bg: rgba(255,255,255,0.85); --card-bg2: var(--c1);
+  --text: #4a3a2a; --text2: #8a7a6a;
+  --btn-text: #fff;
+  --radius: 20px; --radius-sm: 14px;
   --shadow: 0 6px 24px rgba(129,166,198,0.1);
   --shadow-sm: 0 3px 12px rgba(129,166,198,0.05);
-  --btn-radius: 50px;
-  --btn-padding: 12px 28px;
+  --btn-radius: 50px; --btn-padding: 12px 28px;
   --glass-bg: rgba(255,255,255,0.8);
   --glass-border: rgba(129,166,198,0.2);
-  --profile-border: 3px solid #AACDDC;
-  --whatsapp: #25d366;
-  --transition: all 0.3s ease;
+  --profile-border: 3px solid var(--c2);
 }
 
 /* ============================================
    THEME 8: MIDNIGHT NAVY
-   Palette: #111844, #4B5694, #7288AE, #EAE0CF
-   Font: Inter | Button: Sharp | Card: Modern
+   #111844 #4B5694 #7288AE #EAE0CF
    ============================================ */
 body.navy {
+  --c1: #EAE0CF; --c2: #7288AE; --c3: #4B5694; --c4: #111844;
   --font-heading: 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
-  --bg: #EAE0CF;
-  --card-bg: #ffffff;
-  --card-bg-secondary: #EAE0CF;
-  --text: #111844;
-  --text-secondary: #7288AE;
-  --primary: #4B5694;
-  --accent: #7288AE;
-  --border: #7288AE;
-  --radius: 10px;
-  --radius-sm: 6px;
+  --bg: var(--c1); --card-bg: #fff; --card-bg2: var(--c1);
+  --text: #0a0a2a; --text2: #5a6a8a;
+  --btn-text: #fff;
+  --radius: 10px; --radius-sm: 6px;
   --shadow: 0 2px 14px rgba(17,24,68,0.08);
   --shadow-sm: 0 1px 6px rgba(17,24,68,0.04);
-  --btn-radius: 6px;
-  --btn-padding: 10px 22px;
-  --glass-bg: #ffffff;
+  --btn-radius: 6px; --btn-padding: 10px 22px;
+  --glass-bg: #fff;
   --glass-border: rgba(17,24,68,0.1);
-  --profile-border: 2px solid #4B5694;
-  --whatsapp: #25d366;
-  --transition: all 0.2s ease;
+  --profile-border: 2px solid var(--c3);
 }
 
 /* ============================================
    THEME 9: DUSTY BLUE
-   Palette: #E8EDF2, #2C3947, #547A95, #C2A56D
-   Font: Work Sans | Button: Elegant | Card: Clean
+   #E8EDF2 #2C3947 #547A95 #C2A56D
    ============================================ */
 body.dusty {
+  --c1: #E8EDF2; --c2: #547A95; --c3: #2C3947; --c4: #C2A56D;
   --font-heading: 'Work Sans', sans-serif;
   --font-body: 'Work Sans', sans-serif;
-  --bg: #E8EDF2;
-  --card-bg: #ffffff;
-  --card-bg-secondary: #E8EDF2;
-  --text: #2C3947;
-  --text-secondary: #547A95;
-  --primary: #2C3947;
-  --accent: #C2A56D;
-  --border: #547A95;
-  --radius: 16px;
-  --radius-sm: 10px;
+  --bg: var(--c1); --card-bg: #fff; --card-bg2: var(--c1);
+  --text: #1a1a2a; --text2: #4a6a8a;
+  --btn-text: #fff;
+  --radius: 16px; --radius-sm: 10px;
   --shadow: 0 4px 20px rgba(44,57,71,0.06);
   --shadow-sm: 0 2px 10px rgba(44,57,71,0.03);
-  --btn-radius: 20px;
-  --btn-padding: 11px 26px;
-  --glass-bg: #ffffff;
+  --btn-radius: 20px; --btn-padding: 11px 26px;
+  --glass-bg: #fff;
   --glass-border: rgba(44,57,71,0.1);
-  --profile-border: 2px solid #C2A56D;
-  --whatsapp: #25d366;
-  --transition: all 0.3s ease;
+  --profile-border: 2px solid var(--c4);
 }
 
 /* ============================================
    THEME 10: SUNSET WARM
-   Palette: #FFEDCE, #FFC193, #FF8383, #FF3737
-   Font: Quicksand | Button: Round | Card: Playful
+   #FFEDCE #FFC193 #FF8383 #FF3737
    ============================================ */
 body.sunset {
+  --c1: #FFEDCE; --c2: #FFC193; --c3: #FF8383; --c4: #FF3737;
   --font-heading: 'Quicksand', sans-serif;
   --font-body: 'Quicksand', sans-serif;
-  --bg: linear-gradient(135deg, #FFEDCE 0%, #FFC193 50%, #FFEDCE 100%);
-  --card-bg: rgba(255,255,255,0.75);
-  --card-bg-secondary: rgba(255,237,206,0.8);
-  --text: #4a1a1a;
-  --text-secondary: #8a4a4a;
-  --primary: #FF8383;
-  --accent: #FF3737;
-  --border: #FFC193;
-  --radius: 28px;
-  --radius-sm: 18px;
+  --bg: linear-gradient(135deg, var(--c1) 0%, var(--c2) 50%, var(--c1) 100%);
+  --card-bg: rgba(255,255,255,0.75); --card-bg2: rgba(255,237,206,0.8);
+  --text: #4a1a1a; --text2: #8a4a4a;
+  --btn-text: #fff;
+  --radius: 28px; --radius-sm: 18px;
   --shadow: 0 6px 28px rgba(255,131,131,0.12);
   --shadow-sm: 0 3px 14px rgba(255,131,131,0.06);
-  --btn-radius: 40px;
-  --btn-padding: 13px 30px;
+  --btn-radius: 40px; --btn-padding: 13px 30px;
   --glass-bg: rgba(255,255,255,0.7);
   --glass-border: rgba(255,131,131,0.2);
-  --profile-border: 3px solid #FFC193;
-  --whatsapp: #25d366;
-  --transition: all 0.35s ease;
+  --profile-border: 3px solid var(--c2);
 }
 
 /* ============================================
-   GLOBAL STYLES
+   GLOBAL STYLES - Using only c1,c2,c3,c4
    ============================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -307,26 +219,20 @@ body {
   background-attachment: fixed;
   min-height: 100vh;
   color: var(--text);
-  transition: var(--transition);
   padding: 20px 10px;
   -webkit-tap-highlight-color: transparent;
 }
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; opacity: 0.5; }
+::-webkit-scrollbar-thumb { background: var(--c3); border-radius: 10px; }
 
 #card-container {
-  max-width: 460px;
-  margin: 0 auto;
+  max-width: 460px; margin: 0 auto;
   background: var(--glass-bg);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  transition: var(--transition);
+  border-radius: var(--radius); box-shadow: var(--shadow);
   padding: 20px;
 }
 
@@ -336,85 +242,65 @@ body {
   width: 120px; height: 120px; border-radius: 50%;
   object-fit: cover; border: var(--profile-border);
   margin: 10px auto 15px; display: block;
-  transition: var(--transition);
 }
 
-h1 {
-  font-family: var(--font-heading); font-weight: 700;
-  font-size: 26px; color: var(--text); text-align: center; margin: 0 20px 5px;
-}
-
-#title { text-align: center; color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; }
+h1 { font-family: var(--font-heading); font-weight: 700; font-size: 26px; color: var(--text); text-align: center; margin: 0 20px 5px; }
+#title { text-align: center; color: var(--text2); font-size: 14px; margin-bottom: 20px; }
 
 #sections-container > div {
-  background: var(--card-bg-secondary);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 18px; margin-bottom: 12px;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
+  background: var(--card-bg2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--c3); border-radius: var(--radius-sm);
+  padding: 18px; margin-bottom: 12px; box-shadow: var(--shadow-sm);
 }
 #sections-container > div:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
 
 #sections-container h3 {
-  font-family: var(--font-heading); font-weight: 600;
-  font-size: 13px; color: var(--text-secondary);
-  margin-bottom: 12px; padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-  text-transform: uppercase; letter-spacing: 1px;
+  font-family: var(--font-heading); font-weight: 600; font-size: 13px;
+  color: var(--text2); margin-bottom: 12px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--c3); text-transform: uppercase; letter-spacing: 1px;
 }
 
 button, .btn, a.btn {
   display: inline-block; padding: var(--btn-padding); border-radius: var(--btn-radius);
   font-family: var(--font-body); font-weight: 500; font-size: 14px;
-  cursor: pointer; border: none; transition: var(--transition);
-  text-decoration: none; text-align: center;
+  cursor: pointer; border: none; text-decoration: none; text-align: center;
 }
 button:hover, .btn:hover, a.btn:hover { opacity: 0.85; transform: translateY(-1px); }
 
 #save-contact {
   display: block; width: calc(100% - 40px); margin: 20px auto;
-  padding: 14px; background: var(--primary); color: #fff;
+  padding: 14px; background: var(--c4); color: var(--btn-text);
   border: none; border-radius: var(--btn-radius);
   font-family: var(--font-body); font-weight: 500; font-size: 16px; cursor: pointer;
-  transition: var(--transition);
 }
 
 #action-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 0 0 15px; }
 #action-buttons a {
   flex: 1; min-width: 80px; padding: 12px 8px; border-radius: var(--btn-radius);
   font-family: var(--font-body); font-weight: 500; font-size: 13px;
-  text-align: center; text-decoration: none; color: #fff; transition: var(--transition);
+  text-align: center; text-decoration: none; color: var(--btn-text);
 }
 #action-buttons a:hover { transform: translateY(-2px); }
-#btn-call { background: var(--primary); }
-#btn-email { background: var(--accent); }
-#btn-whatsapp { background: #25d366; }
+#btn-call { background: var(--c4); }
+#btn-email { background: var(--c3); }
+#btn-whatsapp { background: var(--c2); color: var(--text); }
 
 .social-icons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; padding: 8px 0; }
 .social-icons a {
   display: inline-flex; align-items: center; justify-content: center;
   width: 38px; height: 38px; border-radius: 50%;
-  text-decoration: none; font-size: 16px; transition: all 0.3s ease;
-  background: var(--card-bg); color: var(--text-secondary); border: 1px solid var(--border);
+  text-decoration: none; font-size: 16px;
+  background: var(--card-bg); color: var(--text2); border: 1px solid var(--c3);
 }
-.social-icons a:hover { color: #fff; }
-.social-icons a.fa-whatsapp:hover { background: #25D366; border-color: #25D366; }
-.social-icons a.fa-instagram:hover { background: #E4405F; border-color: #E4405F; }
-.social-icons a.fa-facebook:hover, .social-icons a.fa-facebook-f:hover { background: #1877F2; border-color: #1877F2; }
-.social-icons a.fa-youtube:hover { background: #FF0000; border-color: #FF0000; }
-.social-icons a.fa-linkedin:hover { background: #0A66C2; border-color: #0A66C2; }
-.social-icons a.fa-twitter:hover { background: #1DA1F2; border-color: #1DA1F2; }
-.social-icons a.fa-telegram:hover { background: #26A5E4; border-color: #26A5E4; }
+.social-icons a:hover { background: var(--c4); color: #fff; border-color: var(--c4); }
 
-#loader { text-align: center; padding: 60px 20px; font-size: 15px; color: var(--text-secondary); }
-#error { color: #ef4444; background: var(--card-bg); border-radius: var(--radius); max-width: 400px; margin: 40px auto; text-align: center; padding: 40px 20px; }
+#loader { text-align: center; padding: 60px 20px; font-size: 15px; color: var(--text2); }
+#error { color: var(--c4); background: var(--card-bg); border-radius: var(--radius); max-width: 400px; margin: 40px auto; text-align: center; padding: 40px 20px; }
 
 .fade-section { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
 .fade-section.visible { opacity: 1; transform: translateY(0); }
 
-.ripple { position: absolute; border-radius: 50%; background: rgba(0,0,0,0.1); transform: scale(0); animation: ripple-anim 0.6s ease-out; pointer-events: none; }
+.ripple { position: absolute; border-radius: 50%; background: rgba(0,0,0,0.08); transform: scale(0); animation: ripple-anim 0.6s ease-out; pointer-events: none; }
 @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
 
 .profile-circle, #profile-img { border-radius: 50%; }
