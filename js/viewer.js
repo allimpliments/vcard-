@@ -382,30 +382,39 @@ if (!slug) {
         }
 
         // LOCATION
-                else if (sec === 'location' && data.location) {
+          else if (sec === 'location' && data.location) {
           let h = '<h3>📍 Location</h3>';
           
           // Google Map Embed with Zoom
+                  else if (sec === 'location' && data.location) {
+          let h = '<h3>📍 Location</h3>';
+          h += '<div style="background:var(--card-bg-secondary);border-radius:16px;padding:20px;text-align:center;">';
+          
+          // Map Preview Image (Static Map)
           if (data.location.mapLink && data.location.mapLink.trim() !== '') {
-            let embedUrl = data.location.mapLink;
-            // Convert regular Google Maps link to embed
-            if (embedUrl.includes('google.com/maps') && !embedUrl.includes('embed')) {
-              if (embedUrl.includes('place/')) {
-                var place = embedUrl.split('place/')[1].split('/')[0];
-                embedUrl = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500!2d77!3d28!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z' + place + '!5e0!3m2!1sen!2sin!4v1234567890';
-              } else if (embedUrl.includes('@')) {
-                var coords = embedUrl.split('@')[1].split(',');
-                if (coords.length >= 2) {
-                  embedUrl = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500!2d' + coords[1] + '!3d' + coords[0] + '!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z!5e0!3m2!1sen!2sin!4v1234567890';
-                }
-              } else {
-                embedUrl = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500!2d77!3d28!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z!5e0!3m2!1sen!2sin!4v1234567890';
-              }
-            }
-            h += '<div style="border-radius:16px;overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:15px;">';
-            h += '<iframe src="' + embedUrl + '" width="100%" height="300" style="border:0;border-radius:16px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
-            h += '</div>';
+            h += '<div style="border-radius:16px;overflow:hidden;margin-bottom:15px;background:#e2e8f0;height:200px;display:flex;align-items:center;justify-content:center;">';
+            h += '<div style="text-align:center;">';
+            h += '<span style="font-size:60px;">🗺️</span>';
+            h += '<p style="font-size:13px;color:#64748b;margin-top:8px;">Tap below to view map</p>';
+            h += '</div></div>';
           }
+          
+          // Address
+          if (data.location.address && data.location.address.trim() !== '') {
+            h += '<p style="font-size:14px;color:var(--text-primary);margin:10px 0;line-height:1.6;">📍 ' + data.location.address + '</p>';
+          }
+          
+          // Buttons
+          if (data.location.mapLink && data.location.mapLink.trim() !== '') {
+            h += '<a href="' + data.location.mapLink + '" target="_blank" style="display:inline-block;margin:6px;padding:14px 28px;background:var(--primary);color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:15px;box-shadow:0 4px 15px rgba(0,0,0,0.2);">🗺️ Open in Google Maps</a>';
+          }
+          if (data.location.address && data.location.address.trim() !== '') {
+            h += '<a href="https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(data.location.address) + '" target="_blank" style="display:inline-block;margin:6px;padding:14px 28px;background:#10b981;color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:15px;box-shadow:0 4px 15px rgba(0,0,0,0.2);">🧭 Navigate</a>';
+          }
+          
+          h += '</div>';
+          div.innerHTML = h;
+        }
           
           // Address
           if (data.location.address && data.location.address.trim() !== '') {
