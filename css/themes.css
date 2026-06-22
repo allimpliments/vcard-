@@ -620,3 +620,7 @@ button, .btn, a.btn {
 
 .fade-section { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .fade-section.visible { opacity: 1; transform: translateY(0); }
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
