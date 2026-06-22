@@ -1,417 +1,253 @@
 /* ============================================
-   15 PREMIUM THEMES - DYNAMIC UX/UI
+   20 PREMIUM WORLD-CLASS THEMES
+   Apple-Level Design Quality
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&family=Raleway:wght@300;400;500;600;700&display=swap');
 
 /* ============================================
-   1. DEFAULT - Neon Blue Glass
+   THEME 1: DEFAULT - Midnight Blue (Apple Style)
    ============================================ */
 :root, body.default {
-  --bg: #0a0a1a;
-  --bg-gradient: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --card-bg: rgba(255, 255, 255, 0.03);
-  --card-bg-secondary: rgba(255,255,255,0.05);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --text: #ffffff;
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.65);
-  --primary: #00d4ff;
-  --primary-hover: #00b8e6;
-  --accent: #ff2d95;
-  --accent-hover: #e6007e;
-  --border: rgba(255, 255, 255, 0.08);
-  --radius: 24px;
-  --radius-sm: 16px;
-  --shadow: 0 8px 32px rgba(0,0,0,0.5);
-  --shadow-sm: 0 4px 16px rgba(0,0,0,0.3);
-  --font-heading: 'Poppins', sans-serif;
-  --font-body: 'Poppins', sans-serif;
-  --btn-radius: 50px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --profile-glow: 0 0 20px rgba(0, 212, 255, 0.5);
-  --heading-glow: 0 0 10px rgba(0, 212, 255, 0.4);
-  --card-hover-scale: 1.02;
-}
-
-/* ============================================
-   2. HEALTHCARE - Fresh Green Light
-   ============================================ */
-body.healthcare {
-  --bg: #f0fdf4;
-  --bg-gradient: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
-  --glass-bg: rgba(255, 255, 255, 0.8);
-  --glass-border: rgba(34, 197, 94, 0.2);
-  --glass-shadow: 0 8px 32px rgba(0,0,0,0.06);
-  --card-bg: #ffffff;
-  --card-bg-secondary: #f9fafb;
-  --card-border: rgba(34, 197, 94, 0.15);
-  --text: #1a2e1a;
-  --text-primary: #1a2e1a;
-  --text-secondary: #4a6a4a;
-  --primary: #22c55e;
-  --primary-hover: #16a34a;
-  --accent: #f43f5e;
-  --accent-hover: #e11d48;
-  --border: rgba(34, 197, 94, 0.15);
+  --bg: #000000;
+  --bg-gradient: linear-gradient(180deg, #0a0a0f 0%, #0d0d1a 50%, #0a0a14 100%);
+  --glass-bg: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.06);
+  --glass-shadow: 0 8px 40px rgba(0,0,0,0.6);
+  --card-bg: rgba(255,255,255,0.02);
+  --card-bg-secondary: rgba(255,255,255,0.04);
+  --card-border: rgba(255,255,255,0.04);
+  --text: #f5f5f7;
+  --text-primary: #f5f5f7;
+  --text-secondary: #86868b;
+  --primary: #0071e3;
+  --primary-hover: #0077ed;
+  --accent: #ff375f;
+  --accent-hover: #ff2d55;
+  --border: rgba(255,255,255,0.06);
   --radius: 20px;
   --radius-sm: 14px;
-  --shadow: 0 4px 20px rgba(0,0,0,0.06);
-  --shadow-sm: 0 2px 10px rgba(0,0,0,0.04);
+  --shadow: 0 8px 40px rgba(0,0,0,0.5);
+  --shadow-sm: 0 4px 20px rgba(0,0,0,0.3);
   --font-heading: 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
-  --btn-radius: 12px;
-  --transition: all 0.25s ease;
-  --profile-glow: 0 0 0 4px rgba(34, 197, 94, 0.2);
-  --heading-glow: none;
-  --card-hover-scale: 1.01;
-}
-
-/* ============================================
-   3. SALOON - Soft Pink Light
-   ============================================ */
-body.saloon {
-  --bg: #fff5f7;
-  --bg-gradient: linear-gradient(135deg, #fff5f7 0%, #ffe4e9 50%, #ffd1dc 100%);
-  --glass-bg: rgba(255, 255, 255, 0.75);
-  --glass-border: rgba(236, 72, 153, 0.2);
-  --glass-shadow: 0 8px 32px rgba(236,72,153,0.08);
-  --card-bg: #ffffff;
-  --card-bg-secondary: #fdf2f8;
-  --card-border: rgba(236, 72, 153, 0.12);
-  --text: #3d1a2e;
-  --text-primary: #3d1a2e;
-  --text-secondary: #7a5068;
-  --primary: #ec4899;
-  --primary-hover: #db2777;
-  --accent: #f59e0b;
-  --accent-hover: #d97706;
-  --border: rgba(236, 72, 153, 0.1);
-  --radius: 30px;
-  --radius-sm: 18px;
-  --shadow: 0 4px 24px rgba(236,72,153,0.08);
-  --shadow-sm: 0 2px 12px rgba(236,72,153,0.04);
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Raleway', sans-serif;
-  --btn-radius: 30px;
-  --transition: all 0.35s ease;
-  --profile-glow: 0 0 0 6px rgba(236, 72, 153, 0.15);
-  --heading-glow: none;
-  --card-hover-scale: 1.02;
-}
-
-/* ============================================
-   4. TECH - Purple Dark
-   ============================================ */
-body.tech {
-  --bg: #0f0a1a;
-  --bg-gradient: linear-gradient(135deg, #0f0a1a 0%, #1a1040 50%, #2d1b69 100%);
-  --glass-bg: rgba(255, 255, 255, 0.04);
-  --glass-border: rgba(139, 92, 246, 0.2);
-  --glass-shadow: 0 8px 32px rgba(139,92,246,0.2);
-  --card-bg: rgba(255, 255, 255, 0.03);
-  --card-bg-secondary: rgba(255,255,255,0.04);
-  --card-border: rgba(139, 92, 246, 0.15);
-  --text: #f5f3ff;
-  --text-primary: #f5f3ff;
-  --text-secondary: #a78bfa;
-  --primary: #8b5cf6;
-  --primary-hover: #7c3aed;
-  --accent: #06b6d4;
-  --accent-hover: #0891b2;
-  --border: rgba(139, 92, 246, 0.12);
-  --radius: 16px;
-  --radius-sm: 10px;
-  --shadow: 0 8px 32px rgba(139,92,246,0.3);
-  --shadow-sm: 0 4px 16px rgba(139,92,246,0.15);
-  --font-heading: 'Space Grotesk', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
-  --btn-radius: 8px;
-  --transition: all 0.2s ease;
-  --profile-glow: 0 0 25px rgba(139, 92, 246, 0.6);
-  --heading-glow: 0 0 15px rgba(139, 92, 246, 0.4);
-  --card-hover-scale: 1.01;
-}
-
-/* ============================================
-   5. DARK PREMIUM - Midnight Gold
-   ============================================ */
-body.dark {
-  --bg: #000000;
-  --bg-gradient: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #0d0d0d 100%);
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 215, 0, 0.2);
-  --glass-shadow: 0 8px 32px rgba(0,0,0,0.6);
-  --card-bg: rgba(255, 255, 255, 0.02);
-  --card-bg-secondary: rgba(255,255,255,0.03);
-  --card-border: rgba(255, 215, 0, 0.1);
-  --text: #f5f5f5;
-  --text-primary: #f5f5f5;
-  --text-secondary: #a3a3a3;
-  --primary: #ffd700;
-  --primary-hover: #ffc107;
-  --accent: #ff6b6b;
-  --accent-hover: #ee5a24;
-  --border: rgba(255, 215, 0, 0.1);
-  --radius: 0px;
-  --radius-sm: 0px;
-  --shadow: 0 8px 32px rgba(0,0,0,0.8);
-  --shadow-sm: 0 4px 16px rgba(0,0,0,0.6);
-  --font-heading: 'Montserrat', sans-serif;
-  --font-body: 'Montserrat', sans-serif;
-  --btn-radius: 0px;
-  --transition: all 0.2s ease;
-  --profile-glow: 0 0 0 3px #ffd700;
-  --heading-glow: none;
-  --card-hover-scale: 1.0;
-}
-
-/* ============================================
-   6. RESTAURANT - Warm Orange Light
-   ============================================ */
-body.restaurant {
-  --bg: #fff7ed;
-  --bg-gradient: linear-gradient(135deg, #fff7ed 0%, #ffedd5 50%, #fed7aa 100%);
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(249, 115, 22, 0.2);
-  --glass-shadow: 0 8px 32px rgba(249,115,22,0.08);
-  --card-bg: #ffffff;
-  --card-bg-secondary: #fff7ed;
-  --card-border: rgba(249, 115, 22, 0.12);
-  --text: #3d1a00;
-  --text-primary: #3d1a00;
-  --text-secondary: #7a4a2a;
-  --primary: #f97316;
-  --primary-hover: #ea580c;
-  --accent: #ef4444;
-  --accent-hover: #dc2626;
-  --border: rgba(249, 115, 22, 0.1);
-  --radius: 20px;
-  --radius-sm: 12px;
-  --shadow: 0 4px 20px rgba(249,115,22,0.06);
-  --shadow-sm: 0 2px 10px rgba(249,115,22,0.04);
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'DM Sans', sans-serif;
-  --btn-radius: 25px;
-  --transition: all 0.3s ease;
-  --profile-glow: 0 0 0 5px rgba(249, 115, 22, 0.15);
-  --heading-glow: none;
-  --card-hover-scale: 1.02;
-}
-
-/* ============================================
-   7. REAL ESTATE - Earth Green Light
-   ============================================ */
-body.realestate {
-  --bg: #f0fdf4;
-  --bg-gradient: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #d1fae5 100%);
-  --glass-bg: rgba(255, 255, 255, 0.8);
-  --glass-border: rgba(16, 185, 129, 0.15);
-  --glass-shadow: 0 8px 32px rgba(0,0,0,0.04);
-  --card-bg: #ffffff;
-  --card-bg-secondary: #f0fdf4;
-  --card-border: rgba(16, 185, 129, 0.1);
-  --text: #1a2e1a;
-  --text-primary: #1a2e1a;
-  --text-secondary: #4a6a4a;
-  --primary: #10b981;
-  --primary-hover: #059669;
-  --accent: #f59e0b;
-  --accent-hover: #d97706;
-  --border: rgba(16, 185, 129, 0.1);
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow: 0 2px 16px rgba(0,0,0,0.04);
-  --shadow-sm: 0 1px 8px rgba(0,0,0,0.03);
-  --font-heading: 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --btn-radius: 8px;
-  --transition: all 0.2s ease;
-  --profile-glow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-  --heading-glow: none;
-  --card-hover-scale: 1.01;
-}
-
-/* ============================================
-   8. EDUCATION - Royal Blue Light
-   ============================================ */
-body.education {
-  --bg: #eff6ff;
-  --bg-gradient: linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #bfdbfe 100%);
-  --glass-bg: rgba(255, 255, 255, 0.75);
-  --glass-border: rgba(59, 130, 246, 0.15);
-  --glass-shadow: 0 8px 32px rgba(59,130,246,0.06);
-  --card-bg: #ffffff;
-  --card-bg-secondary: #eff6ff;
-  --card-border: rgba(59, 130, 246, 0.1);
-  --text: #1a2a4a;
-  --text-primary: #1a2a4a;
-  --text-secondary: #4a5a7a;
-  --primary: #3b82f6;
-  --primary-hover: #2563eb;
-  --accent: #f59e0b;
-  --accent-hover: #d97706;
-  --border: rgba(59, 130, 246, 0.1);
-  --radius: 16px;
-  --radius-sm: 10px;
-  --shadow: 0 4px 20px rgba(59,130,246,0.06);
-  --shadow-sm: 0 2px 10px rgba(59,130,246,0.04);
-  --font-heading: 'Raleway', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --btn-radius: 10px;
-  --transition: all 0.25s ease;
-  --profile-glow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-  --heading-glow: none;
-  --card-hover-scale: 1.01;
-}
-
-/* ============================================
-   9. WEDDING - Rose Gold Light
-   ============================================ */
-body.wedding {
-  --bg: #fff5f5;
-  --bg-gradient: linear-gradient(135deg, #fff5f5 0%, #ffe4e6 50%, #fce7f3 100%);
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(244, 114, 182, 0.2);
-  --glass-shadow: 0 8px 32px rgba(244,114,182,0.08);
-  --card-bg: #ffffff;
-  --card-bg-secondary: #fdf2f8;
-  --card-border: rgba(244, 114, 182, 0.12);
-  --text: #3d1a2e;
-  --text-primary: #3d1a2e;
-  --text-secondary: #7a5068;
-  --primary: #f472b6;
-  --primary-hover: #ec4899;
-  --accent: #fbbf24;
-  --accent-hover: #f59e0b;
-  --border: rgba(244, 114, 182, 0.1);
-  --radius: 40px;
-  --radius-sm: 24px;
-  --shadow: 0 4px 24px rgba(244,114,182,0.08);
-  --shadow-sm: 0 2px 12px rgba(244,114,182,0.04);
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Raleway', sans-serif;
   --btn-radius: 50px;
-  --transition: all 0.4s ease;
-  --profile-glow: 0 0 0 8px rgba(244, 114, 182, 0.12);
+  --transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --profile-glow: none;
   --heading-glow: none;
-  --card-hover-scale: 1.03;
+  --card-hover-scale: 1.01;
 }
 
 /* ============================================
-   10. MINIMAL - Clean White
+   THEME 2: GRAPHITE - Dark Professional
    ============================================ */
-body.minimal {
-  --bg: #ffffff;
-  --bg-gradient: none;
-  --glass-bg: #ffffff;
-  --glass-border: rgba(0,0,0,0.06);
-  --glass-shadow: 0 2px 16px rgba(0,0,0,0.04);
-  --card-bg: #ffffff;
-  --card-bg-secondary: #f9fafb;
-  --card-border: rgba(0,0,0,0.04);
-  --text: #1a1a1a;
-  --text-primary: #1a1a1a;
-  --text-secondary: #555555;
-  --primary: #000000;
-  --primary-hover: #333333;
-  --accent: #6366f1;
-  --accent-hover: #4f46e5;
-  --border: rgba(0,0,0,0.06);
-  --radius: 8px;
-  --radius-sm: 4px;
-  --shadow: 0 1px 8px rgba(0,0,0,0.04);
-  --shadow-sm: 0 1px 4px rgba(0,0,0,0.02);
-  --font-heading: 'Inter', sans-serif;
+body.graphite {
+  --bg: #1a1a1a;
+  --bg-gradient: linear-gradient(180deg, #1a1a1a 0%, #222222 50%, #1a1a1a 100%);
+  --glass-bg: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.08);
+  --glass-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  --card-bg: rgba(255,255,255,0.03);
+  --card-bg-secondary: rgba(255,255,255,0.05);
+  --card-border: rgba(255,255,255,0.05);
+  --text: #e8e8ed;
+  --text-primary: #e8e8ed;
+  --text-secondary: #98989d;
+  --primary: #636366;
+  --primary-hover: #7c7c80;
+  --accent: #ff9f0a;
+  --accent-hover: #ffb340;
+  --border: rgba(255,255,255,0.06);
+  --radius: 16px;
+  --radius-sm: 12px;
+  --shadow: 0 8px 40px rgba(0,0,0,0.4);
+  --shadow-sm: 0 4px 20px rgba(0,0,0,0.2);
+  --font-heading: 'SF Pro Display', 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
-  --btn-radius: 4px;
-  --transition: all 0.15s ease;
+  --btn-radius: 14px;
+  --transition: all 0.25s ease;
   --profile-glow: none;
   --heading-glow: none;
   --card-hover-scale: 1.0;
 }
 
 /* ============================================
-   11. SUNSET - Warm Dark Gradient
+   THEME 3: PORCELAIN - Apple White
+   ============================================ */
+body.porcelain {
+  --bg: #f5f5f7;
+  --bg-gradient: linear-gradient(180deg, #f5f5f7 0%, #ffffff 50%, #f5f5f7 100%);
+  --glass-bg: rgba(255,255,255,0.9);
+  --glass-border: rgba(0,0,0,0.06);
+  --glass-shadow: 0 8px 40px rgba(0,0,0,0.06);
+  --card-bg: #ffffff;
+  --card-bg-secondary: #f9f9fb;
+  --card-border: rgba(0,0,0,0.04);
+  --text: #1d1d1f;
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --primary: #0071e3;
+  --primary-hover: #0077ed;
+  --accent: #ff375f;
+  --accent-hover: #ff2d55;
+  --border: rgba(0,0,0,0.06);
+  --radius: 20px;
+  --radius-sm: 14px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.06);
+  --shadow-sm: 0 2px 12px rgba(0,0,0,0.03);
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --btn-radius: 50px;
+  --transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --profile-glow: none;
+  --heading-glow: none;
+  --card-hover-scale: 1.01;
+}
+
+/* ============================================
+   THEME 4: OBSIDIAN - Deep Black
+   ============================================ */
+body.obsidian {
+  --bg: #000000;
+  --bg-gradient: none;
+  --glass-bg: #0a0a0a;
+  --glass-border: rgba(255,255,255,0.04);
+  --glass-shadow: 0 8px 40px rgba(0,0,0,0.8);
+  --card-bg: #0d0d0d;
+  --card-bg-secondary: #111111;
+  --card-border: rgba(255,255,255,0.03);
+  --text: #fafafa;
+  --text-primary: #fafafa;
+  --text-secondary: #737373;
+  --primary: #fafafa;
+  --primary-hover: #e5e5e5;
+  --accent: #ff4500;
+  --accent-hover: #ff5722;
+  --border: rgba(255,255,255,0.04);
+  --radius: 0px;
+  --radius-sm: 0px;
+  --shadow: 0 8px 40px rgba(0,0,0,0.9);
+  --shadow-sm: 0 4px 20px rgba(0,0,0,0.6);
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --btn-radius: 0px;
+  --transition: all 0.2s ease;
+  --profile-glow: none;
+  --heading-glow: none;
+  --card-hover-scale: 1.0;
+}
+
+/* ============================================
+   THEME 5: LINEN - Warm Minimal
+   ============================================ */
+body.linen {
+  --bg: #faf9f6;
+  --bg-gradient: linear-gradient(180deg, #faf9f6 0%, #f5f0eb 50%, #faf9f6 100%);
+  --glass-bg: rgba(255,255,255,0.8);
+  --glass-border: rgba(0,0,0,0.05);
+  --glass-shadow: 0 8px 40px rgba(0,0,0,0.04);
+  --card-bg: #ffffff;
+  --card-bg-secondary: #faf8f5;
+  --card-border: rgba(0,0,0,0.04);
+  --text: #2c2420;
+  --text-primary: #2c2420;
+  --text-secondary: #8c7a6e;
+  --primary: #8c6d5a;
+  --primary-hover: #6b5243;
+  --accent: #c4956a;
+  --accent-hover: #a67c52;
+  --border: rgba(0,0,0,0.04);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.04);
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.02);
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', sans-serif;
+  --btn-radius: 4px;
+  --transition: all 0.3s ease;
+  --profile-glow: none;
+  --heading-glow: none;
+  --card-hover-scale: 1.0;
+}
+
+/* ============================================
+   THEME 6: OCEAN - Deep Blue Gradient
+   ============================================ */
+body.ocean {
+  --bg: #0a1628;
+  --bg-gradient: linear-gradient(180deg, #0a1628 0%, #0d2847 40%, #0a3366 100%);
+  --glass-bg: rgba(255,255,255,0.04);
+  --glass-border: rgba(64,156,255,0.15);
+  --glass-shadow: 0 8px 40px rgba(0,64,128,0.3);
+  --card-bg: rgba(255,255,255,0.03);
+  --card-bg-secondary: rgba(255,255,255,0.05);
+  --card-border: rgba(64,156,255,0.1);
+  --text: #dceeff;
+  --text-primary: #dceeff;
+  --text-secondary: #7eb8da;
+  --primary: #409cff;
+  --primary-hover: #5aafff;
+  --accent: #ff6b6b;
+  --accent-hover: #ff5252;
+  --border: rgba(64,156,255,0.1);
+  --radius: 24px;
+  --radius-sm: 16px;
+  --shadow: 0 8px 40px rgba(0,64,128,0.4);
+  --shadow-sm: 0 4px 20px rgba(0,64,128,0.2);
+  --font-heading: 'Raleway', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --btn-radius: 30px;
+  --transition: all 0.35s ease;
+  --profile-glow: 0 0 30px rgba(64,156,255,0.4);
+  --heading-glow: 0 0 15px rgba(64,156,255,0.3);
+  --card-hover-scale: 1.02;
+}
+
+/* ============================================
+   THEME 7: SUNSET - Warm Gradient
    ============================================ */
 body.sunset {
   --bg: #1a0a0a;
-  --bg-gradient: linear-gradient(135deg, #ff416c 0%, #ff4b2b 50%, #ff6b35 100%);
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --glass-shadow: 0 8px 32px rgba(255,65,108,0.3);
-  --card-bg: rgba(255, 255, 255, 0.08);
-  --card-bg-secondary: rgba(255,255,255,0.1);
-  --card-border: rgba(255, 255, 255, 0.15);
+  --bg-gradient: linear-gradient(180deg, #ff416c 0%, #ff4b2b 50%, #ff8c42 100%);
+  --glass-bg: rgba(255,255,255,0.08);
+  --glass-border: rgba(255,255,255,0.15);
+  --glass-shadow: 0 8px 40px rgba(255,65,108,0.3);
+  --card-bg: rgba(255,255,255,0.06);
+  --card-bg-secondary: rgba(255,255,255,0.08);
+  --card-border: rgba(255,255,255,0.1);
   --text: #ffffff;
   --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-secondary: rgba(255,255,255,0.7);
   --primary: #ffd700;
   --primary-hover: #ffc107;
   --accent: #ffffff;
   --accent-hover: #e0e0e0;
-  --border: rgba(255, 255, 255, 0.15);
+  --border: rgba(255,255,255,0.1);
   --radius: 24px;
   --radius-sm: 16px;
-  --shadow: 0 8px 32px rgba(255,65,108,0.4);
-  --shadow-sm: 0 4px 16px rgba(255,65,108,0.2);
-  --font-heading: 'Poppins', sans-serif;
-  --font-body: 'Poppins', sans-serif;
+  --shadow: 0 8px 40px rgba(255,65,108,0.5);
+  --shadow-sm: 0 4px 20px rgba(255,65,108,0.3);
+  --font-heading: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
   --btn-radius: 50px;
   --transition: all 0.3s ease;
-  --profile-glow: 0 0 25px rgba(255, 215, 0, 0.5);
-  --heading-glow: 0 0 10px rgba(255, 215, 0, 0.3);
+  --profile-glow: 0 0 30px rgba(255,215,0,0.5);
+  --heading-glow: 0 0 10px rgba(255,215,0,0.3);
   --card-hover-scale: 1.02;
 }
 
 /* ============================================
-   12. OCEAN - Blue Dark
-   ============================================ */
-body.ocean {
-  --bg: #0a1628;
-  --bg-gradient: linear-gradient(135deg, #0a1628 0%, #0d2137 30%, #006994 70%, #003366 100%);
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(0, 180, 216, 0.2);
-  --glass-shadow: 0 8px 32px rgba(0,180,216,0.2);
-  --card-bg: rgba(255, 255, 255, 0.03);
-  --card-bg-secondary: rgba(255,255,255,0.05);
-  --card-border: rgba(0, 180, 216, 0.12);
-  --text: #e0f7fa;
-  --text-primary: #e0f7fa;
-  --text-secondary: #80deea;
-  --primary: #00b4d8;
-  --primary-hover: #0096c7;
-  --accent: #ff6b6b;
-  --accent-hover: #ee5a24;
-  --border: rgba(0, 180, 216, 0.12);
-  --radius: 20px;
-  --radius-sm: 12px;
-  --shadow: 0 8px 32px rgba(0,180,216,0.3);
-  --shadow-sm: 0 4px 16px rgba(0,180,216,0.15);
-  --font-heading: 'Raleway', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
-  --btn-radius: 30px;
-  --transition: all 0.3s ease;
-  --profile-glow: 0 0 20px rgba(0, 180, 216, 0.5);
-  --heading-glow: 0 0 10px rgba(0, 180, 216, 0.3);
-  --card-hover-scale: 1.02;
-}
-
-/* ============================================
-   13. FOREST - Deep Green Dark
+   THEME 8: FOREST - Nature Green Dark
    ============================================ */
 body.forest {
   --bg: #0a1a0a;
-  --bg-gradient: linear-gradient(135deg, #0a1a0a 0%, #1a3a1a 50%, #0d3320 100%);
-  --glass-bg: rgba(255, 255, 255, 0.04);
-  --glass-border: rgba(34, 197, 94, 0.15);
-  --glass-shadow: 0 8px 32px rgba(34,197,94,0.15);
-  --card-bg: rgba(255, 255, 255, 0.03);
+  --bg-gradient: linear-gradient(180deg, #0a1a0a 0%, #0d2818 50%, #0a1f0d 100%);
+  --glass-bg: rgba(255,255,255,0.03);
+  --glass-border: rgba(34,197,94,0.12);
+  --glass-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  --card-bg: rgba(255,255,255,0.02);
   --card-bg-secondary: rgba(255,255,255,0.04);
-  --card-border: rgba(34, 197, 94, 0.1);
+  --card-border: rgba(34,197,94,0.08);
   --text: #d1fae5;
   --text-primary: #d1fae5;
   --text-secondary: #6ee7b7;
@@ -419,88 +255,88 @@ body.forest {
   --primary-hover: #22c55e;
   --accent: #fbbf24;
   --accent-hover: #f59e0b;
-  --border: rgba(34, 197, 94, 0.1);
+  --border: rgba(34,197,94,0.08);
   --radius: 16px;
   --radius-sm: 10px;
-  --shadow: 0 8px 32px rgba(34,197,94,0.2);
-  --shadow-sm: 0 4px 16px rgba(34,197,94,0.1);
+  --shadow: 0 8px 40px rgba(0,0,0,0.6);
+  --shadow-sm: 0 4px 20px rgba(0,0,0,0.3);
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
   --btn-radius: 8px;
   --transition: all 0.25s ease;
-  --profile-glow: 0 0 20px rgba(74, 222, 128, 0.4);
-  --heading-glow: 0 0 10px rgba(74, 222, 128, 0.2);
+  --profile-glow: 0 0 25px rgba(74,222,128,0.4);
+  --heading-glow: 0 0 10px rgba(74,222,128,0.2);
   --card-hover-scale: 1.01;
 }
 
 /* ============================================
-   14. LUXURY - Black Gold Dark
+   THEME 9: AURORA - Purple Green Gradient
    ============================================ */
-body.luxury {
-  --bg: #0a0a0a;
-  --bg-gradient: linear-gradient(135deg, #0a0a0a 0%, #1a1a0a 50%, #0a0a0a 100%);
-  --glass-bg: rgba(255, 215, 0, 0.03);
-  --glass-border: rgba(255, 215, 0, 0.15);
-  --glass-shadow: 0 8px 32px rgba(0,0,0,0.6);
-  --card-bg: rgba(255, 215, 0, 0.02);
-  --card-bg-secondary: rgba(255,215,0,0.03);
-  --card-border: rgba(255, 215, 0, 0.1);
-  --text: #f5f5f0;
-  --text-primary: #f5f5f0;
-  --text-secondary: #a3a390;
-  --primary: #ffd700;
-  --primary-hover: #ffc107;
-  --accent: #c0a060;
-  --accent-hover: #a08040;
-  --border: rgba(255, 215, 0, 0.08);
-  --radius: 4px;
-  --radius-sm: 2px;
-  --shadow: 0 8px 32px rgba(0,0,0,0.8);
-  --shadow-sm: 0 4px 16px rgba(0,0,0,0.6);
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Montserrat', sans-serif;
-  --btn-radius: 2px;
+body.aurora {
+  --bg: #0a0a1a;
+  --bg-gradient: linear-gradient(180deg, #1a0a2e 0%, #0d2847 40%, #0a3d2e 100%);
+  --glass-bg: rgba(255,255,255,0.04);
+  --glass-border: rgba(139,92,246,0.2);
+  --glass-shadow: 0 8px 40px rgba(139,92,246,0.2);
+  --card-bg: rgba(255,255,255,0.03);
+  --card-bg-secondary: rgba(255,255,255,0.05);
+  --card-border: rgba(139,92,246,0.12);
+  --text: #e8daef;
+  --text-primary: #e8daef;
+  --text-secondary: #b39ddb;
+  --primary: #a78bfa;
+  --primary-hover: #8b5cf6;
+  --accent: #34d399;
+  --accent-hover: #10b981;
+  --border: rgba(139,92,246,0.1);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --shadow: 0 8px 40px rgba(139,92,246,0.3);
+  --shadow-sm: 0 4px 20px rgba(139,92,246,0.15);
+  --font-heading: 'Raleway', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --btn-radius: 20px;
   --transition: all 0.3s ease;
-  --profile-glow: 0 0 0 2px #ffd700;
+  --profile-glow: 0 0 30px rgba(167,139,250,0.5);
+  --heading-glow: 0 0 15px rgba(167,139,250,0.3);
+  --card-hover-scale: 1.02;
+}
+
+/* ============================================
+   THEME 10: MONO - Pure Minimal
+   ============================================ */
+body.mono {
+  --bg: #ffffff;
+  --bg-gradient: none;
+  --glass-bg: #ffffff;
+  --glass-border: rgba(0,0,0,0.08);
+  --glass-shadow: 0 2px 16px rgba(0,0,0,0.04);
+  --card-bg: #ffffff;
+  --card-bg-secondary: #fafafa;
+  --card-border: rgba(0,0,0,0.04);
+  --text: #000000;
+  --text-primary: #000000;
+  --text-secondary: #666666;
+  --primary: #000000;
+  --primary-hover: #333333;
+  --accent: #666666;
+  --accent-hover: #444444;
+  --border: rgba(0,0,0,0.06);
+  --radius: 0px;
+  --radius-sm: 0px;
+  --shadow: 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.02);
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --btn-radius: 0px;
+  --transition: all 0.15s ease;
+  --profile-glow: none;
   --heading-glow: none;
   --card-hover-scale: 1.0;
 }
 
 /* ============================================
-   15. COTTON CANDY - Pastel Light
-   ============================================ */
-body.cottoncandy {
-  --bg: #fef6ff;
-  --bg-gradient: linear-gradient(135deg, #fef6ff 0%, #fce7f3 25%, #e0e7ff 50%, #fce7f3 75%, #fef6ff 100%);
-  --glass-bg: rgba(255, 255, 255, 0.6);
-  --glass-border: rgba(236, 72, 153, 0.15);
-  --glass-shadow: 0 8px 32px rgba(236,72,153,0.06);
-  --card-bg: #ffffff;
-  --card-bg-secondary: #fdf2f8;
-  --card-border: rgba(236, 72, 153, 0.08);
-  --text: #4a1a3e;
-  --text-primary: #4a1a3e;
-  --text-secondary: #7a5068;
-  --primary: #c084fc;
-  --primary-hover: #a855f7;
-  --accent: #f472b6;
-  --accent-hover: #ec4899;
-  --border: rgba(236, 72, 153, 0.08);
-  --radius: 32px;
-  --radius-sm: 20px;
-  --shadow: 0 4px 24px rgba(236,72,153,0.06);
-  --shadow-sm: 0 2px 12px rgba(236,72,153,0.03);
-  --font-heading: 'Raleway', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
-  --btn-radius: 50px;
-  --transition: all 0.4s ease;
-  --profile-glow: 0 0 0 6px rgba(192, 132, 252, 0.2);
-  --heading-glow: none;
-  --card-hover-scale: 1.02;
-}
-
-/* ============================================
-   COMMON STYLES
+   COMMON STYLES - All Themes
    ============================================ */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -516,7 +352,7 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
@@ -536,85 +372,20 @@ body {
 
 #lottie-box { background: transparent; padding: 10px; text-align: center; }
 
-/* Profile Image - Base */
 #profile-img {
-  width: 140px; height: 140px;
-  object-fit: cover; border: 3px solid var(--primary);
-  box-shadow: var(--profile-glow);
-  margin: 10px auto 15px;
+  width: 130px; height: 130px; border-radius: 50%;
+  object-fit: cover; border: 2px solid var(--border);
+  box-shadow: var(--profile-glow); margin: 10px auto 15px;
   display: block; position: relative; z-index: 2;
-  transition: all 0.4s ease;
-}
-
-/* Profile Style - Circle (Default) */
-.profile-circle, #profile-img {
-  border-radius: 50%;
-  animation: pulseGlow 2s infinite;
-}
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 15px rgba(0, 212, 255, 0.4), 0 0 30px rgba(0, 212, 255, 0.2); }
-  50% { box-shadow: 0 0 25px rgba(0, 212, 255, 0.7), 0 0 50px rgba(0, 212, 255, 0.4); }
-}
-
-/* Profile Style - Rounded Square */
-.profile-rounded {
-  border-radius: 20px;
-  animation: rotateGlow 3s infinite;
-}
-@keyframes rotateGlow {
-  0%, 100% { box-shadow: 0 0 15px var(--primary); }
-  50% { box-shadow: 0 0 30px var(--accent), 0 0 60px var(--primary); }
-}
-
-/* Profile Style - Soft Round */
-.profile-soft {
-  border-radius: 40% 60% 50% 50% / 50% 40% 60% 50%;
-  animation: morphGlow 4s infinite alternate;
-}
-@keyframes morphGlow {
-  0% { border-radius: 40% 60% 50% 50% / 50% 40% 60% 50%; box-shadow: 0 0 20px var(--primary); }
-  100% { border-radius: 60% 40% 40% 60% / 40% 60% 40% 60%; box-shadow: 0 0 35px var(--accent); }
-}
-
-/* Profile Style - Leaf Shape */
-.profile-leaf {
-  border-radius: 50% 10% 50% 10% / 10% 50% 10% 50%;
-  animation: leafSway 3s ease-in-out infinite alternate;
-}
-@keyframes leafSway {
-  0% { border-radius: 50% 10% 50% 10% / 10% 50% 10% 50%; transform: rotate(-3deg); }
-  100% { border-radius: 10% 50% 10% 50% / 50% 10% 50% 10%; transform: rotate(3deg); }
-}
-
-/* Profile Style - Hexagon */
-.profile-hexagon {
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  border-radius: 0;
-  animation: hexPulse 2s ease-in-out infinite;
-}
-@keyframes hexPulse {
-  0%, 100% { box-shadow: 0 0 15px var(--primary); transform: scale(1); }
-  50% { box-shadow: 0 0 35px var(--accent), 0 0 60px var(--primary); transform: scale(1.05); }
-}
-
-/* Profile Style - Diamond */
-.profile-diamond {
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  border-radius: 0;
-  animation: diamondSpin 5s linear infinite;
-}
-@keyframes diamondSpin {
-  0% { box-shadow: 0 0 20px var(--primary); }
-  50% { box-shadow: 0 0 40px var(--accent), 0 0 80px var(--primary); }
-  100% { box-shadow: 0 0 20px var(--primary); }
 }
 
 h1 {
   font-family: var(--font-heading); font-size: 26px; font-weight: 700;
   color: var(--text); text-align: center; margin: 0 20px 5px;
+  letter-spacing: -0.3px;
 }
 
-#title { text-align: center; color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; }
+#title { text-align: center; color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; font-weight: 400; }
 
 #sections-container > div {
   background: var(--card-bg);
@@ -626,119 +397,77 @@ h1 {
 #sections-container > div:hover { transform: scale(var(--card-hover-scale)); box-shadow: var(--shadow); }
 
 #sections-container h3 {
-  font-family: var(--font-heading); font-size: 16px; font-weight: 600;
-  color: var(--primary); margin-bottom: 15px; padding-bottom: 10px;
-  border-bottom: 2px solid var(--primary); text-transform: uppercase;
-  letter-spacing: 1px; text-shadow: var(--heading-glow);
+  font-family: var(--font-heading); font-size: 14px; font-weight: 600;
+  color: var(--text-secondary); margin-bottom: 15px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border); text-transform: uppercase;
+  letter-spacing: 1.5px; text-shadow: var(--heading-glow);
 }
 
 button, .btn, a.btn {
   display: inline-block; padding: 12px 28px; border-radius: var(--btn-radius);
-  font-family: var(--font-body); font-size: 14px; font-weight: 600;
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
   cursor: pointer; border: none; transition: var(--transition);
-  text-decoration: none; text-align: center;
+  text-decoration: none; text-align: center; letter-spacing: -0.2px;
 }
 
 #save-contact {
   display: block; width: calc(100% - 40px); margin: 20px auto;
   padding: 14px; background: var(--primary); color: #fff;
   border: none; border-radius: var(--btn-radius); font-size: 16px;
-  font-weight: 600; cursor: pointer; transition: var(--transition);
+  font-weight: 500; cursor: pointer; transition: var(--transition);
 }
-#save-contact:hover { background: var(--primary-hover); transform: translateY(-3px); }
+#save-contact:hover { opacity: 0.9; transform: translateY(-1px); }
 
-#action-buttons { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; padding: 0 0 15px; }
+#action-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 0 0 15px; }
 #action-buttons a {
   flex: 1; min-width: 80px; padding: 12px 8px; border-radius: 50px;
-  font-weight: 600; font-size: 13px; text-align: center; text-decoration: none;
+  font-weight: 500; font-size: 13px; text-align: center; text-decoration: none;
   color: #fff; transition: var(--transition);
 }
-#action-buttons a:hover { transform: translateY(-3px); }
+#action-buttons a:hover { transform: translateY(-2px); opacity: 0.9; }
 
-/* Social Icons - Always Official Colors */
-.social-icons {
-  display: flex; justify-content: center; align-items: center;
-  gap: 14px; flex-wrap: wrap; padding: 10px 0;
-}
+.social-icons { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; padding: 10px 0; }
 .social-icons a {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 46px; height: 46px; border-radius: 50%;
-  text-decoration: none; font-size: 20px; transition: all 0.3s ease;
-  flex-shrink: 0; color: #fff !important;
+  width: 40px; height: 40px; border-radius: 50%;
+  text-decoration: none; font-size: 18px; transition: all 0.3s ease;
+  flex-shrink: 0; background: var(--card-bg-secondary); color: var(--text-secondary);
 }
-.social-icons a:hover { transform: translateY(-4px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
-.social-icons a.fa-whatsapp { background: #25D366; }
-.social-icons a.fa-instagram { background: #E4405F; }
-.social-icons a.fa-facebook, .social-icons a.fa-facebook-f { background: #1877F2; }
-.social-icons a.fa-youtube { background: #FF0000; }
-.social-icons a.fa-linkedin, .social-icons a.fa-linkedin-in { background: #0A66C2; }
-.social-icons a.fa-twitter, .social-icons a.fa-x-twitter { background: #1DA1F2; }
-.social-icons a.fa-telegram { background: #26A5E4; }
-.social-icons a.fa-snapchat { background: #FFFC00; color: #000 !important; }
-.social-icons a.fa-pinterest { background: #BD081C; }
-.social-icons a.fa-globe { background: #6366f1; }
+.social-icons a:hover { transform: translateY(-3px); color: #fff; }
+.social-icons a.fa-whatsapp:hover { background: #25D366; }
+.social-icons a.fa-instagram:hover { background: #E4405F; }
+.social-icons a.fa-facebook:hover, .social-icons a.fa-facebook-f:hover { background: #1877F2; }
+.social-icons a.fa-youtube:hover { background: #FF0000; }
+.social-icons a.fa-linkedin:hover, .social-icons a.fa-linkedin-in:hover { background: #0A66C2; }
+.social-icons a.fa-twitter:hover, .social-icons a.fa-x-twitter:hover { background: #1DA1F2; }
+.social-icons a.fa-telegram:hover { background: #26A5E4; }
 
-#loader { text-align: center; padding: 60px 20px; font-size: 18px; color: var(--text); }
+#loader { text-align: center; padding: 60px 20px; font-size: 15px; color: var(--text-secondary); font-weight: 400; }
 #error {
-  color: #ff5252; background: var(--card-bg); border-radius: var(--radius);
-  max-width: 400px; margin: 40px auto; text-align: center; padding: 40px 20px;
+  color: var(--accent); background: var(--card-bg); border-radius: var(--radius);
+  max-width: 400px; margin: 40px auto; text-align: center; padding: 40px 20px; font-weight: 500;
 }
 
-.fade-section { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-section { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
 .fade-section.visible { opacity: 1; transform: translateY(0); }
-@keyframes pulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
-}
-/* Ripple Effect */
+
 .ripple {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(0);
-  animation: ripple-anim 0.6s ease-out;
-  pointer-events: none;
+  position: absolute; border-radius: 50%;
+  background: rgba(255,255,255,0.2); transform: scale(0);
+  animation: ripple-anim 0.6s ease-out; pointer-events: none;
 }
-@keyframes ripple-anim {
-  to { transform: scale(4); opacity: 0; }
-}
-/* Global Button Glass Hover */
-button:hover, a.btn:hover, #save-contact:hover, #action-buttons a:hover,
-#btn-share:hover, #btn-pdf:hover, #btn-copy-url:hover, #feedback-submit:hover,
-#enquiry-send:hover {
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.1) !important;
-}
-/* Gallery & Slider Arrows Fix */
-#gal-prev, #gal-next, #yt-prev, #yt-next, #reel-prev, #reel-next,
-#lightbox-prev, #lightbox-next {
-  background: rgba(0,0,0,0.4) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  border-radius: 50% !important;
-  width: 38px !important;
-  height: 38px !important;
-  font-size: 16px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  color: #fff !important;
-  border: 1px solid rgba(255,255,255,0.2) !important;
-}
-/* All buttons glass hover */
-a[href*="wa.me"], a[href*="tel:"], a[href*="mailto:"],
-#reel-link, #enquiry-send, #feedback-submit,
-button, a.btn, #save-contact, #action-buttons a,
-#btn-share, #btn-pdf, #btn-copy-url {
-  transition: all 0.3s ease !important;
-}
-a[href*="wa.me"]:hover, a[href*="tel:"]:hover, a[href*="mailto:"]:hover,
-#reel-link:hover, #enquiry-send:hover, #feedback-submit:hover,
-button:hover, a.btn:hover, #save-contact:hover, #action-buttons a:hover,
-#btn-share:hover, #btn-pdf:hover, #btn-copy-url:hover {
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  transform: translateY(-3px) !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 25px rgba(255,255,255,0.15) !important;
+@keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
+
+/* Profile Styles */
+.profile-circle, #profile-img { border-radius: 50%; }
+.profile-rounded { border-radius: 20px; }
+.profile-soft { border-radius: 40% 60% 50% 50% / 50% 40% 60% 50%; }
+.profile-leaf { border-radius: 50% 10% 50% 10% / 10% 50% 10% 50%; }
+.profile-hexagon { clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); border-radius: 0; }
+.profile-diamond { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); border-radius: 0; }
+
+/* Skeleton Loader */
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
 }
