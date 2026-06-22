@@ -454,7 +454,21 @@ if (!slug) {
         const blob = new Blob([vcf], { type: 'text/vcard' });
         const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = (data.name || 'contact') + '.vcf'; a.click();
       });
-
+            // Force WhatsApp button colors based on theme
+      var theme = document.body.className;
+      var waColors = {
+        'default': '#25d366', 'midnight': '#25d366', 'graphite': '#25d366',
+        'porcelain': '#25d366', 'obsidian': '#25d366', 'linen': '#25d366',
+        'ocean': '#00e676', 'sunset': '#ffd700', 'forest': '#4ade80',
+        'aurora': '#34d399', 'mono': '#000000'
+      };
+      var waColor = waColors[theme] || '#25d366';
+      
+      // Apply to all WhatsApp buttons
+      var allWA = document.querySelectorAll('#btn-whatsapp, button[onclick*="orderNow"], a[href*="wa.me"], #enquiry-send');
+      allWA.forEach(function(el) {
+        el.style.setProperty('background', waColor, 'important');
+      });
       console.log('✅ Card successfully displayed!');
     })
     .catch((error) => {
