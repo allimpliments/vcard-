@@ -268,85 +268,62 @@ if (data.profileImage && data.profileImage.trim() !== '') {
             }
           }, 100);
         }
-        else if (sec === 'youtube' && data.youtube && data.youtube.length > 0) {
-          const videos = [];
+                else if (sec === 'youtube' && data.youtube && data.youtube.length > 0) {
+          let ytHTML = '<h3>🎬 YouTube Videos</h3>';
+          
           for (let k = 0; k < data.youtube.length; k++) {
             const url = data.youtube[k];
+            let embedHTML = '';
             let videoId = '';
-            if (url.includes('youtube.com/watch?v=')) {
+            
+            if (url.includes('youtube.com/shorts/')) {
+              videoId = url.split('shorts/')[1].split('?')[0];
+              embedHTML = '<div style="position: relative; padding-bottom: 177%; height: 0; overflow: hidden; border-radius: 15px; box-shadow: var(--shadow-sm);">' +
+                '<iframe src="https://www.youtube.com/embed/' + videoId + '" style="position: absolute; width: 100%; height: 100%; border-radius: 15px;" frameborder="0" allowfullscreen></iframe></div>';
+            } else if (url.includes('youtube.com/watch?v=')) {
               videoId = url.split('v=')[1].split('&')[0];
             } else if (url.includes('youtu.be/')) {
               videoId = url.split('youtu.be/')[1].split('?')[0];
             } else if (url.includes('youtube.com/embed/')) {
               videoId = url.split('embed/')[1].split('?')[0];
             }
-            if (videoId) {
-              videos.push({ id: videoId, thumb: 'https://img.youtube.com/vi/' + videoId + '/hqdefault.jpg' });
+            
+            if (videoId && !embedHTML) {
+              embedHTML = '<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 15px; box-shadow: var(--shadow-sm);">' +
+                '<iframe src="https://www.youtube.com/embed/' + videoId + '" style="position: absolute; width: 100%; height: 100%; border-radius: 15px;" frameborder="0" allowfullscreen></iframe></div>';
             }
-          }
-
-          if (videos.length === 0) { container.appendChild(div); return; }
-
-          let currentIdx = 0;
-          let ytHTML = '<h3>🎬 YouTube Videos</h3>';
-          
-          // Main video
-          ytHTML += '<div style="position: relative; text-align: center; margin-bottom: 10px;">';
-          ytHTML += '<div id="yt-main-container" style="width: 100%; height: 200px; border-radius: 15px; overflow: hidden; box-shadow: var(--shadow-sm);">';
-          ytHTML += '<iframe id="yt-main" width="100%" height="200" src="https://www.youtube.com/embed/' + videos[0].id + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 15px;"></iframe>';
-          ytHTML += '</div>';
-          
-          if (videos.length > 1) {
-            ytHTML += '<button id="yt-prev" style="position: absolute; left: 5px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 14px; cursor: pointer; z-index: 5;">◀</button>';
-            ytHTML += '<button id="yt-next" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 14px; cursor: pointer; z-index: 5;">▶</button>';
-          }
-          ytHTML += '</div>';
-          
-          // Thumbnails
-          if (videos.length > 1) {
-            ytHTML += '<div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; justify-content: center;">';
-            for (let t = 0; t < videos.length; t++) {
-              ytHTML += '<img src="' + videos[t].thumb + '" class="yt-thumb" data-index="' + t + '" style="width: 80px; height: 60px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid ' + (t === 0 ? 'var(--primary)' : 'transparent') + '; opacity: ' + (t === 0 ? '1' : '0.6') + '; transition: all 0.3s ease;">';
+            
+            if (embedHTML) {
+              ytHTML += '<div style="margin-bottom: 15px;">' + embedHTML + '</div>';
             }
-            ytHTML += '</div>';
           }
           
           div.innerHTML = ytHTML;
+        }
+                else if (sec === 'reels' && data.reels && data.reels.length > 0) {
+          let reelsHTML = '<h3>📱 Instagram & FB Reels</h3>';
           
-          // Slider logic
-          setTimeout(function() {
-            const iframe = document.getElementById('yt-main');
-            const prevBtn = document.getElementById('yt-prev');
-            const nextBtn = document.getElementById('yt-next');
-            const thumbs = document.querySelectorAll('.yt-thumb');
+          for (let k = 0; k < data.reels.length; k++) {
+            const url = data.reels[k];
+            let embedHTML = '';
             
-            if (!iframe) return;
-            
-            function updateVideo(index) {
-              currentIdx = index;
-              iframe.src = 'https://www.youtube.com/embed/' + videos[currentIdx].id;
-              thumbs.forEach(function(thumb, i) {
-                thumb.style.border = i === currentIdx ? '2px solid var(--primary)' : '2px solid transparent';
-                thumb.style.opacity = i === currentIdx ? '1' : '0.6';
-              });
+            // Instagram Reel or Post
+            if (url.includes('instagram.com/reel/') || url.includes('instagram.com/p/')) {
+              embedHTML = '<div style="display: flex; justify-content: center; margin-bottom: 10px;">' +
+                '<iframe src="' + url + 'embed/" width="100%" height="500" style="max-width: 400px; border-radius: 15px; box-shadow: var(--shadow-sm); border: none;" frameborder="0" scrolling="no"></iframe></div>';
+            }
+            // Facebook Reel or Video
+            else if (url.includes('facebook.com/reel/') || url.includes('facebook.com/share/') || url.includes('fb.watch/')) {
+              embedHTML = '<div style="display: flex; justify-content: center; margin-bottom: 10px;">' +
+                '<iframe src="https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent(url) + '&show_text=false" width="100%" height="400" style="max-width: 400px; border-radius: 15px; box-shadow: var(--shadow-sm); border: none;" frameborder="0" allowfullscreen></iframe></div>';
             }
             
-            if (nextBtn) {
-              nextBtn.onclick = function() {
-                updateVideo((currentIdx + 1) % videos.length);
-              };
+            if (embedHTML) {
+              reelsHTML += '<div style="margin-bottom: 15px;">' + embedHTML + '</div>';
             }
-            if (prevBtn) {
-              prevBtn.onclick = function() {
-                updateVideo((currentIdx - 1 + videos.length) % videos.length);
-              };
-            }
-            thumbs.forEach(function(thumb) {
-              thumb.onclick = function() {
-                updateVideo(parseInt(this.getAttribute('data-index')));
-              };
-            });
-          }, 100);
+          }
+          
+          div.innerHTML = reelsHTML;
         }
         container.appendChild(div);
       }
