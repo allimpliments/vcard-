@@ -176,7 +176,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     productsData.push({ name: '', sellingPrice: '', actualPrice: '', image: '' });
     renderProducts();
   };
-    // Services
+  // Services
   const servicesDiv = document.getElementById('services-list');
   const servicesData = cardData.services || [];
   function renderServices() {
@@ -235,7 +235,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     servicesData.push({ title: '', image: '' });
     renderServices();
   };
-    // Gallery
+  // Gallery
   const galleryDiv = document.getElementById('gallery-list');
   const galleryData = cardData.gallery || [];
   function renderGallery() {
@@ -292,7 +292,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     galleryData.push('');
     renderGallery();
   };
-    // YouTube Videos
+  // YouTube Videos
   const youtubeDiv = document.getElementById('youtube-list');
   const youtubeData = cardData.youtube || [];
   function renderYoutube() {
@@ -321,7 +321,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     youtubeData.push('');
     renderYoutube();
   };
-    // Reels (Instagram & Facebook)
+  // Reels (Instagram & Facebook)
   const reelsDiv = document.getElementById('reels-list');
   const reelsData = cardData.reels || [];
   function renderReels() {
@@ -350,7 +350,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     reelsData.push('');
     renderReels();
   };
-    // Payment
+  // Payment
   const paymentData = cardData.payment || {};
   document.getElementById('e-paytm').value = paymentData.paytm || '';
   document.getElementById('e-upi').value = paymentData.upi || '';
@@ -360,6 +360,12 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     document.getElementById('e-payment-qr-preview').style.display = 'block';
   }
   setupImageUpload('e-payment-qr-file', 'e-payment-qr-preview', 'e-payment-qr');
+  // Bank Details
+  const bankData = cardData.bank || {};
+  document.getElementById('e-acc-num').value = bankData.accountNumber || '';
+  document.getElementById('e-ifsc').value = bankData.ifsc || '';
+  document.getElementById('e-bank-name').value = bankData.bankName || '';
+  document.getElementById('e-holder-name').value = bankData.holderName || '';
   // Social links
   const socialDiv = document.getElementById('social-links');
   const socialData = cardData.social || {};
@@ -478,6 +484,12 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
         paytm: document.getElementById('e-paytm').value.trim(),
         upi: document.getElementById('e-upi').value.trim(),
         qrImage: document.getElementById('e-payment-qr').value.trim()
+      },
+            bank: {
+        accountNumber: document.getElementById('e-acc-num').value.trim(),
+        ifsc: document.getElementById('e-ifsc').value.trim(),
+        bankName: document.getElementById('e-bank-name').value.trim(),
+        holderName: document.getElementById('e-holder-name').value.trim()
       },
       sectionOrder: currentOrder
     };
