@@ -513,6 +513,27 @@ if (!slug) {
           h += '</div>';
           div.innerHTML = h;
         }
+        else if (sec === 'contactform') {
+          let h = '<h3>📩 Contact Us</h3>';
+          h += '<div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;">';
+          h += '<textarea id="enquiry-msg" placeholder="Enter your enquiry text..." rows="3" style="width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;font-family:inherit;font-size:14px;margin-bottom:12px;"></textarea>';
+          h += '<button id="enquiry-send" style="width:100%;padding:14px;background:#25d366;color:#fff;border:none;border-radius:50px;font-weight:600;font-size:15px;cursor:pointer;">📤 Send via WhatsApp</button>';
+          h += '</div>';
+          div.innerHTML = h;
+          
+          setTimeout(function() {
+            document.getElementById('enquiry-send').addEventListener('click', function() {
+              const msg = document.getElementById('enquiry-msg').value.trim();
+              if (!msg) { alert('Please enter your message!'); return; }
+              const phone = data.phone ? data.phone.replace(/[^0-9]/g, '') : '';
+              if (phone) {
+                window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(msg), '_blank');
+              } else {
+                alert('Phone number not available!');
+              }
+            });
+          }, 100);
+        }
         container.appendChild(div);
       }
 
