@@ -14,14 +14,12 @@ if (!slug) {
       console.log('Document exists:', docSnap.exists);
       
       if (!docSnap.exists) {
-        console.log('Document nahi mila');
         document.getElementById('loader').style.display = 'none';
         document.getElementById('error').style.display = 'block';
         return;
       }
 
       const data = docSnap.data();
-      console.log('Data mila:', data);
 
       var savedTheme = data.theme || 'default';
       if (savedTheme === 'default') {
@@ -29,7 +27,6 @@ if (!slug) {
         savedTheme = prefersDark ? 'graphite' : 'default';
       }
       document.body.className = savedTheme;
-      document.documentElement.setAttribute('data-theme', savedTheme);
 
       document.getElementById('loader').style.display = 'none';
       document.getElementById('card-container').style.display = 'block';
@@ -76,11 +73,10 @@ if (!slug) {
       container.innerHTML = '';
       const order = data.sectionOrder || ['about', 'contact', 'social'];
 
-      // Common button styles
       const btnStyle = 'font-family:var(--font-body);border-radius:var(--btn-radius);font-weight:var(--btn-font-weight);transition:all var(--transition-speed) var(--transition-style);';
       const btnPrimary = btnStyle + 'background:var(--primary);color:#fff;';
       const btnAccent = btnStyle + 'background:var(--accent);color:#fff;';
-      const btnGreen = btnStyle + 'background:var(--whatsapp);color:#fff;';
+      const btnWhatsappStyle = btnStyle + 'background:var(--whatsapp);color:#fff;';
 
       for (let i = 0; i < order.length; i++) {
         const sec = order[i];
@@ -93,7 +89,7 @@ if (!slug) {
           if (data.aboutImage && data.aboutImage.trim() !== '') {
             h += '<div style="text-align:center;margin-bottom:15px;"><img src="' + data.aboutImage + '" style="max-width:200px;max-height:200px;border-radius:15px;object-fit:cover;"></div>';
           }
-          h += '<p style="font-size:14px;line-height:1.7;color:var(--text-secondary);text-align:center;margin-bottom:15px;font-family:var(--font-body);">' + data.about + '</p>';
+          h += '<p style="font-size:14px;line-height:1.7;color:var(--text-secondary);text-align:center;margin-bottom:15px;">' + data.about + '</p>';
           if (data.aboutPdf && data.aboutPdf.trim() !== '') {
             h += '<div style="text-align:center;"><a href="' + data.aboutPdf + '" target="_blank" style="display:inline-block;padding:12px 25px;' + btnAccent + 'text-decoration:none;">📥 Download PDF</a></div>';
           }
@@ -102,7 +98,7 @@ if (!slug) {
 
         // CONTACT
         else if (sec === 'contact') {
-          div.innerHTML = '<h3>Contact</h3><p style="font-family:var(--font-body);">📞 ' + (data.phone || '-') + '</p><p style="font-family:var(--font-body);">✉️ ' + (data.email || '-') + '</p><p style="font-family:var(--font-body);">🌐 <a href="' + (data.website || '#') + '">' + (data.website || '-') + '</a></p>';
+          div.innerHTML = '<h3>Contact</h3><p>📞 ' + (data.phone || '-') + '</p><p>✉️ ' + (data.email || '-') + '</p><p>🌐 <a href="' + (data.website || '#') + '">' + (data.website || '-') + '</a></p>';
         }
 
         // SOCIAL
@@ -136,18 +132,18 @@ if (!slug) {
             const p = data.products[k];
             const pid = 'prod-' + k;
             const phone = data.phone ? data.phone.replace(/[^0-9]/g, '') : '';
-            h += '<div style="background:var(--card-bg-secondary);border-radius:var(--card-radius-sm);padding:15px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">';
+            h += '<div style="background:var(--card-bg-secondary);border-radius:14px;padding:15px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">';
             if (p.image) h += '<img src="' + p.image + '" style="width:90px;height:90px;object-fit:cover;border-radius:12px;flex-shrink:0;">';
-            h += '<div style="flex:1;min-width:140px;"><p style="font-weight:600;font-size:15px;color:var(--text);margin:0 0 4px;font-family:var(--font-body);">' + p.name + '</p>';
-            if (p.actualPrice) h += '<span style="text-decoration:line-through;color:#ef4444;font-size:13px;font-family:var(--font-body);">₹' + p.actualPrice + '</span> ';
-            h += '<span style="font-weight:700;color:var(--primary);font-size:18px;font-family:var(--font-body);">₹' + p.sellingPrice + '</span></div>';
+            h += '<div style="flex:1;min-width:140px;"><p style="font-weight:600;font-size:15px;color:var(--text);margin:0 0 4px;">' + p.name + '</p>';
+            if (p.actualPrice) h += '<span style="text-decoration:line-through;color:#ef4444;font-size:13px;">₹' + p.actualPrice + '</span> ';
+            h += '<span style="font-weight:700;color:var(--primary);font-size:18px;">₹' + p.sellingPrice + '</span></div>';
             h += '<div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">';
             h += '<div style="display:flex;align-items:center;background:var(--card-bg);border-radius:25px;overflow:hidden;border:1px solid var(--border);">';
-            h += '<button onclick="changeQty(\'' + pid + '\', -1)" style="background:none;border:none;padding:8px 12px;font-size:16px;cursor:pointer;color:var(--text);font-family:var(--font-body);">−</button>';
-            h += '<span id="' + pid + '" style="padding:4px 8px;font-weight:600;font-size:14px;min-width:30px;text-align:center;font-family:var(--font-body);color:var(--text);">1</span>';
-            h += '<button onclick="changeQty(\'' + pid + '\', 1)" style="background:none;border:none;padding:8px 12px;font-size:16px;cursor:pointer;color:var(--text);font-family:var(--font-body);">+</button>';
+            h += '<button onclick="changeQty(\'' + pid + '\', -1)" style="background:none;border:none;padding:8px 12px;font-size:16px;cursor:pointer;color:var(--text);">−</button>';
+            h += '<span id="' + pid + '" style="padding:4px 8px;font-weight:600;font-size:14px;min-width:30px;text-align:center;color:var(--text);">1</span>';
+            h += '<button onclick="changeQty(\'' + pid + '\', 1)" style="background:none;border:none;padding:8px 12px;font-size:16px;cursor:pointer;color:var(--text);">+</button>';
             h += '</div>';
-            h += '<button onclick="orderNow(\'' + p.name.replace(/'/g, "\\'") + '\',\'' + p.sellingPrice + '\',\'' + pid + '\',\'' + phone + '\')" style="padding:10px 16px;' + btnGreen + 'border:none;cursor:pointer;white-space:nowrap;font-size:13px;">💬 Order</button>';
+            h += '<button onclick="orderNow(\'' + p.name.replace(/'/g, "\\'") + '\',\'' + p.sellingPrice + '\',\'' + pid + '\',\'' + phone + '\')" style="padding:10px 16px;' + btnWhatsappStyle + 'border:none;cursor:pointer;white-space:nowrap;font-size:13px;">💬 Order</button>';
             h += '</div></div>';
           }
           h += '</div>';
@@ -163,8 +159,8 @@ if (!slug) {
             const wa = phone ? 'https://wa.me/' + phone + '?text=Hi,%20I%20am%20interested%20in%20' + encodeURIComponent(s.title) : '#';
             h += '<div style="display:flex;align-items:center;gap:12px;background:var(--card-bg-secondary);border-radius:14px;padding:12px;">';
             if (s.image) h += '<img src="' + s.image + '" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0;">';
-            h += '<p style="flex:1;font-weight:600;font-size:14px;color:var(--text);margin:0;font-family:var(--font-body);">' + s.title + '</p>';
-            h += '<a href="' + wa + '" target="_blank" style="padding:10px 16px;' + btnGreen + 'text-decoration:none;white-space:nowrap;flex-shrink:0;font-size:12px;">Enquiry Now</a>';
+            h += '<p style="flex:1;font-weight:600;font-size:14px;color:var(--text);margin:0;">' + s.title + '</p>';
+            h += '<a href="' + wa + '" target="_blank" style="padding:10px 16px;' + btnWhatsappStyle + 'text-decoration:none;white-space:nowrap;flex-shrink:0;font-size:12px;">Enquiry Now</a>';
             h += '</div>';
           }
           h += '</div>';
@@ -270,10 +266,10 @@ if (!slug) {
           h += '<span id="reel-icon-fallback" style="font-size:70px;">' + fi.i + '</span>';
           h += '<div style="width:60px;height:60px;background:rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:10px;"><span style="font-size:24px;color:' + fi.c + ';">▶</span></div>';
           h += '</div><img id="reel-thumb" src="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:none;"></div>';
-          h += '<div style="padding:16px 20px;"><span id="reel-platform" style="background:' + fi.c + ';color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;font-family:var(--font-body);">' + fi.p + '</span> ';
-          h += '<span id="reel-type" style="color:var(--text-secondary);font-size:12px;font-weight:600;font-family:var(--font-body);">' + fi.t + '</span>';
-          h += '<p id="reel-title" style="font-weight:600;font-size:14px;color:var(--text);margin:6px 0;font-family:var(--font-body);">' + fi.p + ' ' + fi.t + '</p>';
-          h += '<p id="reel-counter" style="color:var(--text-secondary);font-size:12px;margin-bottom:12px;font-family:var(--font-body);">1 of ' + reels.length + '</p>';
+          h += '<div style="padding:16px 20px;"><span id="reel-platform" style="background:' + fi.c + ';color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">' + fi.p + '</span> ';
+          h += '<span id="reel-type" style="color:var(--text-secondary);font-size:12px;font-weight:600;">' + fi.t + '</span>';
+          h += '<p id="reel-title" style="font-weight:600;font-size:14px;color:var(--text);margin:6px 0;">' + fi.p + ' ' + fi.t + '</p>';
+          h += '<p id="reel-counter" style="color:var(--text-secondary);font-size:12px;margin-bottom:12px;">1 of ' + reels.length + '</p>';
           h += '<a id="reel-link" href="' + reels[0] + '" target="_blank" style="display:block;text-align:center;padding:14px;' + btnAccent + 'text-decoration:none;font-size:15px;">▶ Watch Now</a></div></div>';
           if (reels.length > 1) {
             h += '<button id="reel-prev" style="position:absolute;left:0;top:42%;transform:translateY(-50%);background:rgba(255,255,255,0.95);color:#333;border:none;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;z-index:10;">◀</button>';
@@ -323,10 +319,10 @@ if (!slug) {
             h += '<img src="' + data.payment.qrImage + '" style="width:180px;height:180px;object-fit:contain;border-radius:15px;margin-bottom:15px;">';
           }
           if (data.payment.paytm && data.payment.paytm.trim() !== '') {
-            h += '<div style="background:rgba(0,188,212,0.1);border-radius:12px;padding:15px;margin:8px 0;"><p style="font-weight:700;color:#00bcd4;margin:0;font-family:var(--font-body);">Paytm</p><p style="font-size:18px;font-weight:700;margin:5px 0;font-family:var(--font-body);color:var(--text);">' + data.payment.paytm + '</p></div>';
+            h += '<div style="background:rgba(0,188,212,0.1);border-radius:12px;padding:15px;margin:8px 0;"><p style="font-weight:700;color:#00bcd4;margin:0;">Paytm</p><p style="font-size:18px;font-weight:700;margin:5px 0;color:var(--text);">' + data.payment.paytm + '</p></div>';
           }
           if (data.payment.upi && data.payment.upi.trim() !== '') {
-            h += '<div style="background:rgba(25,118,210,0.1);border-radius:12px;padding:15px;margin:8px 0;"><p style="font-weight:700;color:#1976d2;margin:0;font-family:var(--font-body);">UPI</p><p style="font-size:18px;font-weight:700;margin:5px 0;font-family:var(--font-body);color:var(--text);">' + data.payment.upi + '</p></div>';
+            h += '<div style="background:rgba(25,118,210,0.1);border-radius:12px;padding:15px;margin:8px 0;"><p style="font-weight:700;color:#1976d2;margin:0;">UPI</p><p style="font-size:18px;font-weight:700;margin:5px 0;color:var(--text);">' + data.payment.upi + '</p></div>';
           }
           h += '</div>'; div.innerHTML = h;
         }
@@ -334,32 +330,32 @@ if (!slug) {
         // BANK
         else if (sec === 'bank' && data.bank) {
           let h = '<h3>🏦 Bank Details</h3><div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;">';
-          if (data.bank.accountNumber) h += '<p style="font-size:11px;color:var(--text-secondary);margin:0;font-family:var(--font-body);">Account Number</p><p style="font-size:16px;font-weight:700;margin:2px 0 12px;color:var(--text);font-family:var(--font-body);">' + data.bank.accountNumber + '</p>';
-          if (data.bank.ifsc) h += '<p style="font-size:11px;color:var(--text-secondary);margin:0;font-family:var(--font-body);">IFSC Code</p><p style="font-size:16px;font-weight:700;margin:2px 0 12px;color:var(--text);font-family:var(--font-body);">' + data.bank.ifsc + '</p>';
-          if (data.bank.bankName) h += '<p style="font-size:11px;color:var(--text-secondary);margin:0;font-family:var(--font-body);">Bank Name</p><p style="font-size:16px;font-weight:700;margin:2px 0 12px;color:var(--text);font-family:var(--font-body);">' + data.bank.bankName + '</p>';
-          if (data.bank.holderName) h += '<p style="font-size:11px;color:var(--text-secondary);margin:0;font-family:var(--font-body);">Account Holder</p><p style="font-size:16px;font-weight:700;margin:2px 0;color:var(--text);font-family:var(--font-body);">' + data.bank.holderName + '</p>';
+          if (data.bank.accountNumber) h += '<p style="font-size:11px;color:var(--text-secondary);margin:0;">Account Number</p><p style="font-size:16px;font-weight:700;margin:2px 0 12px;color:var(--text);">' + data.bank.accountNumber + '</p>';
+          if (data.bank.ifsc) h += '<p style="font-size:11px;color:var(--text-secondary);margin:0;">IFSC Code</p><p style="font-size:16px;font-weight:700;margin:2px 0 12px;color:var(--text);">' + data.bank.ifsc + '</p>';
+          if (data.bank.bankName) h += '<p style="font-size:11px;color:var(--text-secondary);margin:0;">Bank Name</p><p style="font-size:16px;font-weight:700;margin:2px 0 12px;color:var(--text);">' + data.bank.bankName + '</p>';
+          if (data.bank.holderName) h += '<p style="font-size:11px;color:var(--text-secondary);margin:0;">Account Holder</p><p style="font-size:16px;font-weight:700;margin:2px 0;color:var(--text);">' + data.bank.holderName + '</p>';
           h += '</div>'; div.innerHTML = h;
         }
 
         // FEEDBACK
         else if (sec === 'feedback') {
           let h = '<h3>⭐ Feedback</h3><div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;margin-bottom:15px;">';
-          h += '<div id="star-rating" style="text-align:center;margin-bottom:15px;"><p style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;font-family:var(--font-body);">Select Star</p>';
+          h += '<div id="star-rating" style="text-align:center;margin-bottom:15px;"><p style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">Select Star</p>';
           for (let s = 1; s <= 5; s++) h += '<span class="star" data-star="' + s + '" style="font-size:30px;cursor:pointer;color:#ccc;">★</span>';
           h += '<input type="hidden" id="feedback-star" value="0"></div>';
-          h += '<input type="text" id="feedback-name" placeholder="Your name" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;font-family:var(--font-body);background:var(--card-bg);color:var(--text);">';
-          h += '<input type="email" id="feedback-email" placeholder="Your email" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;font-family:var(--font-body);background:var(--card-bg);color:var(--text);">';
-          h += '<input type="tel" id="feedback-contact" placeholder="Your contact" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;font-family:var(--font-body);background:var(--card-bg);color:var(--text);">';
-          h += '<textarea id="feedback-msg" placeholder="Your feedback" rows="3" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;font-family:var(--font-body);background:var(--card-bg);color:var(--text);"></textarea>';
+          h += '<input type="text" id="feedback-name" placeholder="Your name" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--card-bg);color:var(--text);">';
+          h += '<input type="email" id="feedback-email" placeholder="Your email" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--card-bg);color:var(--text);">';
+          h += '<input type="tel" id="feedback-contact" placeholder="Your contact" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--card-bg);color:var(--text);">';
+          h += '<textarea id="feedback-msg" placeholder="Your feedback" rows="3" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--card-bg);color:var(--text);"></textarea>';
           h += '<button id="feedback-submit" style="width:100%;padding:14px;' + btnPrimary + 'border:none;cursor:pointer;font-size:15px;">Submit</button>';
-          h += '<p style="font-size:11px;color:var(--text-secondary);text-align:center;margin-top:10px;font-family:var(--font-body);">Note: We do not show your contact details.</p></div>';
-          h += '<h4 style="font-size:14px;font-weight:600;color:var(--primary);margin-bottom:10px;font-family:var(--font-heading);">📝 Latest Feedback</h4><div id="feedback-list" style="max-height:300px;overflow-y:auto;">';
+          h += '<p style="font-size:11px;color:var(--text-secondary);text-align:center;margin-top:10px;">Note: We do not show your contact details.</p></div>';
+          h += '<h4 style="font-size:14px;font-weight:600;color:var(--primary);margin-bottom:10px;">📝 Latest Feedback</h4><div id="feedback-list" style="max-height:300px;overflow-y:auto;">';
           if (data.feedbacks && data.feedbacks.length > 0) {
             for (let f = data.feedbacks.length - 1; f >= 0; f--) {
               const fb = data.feedbacks[f];
-              h += '<div style="background:var(--card-bg-secondary);border-radius:12px;padding:15px;margin-bottom:10px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-weight:600;font-family:var(--font-body);color:var(--text);">' + (fb.name || 'Anonymous') + '</span><span style="color:#f59e0b;">' + '★'.repeat(fb.stars || 5) + '</span></div><p style="font-size:13px;color:var(--text-secondary);font-family:var(--font-body);">' + (fb.message || '') + '</p><p style="font-size:10px;color:var(--text-secondary);font-family:var(--font-body);">Date: ' + (fb.date || '') + '</p></div>';
+              h += '<div style="background:var(--card-bg-secondary);border-radius:12px;padding:15px;margin-bottom:10px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-weight:600;color:var(--text);">' + (fb.name || 'Anonymous') + '</span><span style="color:#f59e0b;">' + '★'.repeat(fb.stars || 5) + '</span></div><p style="font-size:13px;color:var(--text-secondary);">' + (fb.message || '') + '</p><p style="font-size:10px;color:var(--text-secondary);">Date: ' + (fb.date || '') + '</p></div>';
             }
-          } else { h += '<p style="text-align:center;color:var(--text-secondary);font-family:var(--font-body);">No feedback yet.</p>'; }
+          } else { h += '<p style="text-align:center;color:var(--text-secondary);">No feedback yet.</p>'; }
           h += '</div>'; div.innerHTML = h;
           setTimeout(function() {
             const stars = document.querySelectorAll('.star');
@@ -390,16 +386,16 @@ if (!slug) {
           if (data.location.mapLink && data.location.mapLink.trim() !== '') {
             h += '<div style="border-radius:16px;overflow:hidden;margin-bottom:15px;background:#e2e8f0;height:200px;display:flex;align-items:center;justify-content:center;">';
             h += '<div style="text-align:center;"><span style="font-size:60px;">🗺️</span>';
-            h += '<p style="font-size:13px;color:#64748b;margin-top:8px;font-family:var(--font-body);">Tap below to view map</p></div></div>';
+            h += '<p style="font-size:13px;color:#64748b;margin-top:8px;">Tap below to view map</p></div></div>';
           }
           if (data.location.address && data.location.address.trim() !== '') {
-            h += '<p style="font-size:14px;color:var(--text);margin:10px 0;line-height:1.6;font-family:var(--font-body);">📍 ' + data.location.address + '</p>';
+            h += '<p style="font-size:14px;color:var(--text);margin:10px 0;line-height:1.6;">📍 ' + data.location.address + '</p>';
           }
           if (data.location.mapLink && data.location.mapLink.trim() !== '') {
             h += '<a href="' + data.location.mapLink + '" target="_blank" style="display:inline-block;margin:6px;padding:14px 28px;' + btnPrimary + 'text-decoration:none;font-size:15px;">🗺️ Open in Google Maps</a>';
           }
           if (data.location.address && data.location.address.trim() !== '') {
-            h += '<a href="https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(data.location.address) + '" target="_blank" style="display:inline-block;margin:6px;padding:14px 28px;' + btnGreen + 'text-decoration:none;font-size:15px;">🧭 Navigate</a>';
+            h += '<a href="https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(data.location.address) + '" target="_blank" style="display:inline-block;margin:6px;padding:14px 28px;' + btnWhatsappStyle + 'text-decoration:none;font-size:15px;">🧭 Navigate</a>';
           }
           h += '</div>';
           div.innerHTML = h;
@@ -408,8 +404,8 @@ if (!slug) {
         // CONTACT FORM
         else if (sec === 'contactform') {
           let h = '<h3>📩 Contact Us</h3><div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;">';
-          h += '<textarea id="enquiry-msg" placeholder="Enter your enquiry..." rows="3" style="width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;font-size:14px;margin-bottom:12px;font-family:var(--font-body);background:var(--card-bg);color:var(--text);"></textarea>';
-          h += '<button id="enquiry-send" style="width:100%;padding:14px;' + btnGreen + 'border:none;cursor:pointer;font-size:15px;">📤 Send via WhatsApp</button></div>';
+          h += '<textarea id="enquiry-msg" placeholder="Enter your enquiry..." rows="3" style="width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;font-size:14px;margin-bottom:12px;background:var(--card-bg);color:var(--text);"></textarea>';
+          h += '<button id="enquiry-send" style="width:100%;padding:14px;' + btnWhatsappStyle + 'border:none;cursor:pointer;font-size:15px;">📤 Send via WhatsApp</button></div>';
           div.innerHTML = h;
           setTimeout(function() {
             document.getElementById('enquiry-send').addEventListener('click', function() {
@@ -425,7 +421,6 @@ if (!slug) {
         container.appendChild(div);
       }
 
-      // Fade-in
       const sections = container.querySelectorAll('#sections-container > div');
       sections.forEach(function(sec) { sec.classList.add('fade-section'); });
       const observer = new IntersectionObserver(function(entries) {
@@ -433,7 +428,6 @@ if (!slug) {
       }, { threshold: 0.1 });
       sections.forEach(function(sec) { observer.observe(sec); });
 
-      // QR
       const qrImage = document.getElementById('qr-image');
       const qrBox = document.getElementById('qr-box');
       const cardUrlText = document.getElementById('card-url-text');
@@ -444,7 +438,6 @@ if (!slug) {
       const btnCopy = document.getElementById('btn-copy-url');
       if (btnCopy) btnCopy.addEventListener('click', function() { navigator.clipboard.writeText(currentUrl).then(function() { alert('✅ URL copied!'); }); });
 
-      // Share
       const btnShare = document.getElementById('btn-share');
       if (btnShare) btnShare.addEventListener('click', function() {
         const txt = data.name + ' - ' + (data.title || '');
@@ -452,11 +445,9 @@ if (!slug) {
         else navigator.clipboard.writeText(currentUrl).then(function() { alert('🔗 Link copied!'); });
       });
 
-      // PDF
       const btnPdf = document.getElementById('btn-pdf');
       if (btnPdf) btnPdf.addEventListener('click', function() { window.print(); });
 
-      // Save Contact
       const btnSave = document.getElementById('save-contact');
       if (btnSave) btnSave.addEventListener('click', function() {
         let vcf = 'BEGIN:VCARD\nVERSION:3.0\nFN:' + (data.name || '') + '\nTITLE:' + (data.title || '') + '\nTEL:' + (data.phone || '') + '\nEMAIL:' + (data.email || '') + '\nURL:' + (data.website || '') + '\nEND:VCARD';
