@@ -1,353 +1,394 @@
 /* ============================================
-   20 PREMIUM WORLD-CLASS THEMES
-   Apple-Level Design Quality
+   10 UNIQUE PREMIUM THEMES
+   Each with own Font, Button, Card, Animation
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&family=Raleway:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Raleway:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
 /* ============================================
-   THEME 1: DEFAULT - Midnight Blue (Apple Style)
+   1. MIDNIGHT - Apple Style
+   Font: Inter | Button: Pill 50px | Card: 20px | Anim: Smooth
    ============================================ */
-:root, body.default {
-  --bg: #000000;
+:root, body.default, body.midnight {
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-weight-heading: 700;
+  --font-weight-body: 400;
+  --letter-spacing: -0.3px;
   --bg-gradient: linear-gradient(180deg, #0a0a0f 0%, #0d0d1a 50%, #0a0a14 100%);
-  --glass-bg: rgba(255,255,255,0.03);
-  --glass-border: rgba(255,255,255,0.06);
-  --glass-shadow: 0 8px 40px rgba(0,0,0,0.6);
-  --card-bg: rgba(255,255,255,0.02);
-  --card-bg-secondary: rgba(255,255,255,0.04);
-  --card-border: rgba(255,255,255,0.04);
+  --card-bg: rgba(255,255,255,0.03);
+  --card-bg-secondary: rgba(255,255,255,0.05);
+  --card-border: rgba(255,255,255,0.06);
+  --card-radius: 20px;
+  --card-radius-sm: 14px;
+  --card-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  --card-shadow-sm: 0 4px 20px rgba(0,0,0,0.3);
+  --card-hover: translateY(-2px);
   --text: #f5f5f7;
-  --text-primary: #f5f5f7;
   --text-secondary: #86868b;
   --primary: #0071e3;
   --primary-hover: #0077ed;
   --accent: #ff375f;
   --accent-hover: #ff2d55;
-  --border: rgba(255,255,255,0.06);
-  --radius: 20px;
-  --radius-sm: 14px;
-  --shadow: 0 8px 40px rgba(0,0,0,0.5);
-  --shadow-sm: 0 4px 20px rgba(0,0,0,0.3);
-  --font-heading: 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --border: rgba(255,255,255,0.08);
   --btn-radius: 50px;
-  --transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --btn-padding: 13px 28px;
+  --btn-font-weight: 500;
+  --btn-transform: translateY(-1px);
+  --transition-speed: 0.3s;
+  --transition-style: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --profile-border: 2px solid rgba(255,255,255,0.1);
   --profile-glow: none;
-  --heading-glow: none;
-  --card-hover-scale: 1.01;
+  --section-glow: none;
 }
 
 /* ============================================
-   THEME 2: GRAPHITE - Dark Professional
+   2. GRAPHITE - Tech Style
+   Font: Space Grotesk | Button: Sharp 8px | Card: 12px | Anim: Fast
    ============================================ */
 body.graphite {
-  --bg: #1a1a1a;
-  --bg-gradient: linear-gradient(180deg, #1a1a1a 0%, #222222 50%, #1a1a1a 100%);
-  --glass-bg: rgba(255,255,255,0.04);
-  --glass-border: rgba(255,255,255,0.08);
-  --glass-shadow: 0 8px 40px rgba(0,0,0,0.5);
-  --card-bg: rgba(255,255,255,0.03);
-  --card-bg-secondary: rgba(255,255,255,0.05);
-  --card-border: rgba(255,255,255,0.05);
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Space Grotesk', sans-serif;
+  --font-weight-heading: 600;
+  --font-weight-body: 400;
+  --letter-spacing: 0px;
+  --bg-gradient: linear-gradient(180deg, #1a1a1a 0%, #222 50%, #1a1a1a 100%);
+  --card-bg: rgba(255,255,255,0.04);
+  --card-bg-secondary: rgba(255,255,255,0.06);
+  --card-border: rgba(255,255,255,0.06);
+  --card-radius: 12px;
+  --card-radius-sm: 8px;
+  --card-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  --card-shadow-sm: 0 2px 10px rgba(0,0,0,0.2);
+  --card-hover: none;
   --text: #e8e8ed;
-  --text-primary: #e8e8ed;
   --text-secondary: #98989d;
   --primary: #636366;
   --primary-hover: #7c7c80;
   --accent: #ff9f0a;
   --accent-hover: #ffb340;
-  --border: rgba(255,255,255,0.06);
-  --radius: 16px;
-  --radius-sm: 12px;
-  --shadow: 0 8px 40px rgba(0,0,0,0.4);
-  --shadow-sm: 0 4px 20px rgba(0,0,0,0.2);
-  --font-heading: 'SF Pro Display', 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --btn-radius: 14px;
-  --transition: all 0.25s ease;
+  --border: rgba(255,255,255,0.08);
+  --btn-radius: 8px;
+  --btn-padding: 11px 24px;
+  --btn-font-weight: 500;
+  --btn-transform: none;
+  --transition-speed: 0.2s;
+  --transition-style: ease;
+  --profile-border: 3px solid #636366;
   --profile-glow: none;
-  --heading-glow: none;
-  --card-hover-scale: 1.0;
+  --section-glow: none;
 }
 
 /* ============================================
-   THEME 3: PORCELAIN - Apple White
+   3. PORCELAIN - Luxury White
+   Font: Inter | Button: Pill 50px | Card: 24px | Anim: Smooth
    ============================================ */
 body.porcelain {
-  --bg: #f5f5f7;
-  --bg-gradient: linear-gradient(180deg, #f5f5f7 0%, #ffffff 50%, #f5f5f7 100%);
-  --glass-bg: rgba(255,255,255,0.9);
-  --glass-border: rgba(0,0,0,0.06);
-  --glass-shadow: 0 8px 40px rgba(0,0,0,0.06);
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-weight-heading: 700;
+  --font-weight-body: 400;
+  --letter-spacing: -0.3px;
+  --bg-gradient: linear-gradient(180deg, #f5f5f7 0%, #fff 50%, #f5f5f7 100%);
   --card-bg: #ffffff;
   --card-bg-secondary: #f9f9fb;
   --card-border: rgba(0,0,0,0.04);
+  --card-radius: 24px;
+  --card-radius-sm: 16px;
+  --card-shadow: 0 8px 40px rgba(0,0,0,0.06);
+  --card-shadow-sm: 0 4px 20px rgba(0,0,0,0.03);
+  --card-hover: translateY(-3px);
   --text: #1d1d1f;
-  --text-primary: #1d1d1f;
   --text-secondary: #6e6e73;
   --primary: #0071e3;
   --primary-hover: #0077ed;
   --accent: #ff375f;
   --accent-hover: #ff2d55;
   --border: rgba(0,0,0,0.06);
-  --radius: 20px;
-  --radius-sm: 14px;
-  --shadow: 0 4px 24px rgba(0,0,0,0.06);
-  --shadow-sm: 0 2px 12px rgba(0,0,0,0.03);
-  --font-heading: 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
   --btn-radius: 50px;
-  --transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --btn-padding: 13px 28px;
+  --btn-font-weight: 500;
+  --btn-transform: translateY(-1px);
+  --transition-speed: 0.3s;
+  --transition-style: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --profile-border: 2px solid rgba(0,0,0,0.08);
   --profile-glow: none;
-  --heading-glow: none;
-  --card-hover-scale: 1.01;
+  --section-glow: none;
 }
 
 /* ============================================
-   THEME 4: OBSIDIAN - Deep Black
+   4. OBSIDIAN - Ultra Minimal
+   Font: DM Sans | Button: Sharp 0px | Card: 0px | Anim: Instant
    ============================================ */
 body.obsidian {
-  --bg: #000000;
+  --font-heading: 'DM Sans', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-weight-heading: 700;
+  --font-weight-body: 400;
+  --letter-spacing: 0px;
   --bg-gradient: none;
-  --glass-bg: #0a0a0a;
-  --glass-border: rgba(255,255,255,0.04);
-  --glass-shadow: 0 8px 40px rgba(0,0,0,0.8);
   --card-bg: #0d0d0d;
-  --card-bg-secondary: #111111;
-  --card-border: rgba(255,255,255,0.03);
+  --card-bg-secondary: #111;
+  --card-border: rgba(255,255,255,0.04);
+  --card-radius: 0px;
+  --card-radius-sm: 0px;
+  --card-shadow: 0 2px 10px rgba(0,0,0,0.8);
+  --card-shadow-sm: 0 1px 5px rgba(0,0,0,0.5);
+  --card-hover: none;
   --text: #fafafa;
-  --text-primary: #fafafa;
   --text-secondary: #737373;
   --primary: #fafafa;
   --primary-hover: #e5e5e5;
   --accent: #ff4500;
   --accent-hover: #ff5722;
-  --border: rgba(255,255,255,0.04);
-  --radius: 0px;
-  --radius-sm: 0px;
-  --shadow: 0 8px 40px rgba(0,0,0,0.9);
-  --shadow-sm: 0 4px 20px rgba(0,0,0,0.6);
-  --font-heading: 'Space Grotesk', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
+  --border: rgba(255,255,255,0.06);
   --btn-radius: 0px;
-  --transition: all 0.2s ease;
+  --btn-padding: 10px 22px;
+  --btn-font-weight: 500;
+  --btn-transform: none;
+  --transition-speed: 0.1s;
+  --transition-style: ease;
+  --profile-border: 2px solid #fafafa;
   --profile-glow: none;
-  --heading-glow: none;
-  --card-hover-scale: 1.0;
+  --section-glow: none;
 }
 
 /* ============================================
-   THEME 5: LINEN - Warm Minimal
+   5. LINEN - Elegant Warm
+   Font: Cormorant (Heading) + Inter (Body) | Button: Soft 4px | Card: 12px | Anim: Slow
    ============================================ */
 body.linen {
-  --bg: #faf9f6;
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', sans-serif;
+  --font-weight-heading: 600;
+  --font-weight-body: 400;
+  --letter-spacing: 0.5px;
   --bg-gradient: linear-gradient(180deg, #faf9f6 0%, #f5f0eb 50%, #faf9f6 100%);
-  --glass-bg: rgba(255,255,255,0.8);
-  --glass-border: rgba(0,0,0,0.05);
-  --glass-shadow: 0 8px 40px rgba(0,0,0,0.04);
   --card-bg: #ffffff;
   --card-bg-secondary: #faf8f5;
   --card-border: rgba(0,0,0,0.04);
+  --card-radius: 12px;
+  --card-radius-sm: 8px;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  --card-shadow-sm: 0 2px 12px rgba(0,0,0,0.02);
+  --card-hover: none;
   --text: #2c2420;
-  --text-primary: #2c2420;
   --text-secondary: #8c7a6e;
   --primary: #8c6d5a;
   --primary-hover: #6b5243;
   --accent: #c4956a;
   --accent-hover: #a67c52;
-  --border: rgba(0,0,0,0.04);
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow: 0 4px 20px rgba(0,0,0,0.04);
-  --shadow-sm: 0 2px 10px rgba(0,0,0,0.02);
-  --font-heading: 'Cormorant Garamond', serif;
-  --font-body: 'Inter', sans-serif;
+  --border: rgba(0,0,0,0.06);
   --btn-radius: 4px;
-  --transition: all 0.3s ease;
+  --btn-padding: 11px 24px;
+  --btn-font-weight: 400;
+  --btn-transform: none;
+  --transition-speed: 0.4s;
+  --transition-style: ease;
+  --profile-border: 4px solid #8c6d5a;
   --profile-glow: none;
-  --heading-glow: none;
-  --card-hover-scale: 1.0;
+  --section-glow: none;
 }
 
 /* ============================================
-   THEME 6: OCEAN - Deep Blue Gradient
+   6. OCEAN - Creative Float
+   Font: Raleway | Button: Round 30px | Card: 24px Glass | Anim: Float
    ============================================ */
 body.ocean {
-  --bg: #0a1628;
+  --font-heading: 'Raleway', sans-serif;
+  --font-body: 'Raleway', sans-serif;
+  --font-weight-heading: 600;
+  --font-weight-body: 400;
+  --letter-spacing: 0.5px;
   --bg-gradient: linear-gradient(180deg, #0a1628 0%, #0d2847 40%, #0a3366 100%);
-  --glass-bg: rgba(255,255,255,0.04);
-  --glass-border: rgba(64,156,255,0.15);
-  --glass-shadow: 0 8px 40px rgba(0,64,128,0.3);
-  --card-bg: rgba(255,255,255,0.03);
-  --card-bg-secondary: rgba(255,255,255,0.05);
-  --card-border: rgba(64,156,255,0.1);
+  --card-bg: rgba(255,255,255,0.04);
+  --card-bg-secondary: rgba(255,255,255,0.06);
+  --card-border: rgba(64,156,255,0.15);
+  --card-radius: 24px;
+  --card-radius-sm: 16px;
+  --card-shadow: 0 8px 40px rgba(0,64,128,0.4);
+  --card-shadow-sm: 0 4px 20px rgba(0,64,128,0.2);
+  --card-hover: translateY(-4px);
   --text: #dceeff;
-  --text-primary: #dceeff;
   --text-secondary: #7eb8da;
   --primary: #409cff;
   --primary-hover: #5aafff;
   --accent: #ff6b6b;
   --accent-hover: #ff5252;
-  --border: rgba(64,156,255,0.1);
-  --radius: 24px;
-  --radius-sm: 16px;
-  --shadow: 0 8px 40px rgba(0,64,128,0.4);
-  --shadow-sm: 0 4px 20px rgba(0,64,128,0.2);
-  --font-heading: 'Raleway', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
+  --border: rgba(64,156,255,0.12);
   --btn-radius: 30px;
-  --transition: all 0.35s ease;
+  --btn-padding: 13px 30px;
+  --btn-font-weight: 500;
+  --btn-transform: translateY(-2px);
+  --transition-speed: 0.35s;
+  --transition-style: ease;
+  --profile-border: 2px solid #409cff;
   --profile-glow: 0 0 30px rgba(64,156,255,0.4);
-  --heading-glow: 0 0 15px rgba(64,156,255,0.3);
-  --card-hover-scale: 1.02;
+  --section-glow: 0 0 15px rgba(64,156,255,0.2);
 }
 
 /* ============================================
-   THEME 7: SUNSET - Warm Gradient
+   7. SUNSET - Bold Vibrant
+   Font: Plus Jakarta | Button: Pill 50px | Card: 24px | Anim: Bouncy
    ============================================ */
 body.sunset {
-  --bg: #1a0a0a;
+  --font-heading: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-weight-heading: 700;
+  --font-weight-body: 500;
+  --letter-spacing: -0.2px;
   --bg-gradient: linear-gradient(180deg, #ff416c 0%, #ff4b2b 50%, #ff8c42 100%);
-  --glass-bg: rgba(255,255,255,0.08);
-  --glass-border: rgba(255,255,255,0.15);
-  --glass-shadow: 0 8px 40px rgba(255,65,108,0.3);
-  --card-bg: rgba(255,255,255,0.06);
-  --card-bg-secondary: rgba(255,255,255,0.08);
-  --card-border: rgba(255,255,255,0.1);
+  --card-bg: rgba(255,255,255,0.08);
+  --card-bg-secondary: rgba(255,255,255,0.1);
+  --card-border: rgba(255,255,255,0.15);
+  --card-radius: 24px;
+  --card-radius-sm: 16px;
+  --card-shadow: 0 8px 40px rgba(255,65,108,0.5);
+  --card-shadow-sm: 0 4px 20px rgba(255,65,108,0.3);
+  --card-hover: translateY(-4px);
   --text: #ffffff;
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255,255,255,0.7);
+  --text-secondary: rgba(255,255,255,0.75);
   --primary: #ffd700;
   --primary-hover: #ffc107;
   --accent: #ffffff;
   --accent-hover: #e0e0e0;
-  --border: rgba(255,255,255,0.1);
-  --radius: 24px;
-  --radius-sm: 16px;
-  --shadow: 0 8px 40px rgba(255,65,108,0.5);
-  --shadow-sm: 0 4px 20px rgba(255,65,108,0.3);
-  --font-heading: 'Plus Jakarta Sans', sans-serif;
-  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --border: rgba(255,255,255,0.12);
   --btn-radius: 50px;
-  --transition: all 0.3s ease;
+  --btn-padding: 14px 32px;
+  --btn-font-weight: 600;
+  --btn-transform: translateY(-2px);
+  --transition-speed: 0.35s;
+  --transition-style: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  --profile-border: 3px solid #ffd700;
   --profile-glow: 0 0 30px rgba(255,215,0,0.5);
-  --heading-glow: 0 0 10px rgba(255,215,0,0.3);
-  --card-hover-scale: 1.02;
+  --section-glow: 0 0 10px rgba(255,215,0,0.3);
 }
 
 /* ============================================
-   THEME 8: FOREST - Nature Green Dark
+   8. FOREST - Natural Earth
+   Font: Playfair (Heading) + Inter (Body) | Button: Sharp 8px | Card: 16px | Anim: Slow
    ============================================ */
 body.forest {
-  --bg: #0a1a0a;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+  --font-weight-heading: 700;
+  --font-weight-body: 400;
+  --letter-spacing: 0px;
   --bg-gradient: linear-gradient(180deg, #0a1a0a 0%, #0d2818 50%, #0a1f0d 100%);
-  --glass-bg: rgba(255,255,255,0.03);
-  --glass-border: rgba(34,197,94,0.12);
-  --glass-shadow: 0 8px 40px rgba(0,0,0,0.5);
-  --card-bg: rgba(255,255,255,0.02);
-  --card-bg-secondary: rgba(255,255,255,0.04);
-  --card-border: rgba(34,197,94,0.08);
+  --card-bg: rgba(255,255,255,0.03);
+  --card-bg-secondary: rgba(255,255,255,0.05);
+  --card-border: rgba(34,197,94,0.1);
+  --card-radius: 16px;
+  --card-radius-sm: 10px;
+  --card-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  --card-shadow-sm: 0 4px 20px rgba(0,0,0,0.3);
+  --card-hover: none;
   --text: #d1fae5;
-  --text-primary: #d1fae5;
   --text-secondary: #6ee7b7;
   --primary: #4ade80;
   --primary-hover: #22c55e;
   --accent: #fbbf24;
   --accent-hover: #f59e0b;
   --border: rgba(34,197,94,0.08);
-  --radius: 16px;
-  --radius-sm: 10px;
-  --shadow: 0 8px 40px rgba(0,0,0,0.6);
-  --shadow-sm: 0 4px 20px rgba(0,0,0,0.3);
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Inter', sans-serif;
   --btn-radius: 8px;
-  --transition: all 0.25s ease;
+  --btn-padding: 11px 24px;
+  --btn-font-weight: 500;
+  --btn-transform: none;
+  --transition-speed: 0.35s;
+  --transition-style: ease;
+  --profile-border: 2px solid #4ade80;
   --profile-glow: 0 0 25px rgba(74,222,128,0.4);
-  --heading-glow: 0 0 10px rgba(74,222,128,0.2);
-  --card-hover-scale: 1.01;
+  --section-glow: 0 0 10px rgba(74,222,128,0.2);
 }
 
 /* ============================================
-   THEME 9: AURORA - Purple Green Gradient
+   9. AURORA - Magical Glow
+   Font: Raleway | Button: Soft 20px | Card: 20px Glow | Anim: Glow
    ============================================ */
 body.aurora {
-  --bg: #0a0a1a;
+  --font-heading: 'Raleway', sans-serif;
+  --font-body: 'Raleway', sans-serif;
+  --font-weight-heading: 600;
+  --font-weight-body: 400;
+  --letter-spacing: 1px;
   --bg-gradient: linear-gradient(180deg, #1a0a2e 0%, #0d2847 40%, #0a3d2e 100%);
-  --glass-bg: rgba(255,255,255,0.04);
-  --glass-border: rgba(139,92,246,0.2);
-  --glass-shadow: 0 8px 40px rgba(139,92,246,0.2);
-  --card-bg: rgba(255,255,255,0.03);
-  --card-bg-secondary: rgba(255,255,255,0.05);
-  --card-border: rgba(139,92,246,0.12);
+  --card-bg: rgba(255,255,255,0.04);
+  --card-bg-secondary: rgba(255,255,255,0.06);
+  --card-border: rgba(139,92,246,0.2);
+  --card-radius: 20px;
+  --card-radius-sm: 12px;
+  --card-shadow: 0 8px 40px rgba(139,92,246,0.3);
+  --card-shadow-sm: 0 4px 20px rgba(139,92,246,0.15);
+  --card-hover: translateY(-3px);
   --text: #e8daef;
-  --text-primary: #e8daef;
   --text-secondary: #b39ddb;
   --primary: #a78bfa;
   --primary-hover: #8b5cf6;
   --accent: #34d399;
   --accent-hover: #10b981;
-  --border: rgba(139,92,246,0.1);
-  --radius: 20px;
-  --radius-sm: 12px;
-  --shadow: 0 8px 40px rgba(139,92,246,0.3);
-  --shadow-sm: 0 4px 20px rgba(139,92,246,0.15);
-  --font-heading: 'Raleway', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --border: rgba(139,92,246,0.12);
   --btn-radius: 20px;
-  --transition: all 0.3s ease;
-  --profile-glow: 0 0 30px rgba(167,139,250,0.5);
-  --heading-glow: 0 0 15px rgba(167,139,250,0.3);
-  --card-hover-scale: 1.02;
+  --btn-padding: 12px 26px;
+  --btn-font-weight: 500;
+  --btn-transform: translateY(-2px);
+  --transition-speed: 0.4s;
+  --transition-style: ease;
+  --profile-border: 2px solid #a78bfa;
+  --profile-glow: 0 0 35px rgba(167,139,250,0.5);
+  --section-glow: 0 0 20px rgba(167,139,250,0.3);
 }
 
 /* ============================================
-   THEME 10: MONO - Pure Minimal
+   10. MONO - Pure Nothing
+   Font: Inter | Button: Sharp 0px | Card: 0px | Anim: None
    ============================================ */
 body.mono {
-  --bg: #ffffff;
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-weight-heading: 700;
+  --font-weight-body: 400;
+  --letter-spacing: 0px;
   --bg-gradient: none;
-  --glass-bg: #ffffff;
-  --glass-border: rgba(0,0,0,0.08);
-  --glass-shadow: 0 2px 16px rgba(0,0,0,0.04);
   --card-bg: #ffffff;
   --card-bg-secondary: #fafafa;
-  --card-border: rgba(0,0,0,0.04);
+  --card-border: rgba(0,0,0,0.06);
+  --card-radius: 0px;
+  --card-radius-sm: 0px;
+  --card-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  --card-shadow-sm: 0 1px 2px rgba(0,0,0,0.02);
+  --card-hover: none;
   --text: #000000;
-  --text-primary: #000000;
   --text-secondary: #666666;
   --primary: #000000;
   --primary-hover: #333333;
   --accent: #666666;
   --accent-hover: #444444;
-  --border: rgba(0,0,0,0.06);
-  --radius: 0px;
-  --radius-sm: 0px;
-  --shadow: 0 1px 4px rgba(0,0,0,0.04);
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.02);
-  --font-heading: 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --border: rgba(0,0,0,0.08);
   --btn-radius: 0px;
-  --transition: all 0.15s ease;
+  --btn-padding: 10px 22px;
+  --btn-font-weight: 500;
+  --btn-transform: none;
+  --transition-speed: 0.1s;
+  --transition-style: ease;
+  --profile-border: 1px solid #000;
   --profile-glow: none;
-  --heading-glow: none;
-  --card-hover-scale: 1.0;
+  --section-glow: none;
 }
 
 /* ============================================
-   COMMON STYLES - All Themes
+   GLOBAL STYLES (Uses Theme Variables)
    ============================================ */
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: var(--font-body);
-  background: var(--bg);
-  background-image: var(--bg-gradient);
+  font-weight: var(--font-weight-body);
+  letter-spacing: var(--letter-spacing);
+  background: var(--bg-gradient);
   background-attachment: fixed;
   min-height: 100vh;
   color: var(--text);
-  transition: var(--transition);
+  transition: all var(--transition-speed) var(--transition-style);
   padding: 20px 10px;
   -webkit-tap-highlight-color: transparent;
 }
@@ -359,14 +400,14 @@ body {
 #card-container {
   max-width: 480px;
   margin: 0 auto;
-  background: var(--glass-bg);
+  background: var(--card-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
-  box-shadow: var(--glass-shadow);
+  border: 1px solid var(--card-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
   overflow: hidden;
-  transition: var(--transition);
+  transition: all var(--transition-speed) var(--transition-style);
   padding: 20px;
 }
 
@@ -374,64 +415,91 @@ body {
 
 #profile-img {
   width: 130px; height: 130px; border-radius: 50%;
-  object-fit: cover; border: 2px solid var(--border);
-  box-shadow: var(--profile-glow); margin: 10px auto 15px;
-  display: block; position: relative; z-index: 2;
+  object-fit: cover; border: var(--profile-border);
+  box-shadow: var(--profile-glow);
+  margin: 10px auto 15px; display: block; position: relative; z-index: 2;
+  transition: all var(--transition-speed) var(--transition-style);
 }
 
 h1 {
-  font-family: var(--font-heading); font-size: 26px; font-weight: 700;
-  color: var(--text); text-align: center; margin: 0 20px 5px;
-  letter-spacing: -0.3px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-heading);
+  font-size: 26px; color: var(--text);
+  text-align: center; margin: 0 20px 5px;
+  letter-spacing: var(--letter-spacing);
 }
 
-#title { text-align: center; color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; font-weight: 400; }
+#title {
+  text-align: center; color: var(--text-secondary);
+  font-size: 14px; margin-bottom: 20px; font-weight: 400;
+}
 
 #sections-container > div {
-  background: var(--card-bg);
+  background: var(--card-bg-secondary);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--card-border); border-radius: var(--radius-sm);
+  border: 1px solid var(--card-border);
+  border-radius: var(--card-radius-sm);
   padding: 20px; margin-bottom: 15px;
-  box-shadow: var(--shadow-sm); transition: var(--transition);
+  box-shadow: var(--card-shadow-sm);
+  transition: all var(--transition-speed) var(--transition-style);
 }
-#sections-container > div:hover { transform: scale(var(--card-hover-scale)); box-shadow: var(--shadow); }
+#sections-container > div:hover {
+  transform: var(--card-hover);
+  box-shadow: var(--card-shadow);
+}
 
 #sections-container h3 {
-  font-family: var(--font-heading); font-size: 14px; font-weight: 600;
-  color: var(--text-secondary); margin-bottom: 15px; padding-bottom: 8px;
-  border-bottom: 1px solid var(--border); text-transform: uppercase;
-  letter-spacing: 1.5px; text-shadow: var(--heading-glow);
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-heading);
+  font-size: 14px; color: var(--text-secondary);
+  margin-bottom: 15px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  text-transform: uppercase; letter-spacing: 1.5px;
+  text-shadow: var(--section-glow);
 }
 
 button, .btn, a.btn {
-  display: inline-block; padding: 12px 28px; border-radius: var(--btn-radius);
-  font-family: var(--font-body); font-size: 14px; font-weight: 500;
-  cursor: pointer; border: none; transition: var(--transition);
-  text-decoration: none; text-align: center; letter-spacing: -0.2px;
+  display: inline-block;
+  padding: var(--btn-padding);
+  border-radius: var(--btn-radius);
+  font-family: var(--font-body);
+  font-weight: var(--btn-font-weight);
+  font-size: 14px; cursor: pointer; border: none;
+  transition: all var(--transition-speed) var(--transition-style);
+  text-decoration: none; text-align: center;
+  letter-spacing: var(--letter-spacing);
+}
+button:hover, .btn:hover, a.btn:hover {
+  transform: var(--btn-transform);
 }
 
 #save-contact {
   display: block; width: calc(100% - 40px); margin: 20px auto;
   padding: 14px; background: var(--primary); color: #fff;
-  border: none; border-radius: var(--btn-radius); font-size: 16px;
-  font-weight: 500; cursor: pointer; transition: var(--transition);
+  border: none; border-radius: var(--btn-radius);
+  font-family: var(--font-body); font-weight: 500;
+  font-size: 16px; cursor: pointer;
+  transition: all var(--transition-speed) var(--transition-style);
 }
-#save-contact:hover { opacity: 0.9; transform: translateY(-1px); }
+#save-contact:hover { opacity: 0.9; transform: var(--btn-transform); }
 
 #action-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 0 0 15px; }
 #action-buttons a {
-  flex: 1; min-width: 80px; padding: 12px 8px; border-radius: 50px;
-  font-weight: 500; font-size: 13px; text-align: center; text-decoration: none;
-  color: #fff; transition: var(--transition);
+  flex: 1; min-width: 80px; padding: 12px 8px;
+  border-radius: var(--btn-radius);
+  font-family: var(--font-body); font-weight: 500;
+  font-size: 13px; text-align: center; text-decoration: none;
+  color: #fff; transition: all var(--transition-speed) var(--transition-style);
 }
-#action-buttons a:hover { transform: translateY(-2px); opacity: 0.9; }
+#action-buttons a:hover { transform: var(--btn-transform); opacity: 0.9; }
 
 .social-icons { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; padding: 10px 0; }
 .social-icons a {
   display: inline-flex; align-items: center; justify-content: center;
   width: 40px; height: 40px; border-radius: 50%;
-  text-decoration: none; font-size: 18px; transition: all 0.3s ease;
-  flex-shrink: 0; background: var(--card-bg-secondary); color: var(--text-secondary);
+  text-decoration: none; font-size: 18px;
+  transition: all var(--transition-speed) var(--transition-style);
+  flex-shrink: 0; background: var(--card-bg); color: var(--text-secondary);
 }
 .social-icons a:hover { transform: translateY(-3px); color: #fff; }
 .social-icons a.fa-whatsapp:hover { background: #25D366; }
@@ -444,8 +512,9 @@ button, .btn, a.btn {
 
 #loader { text-align: center; padding: 60px 20px; font-size: 15px; color: var(--text-secondary); font-weight: 400; }
 #error {
-  color: var(--accent); background: var(--card-bg); border-radius: var(--radius);
-  max-width: 400px; margin: 40px auto; text-align: center; padding: 40px 20px; font-weight: 500;
+  color: var(--accent); background: var(--card-bg);
+  border-radius: var(--card-radius); max-width: 400px;
+  margin: 40px auto; text-align: center; padding: 40px 20px; font-weight: 500;
 }
 
 .fade-section { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
@@ -458,16 +527,9 @@ button, .btn, a.btn {
 }
 @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
 
-/* Profile Styles */
 .profile-circle, #profile-img { border-radius: 50%; }
 .profile-rounded { border-radius: 20px; }
 .profile-soft { border-radius: 40% 60% 50% 50% / 50% 40% 60% 50%; }
 .profile-leaf { border-radius: 50% 10% 50% 10% / 10% 50% 10% 50%; }
 .profile-hexagon { clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); border-radius: 0; }
 .profile-diamond { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); border-radius: 0; }
-
-/* Skeleton Loader */
-@keyframes shimmer {
-  0% { background-position: -200px 0; }
-  100% { background-position: 200px 0; }
-}
