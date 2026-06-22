@@ -17,115 +17,124 @@
     <h2>✏️ अपना कार्ड एडिट करें</h2>
     <form id="edit-form">
 
+      <!-- BASIC INFO -->
+      <h3 style="color:#1a73e8;border-bottom:2px solid #1a73e8;padding-bottom:8px;">👤 बेसिक जानकारी</h3>
       <label>नाम:</label><input type="text" id="e-name" required>
       <label>पद / टाइटल:</label><input type="text" id="e-title">
       <label>फ़ोन:</label><input type="tel" id="e-phone">
       <label>ईमेल:</label><input type="email" id="e-email">
       <label>वेबसाइट:</label><input type="url" id="e-website">
 
+      <!-- ABOUT -->
+      <h3 style="color:#10b981;border-bottom:2px solid #10b981;padding-bottom:8px;">📝 About Us</h3>
       <label>अबाउट (About):</label><textarea id="e-about" rows="3"></textarea>
       <label>About इमेज:</label>
-      <input type="file" id="e-about-img-file" accept="image/*" style="padding: 8px; width: 100%;">
-      <p style="font-size: 12px; color: #64748b; margin: 4px 0;">— या —</p>
+      <input type="file" id="e-about-img-file" accept="image/*" style="padding:8px;width:100%;">
+      <p style="font-size:12px;color:#64748b;margin:4px 0;">— या —</p>
       <input type="url" id="e-about-img" placeholder="या About इमेज URL डालें...">
-      <img id="e-about-img-preview" src="" style="max-width: 100px; max-height: 100px; display: none; margin-top: 8px; border-radius: 10px;">
+      <img id="e-about-img-preview" src="" style="max-width:100px;max-height:100px;display:none;margin-top:8px;border-radius:10px;">
+      <label>About PDF लिंक:</label><input type="url" id="e-about-pdf" placeholder="https://... (PDF URL)">
 
-      <label>About PDF लिंक (वैकल्पिक):</label><input type="url" id="e-about-pdf" placeholder="https://... (PDF URL)">
-
-      <label>प्रोफ़ाइल इमेज:</label>
-      <input type="file" id="e-img-file" accept="image/*" style="padding: 8px; width: 100%;">
-      <p style="font-size: 12px; color: #64748b; margin: 4px 0;">— या —</p>
+      <!-- PROFILE IMAGE -->
+      <h3 style="color:#f59e0b;border-bottom:2px solid #f59e0b;padding-bottom:8px;">🖼️ प्रोफ़ाइल इमेज</h3>
+      <input type="file" id="e-img-file" accept="image/*" style="padding:8px;width:100%;">
+      <p style="font-size:12px;color:#64748b;margin:4px 0;">— या —</p>
       <input type="url" id="e-img" placeholder="या इमेज URL डालें...">
-      <img id="e-img-preview" src="" style="max-width: 120px; max-height: 120px; display: none; margin-top: 8px; border-radius: 50%; object-fit: cover;">
+      <img id="e-img-preview" src="" style="max-width:120px;max-height:120px;display:none;margin-top:8px;border-radius:50%;object-fit:cover;">
 
-      <label>QR कोड इमेज:</label>
-      <input type="file" id="e-qr-file" accept="image/*" style="padding: 8px; width: 100%;">
-      <p style="font-size: 12px; color: #64748b; margin: 4px 0;">— या —</p>
-      <input type="url" id="e-qr" placeholder="या QR इमेज URL डालें (खाली छोड़ें तो ऑटो जनरेट होगा)...">
-      <img id="e-qr-preview" src="" style="max-width: 100px; max-height: 100px; display: none; margin-top: 8px; border-radius: 10px;">
+      <!-- QR CODE -->
+      <h3 style="color:#6366f1;border-bottom:2px solid #6366f1;padding-bottom:8px;">📱 QR कोड इमेज</h3>
+      <input type="file" id="e-qr-file" accept="image/*" style="padding:8px;width:100%;">
+      <p style="font-size:12px;color:#64748b;margin:4px 0;">— या —</p>
+      <input type="url" id="e-qr" placeholder="QR इमेज URL (खाली = ऑटो जनरेट)">
+      <img id="e-qr-preview" src="" style="max-width:100px;max-height:100px;display:none;margin-top:8px;border-radius:10px;">
 
-      <h3>सोशल लिंक्स</h3>
+      <!-- SOCIAL -->
+      <h3 style="color:#ec4899;border-bottom:2px solid #ec4899;padding-bottom:8px;">🌐 सोशल लिंक्स</h3>
       <div id="social-links"></div>
-      <button type="button" id="add-social">+ सोशल लिंक जोड़ें</button>
+      <button type="button" id="add-social" style="background:#ec4899;color:#fff;border:none;padding:10px 20px;border-radius:20px;cursor:pointer;font-weight:600;">+ सोशल लिंक जोड़ें</button>
 
-      <h3>थीम चुनें</h3>
+      <!-- THEME -->
+      <h3 style="color:#8b5cf6;border-bottom:2px solid #8b5cf6;padding-bottom:8px;">🎨 थीम चुनें</h3>
       <select id="e-theme">
-        <option value="default">डिफ़ॉल्ट (नीला)</option>
-        <option value="healthcare">हेल्थकेयर (हरा)</option>
-        <option value="saloon">सैलून (गुलाबी)</option>
-        <option value="tech">टेक (बैंगनी)</option>
-        <option value="dark">डार्क प्रीमियम</option>
-        <option value="restaurant">रेस्टोरेंट (नारंगी)</option>
-        <option value="realestate">रियल एस्टेट</option>
-        <option value="education">एजुकेशन</option>
-        <option value="wedding">वेडिंग</option>
+        <option value="default">🌌 डिफ़ॉल्ट (Neon Blue)</option>
+        <option value="healthcare">💚 हेल्थकेयर (हरा)</option>
+        <option value="saloon">💗 सैलून (गुलाबी)</option>
+        <option value="tech">💜 टेक (बैंगनी)</option>
+        <option value="dark">🖤 डार्क प्रीमियम</option>
+        <option value="restaurant">🧡 रेस्टोरेंट (नारंगी)</option>
+        <option value="realestate">💚 रियल एस्टेट</option>
+        <option value="education">💙 एजुकेशन</option>
+        <option value="wedding">💝 वेडिंग</option>
       </select>
 
-      <h3>सेक्शन का क्रम (Drag करके बदलें)</h3>
-      <ul id="section-order">
-        <li data-section="about">About</li>
-        <li data-section="contact">Contact</li>
-        <li data-section="social">Social Links</li>
-        <li data-section="products">Online Shop</li>
-        <li data-section="services">Products & Services</li>
-        <li data-section="gallery">Gallery</li>
-        <li data-section="youtube">YouTube Videos</li>
-        <li data-section="reels">Reels (Insta/FB)</li>
-        <li data-section="payment">Payment Info</li>
-        <li data-section="bank">Bank Details</li>
-        <li data-section="feedback">Feedback</li>
-        <li data-section="location">Location</li>
-        <li data-section="contactform">Contact Form</li>
+      <!-- SECTION ORDER -->
+      <h3 style="color:#ef4444;border-bottom:2px solid #ef4444;padding-bottom:8px;">📋 सेक्शन का क्रम (Drag करें)</h3>
+      <ul id="section-order" style="list-style:none;padding:0;">
+        <li data-section="about" style="padding:12px 16px;margin:6px 0;background:#eff6ff;border:2px solid #3b82f6;border-radius:10px;cursor:move;font-weight:500;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">👤</span> About Us</li>
+        <li data-section="contact" style="padding:12px 16px;margin:6px 0;background:#f0fdf4;border:2px solid #22c55e;border-radius:10px;cursor:move;font-weight:500;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">📞</span> Contact</li>
+        <li data-section="social" style="padding:12px 16px;margin:6px 0;background:#fef3c7;border:2px solid #f59e0b;border-radius:10px;cursor:move;font-weight:500;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">🌐</span> Social Links</li>
+        <li data-section="products" style="padding:12px 16px;margin:6px 0;background:#fce7f3;border:2px solid #ec4899;border-radius:10px;cursor:move;font-weight:500;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">🛍️</span> Online Shop</li>
+        <li data-section="services" style="padding:12px 16px;margin:6px 0;background:#e0e7ff;border:2px solid #6366f1;border-radius:10px;cursor:move;font-weight:500;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">📦</span> Products & Services</li>
+        <li data-section="gallery" style="padding:12px 16px;margin:6px 0;background:#fce4ec;border:2px solid #e91e63;border-radius:10px;cursor:move;font-weight:500;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">🖼️</span> Gallery</li>
+        <li data-section="youtube" style="padding:12px 16px;margin:6px 0;background:#ffebee;border:2px solid #ef4444;border-radius:10px;cursor:move;font-weight:500;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">🎬</span> YouTube Videos</li>
+        <li data-section="reels" style="padding:12px 16px;margin:6px 0;background:#f3e5f5;border:2px solid #9c27b0;border-radius:10px;cursor:move;font-weight:500;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">📱</span> Reels & Posts</li>
+        <li data-section="payment" style="padding:12px 16px;margin:6px 0;background:#e0f2f1;border:2px solid #009688;border-radius:10px;cursor:move;font-weight:500;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">💳</span> Payment Info</li>
+        <li data-section="bank" style="padding:12px 16px;margin:6px 0;background:#e8eaf6;border:2px solid #3f51b5;border-radius:10px;cursor:move;font-weight:500;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">🏦</span> Bank Details</li>
+        <li data-section="feedback" style="padding:12px 16px;margin:6px 0;background:#fff3e0;border:2px solid #ff9800;border-radius:10px;cursor:move;font-weight:500;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">⭐</span> Feedback</li>
+        <li data-section="location" style="padding:12px 16px;margin:6px 0;background:#e8f5e9;border:2px solid #4caf50;border-radius:10px;cursor:move;font-weight:500;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">📍</span> Location</li>
+        <li data-section="contactform" style="padding:12px 16px;margin:6px 0;background:#e3f2fd;border:2px solid #2196f3;border-radius:10px;cursor:move;font-weight:500;display:flex;align-items:center;gap:10px;"><span style="font-size:18px;">📩</span> Contact Form</li>
       </ul>
-      <h3>🛍️ ऑनलाइन शॉप - प्रोडक्ट्स</h3>
+
+      <!-- PRODUCTS -->
+      <h3 style="color:#ec4899;border-bottom:2px solid #ec4899;padding-bottom:8px;">🛍️ ऑनलाइन शॉप - प्रोडक्ट्स</h3>
       <div id="products-list"></div>
-      <button type="button" id="add-product">+ प्रोडक्ट जोड़ें</button>
-      <h3>📦 प्रोडक्ट्स & सर्विसेज़</h3>
+      <button type="button" id="add-product" style="background:#ec4899;color:#fff;border:none;padding:10px 20px;border-radius:20px;cursor:pointer;font-weight:600;">+ प्रोडक्ट जोड़ें</button>
+
+      <!-- SERVICES -->
+      <h3 style="color:#6366f1;border-bottom:2px solid #6366f1;padding-bottom:8px;">📦 प्रोडक्ट्स & सर्विसेज़</h3>
       <div id="services-list"></div>
-      <button type="button" id="add-service">+ सर्विस जोड़ें</button>
-      <h3>🖼️ गैलरी</h3>
+      <button type="button" id="add-service" style="background:#6366f1;color:#fff;border:none;padding:10px 20px;border-radius:20px;cursor:pointer;font-weight:600;">+ सर्विस जोड़ें</button>
+
+      <!-- GALLERY -->
+      <h3 style="color:#e91e63;border-bottom:2px solid #e91e63;padding-bottom:8px;">🖼️ गैलरी</h3>
       <div id="gallery-list"></div>
-      <button type="button" id="add-gallery">+ इमेज जोड़ें</button>
-      <h3>🎬 YouTube वीडियो</h3>
+      <button type="button" id="add-gallery" style="background:#e91e63;color:#fff;border:none;padding:10px 20px;border-radius:20px;cursor:pointer;font-weight:600;">+ इमेज जोड़ें</button>
+
+      <!-- YOUTUBE -->
+      <h3 style="color:#ef4444;border-bottom:2px solid #ef4444;padding-bottom:8px;">🎬 YouTube वीडियो</h3>
       <div id="youtube-list"></div>
-      <button type="button" id="add-youtube">+ वीडियो जोड़ें</button>
-      <h3>📱 Instagram & Facebook Reels</h3>
+      <button type="button" id="add-youtube" style="background:#ef4444;color:#fff;border:none;padding:10px 20px;border-radius:20px;cursor:pointer;font-weight:600;">+ वीडियो जोड़ें</button>
+
+      <!-- REELS -->
+      <h3 style="color:#9c27b0;border-bottom:2px solid #9c27b0;padding-bottom:8px;">📱 Instagram & Facebook Reels</h3>
       <div id="reels-list"></div>
-      <button type="button" id="add-reel">+ Reel जोड़ें</button>
-      <h3>💳 पेमेंट इन्फो</h3>
-      
-      <label>Paytm नंबर:</label>
-      <input type="text" id="e-paytm" placeholder="1234567890">
-      
-      <label>UPI ID:</label>
-      <input type="text" id="e-upi" placeholder="yourname@upi">
-      
+      <button type="button" id="add-reel" style="background:#9c27b0;color:#fff;border:none;padding:10px 20px;border-radius:20px;cursor:pointer;font-weight:600;">+ Reel जोड़ें</button>
+
+      <!-- PAYMENT -->
+      <h3 style="color:#009688;border-bottom:2px solid #009688;padding-bottom:8px;">💳 पेमेंट इन्फो</h3>
+      <label>Paytm नंबर:</label><input type="text" id="e-paytm" placeholder="1234567890">
+      <label>UPI ID:</label><input type="text" id="e-upi" placeholder="yourname@upi">
       <label>पेमेंट QR इमेज:</label>
       <input type="file" id="e-payment-qr-file" accept="image/*" style="padding:8px;width:100%;">
       <p style="font-size:12px;color:#64748b;margin:4px 0;">— या —</p>
       <input type="url" id="e-payment-qr" placeholder="या QR इमेज URL डालें...">
       <img id="e-payment-qr-preview" src="" style="max-width:100px;max-height:100px;display:none;margin-top:8px;border-radius:10px;">
-      <h3>🏦 बैंक अकाउंट डिटेल</h3>
-      
-      <label>अकाउंट नंबर:</label>
-      <input type="text" id="e-acc-num" placeholder="1234567890">
-      
-      <label>IFSC कोड:</label>
-      <input type="text" id="e-ifsc" placeholder="PYTM123456">
-      
-      <label>बैंक का नाम:</label>
-      <input type="text" id="e-bank-name" placeholder="Paytm Payment Bank">
-      
-      <label>अकाउंट होल्डर का नाम:</label>
-      <input type="text" id="e-holder-name" placeholder="आपका नाम">
-      <h3>📍 लोकेशन</h3>
-      
-      <label>Google Maps लिंक:</label>
-      <input type="url" id="e-map-link" placeholder="https://goo.gl/maps/... या https://maps.google.com/...">
-      
-      <label>पूरा पता:</label>
-      <textarea id="e-address" rows="2" placeholder="Shop No, Street, City, State, Pincode"></textarea>
-      <button type="submit">💾 सेव और पब्लिश करें</button>
+
+      <!-- BANK -->
+      <h3 style="color:#3f51b5;border-bottom:2px solid #3f51b5;padding-bottom:8px;">🏦 बैंक अकाउंट डिटेल</h3>
+      <label>अकाउंट नंबर:</label><input type="text" id="e-acc-num" placeholder="1234567890">
+      <label>IFSC कोड:</label><input type="text" id="e-ifsc" placeholder="PYTM123456">
+      <label>बैंक का नाम:</label><input type="text" id="e-bank-name" placeholder="Paytm Payment Bank">
+      <label>अकाउंट होल्डर:</label><input type="text" id="e-holder-name" placeholder="आपका नाम">
+
+      <!-- LOCATION -->
+      <h3 style="color:#4caf50;border-bottom:2px solid #4caf50;padding-bottom:8px;">📍 लोकेशन</h3>
+      <label>Google Maps लिंक:</label><input type="url" id="e-map-link" placeholder="https://goo.gl/maps/...">
+      <label>पूरा पता:</label><textarea id="e-address" rows="2" placeholder="Shop No, Street, City, State, Pincode"></textarea>
+
+      <!-- SAVE -->
+      <button type="submit" style="width:100%;padding:16px;background:linear-gradient(135deg,#1a73e8,#0d47a1);color:#fff;border:none;border-radius:50px;font-size:18px;font-weight:700;cursor:pointer;margin-top:20px;box-shadow:0 4px 20px rgba(26,115,232,0.4);">💾 सेव और पब्लिश करें</button>
     </form>
     <div id="publish-link" style="display:none;"></div>
   </div>
