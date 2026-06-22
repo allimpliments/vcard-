@@ -90,6 +90,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
   document.getElementById('e-about-img').value = cardData.aboutImage || '';
   document.getElementById('e-about-pdf').value = cardData.aboutPdf || '';
   document.getElementById('e-img').value = cardData.profileImage || '';
+  document.getElementById('e-profile-style').value = cardData.profileStyle || 'circle';
   document.getElementById('e-qr').value = cardData.qrImage || '';
   document.getElementById('e-theme').value = cardData.theme || 'default';
 
@@ -432,6 +433,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
       aboutImage: document.getElementById('e-about-img').value.trim(),
       aboutPdf: document.getElementById('e-about-pdf').value.trim(),
       profileImage: document.getElementById('e-img').value.trim(),
+      profileStyle: document.getElementById('e-profile-style').value,
       qrImage: document.getElementById('e-qr').value.trim(),
       theme: document.getElementById('e-theme').value,
       social: newSocial,
