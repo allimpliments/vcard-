@@ -35,6 +35,51 @@
 </script>
 </head>
 <body>
+  <!-- Sidebar Navigation - Desktop -->
+<nav id="sidebar-nav" style="position:fixed;left:20px;top:50%;transform:translateY(-50%);z-index:998;display:none;flex-direction:column;gap:4px;">
+  <a href="#about-section" title="About" style="width:42px;height:42px;background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;color:var(--text);transition:all 0.3s ease;">👤</a>
+  <a href="#products-section" title="Shop" style="width:42px;height:42px;background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;color:var(--text);transition:all 0.3s ease;">🛍️</a>
+  <a href="#services-section" title="Services" style="width:42px;height:42px;background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;color:var(--text);transition:all 0.3s ease;">📦</a>
+  <a href="#gallery-section" title="Gallery" style="width:42px;height:42px;background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;color:var(--text);transition:all 0.3s ease;">🖼️</a>
+  <a href="#youtube-section" title="Videos" style="width:42px;height:42px;background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;color:var(--text);transition:all 0.3s ease;">🎬</a>
+  <a href="#reels-section" title="Reels" style="width:42px;height:42px;background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;color:var(--text);transition:all 0.3s ease;">📱</a>
+  <a href="#payment-section" title="Payment" style="width:42px;height:42px;background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;color:var(--text);transition:all 0.3s ease;">💳</a>
+  <a href="#contactform-section" title="Contact" style="width:42px;height:42px;background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:18px;color:var(--text);transition:all 0.3s ease;">📩</a>
+</nav>
+
+<!-- Mobile Hamburger Menu -->
+<div id="hamburger-btn" style="position:fixed;top:15px;right:15px;z-index:1000;width:44px;height:44px;background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:50%;display:none;align-items:center;justify-content:center;font-size:22px;color:var(--text);cursor:pointer;">☰</div>
+
+<div id="mobile-nav" style="position:fixed;top:0;right:-300px;width:280px;height:100%;background:var(--glass-bg);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-left:1px solid var(--glass-border);z-index:999;transition:right 0.3s ease;padding:60px 20px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;">
+  <button onclick="closeMobileNav()" style="position:absolute;top:15px;right:15px;background:none;border:none;font-size:24px;color:var(--text);cursor:pointer;">✕</button>
+  <a href="#about-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:12px 16px;background:var(--card-bg);border-radius:12px;font-weight:600;font-size:14px;">👤 About Us</a>
+  <a href="#products-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:12px 16px;background:var(--card-bg);border-radius:12px;font-weight:600;font-size:14px;">🛍️ Online Shop</a>
+  <a href="#services-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:12px 16px;background:var(--card-bg);border-radius:12px;font-weight:600;font-size:14px;">📦 Services</a>
+  <a href="#gallery-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:12px 16px;background:var(--card-bg);border-radius:12px;font-weight:600;font-size:14px;">🖼️ Gallery</a>
+  <a href="#youtube-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:12px 16px;background:var(--card-bg);border-radius:12px;font-weight:600;font-size:14px;">🎬 Videos</a>
+  <a href="#reels-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:12px 16px;background:var(--card-bg);border-radius:12px;font-weight:600;font-size:14px;">📱 Reels</a>
+  <a href="#payment-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:12px 16px;background:var(--card-bg);border-radius:12px;font-weight:600;font-size:14px;">💳 Payment</a>
+  <a href="#contactform-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:12px 16px;background:var(--card-bg);border-radius:12px;font-weight:600;font-size:14px;">📩 Contact</a>
+</div>
+
+<script>
+  // Show sidebar on desktop, hamburger on mobile
+  function setupNav() {
+    var isMobile = window.innerWidth < 768;
+    document.getElementById('sidebar-nav').style.display = isMobile ? 'none' : 'flex';
+    document.getElementById('hamburger-btn').style.display = isMobile ? 'flex' : 'none';
+  }
+  setupNav();
+  window.addEventListener('resize', setupNav);
+
+  // Hamburger
+  document.getElementById('hamburger-btn').onclick = function() {
+    document.getElementById('mobile-nav').style.right = '0';
+  };
+  function closeMobileNav() {
+    document.getElementById('mobile-nav').style.right = '-300px';
+  }
+</script>
   <div id="card-container" style="display:none;">
     <!-- Lottie Animation -->
     <div id="lottie-box">
