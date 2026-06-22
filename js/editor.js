@@ -373,6 +373,9 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
           image: row.querySelector('.serv-img-url').value.trim()
         };
       }),
+      gallery: galleryData.map((img, i) => {
+        return galleryDiv.children[i].querySelector('.gal-img-url').value.trim();
+      }),
       sectionOrder: currentOrder
     };
 
