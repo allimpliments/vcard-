@@ -350,6 +350,16 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     reelsData.push('');
     renderReels();
   };
+    // Payment
+  const paymentData = cardData.payment || {};
+  document.getElementById('e-paytm').value = paymentData.paytm || '';
+  document.getElementById('e-upi').value = paymentData.upi || '';
+  document.getElementById('e-payment-qr').value = paymentData.qrImage || '';
+  if (paymentData.qrImage) {
+    document.getElementById('e-payment-qr-preview').src = paymentData.qrImage;
+    document.getElementById('e-payment-qr-preview').style.display = 'block';
+  }
+  setupImageUpload('e-payment-qr-file', 'e-payment-qr-preview', 'e-payment-qr');
   // Social links
   const socialDiv = document.getElementById('social-links');
   const socialData = cardData.social || {};
@@ -453,7 +463,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
         }
         return result;
       })(),
-            reels: (() => {
+      reels: (() => {
         const result = [];
         const rows = reelsDiv.children;
         for (let i = 0; i < rows.length; i++) {
@@ -464,6 +474,11 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
         }
         return result;
       })(),
+      payment: {
+        paytm: document.getElementById('e-paytm').value.trim(),
+        upi: document.getElementById('e-upi').value.trim(),
+        qrImage: document.getElementById('e-payment-qr').value.trim()
+      },
       sectionOrder: currentOrder
     };
 
