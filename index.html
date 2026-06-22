@@ -13,10 +13,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    @media (min-width: 768px) {
-      #card-container { margin-left: auto !important; margin-right: auto !important; padding-left: 20px; }
+      @media (min-width: 768px) {
+      body { padding-left: 100px; padding-right: 0; }
+      #card-container { margin-left: auto !important; margin-right: auto !important; }
+      #desktop-nav { display: flex !important; }
     }
     @media (max-width: 767px) {
+      body { padding: 20px 10px; }
       #card-container { margin: 0 auto !important; }
       #desktop-nav { display: none !important; }
     }
