@@ -33,6 +33,52 @@
   </style>
 </head>
 <body class="edit-mode">
+  <!-- Sidebar Navigation - Desktop -->
+<nav id="edit-sidebar" style="position:fixed;left:10px;top:50%;transform:translateY(-50%);z-index:998;display:none;flex-direction:column;gap:4px;">
+  <a href="#basic-section" title="Basic Info" style="width:38px;height:38px;background:#fff;border:2px solid #1a73e8;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;color:#1a73e8;transition:all 0.3s ease;">👤</a>
+  <a href="#about-edit-section" title="About" style="width:38px;height:38px;background:#fff;border:2px solid #10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;color:#10b981;transition:all 0.3s ease;">📝</a>
+  <a href="#profile-edit-section" title="Profile Image" style="width:38px;height:38px;background:#fff;border:2px solid #f59e0b;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;color:#f59e0b;transition:all 0.3s ease;">🖼️</a>
+  <a href="#social-edit-section" title="Social Links" style="width:38px;height:38px;background:#fff;border:2px solid #ec4899;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;color:#ec4899;transition:all 0.3s ease;">🌐</a>
+  <a href="#theme-edit-section" title="Theme" style="width:38px;height:38px;background:#fff;border:2px solid #8b5cf6;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;color:#8b5cf6;transition:all 0.3s ease;">🎨</a>
+  <a href="#order-edit-section" title="Section Order" style="width:38px;height:38px;background:#fff;border:2px solid #ef4444;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;color:#ef4444;transition:all 0.3s ease;">📋</a>
+  <a href="#products-edit-section" title="Products" style="width:38px;height:38px;background:#fff;border:2px solid #ec4899;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;color:#ec4899;transition:all 0.3s ease;">🛍️</a>
+  <a href="#services-edit-section" title="Services" style="width:38px;height:38px;background:#fff;border:2px solid #6366f1;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;color:#6366f1;transition:all 0.3s ease;">📦</a>
+  <a href="#payment-edit-section" title="Payment" style="width:38px;height:38px;background:#fff;border:2px solid #009688;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;color:#009688;transition:all 0.3s ease;">💳</a>
+  <a href="#save-edit-section" title="Save" style="width:38px;height:38px;background:#fff;border:2px solid #1a73e8;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;color:#1a73e8;transition:all 0.3s ease;">💾</a>
+</nav>
+
+<!-- Mobile Hamburger -->
+<div id="edit-hamburger" style="position:fixed;top:15px;right:15px;z-index:1000;width:44px;height:44px;background:#fff;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,0.1);">☰</div>
+
+<div id="edit-mobile-nav" style="position:fixed;top:0;right:-280px;width:260px;height:100%;background:#fff;z-index:999;transition:right 0.3s ease;padding:60px 20px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;box-shadow:-4px 0 20px rgba(0,0,0,0.1);">
+  <button onclick="closeEditNav()" style="position:absolute;top:15px;right:15px;background:none;border:none;font-size:24px;cursor:pointer;">✕</button>
+  <a href="#basic-section" onclick="closeEditNav()" style="color:#1a73e8;text-decoration:none;padding:12px;background:#eff6ff;border-radius:10px;font-weight:600;">👤 Basic Info</a>
+  <a href="#about-edit-section" onclick="closeEditNav()" style="color:#10b981;text-decoration:none;padding:12px;background:#f0fdf4;border-radius:10px;font-weight:600;">📝 About</a>
+  <a href="#profile-edit-section" onclick="closeEditNav()" style="color:#f59e0b;text-decoration:none;padding:12px;background:#fefce8;border-radius:10px;font-weight:600;">🖼️ Profile Image</a>
+  <a href="#social-edit-section" onclick="closeEditNav()" style="color:#ec4899;text-decoration:none;padding:12px;background:#fdf2f8;border-radius:10px;font-weight:600;">🌐 Social</a>
+  <a href="#theme-edit-section" onclick="closeEditNav()" style="color:#8b5cf6;text-decoration:none;padding:12px;background:#f5f3ff;border-radius:10px;font-weight:600;">🎨 Theme</a>
+  <a href="#order-edit-section" onclick="closeEditNav()" style="color:#ef4444;text-decoration:none;padding:12px;background:#fef2f2;border-radius:10px;font-weight:600;">📋 Section Order</a>
+  <a href="#products-edit-section" onclick="closeEditNav()" style="color:#ec4899;text-decoration:none;padding:12px;background:#fdf2f8;border-radius:10px;font-weight:600;">🛍️ Products</a>
+  <a href="#services-edit-section" onclick="closeEditNav()" style="color:#6366f1;text-decoration:none;padding:12px;background:#eef2ff;border-radius:10px;font-weight:600;">📦 Services</a>
+  <a href="#payment-edit-section" onclick="closeEditNav()" style="color:#009688;text-decoration:none;padding:12px;background:#f0fdfa;border-radius:10px;font-weight:600;">💳 Payment</a>
+  <a href="#save-edit-section" onclick="closeEditNav()" style="color:#1a73e8;text-decoration:none;padding:12px;background:#eff6ff;border-radius:10px;font-weight:600;">💾 Save</a>
+</div>
+
+<script>
+  function setupEditNav() {
+    var mobile = window.innerWidth < 768;
+    document.getElementById('edit-sidebar').style.display = mobile ? 'none' : 'flex';
+    document.getElementById('edit-hamburger').style.display = mobile ? 'flex' : 'none';
+  }
+  setupEditNav();
+  window.addEventListener('resize', setupEditNav);
+  document.getElementById('edit-hamburger').onclick = function() {
+    document.getElementById('edit-mobile-nav').style.right = '0';
+  };
+  function closeEditNav() {
+    document.getElementById('edit-mobile-nav').style.right = '-280px';
+  }
+</script>
   <div id="editor-container" style="display:none;max-width:600px;">
     <h2 style="text-align:center;font-size:24px;margin-bottom:30px;">✏️ अपना कार्ड एडिट करें</h2>
     <form id="edit-form">
