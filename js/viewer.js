@@ -300,95 +300,100 @@ if (data.profileImage && data.profileImage.trim() !== '') {
           let currentIdx = 0;
           let ytHTML = '<h3>🎬 YouTube Videos</h3>';
           
-          // Main video container
-          ytHTML += '<div style="position: relative; text-align: center; margin-bottom: 10px;">';
-          ytHTML += '<div style="width: 100%; max-width: 100%; border-radius: 15px; overflow: hidden; box-shadow: var(--shadow-sm); margin: 0 auto;">';
+          // Main video - Simple centered container
+          ytHTML += '<div style="width: 100%; text-align: center; margin-bottom: 10px;">';
+          ytHTML += '<div id="yt-video-wrapper" style="width: 100%; border-radius: 15px; overflow: hidden; box-shadow: var(--shadow-sm);">';
           ytHTML += '<div id="yt-main-container" style="position: relative; padding-bottom: ' + (videos[0].isShort ? '177%' : '56.25%') + '; height: 0;">';
-          ytHTML += '<iframe id="yt-main" src="https://www.youtube.com/embed/' + videos[0].id + '" style="position: absolute; width: 100%; height: 100%; border-radius: 15px;" frameborder="0" allowfullscreen></iframe>';
-          ytHTML += '</div></div>';
+          ytHTML += '<iframe id="yt-main" src="https://www.youtube.com/embed/' + videos[0].id + '" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 15px;" frameborder="0" allowfullscreen></iframe>';
+          ytHTML += '</div></div></div>';
           
-          // Arrows
+          // Navigation row
           if (videos.length > 1) {
-            ytHTML += '<button id="yt-prev" style="position: absolute; left: 5px; top: 40%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 14px; cursor: pointer; z-index: 5;">◀</button>';
-            ytHTML += '<button id="yt-next" style="position: absolute; right: 5px; top: 40%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 14px; cursor: pointer; z-index: 5;">▶</button>';
-          }
-          ytHTML += '</div>';
-          
-          // Thumbnails
-          if (videos.length > 1) {
-            ytHTML += '<div style="display: flex; gap: 8px; overflow-x: auto; padding: 5px 0; justify-content: center;">';
+            ytHTML += '<div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px;">';
+            ytHTML += '<button id="yt-prev" style="background: var(--primary); color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; cursor: pointer;">◀</button>';
+            
+            // Thumbnails
+            ytHTML += '<div style="display: flex; gap: 8px; overflow-x: auto; max-width: 250px; padding: 5px 0;">';
             for (let t = 0; t < videos.length; t++) {
-              ytHTML += '<div style="text-align: center; cursor: pointer; min-width: 80px;" class="yt-thumb-wrap" data-index="' + t + '">';
-              ytHTML += '<img src="' + videos[t].thumb + '" class="yt-thumb" style="width: 80px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid ' + (t === 0 ? 'var(--primary)' : 'transparent') + '; opacity: ' + (t === 0 ? '1' : '0.6') + '; transition: all 0.3s ease;">';
-              ytHTML += '<p style="font-size: 10px; margin: 2px 0; color: var(--text-secondary);">' + (videos[t].isShort ? 'Short' : 'Video') + '</p>';
-              ytHTML += '</div>';
+              ytHTML += '<img src="' + videos[t].thumb + '" class="yt-thumb" data-index="' + t + '" style="width: 70px; height: 50px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid ' + (t === 0 ? 'var(--primary)' : 'transparent') + '; opacity: ' + (t === 0 ? '1' : '0.6') + '; flex-shrink: 0;">';
             }
+            ytHTML += '</div>';
+            
+            ytHTML += '<button id="yt-next" style="background: var(--primary); color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; cursor: pointer;">▶</button>';
             ytHTML += '</div>';
           }
           
           div.innerHTML = ytHTML;
           
           // Slider logic
-          setTimeout(function() {
-            const iframe = document.getElementById('yt-main');
-            const container = document.getElementById('yt-main-container');
-            const prevBtn = document.getElementById('yt-prev');
-            const nextBtn = document.getElementById('yt-next');
-            const thumbWraps = document.querySelectorAll('.yt-thumb-wrap');
-            
-            if (!iframe || !container) return;
-            
-            function updateVideo(index) {
-              currentIdx = index;
-              iframe.src = 'https://www.youtube.com/embed/' + videos[currentIdx].id;
-              container.style.paddingBottom = videos[currentIdx].isShort ? '177%' : '56.25%';
+          if (videos.length > 1) {
+            setTimeout(function() {
+              const iframe = document.getElementById('yt-main');
+              const container = document.getElementById('yt-main-container');
+              const prevBtn = document.getElementById('yt-prev');
+              const nextBtn = document.getElementById('yt-next');
+              const thumbs = document.querySelectorAll('.yt-thumb');
               
-              thumbWraps.forEach(function(wrap, i) {
-                const img = wrap.querySelector('.yt-thumb');
-                if (img) {
-                  img.style.border = i === currentIdx ? '2px solid var(--primary)' : '2px solid transparent';
-                  img.style.opacity = i === currentIdx ? '1' : '0.6';
-                }
+              if (!iframe || !container) return;
+              
+              function updateVideo(index) {
+                currentIdx = index;
+                iframe.src = 'https://www.youtube.com/embed/' + videos[currentIdx].id;
+                container.style.paddingBottom = videos[currentIdx].isShort ? '177%' : '56.25%';
+                
+                thumbs.forEach(function(thumb, i) {
+                  thumb.style.border = i === currentIdx ? '2px solid var(--primary)' : '2px solid transparent';
+                  thumb.style.opacity = i === currentIdx ? '1' : '0.6';
+                });
+              }
+              
+              if (nextBtn) nextBtn.onclick = function() { updateVideo((currentIdx + 1) % videos.length); };
+              if (prevBtn) prevBtn.onclick = function() { updateVideo((currentIdx - 1 + videos.length) % videos.length); };
+              
+              thumbs.forEach(function(thumb) {
+                thumb.onclick = function() { updateVideo(parseInt(this.getAttribute('data-index'))); };
               });
-            }
-            
-            if (nextBtn) nextBtn.onclick = function() { updateVideo((currentIdx + 1) % videos.length); };
-            if (prevBtn) prevBtn.onclick = function() { updateVideo((currentIdx - 1 + videos.length) % videos.length); };
-            
-            thumbWraps.forEach(function(wrap) {
-              wrap.onclick = function() {
-                updateVideo(parseInt(this.getAttribute('data-index')));
-              };
-            });
-          }, 100);
+            }, 100);
+          }
         }
         else if (sec === 'reels' && data.reels && data.reels.length > 0) {
           let reelsHTML = '<h3>📱 Instagram & FB Reels</h3>';
           
-          // Slider style for reels
+          // Slider
           let currentReel = 0;
+          const reels = data.reels;
           
-          reelsHTML += '<div style="position: relative; text-align: center; margin-bottom: 10px;">';
+          reelsHTML += '<div style="text-align: center; margin-bottom: 10px;">';
           
-          // Main reel card
-          reelsHTML += '<div id="reel-main-card" style="width: 200px; height: 350px; margin: 0 auto; border-radius: 15px; overflow: hidden; box-shadow: var(--shadow); position: relative; background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); display: flex; flex-direction: column; align-items: center; justify-content: center;">';
-          reelsHTML += '<div style="text-align: center; color: #fff; padding: 20px;">';
-          reelsHTML += '<span style="font-size: 50px;">📱</span>';
-          reelsHTML += '<p id="reel-label" style="font-size: 14px; font-weight: 600; margin-top: 10px;">Reel 1</p>';
-          reelsHTML += '<a id="reel-link" href="' + data.reels[0] + '" target="_blank" style="display: inline-block; margin-top: 15px; padding: 12px 25px; background: #fff; color: #e4405f; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 14px;">▶ Watch Now</a>';
-          reelsHTML += '</div></div>';
+          // Reel Card
+          reelsHTML += '<div id="reel-card" style="width: 220px; height: 380px; margin: 0 auto; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); position: relative; background: linear-gradient(180deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">';
+          
+          // Instagram Logo
+          reelsHTML += '<div style="position: absolute; top: 15px; left: 15px; background: #fff; border-radius: 10px; padding: 5px 10px; font-weight: 700; font-size: 12px; color: #e4405f;">Instagram</div>';
+          
+          // Play Button (Center)
+          reelsHTML += '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center;">';
+          reelsHTML += '<span style="font-size: 30px; color: #e4405f; margin-left: 5px;">▶</span></div>';
+          
+          // Reel Number
+          reelsHTML += '<div style="position: absolute; bottom: 80px; width: 100%; text-align: center; color: #fff; font-weight: 600; font-size: 16px;" id="reel-label">Reel 1 of ' + reels.length + '</div>';
+          
+          // Watch Button
+          reelsHTML += '<a id="reel-link" href="' + reels[0] + '" target="_blank" style="position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); padding: 12px 30px; background: #fff; color: #e4405f; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 14px;">▶ Watch Now</a>';
+          
+          reelsHTML += '</div>';
           
           // Arrows
-          if (data.reels.length > 1) {
-            reelsHTML += '<button id="reel-prev" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 35px; height: 35px; font-size: 16px; cursor: pointer; z-index: 5;">◀</button>';
-            reelsHTML += '<button id="reel-next" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 35px; height: 35px; font-size: 16px; cursor: pointer; z-index: 5;">▶</button>';
+          if (reels.length > 1) {
+            reelsHTML += '<button id="reel-prev" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 16px; cursor: pointer; z-index: 5;">◀</button>';
+            reelsHTML += '<button id="reel-next" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 16px; cursor: pointer; z-index: 5;">▶</button>';
           }
           reelsHTML += '</div>';
           
           // Dots
-          if (data.reels.length > 1) {
-            reelsHTML += '<div style="text-align: center; margin-bottom: 10px;">';
-            for (let d = 0; d < data.reels.length; d++) {
+          if (reels.length > 1) {
+            reelsHTML += '<div style="text-align: center;">';
+            for (let d = 0; d < reels.length; d++) {
               reelsHTML += '<span class="reel-dot" data-index="' + d + '" style="display: inline-block; width: 10px; height: 10px; background: ' + (d === 0 ? 'var(--primary)' : '#ccc') + '; border-radius: 50%; margin: 0 4px; cursor: pointer;"></span>';
             }
             reelsHTML += '</div>';
@@ -396,8 +401,8 @@ if (data.profileImage && data.profileImage.trim() !== '') {
           
           div.innerHTML = reelsHTML;
           
-          // Slider logic
-          if (data.reels.length > 1) {
+          // Slider
+          if (reels.length > 1) {
             setTimeout(function() {
               const reelLink = document.getElementById('reel-link');
               const reelLabel = document.getElementById('reel-label');
@@ -407,15 +412,15 @@ if (data.profileImage && data.profileImage.trim() !== '') {
               
               function updateReel(index) {
                 currentReel = index;
-                reelLink.href = data.reels[currentReel];
-                reelLabel.textContent = 'Reel ' + (currentReel + 1);
+                reelLink.href = reels[currentReel];
+                reelLabel.textContent = 'Reel ' + (currentReel + 1) + ' of ' + reels.length;
                 dots.forEach(function(dot, i) {
                   dot.style.background = i === currentReel ? 'var(--primary)' : '#ccc';
                 });
               }
               
-              if (nextBtn) nextBtn.onclick = function() { updateReel((currentReel + 1) % data.reels.length); };
-              if (prevBtn) prevBtn.onclick = function() { updateReel((currentReel - 1 + data.reels.length) % data.reels.length); };
+              if (nextBtn) nextBtn.onclick = function() { updateReel((currentReel + 1) % reels.length); };
+              if (prevBtn) prevBtn.onclick = function() { updateReel((currentReel - 1 + reels.length) % reels.length); };
               
               dots.forEach(function(dot) {
                 dot.onclick = function() { updateReel(parseInt(this.getAttribute('data-index'))); };
