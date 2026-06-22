@@ -726,3 +726,19 @@ button:hover, a.btn:hover, #save-contact:hover, #action-buttons a:hover,
   color: #fff !important;
   border: 1px solid rgba(255,255,255,0.2) !important;
 }
+/* All buttons glass hover */
+a[href*="wa.me"], a[href*="tel:"], a[href*="mailto:"],
+#reel-link, #enquiry-send, #feedback-submit,
+button, a.btn, #save-contact, #action-buttons a,
+#btn-share, #btn-pdf, #btn-copy-url {
+  transition: all 0.3s ease !important;
+}
+a[href*="wa.me"]:hover, a[href*="tel:"]:hover, a[href*="mailto:"]:hover,
+#reel-link:hover, #enquiry-send:hover, #feedback-submit:hover,
+button:hover, a.btn:hover, #save-contact:hover, #action-buttons a:hover,
+#btn-share:hover, #btn-pdf:hover, #btn-copy-url:hover {
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 25px rgba(255,255,255,0.15) !important;
+}
