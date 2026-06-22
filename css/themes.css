@@ -543,3 +543,11 @@ button:hover, .btn:hover, a.btn:hover {
 .profile-leaf { border-radius: 50% 10% 50% 10% / 10% 50% 10% 50%; }
 .profile-hexagon { clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); border-radius: 0; }
 .profile-diamond { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); border-radius: 0; }
+/* Force WhatsApp buttons to use theme variable */
+#btn-whatsapp,
+a[href*="wa.me"],
+button[onclick*="orderNow"],
+#enquiry-send,
+a[href*="api=1&destination"] {
+  background: var(--whatsapp) !important;
+}
