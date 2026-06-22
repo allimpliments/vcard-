@@ -355,56 +355,74 @@ if (data.profileImage && data.profileImage.trim() !== '') {
               });
             }, 100);
           }
-        }
-        else if (sec === 'reels' && data.reels && data.reels.length > 0) {
+        }        else if (sec === 'reels' && data.reels && data.reels.length > 0) {
           const reels = data.reels;
           let currentReel = 0;
-          const reelOGData = []; // Store fetched OG data
-          
-          // Initialize
-          for (let i = 0; i < reels.length; i++) {
-            reelOGData.push({ title: '', image: '', description: '', loaded: false });
-          }
           
           function getReelInfo(url) {
-            if (url.includes('instagram.com/reel/')) return { platform: 'Instagram', type: 'Reel', btnColor: '#e4405f' };
-            if (url.includes('instagram.com/p/')) return { platform: 'Instagram', type: 'Post', btnColor: '#c13584' };
-            if (url.includes('facebook.com/reel/')) return { platform: 'Facebook', type: 'Reel', btnColor: '#1877f2' };
-            if (url.includes('fb.watch/')) return { platform: 'Facebook', type: 'Video', btnColor: '#1877f2' };
-            if (url.includes('facebook.com/')) return { platform: 'Facebook', type: 'Post', btnColor: '#1877f2' };
-            return { platform: 'Social', type: 'Media', btnColor: '#6366f1' };
+            if (url.includes('instagram.com/reel/')) return { 
+              platform: 'Instagram', type: 'Reel', 
+              gradient: 'linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)',
+              btnColor: '#e4405f', icon: '📽️', short: 'Reel'
+            };
+            if (url.includes('instagram.com/p/')) return { 
+              platform: 'Instagram', type: 'Post', 
+              gradient: 'linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%)',
+              btnColor: '#c13584', icon: '📷', short: 'Post'
+            };
+            if (url.includes('facebook.com/reel/')) return { 
+              platform: 'Facebook', type: 'Reel', 
+              gradient: 'linear-gradient(135deg, #1877f2 0%, #0c5dc7 100%)',
+              btnColor: '#1877f2', icon: '📽️', short: 'Reel'
+            };
+            if (url.includes('fb.watch/')) return { 
+              platform: 'Facebook', type: 'Video', 
+              gradient: 'linear-gradient(135deg, #1877f2 0%, #42b72a 100%)',
+              btnColor: '#1877f2', icon: '🎬', short: 'Video'
+            };
+            if (url.includes('facebook.com/')) return { 
+              platform: 'Facebook', type: 'Post', 
+              gradient: 'linear-gradient(135deg, #1877f2 0%, #0c5dc7 100%)',
+              btnColor: '#1877f2', icon: '📝', short: 'Post'
+            };
+            return { 
+              platform: 'Social', type: 'Media', 
+              gradient: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
+              btnColor: '#6366f1', icon: '📱', short: 'Media'
+            };
           }
           
           let reelsHTML = '<h3>📱 Reels & Posts</h3>';
           
+          // Main Card
+          const firstInfo = getReelInfo(reels[0]);
+          
           reelsHTML += '<div style="position: relative; width: 100%; text-align: center; margin-bottom: 15px;">';
+          reelsHTML += '<div id="reel-card" style="width: 280px; margin: 0 auto; border-radius: 24px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.2); background: #fff;">';
           
-          // Card
-          reelsHTML += '<div id="reel-card" style="width: 280px; margin: 0 auto; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.2); background: #fff;">';
-          
-          // Thumbnail area
-          reelsHTML += '<div id="reel-thumb-area" style="width: 100%; height: 250px; background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">';
-          reelsHTML += '<img id="reel-thumb" src="" alt="Thumbnail" style="width: 100%; height: 100%; object-fit: cover; display: none;">';
-          reelsHTML += '<span id="reel-icon-fallback" style="font-size: 60px;">📱</span>';
+          // Thumbnail / Gradient Area
+          reelsHTML += '<div id="reel-thumb-area" style="width: 100%; height: 220px; background: ' + firstInfo.gradient + '; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">';
+          reelsHTML += '<span id="reel-icon" style="font-size: 70px;">' + firstInfo.icon + '</span>';
+          reelsHTML += '<div style="width: 60px; height: 60px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 10px;">';
+          reelsHTML += '<span style="font-size: 24px; color: ' + firstInfo.btnColor + ';">▶</span></div>';
           reelsHTML += '</div>';
           
-          // Info area
-          reelsHTML += '<div style="padding: 15px 20px;">';
-          reelsHTML += '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">';
-          reelsHTML += '<span id="reel-platform-badge" style="background: #e4405f; color: #fff; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;">Instagram</span>';
-          reelsHTML += '<span id="reel-type-badge" style="color: #64748b; font-size: 12px;">Reel</span>';
+          // Info
+          reelsHTML += '<div style="padding: 18px 20px;">';
+          reelsHTML += '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">';
+          reelsHTML += '<span id="reel-platform" style="background: ' + firstInfo.btnColor + '; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700;">' + firstInfo.platform + '</span>';
+          reelsHTML += '<span id="reel-type" style="color: #64748b; font-size: 12px; font-weight: 600;">' + firstInfo.type + '</span>';
           reelsHTML += '</div>';
-          reelsHTML += '<p id="reel-title" style="font-weight: 600; font-size: 14px; color: #1e293b; margin: 8px 0; line-height: 1.4;">Loading...</p>';
-          reelsHTML += '<p id="reel-counter" style="color: #94a3b8; font-size: 11px; margin-bottom: 12px;">1 of ' + reels.length + '</p>';
-          reelsHTML += '<a id="reel-link" href="' + reels[0] + '" target="_blank" style="display: block; text-align: center; padding: 12px; background: #e4405f; color: #fff; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 14px;">▶ Watch Now</a>';
+          reelsHTML += '<p id="reel-counter" style="color: #94a3b8; font-size: 12px; margin-bottom: 15px;">1 of ' + reels.length + '</p>';
+          reelsHTML += '<a id="reel-link" href="' + reels[0] + '" target="_blank" style="display: block; text-align: center; padding: 14px; background: ' + firstInfo.btnColor + '; color: #fff; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 15px; transition: all 0.3s ease;">▶ Watch Now</a>';
           reelsHTML += '</div>';
           
           reelsHTML += '</div>';
           
           // Arrows
           if (reels.length > 1) {
-            reelsHTML += '<button id="reel-prev" style="position: absolute; left: 5px; top: 40%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 38px; height: 38px; font-size: 16px; cursor: pointer; z-index: 10;">◀</button>';
-            reelsHTML += '<button id="reel-next" style="position: absolute; right: 5px; top: 40%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 38px; height: 38px; font-size: 16px; cursor: pointer; z-index: 10;">▶</button>';
+            reelsHTML += '<button id="reel-prev" style="position: absolute; left: 2px; top: 45%; transform: translateY(-50%); background: rgba(255,255,255,0.95); color: #333; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 18px; cursor: pointer; z-index: 10; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">◀</button>';
+            reelsHTML += '<button id="reel-next" style="position: absolute; right: 2px; top: 45%; transform: translateY(-50%); background: rgba(255,255,255,0.95); color: #333; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 18px; cursor: pointer; z-index: 10; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">▶</button>';
           }
           reelsHTML += '</div>';
           
@@ -412,82 +430,53 @@ if (data.profileImage && data.profileImage.trim() !== '') {
           if (reels.length > 1) {
             reelsHTML += '<div style="text-align: center; margin-bottom: 10px;">';
             for (let d = 0; d < reels.length; d++) {
-              reelsHTML += '<span class="reel-dot" data-index="' + d + '" style="display: inline-block; width: 10px; height: 10px; background: ' + (d === 0 ? 'var(--primary)' : '#ccc') + '; border-radius: 50%; margin: 0 4px; cursor: pointer;"></span>';
+              reelsHTML += '<span class="reel-dot" data-index="' + d + '" style="display: inline-block; width: 10px; height: 10px; background: ' + (d === 0 ? 'var(--primary)' : '#ccc') + '; border-radius: 50%; margin: 0 5px; cursor: pointer;"></span>';
             }
             reelsHTML += '</div>';
           }
           
           div.innerHTML = reelsHTML;
           
-          // Fetch OG data for first reel
-          function loadReelData(index) {
-            if (!reelOGData[index].loaded) {
-              fetchOGData(reels[index], function(data) {
-                reelOGData[index] = { title: data.title, image: data.image, description: data.description, loaded: true };
-                updateReelUI(index);
-              });
-            } else {
-              updateReelUI(index);
-            }
-          }
-          
-          function updateReelUI(index) {
-            currentReel = index;
-            const og = reelOGData[index];
-            const info = getReelInfo(reels[index]);
-            
-            const thumb = document.getElementById('reel-thumb');
-            const iconFallback = document.getElementById('reel-icon-fallback');
-            const title = document.getElementById('reel-title');
-            const link = document.getElementById('reel-link');
-            const platformBadge = document.getElementById('reel-platform-badge');
-            const typeBadge = document.getElementById('reel-type-badge');
-            const counter = document.getElementById('reel-counter');
-            
-            if (og.image) {
-              thumb.src = og.image;
-              thumb.style.display = 'block';
-              if (iconFallback) iconFallback.style.display = 'none';
-            } else {
-              thumb.style.display = 'none';
-              if (iconFallback) iconFallback.style.display = 'inline';
-            }
-            
-            if (og.title) {
-              title.textContent = og.title;
-            } else {
-              title.textContent = info.platform + ' ' + info.type;
-            }
-            
-            link.href = reels[index];
-            link.style.background = info.btnColor;
-            platformBadge.textContent = info.platform;
-            platformBadge.style.background = info.btnColor;
-            typeBadge.textContent = info.type;
-            counter.textContent = (index + 1) + ' of ' + reels.length;
-            
-            // Update dots
-            const dots = document.querySelectorAll('.reel-dot');
-            dots.forEach(function(dot, i) {
-              dot.style.background = i === index ? 'var(--primary)' : '#ccc';
-            });
-          }
-          
-          // Load first reel
-          loadReelData(0);
-          
-          // Slider
+          // Slider logic - INSTANT, no API call
           if (reels.length > 1) {
             setTimeout(function() {
+              const reelCard = document.getElementById('reel-card');
+              const reelThumbArea = document.getElementById('reel-thumb-area');
+              const reelIcon = document.getElementById('reel-icon');
+              const reelPlatform = document.getElementById('reel-platform');
+              const reelType = document.getElementById('reel-type');
+              const reelLink = document.getElementById('reel-link');
+              const reelCounter = document.getElementById('reel-counter');
               const prevBtn = document.getElementById('reel-prev');
               const nextBtn = document.getElementById('reel-next');
               const dots = document.querySelectorAll('.reel-dot');
+              const playBtn = reelThumbArea.querySelector('div');
+              const playIcon = playBtn.querySelector('span');
               
-              if (nextBtn) nextBtn.onclick = function() { loadReelData((currentReel + 1) % reels.length); };
-              if (prevBtn) prevBtn.onclick = function() { loadReelData((currentReel - 1 + reels.length) % reels.length); };
+              function updateReel(index) {
+                currentReel = index;
+                const info = getReelInfo(reels[index]);
+                
+                reelThumbArea.style.background = info.gradient;
+                reelIcon.textContent = info.icon;
+                reelPlatform.textContent = info.platform;
+                reelPlatform.style.background = info.btnColor;
+                reelType.textContent = info.type;
+                reelLink.href = reels[index];
+                reelLink.style.background = info.btnColor;
+                playIcon.style.color = info.btnColor;
+                reelCounter.textContent = (index + 1) + ' of ' + reels.length;
+                
+                dots.forEach(function(dot, i) {
+                  dot.style.background = i === index ? 'var(--primary)' : '#ccc';
+                });
+              }
+              
+              if (nextBtn) nextBtn.onclick = function() { updateReel((currentReel + 1) % reels.length); };
+              if (prevBtn) prevBtn.onclick = function() { updateReel((currentReel - 1 + reels.length) % reels.length); };
               
               dots.forEach(function(dot) {
-                dot.onclick = function() { loadReelData(parseInt(this.getAttribute('data-index'))); };
+                dot.onclick = function() { updateReel(parseInt(this.getAttribute('data-index'))); };
               });
             }, 100);
           }
