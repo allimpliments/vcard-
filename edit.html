@@ -72,6 +72,7 @@
         <li data-section="youtube">YouTube Videos</li>
         <li data-section="reels">Reels (Insta/FB)</li>
         <li data-section="payment">Payment Info</li>
+        <li data-section="bank">Bank Details</li>
       </ul>
       <h3>🛍️ ऑनलाइन शॉप - प्रोडक्ट्स</h3>
       <div id="products-list"></div>
@@ -101,6 +102,19 @@
       <p style="font-size:12px;color:#64748b;margin:4px 0;">— या —</p>
       <input type="url" id="e-payment-qr" placeholder="या QR इमेज URL डालें...">
       <img id="e-payment-qr-preview" src="" style="max-width:100px;max-height:100px;display:none;margin-top:8px;border-radius:10px;">
+            <h3>🏦 बैंक अकाउंट डिटेल</h3>
+      
+      <label>अकाउंट नंबर:</label>
+      <input type="text" id="e-acc-num" placeholder="1234567890">
+      
+      <label>IFSC कोड:</label>
+      <input type="text" id="e-ifsc" placeholder="PYTM123456">
+      
+      <label>बैंक का नाम:</label>
+      <input type="text" id="e-bank-name" placeholder="Paytm Payment Bank">
+      
+      <label>अकाउंट होल्डर का नाम:</label>
+      <input type="text" id="e-holder-name" placeholder="आपका नाम">
       <button type="submit">💾 सेव और पब्लिश करें</button>
     </form>
     <div id="publish-link" style="display:none;"></div>
