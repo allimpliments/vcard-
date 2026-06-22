@@ -196,6 +196,17 @@ if (data.profileImage && data.profileImage.trim() !== '') {
           servHTML += '</div>';
           div.innerHTML = servHTML;
         }
+                else if (sec === 'gallery' && data.gallery && data.gallery.length > 0) {
+          let galHTML = '<h3>🖼️ Gallery</h3><div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">';
+          
+          for (let k = 0; k < data.gallery.length; k++) {
+            const img = data.gallery[k];
+            galHTML += '<img src="' + img + '" alt="Gallery" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px; box-shadow: var(--shadow-sm); cursor: pointer;" onclick="window.open(\'' + img + '\')">';
+          }
+          
+          galHTML += '</div>';
+          div.innerHTML = galHTML;
+        }
         container.appendChild(div);
       }
 
