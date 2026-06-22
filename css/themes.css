@@ -14,8 +14,10 @@
   --glass-border: rgba(255, 255, 255, 0.12);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   --card-bg: rgba(255, 255, 255, 0.03);
+  --card-bg-secondary: rgba(255,255,255,0.05);
   --card-border: rgba(255, 255, 255, 0.08);
   --text: #ffffff;
+  --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.65);
   --primary: #00d4ff;
   --primary-hover: #00b8e6;
@@ -36,18 +38,20 @@
 }
 
 /* ============================================
-   2. HEALTHCARE - Fresh Green
+   2. HEALTHCARE - Fresh Green Light
    ============================================ */
 body.healthcare {
   --bg: #f0fdf4;
   --bg-gradient: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
   --glass-bg: rgba(255, 255, 255, 0.8);
   --glass-border: rgba(34, 197, 94, 0.2);
-  --glass-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.06);
   --card-bg: #ffffff;
+  --card-bg-secondary: #f9fafb;
   --card-border: rgba(34, 197, 94, 0.15);
   --text: #1a2e1a;
-  --text-secondary: #4a7c4a;
+  --text-primary: #1a2e1a;
+  --text-secondary: #4a6a4a;
   --primary: #22c55e;
   --primary-hover: #16a34a;
   --accent: #f43f5e;
@@ -67,18 +71,20 @@ body.healthcare {
 }
 
 /* ============================================
-   3. SALOON - Soft Pink
+   3. SALOON - Soft Pink Light
    ============================================ */
 body.saloon {
   --bg: #fff5f7;
   --bg-gradient: linear-gradient(135deg, #fff5f7 0%, #ffe4e9 50%, #ffd1dc 100%);
   --glass-bg: rgba(255, 255, 255, 0.75);
   --glass-border: rgba(236, 72, 153, 0.2);
-  --glass-shadow: 0 8px 32px rgba(236,72,153,0.1);
+  --glass-shadow: 0 8px 32px rgba(236,72,153,0.08);
   --card-bg: #ffffff;
+  --card-bg-secondary: #fdf2f8;
   --card-border: rgba(236, 72, 153, 0.12);
   --text: #3d1a2e;
-  --text-secondary: #8b5e7a;
+  --text-primary: #3d1a2e;
+  --text-secondary: #7a5068;
   --primary: #ec4899;
   --primary-hover: #db2777;
   --accent: #f59e0b;
@@ -86,8 +92,8 @@ body.saloon {
   --border: rgba(236, 72, 153, 0.1);
   --radius: 30px;
   --radius-sm: 18px;
-  --shadow: 0 4px 24px rgba(236,72,153,0.1);
-  --shadow-sm: 0 2px 12px rgba(236,72,153,0.06);
+  --shadow: 0 4px 24px rgba(236,72,153,0.08);
+  --shadow-sm: 0 2px 12px rgba(236,72,153,0.04);
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Raleway', sans-serif;
   --btn-radius: 30px;
@@ -98,7 +104,7 @@ body.saloon {
 }
 
 /* ============================================
-   4. TECH - Purple Haze
+   4. TECH - Purple Dark
    ============================================ */
 body.tech {
   --bg: #0f0a1a;
@@ -107,8 +113,10 @@ body.tech {
   --glass-border: rgba(139, 92, 246, 0.2);
   --glass-shadow: 0 8px 32px rgba(139,92,246,0.2);
   --card-bg: rgba(255, 255, 255, 0.03);
+  --card-bg-secondary: rgba(255,255,255,0.04);
   --card-border: rgba(139, 92, 246, 0.15);
   --text: #f5f3ff;
+  --text-primary: #f5f3ff;
   --text-secondary: #a78bfa;
   --primary: #8b5cf6;
   --primary-hover: #7c3aed;
@@ -138,8 +146,10 @@ body.dark {
   --glass-border: rgba(255, 215, 0, 0.2);
   --glass-shadow: 0 8px 32px rgba(0,0,0,0.6);
   --card-bg: rgba(255, 255, 255, 0.02);
+  --card-bg-secondary: rgba(255,255,255,0.03);
   --card-border: rgba(255, 215, 0, 0.1);
   --text: #f5f5f5;
+  --text-primary: #f5f5f5;
   --text-secondary: #a3a3a3;
   --primary: #ffd700;
   --primary-hover: #ffc107;
@@ -160,18 +170,20 @@ body.dark {
 }
 
 /* ============================================
-   6. RESTAURANT - Warm Orange
+   6. RESTAURANT - Warm Orange Light
    ============================================ */
 body.restaurant {
   --bg: #fff7ed;
   --bg-gradient: linear-gradient(135deg, #fff7ed 0%, #ffedd5 50%, #fed7aa 100%);
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(249, 115, 22, 0.2);
-  --glass-shadow: 0 8px 32px rgba(249,115,22,0.1);
+  --glass-shadow: 0 8px 32px rgba(249,115,22,0.08);
   --card-bg: #ffffff;
+  --card-bg-secondary: #fff7ed;
   --card-border: rgba(249, 115, 22, 0.12);
   --text: #3d1a00;
-  --text-secondary: #9a5d2a;
+  --text-primary: #3d1a00;
+  --text-secondary: #7a4a2a;
   --primary: #f97316;
   --primary-hover: #ea580c;
   --accent: #ef4444;
@@ -179,8 +191,8 @@ body.restaurant {
   --border: rgba(249, 115, 22, 0.1);
   --radius: 20px;
   --radius-sm: 12px;
-  --shadow: 0 4px 20px rgba(249,115,22,0.08);
-  --shadow-sm: 0 2px 10px rgba(249,115,22,0.05);
+  --shadow: 0 4px 20px rgba(249,115,22,0.06);
+  --shadow-sm: 0 2px 10px rgba(249,115,22,0.04);
   --font-heading: 'Playfair Display', serif;
   --font-body: 'DM Sans', sans-serif;
   --btn-radius: 25px;
@@ -191,18 +203,20 @@ body.restaurant {
 }
 
 /* ============================================
-   7. REAL ESTATE - Earth Green
+   7. REAL ESTATE - Earth Green Light
    ============================================ */
 body.realestate {
   --bg: #f0fdf4;
   --bg-gradient: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #d1fae5 100%);
   --glass-bg: rgba(255, 255, 255, 0.8);
   --glass-border: rgba(16, 185, 129, 0.15);
-  --glass-shadow: 0 8px 32px rgba(0,0,0,0.06);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.04);
   --card-bg: #ffffff;
+  --card-bg-secondary: #f0fdf4;
   --card-border: rgba(16, 185, 129, 0.1);
   --text: #1a2e1a;
-  --text-secondary: #5a7a5a;
+  --text-primary: #1a2e1a;
+  --text-secondary: #4a6a4a;
   --primary: #10b981;
   --primary-hover: #059669;
   --accent: #f59e0b;
@@ -222,18 +236,20 @@ body.realestate {
 }
 
 /* ============================================
-   8. EDUCATION - Royal Blue
+   8. EDUCATION - Royal Blue Light
    ============================================ */
 body.education {
   --bg: #eff6ff;
   --bg-gradient: linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #bfdbfe 100%);
   --glass-bg: rgba(255, 255, 255, 0.75);
   --glass-border: rgba(59, 130, 246, 0.15);
-  --glass-shadow: 0 8px 32px rgba(59,130,246,0.08);
+  --glass-shadow: 0 8px 32px rgba(59,130,246,0.06);
   --card-bg: #ffffff;
+  --card-bg-secondary: #eff6ff;
   --card-border: rgba(59, 130, 246, 0.1);
   --text: #1a2a4a;
-  --text-secondary: #5a6a8a;
+  --text-primary: #1a2a4a;
+  --text-secondary: #4a5a7a;
   --primary: #3b82f6;
   --primary-hover: #2563eb;
   --accent: #f59e0b;
@@ -253,18 +269,20 @@ body.education {
 }
 
 /* ============================================
-   9. WEDDING - Rose Gold
+   9. WEDDING - Rose Gold Light
    ============================================ */
 body.wedding {
   --bg: #fff5f5;
   --bg-gradient: linear-gradient(135deg, #fff5f5 0%, #ffe4e6 50%, #fce7f3 100%);
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(244, 114, 182, 0.2);
-  --glass-shadow: 0 8px 32px rgba(244,114,182,0.1);
+  --glass-shadow: 0 8px 32px rgba(244,114,182,0.08);
   --card-bg: #ffffff;
+  --card-bg-secondary: #fdf2f8;
   --card-border: rgba(244, 114, 182, 0.12);
   --text: #3d1a2e;
-  --text-secondary: #8b5e7a;
+  --text-primary: #3d1a2e;
+  --text-secondary: #7a5068;
   --primary: #f472b6;
   --primary-hover: #ec4899;
   --accent: #fbbf24;
@@ -272,8 +290,8 @@ body.wedding {
   --border: rgba(244, 114, 182, 0.1);
   --radius: 40px;
   --radius-sm: 24px;
-  --shadow: 0 4px 24px rgba(244,114,182,0.1);
-  --shadow-sm: 0 2px 12px rgba(244,114,182,0.06);
+  --shadow: 0 4px 24px rgba(244,114,182,0.08);
+  --shadow-sm: 0 2px 12px rgba(244,114,182,0.04);
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Raleway', sans-serif;
   --btn-radius: 50px;
@@ -293,9 +311,11 @@ body.minimal {
   --glass-border: rgba(0,0,0,0.06);
   --glass-shadow: 0 2px 16px rgba(0,0,0,0.04);
   --card-bg: #ffffff;
+  --card-bg-secondary: #f9fafb;
   --card-border: rgba(0,0,0,0.04);
   --text: #1a1a1a;
-  --text-secondary: #737373;
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
   --primary: #000000;
   --primary-hover: #333333;
   --accent: #6366f1;
@@ -315,7 +335,7 @@ body.minimal {
 }
 
 /* ============================================
-   11. SUNSET - Warm Gradient
+   11. SUNSET - Warm Dark Gradient
    ============================================ */
 body.sunset {
   --bg: #1a0a0a;
@@ -324,8 +344,10 @@ body.sunset {
   --glass-border: rgba(255, 255, 255, 0.2);
   --glass-shadow: 0 8px 32px rgba(255,65,108,0.3);
   --card-bg: rgba(255, 255, 255, 0.08);
+  --card-bg-secondary: rgba(255,255,255,0.1);
   --card-border: rgba(255, 255, 255, 0.15);
   --text: #ffffff;
+  --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.7);
   --primary: #ffd700;
   --primary-hover: #ffc107;
@@ -346,7 +368,7 @@ body.sunset {
 }
 
 /* ============================================
-   12. OCEAN - Blue Depth
+   12. OCEAN - Blue Dark
    ============================================ */
 body.ocean {
   --bg: #0a1628;
@@ -355,8 +377,10 @@ body.ocean {
   --glass-border: rgba(0, 180, 216, 0.2);
   --glass-shadow: 0 8px 32px rgba(0,180,216,0.2);
   --card-bg: rgba(255, 255, 255, 0.03);
+  --card-bg-secondary: rgba(255,255,255,0.05);
   --card-border: rgba(0, 180, 216, 0.12);
   --text: #e0f7fa;
+  --text-primary: #e0f7fa;
   --text-secondary: #80deea;
   --primary: #00b4d8;
   --primary-hover: #0096c7;
@@ -377,7 +401,7 @@ body.ocean {
 }
 
 /* ============================================
-   13. FOREST - Deep Green
+   13. FOREST - Deep Green Dark
    ============================================ */
 body.forest {
   --bg: #0a1a0a;
@@ -386,8 +410,10 @@ body.forest {
   --glass-border: rgba(34, 197, 94, 0.15);
   --glass-shadow: 0 8px 32px rgba(34,197,94,0.15);
   --card-bg: rgba(255, 255, 255, 0.03);
+  --card-bg-secondary: rgba(255,255,255,0.04);
   --card-border: rgba(34, 197, 94, 0.1);
   --text: #d1fae5;
+  --text-primary: #d1fae5;
   --text-secondary: #6ee7b7;
   --primary: #4ade80;
   --primary-hover: #22c55e;
@@ -408,7 +434,7 @@ body.forest {
 }
 
 /* ============================================
-   14. LUXURY - Black & Gold
+   14. LUXURY - Black Gold Dark
    ============================================ */
 body.luxury {
   --bg: #0a0a0a;
@@ -417,8 +443,10 @@ body.luxury {
   --glass-border: rgba(255, 215, 0, 0.15);
   --glass-shadow: 0 8px 32px rgba(0,0,0,0.6);
   --card-bg: rgba(255, 215, 0, 0.02);
+  --card-bg-secondary: rgba(255,215,0,0.03);
   --card-border: rgba(255, 215, 0, 0.1);
   --text: #f5f5f0;
+  --text-primary: #f5f5f0;
   --text-secondary: #a3a390;
   --primary: #ffd700;
   --primary-hover: #ffc107;
@@ -439,18 +467,20 @@ body.luxury {
 }
 
 /* ============================================
-   15. COTTON CANDY - Pastel Dream
+   15. COTTON CANDY - Pastel Light
    ============================================ */
 body.cottoncandy {
   --bg: #fef6ff;
   --bg-gradient: linear-gradient(135deg, #fef6ff 0%, #fce7f3 25%, #e0e7ff 50%, #fce7f3 75%, #fef6ff 100%);
   --glass-bg: rgba(255, 255, 255, 0.6);
   --glass-border: rgba(236, 72, 153, 0.15);
-  --glass-shadow: 0 8px 32px rgba(236,72,153,0.08);
+  --glass-shadow: 0 8px 32px rgba(236,72,153,0.06);
   --card-bg: #ffffff;
+  --card-bg-secondary: #fdf2f8;
   --card-border: rgba(236, 72, 153, 0.08);
   --text: #4a1a3e;
-  --text-secondary: #8b5e7a;
+  --text-primary: #4a1a3e;
+  --text-secondary: #7a5068;
   --primary: #c084fc;
   --primary-hover: #a855f7;
   --accent: #f472b6;
@@ -458,8 +488,8 @@ body.cottoncandy {
   --border: rgba(236, 72, 153, 0.08);
   --radius: 32px;
   --radius-sm: 20px;
-  --shadow: 0 4px 24px rgba(236,72,153,0.08);
-  --shadow-sm: 0 2px 12px rgba(236,72,153,0.04);
+  --shadow: 0 4px 24px rgba(236,72,153,0.06);
+  --shadow-sm: 0 2px 12px rgba(236,72,153,0.03);
   --font-heading: 'Raleway', sans-serif;
   --font-body: 'DM Sans', sans-serif;
   --btn-radius: 50px;
@@ -504,156 +534,70 @@ body {
   padding: 20px;
 }
 
-#lottie-box {
-  background: transparent;
-  padding: 10px;
-  text-align: center;
-}
+#lottie-box { background: transparent; padding: 10px; text-align: center; }
 
 #profile-img {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid var(--primary);
-  box-shadow: var(--profile-glow);
-  margin: 10px auto 15px;
-  display: block;
-  position: relative;
-  z-index: 2;
+  width: 130px; height: 130px; border-radius: 50%;
+  object-fit: cover; border: 3px solid var(--primary);
+  box-shadow: var(--profile-glow); margin: 10px auto 15px;
+  display: block; position: relative; z-index: 2;
 }
 
 h1 {
-  font-family: var(--font-heading);
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--text);
-  text-align: center;
-  margin: 0 20px 5px;
+  font-family: var(--font-heading); font-size: 26px; font-weight: 700;
+  color: var(--text); text-align: center; margin: 0 20px 5px;
 }
 
-#title {
-  text-align: center;
-  color: var(--text-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
+#title { text-align: center; color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; }
 
 #sections-container > div {
   background: var(--card-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-sm);
-  padding: 20px;
-  margin-bottom: 15px;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--card-border); border-radius: var(--radius-sm);
+  padding: 20px; margin-bottom: 15px;
+  box-shadow: var(--shadow-sm); transition: var(--transition);
 }
-#sections-container > div:hover {
-  transform: scale(var(--card-hover-scale));
-  box-shadow: var(--shadow);
-}
+#sections-container > div:hover { transform: scale(var(--card-hover-scale)); box-shadow: var(--shadow); }
 
 #sections-container h3 {
-  font-family: var(--font-heading);
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--primary);
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--primary);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-shadow: var(--heading-glow);
+  font-family: var(--font-heading); font-size: 16px; font-weight: 600;
+  color: var(--primary); margin-bottom: 15px; padding-bottom: 10px;
+  border-bottom: 2px solid var(--primary); text-transform: uppercase;
+  letter-spacing: 1px; text-shadow: var(--heading-glow);
 }
 
 button, .btn, a.btn {
-  display: inline-block;
-  padding: 12px 28px;
-  border-radius: var(--btn-radius);
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: var(--transition);
-  text-decoration: none;
-  text-align: center;
+  display: inline-block; padding: 12px 28px; border-radius: var(--btn-radius);
+  font-family: var(--font-body); font-size: 14px; font-weight: 600;
+  cursor: pointer; border: none; transition: var(--transition);
+  text-decoration: none; text-align: center;
 }
-
-.btn-primary {
-  background: var(--primary);
-  color: #fff;
-}
-.btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
-
-.btn-accent {
-  background: var(--accent);
-  color: #fff;
-}
-.btn-accent:hover { background: var(--accent-hover); transform: translateY(-2px); }
 
 #save-contact {
-  display: block;
-  width: calc(100% - 40px);
-  margin: 20px auto;
-  padding: 14px;
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  border-radius: var(--btn-radius);
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
+  display: block; width: calc(100% - 40px); margin: 20px auto;
+  padding: 14px; background: var(--primary); color: #fff;
+  border: none; border-radius: var(--btn-radius); font-size: 16px;
+  font-weight: 600; cursor: pointer; transition: var(--transition);
 }
 #save-contact:hover { background: var(--primary-hover); transform: translateY(-3px); }
 
 #action-buttons { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; padding: 0 0 15px; }
-#action-buttons a { flex: 1; min-width: 90px; padding: 14px 8px; border-radius: 50px; font-weight: 600; font-size: 13px; text-align: center; text-decoration: none; color: #fff; transition: var(--transition); }
+#action-buttons a {
+  flex: 1; min-width: 80px; padding: 12px 8px; border-radius: 50px;
+  font-weight: 600; font-size: 13px; text-align: center; text-decoration: none;
+  color: #fff; transition: var(--transition);
+}
 #action-buttons a:hover { transform: translateY(-3px); }
 
 /* Social Icons - Always Official Colors */
 .social-icons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  padding: 10px 0;
+  display: flex; justify-content: center; align-items: center;
+  gap: 14px; flex-wrap: wrap; padding: 10px 0;
 }
 .social-icons a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  text-decoration: none;
-  font-size: 20px;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-  color: #fff !important;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 46px; height: 46px; border-radius: 50%;
+  text-decoration: none; font-size: 20px; transition: all 0.3s ease;
+  flex-shrink: 0; color: #fff !important;
 }
-.social-icons a:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-}
-/* Official Brand Colors */
-.social-icons a.fa-whatsapp { background: #25D366; }
-.social-icons a.fa-instagram { background: #E4405F; }
-.social-icons a.fa-facebook, .social-icons a.fa-facebook-f { background: #1877F2; }
-.social-icons a.fa-youtube { background: #FF0000; }
-.social-icons a.fa-linkedin, .social-icons a.fa-linkedin-in { background: #0A66C2; }
-.social-icons a.fa-twitter, .social-icons a.fa-x-twitter { background: #1DA1F2; }
-.social-icons a.fa-telegram { background: #26A5E4; }
-.social-icons a.fa-snapchat { background: #FFFC00; color: #000 !important; }
-.social-icons a.fa-pinterest { background: #BD081C; }
-.social-icons a.fa-globe { background: #6366f1; }
-
-#loader { text-align: center; padding: 60px 20px; font-size: 18px; color: var(--text); }
-#error { color: #ff5252; background: var(--card-bg); border-radius: var(--radius); max-width: 400px; margin: 40px auto; text-align: center; padding: 40px 20px; }
-
-.fade-section { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
-.fade-section.visible { opacity: 1; transform: translateY(0); }
+.social-icons a:hover { transform: translateY(-
