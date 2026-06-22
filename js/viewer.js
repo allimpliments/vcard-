@@ -369,6 +369,30 @@ if (!slug) {
           h += '</div>';
           div.innerHTML = h;
         }
+                else if (sec === 'bank' && data.bank) {
+          let h = '<h3>🏦 Bank Account Details</h3>';
+          h += '<div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;box-shadow:var(--shadow-sm);">';
+          
+          if (data.bank.accountNumber && data.bank.accountNumber.trim() !== '') {
+            h += '<div style="margin-bottom:12px;"><p style="font-size:11px;color:var(--text-secondary);margin:0;">Account Number</p>';
+            h += '<p style="font-size:16px;font-weight:700;color:var(--text-primary);margin:2px 0;">' + data.bank.accountNumber + '</p></div>';
+          }
+          if (data.bank.ifsc && data.bank.ifsc.trim() !== '') {
+            h += '<div style="margin-bottom:12px;"><p style="font-size:11px;color:var(--text-secondary);margin:0;">IFSC Code</p>';
+            h += '<p style="font-size:16px;font-weight:700;color:var(--text-primary);margin:2px 0;">' + data.bank.ifsc + '</p></div>';
+          }
+          if (data.bank.bankName && data.bank.bankName.trim() !== '') {
+            h += '<div style="margin-bottom:12px;"><p style="font-size:11px;color:var(--text-secondary);margin:0;">Bank Name</p>';
+            h += '<p style="font-size:16px;font-weight:700;color:var(--text-primary);margin:2px 0;">' + data.bank.bankName + '</p></div>';
+          }
+          if (data.bank.holderName && data.bank.holderName.trim() !== '') {
+            h += '<div style="margin-bottom:12px;"><p style="font-size:11px;color:var(--text-secondary);margin:0;">Account Holder</p>';
+            h += '<p style="font-size:16px;font-weight:700;color:var(--text-primary);margin:2px 0;">' + data.bank.holderName + '</p></div>';
+          }
+          
+          h += '</div>';
+          div.innerHTML = h;
+        }
         container.appendChild(div);
       }
 
