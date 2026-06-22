@@ -479,7 +479,6 @@ if (!slug) {
       for (var l = 0; l < links.length; l++) {
         links[l].style.background = waColor;
       }
-      
       console.log('✅ Card successfully displayed!');
     })
     .catch((error) => {
