@@ -309,6 +309,13 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
           image: row.querySelector('.prod-img-url').value.trim()
         };
       }),
+      services: servicesData.map((s, i) => {
+        const row = servicesDiv.children[i];
+        return {
+          title: row.querySelector('.serv-title').value.trim(),
+          image: row.querySelector('.serv-img-url').value.trim()
+        };
+      }),
       sectionOrder: currentOrder
     };
 
