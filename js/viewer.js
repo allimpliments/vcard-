@@ -382,13 +382,45 @@ if (!slug) {
         }
 
         // LOCATION
-        else if (sec === 'location' && data.location) {
-          let h = '<h3>📍 Location</h3><div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;text-align:center;">';
-          h += '<div style="font-size:50px;margin-bottom:10px;">🗺️</div>';
-          if (data.location.address) h += '<p style="font-size:14px;margin:10px 0;">📍 ' + data.location.address + '</p>';
-          if (data.location.mapLink) h += '<a href="' + data.location.mapLink + '" target="_blank" style="display:inline-block;margin:8px;padding:14px 30px;background:var(--primary);color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:15px;">🗺️ Open in Maps</a>';
-          if (data.location.address) h += '<a href="https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(data.location.address) + '" target="_blank" style="display:inline-block;margin:8px;padding:14px 30px;background:#10b981;color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:15px;">🧭 Navigate</a>';
-          h += '</div>'; div.innerHTML = h;
+                else if (sec === 'location' && data.location) {
+          let h = '<h3>📍 Location</h3>';
+          
+          // Google Map Embed with Zoom
+          if (data.location.mapLink && data.location.mapLink.trim() !== '') {
+            let embedUrl = data.location.mapLink;
+            // Convert regular Google Maps link to embed
+            if (embedUrl.includes('google.com/maps') && !embedUrl.includes('embed')) {
+              if (embedUrl.includes('place/')) {
+                var place = embedUrl.split('place/')[1].split('/')[0];
+                embedUrl = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500!2d77!3d28!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z' + place + '!5e0!3m2!1sen!2sin!4v1234567890';
+              } else if (embedUrl.includes('@')) {
+                var coords = embedUrl.split('@')[1].split(',');
+                if (coords.length >= 2) {
+                  embedUrl = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500!2d' + coords[1] + '!3d' + coords[0] + '!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z!5e0!3m2!1sen!2sin!4v1234567890';
+                }
+              } else {
+                embedUrl = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500!2d77!3d28!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z!5e0!3m2!1sen!2sin!4v1234567890';
+              }
+            }
+            h += '<div style="border-radius:16px;overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:15px;">';
+            h += '<iframe src="' + embedUrl + '" width="100%" height="300" style="border:0;border-radius:16px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
+            h += '</div>';
+          }
+          
+          // Address
+          if (data.location.address && data.location.address.trim() !== '') {
+            h += '<div style="background:var(--card-bg-secondary);border-radius:14px;padding:15px;text-align:center;">';
+            h += '<p style="font-size:14px;color:var(--text-primary);margin:0 0 10px;line-height:1.6;">📍 ' + data.location.address + '</p>';
+            if (data.location.mapLink) {
+              h += '<a href="' + data.location.mapLink + '" target="_blank" style="display:inline-block;margin:5px;padding:12px 25px;background:var(--primary);color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:14px;">🗺️ Open in Google Maps</a>';
+            }
+            if (data.location.address) {
+              h += '<a href="https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(data.location.address) + '" target="_blank" style="display:inline-block;margin:5px;padding:12px 25px;background:#10b981;color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:14px;">🧭 Navigate</a>';
+            }
+            h += '</div>';
+          }
+          
+          div.innerHTML = h;
         }
 
         // CONTACT FORM
