@@ -341,6 +341,34 @@ if (!slug) {
             }, 100);
           }
         }
+                else if (sec === 'payment' && data.payment) {
+          let h = '<h3>💳 Payment Info</h3>';
+          h += '<div style="text-align:center;">';
+          
+          // Payment QR Image
+          if (data.payment.qrImage && data.payment.qrImage.trim() !== '') {
+            h += '<img src="' + data.payment.qrImage + '" alt="Payment QR" style="width:180px;height:180px;object-fit:contain;border-radius:15px;box-shadow:var(--shadow-sm);margin-bottom:15px;">';
+          }
+          
+          // Paytm
+          if (data.payment.paytm && data.payment.paytm.trim() !== '') {
+            h += '<div style="background:#e8f5e9;border-radius:12px;padding:15px;margin:8px 0;">';
+            h += '<p style="font-weight:700;color:#00bcd4;margin:0;">Paytm</p>';
+            h += '<p style="font-size:18px;font-weight:700;color:#1e293b;margin:5px 0;">' + data.payment.paytm + '</p>';
+            h += '</div>';
+          }
+          
+          // UPI
+          if (data.payment.upi && data.payment.upi.trim() !== '') {
+            h += '<div style="background:#e3f2fd;border-radius:12px;padding:15px;margin:8px 0;">';
+            h += '<p style="font-weight:700;color:#1976d2;margin:0;">UPI</p>';
+            h += '<p style="font-size:18px;font-weight:700;color:#1e293b;margin:5px 0;">' + data.payment.upi + '</p>';
+            h += '</div>';
+          }
+          
+          h += '</div>';
+          div.innerHTML = h;
+        }
         container.appendChild(div);
       }
 
