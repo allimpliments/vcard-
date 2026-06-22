@@ -23,12 +23,19 @@ if (!slug) {
       const data = docSnap.data();
       console.log('Data mila:', data);
 
-      // Auto-detect dark mode, but user theme overrides
+      // Auto Dark Mode - Default theme changes based on phone setting
+      var savedTheme = data.theme || 'default';
       var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      var savedTheme = data.theme || '';
+      
+      // If theme is "default" or empty, auto-switch based on phone setting
       if (!savedTheme || savedTheme === 'default') {
-        document.body.className = prefersDark ? 'dark' : 'default';
+        if (prefersDark) {
+          document.body.className = 'dark';
+        } else {
+          document.body.className = 'default';
+        }
       } else {
+        // User has selected a specific theme - keep it
         document.body.className = savedTheme;
       }
       document.getElementById('loader').style.display = 'none';
