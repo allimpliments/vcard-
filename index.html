@@ -13,7 +13,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-      @media (min-width: 768px) {
+    @media (min-width: 768px) {
       body { padding-left: 100px; padding-right: 0; }
       #card-container { margin-left: auto !important; margin-right: auto !important; }
       #desktop-nav { display: flex !important; }
@@ -69,53 +69,19 @@
   <h1 id="name"></h1>
   <p id="title"></p>
 
-      <div id="action-buttons" style="display:flex;gap:8px;justify-content:center;padding:0 10px 20px;flex-wrap:wrap;">
-      <a id="btn-call" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--primary);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:var(--btn-font-weight);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);transition:all var(--transition-speed) var(--transition-style);"><span style="font-size:22px;">📞</span> Call</a>
-      <a id="btn-email" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--accent);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:var(--btn-font-weight);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);transition:all var(--transition-speed) var(--transition-style);"><span style="font-size:22px;">✉️</span> Email</a>
-      <a id="btn-whatsapp" href="#" target="_blank" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:#25d366;color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:var(--btn-font-weight);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);transition:all var(--transition-speed) var(--transition-style);"><span style="font-size:22px;">💬</span> WhatsApp</a>
-    </div>
-      <!-- Language Selector -->
-    <div id="lang-section" style="text-align:center;padding:10px 20px;display:none;">
-      <select id="lang-select" onchange="changeLanguage()" style="padding:10px 20px;border-radius:25px;background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);color:var(--text);font-weight:600;font-size:14px;cursor:pointer;">
-        <option value="en">🇬🇧 English</option>
-        <option value="hi">🇮🇳 हिंदी</option>
-        <option value="mr">🇮🇳 मराठी</option>
-        <option value="gu">🇮🇳 ગુજરાતી</option>
-        <option value="ta">🇮🇳 தமிழ்</option>
-        <option value="te">🇮🇳 తెలుగు</option>
-        <option value="bn">🇮🇳 বাংলা</option>
-        <option value="kn">🇮🇳 ಕನ್ನಡ</option>
-        <option value="ml">🇮🇳 മലയാളം</option>
-        <option value="pa">🇮🇳 ਪੰਜਾਬੀ</option>
-        <option value="or">🇮🇳 ଓଡ଼ିଆ</option>
-        <option value="as">🇮🇳 অসমীয়া</option>
-        <option value="ur">🇮🇳 اردو</option>
-        <option value="sa">🇮🇳 संस्कृतम्</option>
-        <option value="ks">🇮🇳 کٲشُر / Kashmiri</option>
-        <option value="kok">🇮🇳 कोंकणी</option>
-        <option value="mai">🇮🇳 मैथिली</option>
-        <option value="ne">🇳🇵 नेपाली</option>
-        <option value="sd">🇮🇳 سنڌي</option>
-        <option value="mni">🇮🇳 Manipuri (Meitei)</option>
-        <option value="doi">🇮🇳 डोगरी</option>
-        <option value="bho">🇮🇳 भोजपुरी</option>
-        <option value="sat">🇮🇳 Santali</option>
-        <option value="rw">🌍 Kinyarwanda</option>
-        <option value="sw">🌍 Kiswahili</option>
-        <option value="ar">🇸🇦 العربية</option>
-        <option value="fr">🇫🇷 Français</option>
-        <option value="de">🇩🇪 Deutsch</option>
-        <option value="es">🇪🇸 Español</option>
-        <option value="pt">🇵🇹 Português</option>
-      </select>
-    </div>
-  <div id="sections-container"></div>
-      <button id="save-contact" style="display:block;width:calc(100% - 40px);margin:20px auto;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:16px;cursor:pointer;transition:all var(--transition-speed) var(--transition-style);">📇 Save to Phone</button>
+  <div id="action-buttons" style="display:flex;gap:8px;justify-content:center;padding:0 10px 20px;flex-wrap:wrap;">
+    <a id="btn-call" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--primary);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:var(--btn-font-weight);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);transition:all var(--transition-speed) var(--transition-style);"><span style="font-size:22px;">📞</span> Call</a>
+    <a id="btn-email" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--accent);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:var(--btn-font-weight);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);transition:all var(--transition-speed) var(--transition-style);"><span style="font-size:22px;">✉️</span> Email</a>
+    <a id="btn-whatsapp" href="#" target="_blank" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--whatsapp);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:var(--btn-font-weight);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);transition:all var(--transition-speed) var(--transition-style);"><span style="font-size:22px;">💬</span> WhatsApp</a>
+  </div>
 
-      <div style="padding:0 20px 10px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-      <button id="btn-share" style="flex:1;min-width:100px;padding:var(--btn-padding);background:var(--primary);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:var(--btn-font-weight);font-size:14px;cursor:pointer;transition:all var(--transition-speed) var(--transition-style);">📤 Share</button>
-      <button id="btn-pdf" style="flex:1;min-width:100px;padding:var(--btn-padding);background:var(--accent);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:var(--btn-font-weight);font-size:14px;cursor:pointer;transition:all var(--transition-speed) var(--transition-style);">📄 PDF</button>
-    </div>
+  <div id="sections-container"></div>
+  <button id="save-contact" style="display:block;width:calc(100% - 40px);margin:20px auto;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:16px;cursor:pointer;transition:all var(--transition-speed) var(--transition-style);">📇 Save to Phone</button>
+
+  <div style="padding:0 20px 10px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+    <button id="btn-share" style="flex:1;min-width:100px;padding:var(--btn-padding);background:var(--primary);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:var(--btn-font-weight);font-size:14px;cursor:pointer;transition:all var(--transition-speed) var(--transition-style);">📤 Share</button>
+    <button id="btn-pdf" style="flex:1;min-width:100px;padding:var(--btn-padding);background:var(--accent);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:var(--btn-font-weight);font-size:14px;cursor:pointer;transition:all var(--transition-speed) var(--transition-style);">📄 PDF</button>
+  </div>
 
   <div id="qr-section" style="padding:20px;text-align:center;">
     <h3 style="font-size:16px;font-weight:600;color:var(--primary);margin-bottom:15px;">📱 Scan QR Code</h3>
@@ -123,8 +89,31 @@
       <img id="qr-image" src="" alt="QR Code" style="display:none;width:200px;height:200px;">
     </div>
     <p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;"><span id="card-url-text"></span></p>
-          <button id="btn-copy-url" style="padding:var(--btn-padding);background:var(--primary);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:var(--btn-font-weight);font-size:14px;cursor:pointer;transition:all var(--transition-speed) var(--transition-style);">📋 Copy URL</button>
+    <button id="btn-copy-url" style="padding:var(--btn-padding);background:var(--primary);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:var(--btn-font-weight);font-size:14px;cursor:pointer;transition:all var(--transition-speed) var(--transition-style);">📋 Copy URL</button>
   </div>
+</div>
+
+<!-- Language Selector -->
+<div id="lang-section" style="text-align:center;padding:10px 20px;display:none;">
+  <select id="lang-select" onchange="changeLanguage()" style="padding:10px 20px;border-radius:25px;background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);color:var(--text);font-weight:600;font-size:14px;cursor:pointer;">
+    <option value="en">🇬🇧 English</option>
+    <option value="hi">🇮🇳 हिंदी</option>
+    <option value="mr">🇮🇳 मराठी</option>
+    <option value="gu">🇮🇳 ગુજરાતી</option>
+    <option value="ta">🇮🇳 தமிழ்</option>
+    <option value="te">🇮🇳 తెలుగు</option>
+    <option value="bn">🇮🇳 বাংলা</option>
+    <option value="kn">🇮🇳 ಕನ್ನಡ</option>
+    <option value="ml">🇮🇳 മലയാളം</option>
+    <option value="pa">🇮🇳 ਪੰਜਾਬੀ</option>
+    <option value="or">🇮🇳 ଓଡ଼ିଆ</option>
+    <option value="ur">🇮🇳 اردو</option>
+    <option value="fr">🇫🇷 Français</option>
+    <option value="es">🇪🇸 Español</option>
+    <option value="ar">🇸🇦 العربية</option>
+    <option value="de">🇩🇪 Deutsch</option>
+    <option value="pt">🇵🇹 Português</option>
+  </select>
 </div>
 
 <div id="loader">⏳ Loading...</div>
@@ -219,172 +208,32 @@ document.addEventListener('click', function(e) {
   btn.appendChild(ripple);
   setTimeout(function(){ ripple.remove(); }, 600);
 });
-</script>
-  <script>
-  var translations = {
-    en: {
-      about:"About Us",contact:"Contact",social:"Social Links",products:"Online Shop",services:"Products & Services",
-      gallery:"Gallery",youtube:"YouTube Videos",reels:"Reels & Posts",payment:"Payment Info",bank:"Bank Details",
-      feedback:"Feedback",location:"Location",contactform:"Contact Us",
-      save:"Save to Phone",share:"Share Card",pdf:"Save as PDF",qr:"Scan QR Code",copy:"Copy URL",
-      call:"Call",email:"Email",whatsapp:"WhatsApp",enquiry:"Send via WhatsApp",order:"Order",watch:"Watch Now"
-    },
-    hi: {
-      about:"हमारे बारे में",contact:"संपर्क",social:"सोशल लिंक्स",products:"ऑनलाइन शॉप",services:"प्रोडक्ट्स और सर्विसेज़",
-      gallery:"गैलरी",youtube:"यूट्यूब वीडियो",reels:"रील्स और पोस्ट",payment:"पेमेंट जानकारी",bank:"बैंक डिटेल",
-      feedback:"फीडबैक",location:"लोकेशन",contactform:"संपर्क फॉर्म",
-      save:"फ़ोन में सेव करें",share:"कार्ड शेयर करें",pdf:"PDF सेव करें",qr:"QR कोड स्कैन करें",copy:"URL कॉपी करें",
-      call:"कॉल",email:"ईमेल",whatsapp:"व्हाट्सएप",enquiry:"व्हाट्सएप पर भेजें",order:"ऑर्डर",watch:"अभी देखें"
-    },
-    mr: {
-      about:"आमच्याबद्दल",contact:"संपर्क",social:"सोशल लिंक्स",products:"ऑनलाइन शॉप",services:"उत्पादने आणि सेवा",
-      gallery:"गॅलरी",youtube:"यूट्यूब व्हिडिओ",reels:"रील्स आणि पोस्ट",payment:"पेमेंट माहिती",bank:"बँक तपशील",
-      feedback:"फीडबॅक",location:"स्थान",contactform:"संपर्क फॉर्म",
-      save:"फोनमध्ये सेव्ह करा",share:"कार्ड शेअर करा",pdf:"PDF सेव्ह करा",qr:"QR कोड स्कॅन करा",copy:"URL कॉपी करा",
-      call:"कॉल",email:"ईमेल",whatsapp:"व्हाट्सएप",enquiry:"व्हाट्सएप वर पाठवा",order:"ऑर्डर",watch:"आता पहा"
-    },
-    gu: {
-      about:"અમારા વિશે",contact:"સંપર્ક",social:"સોશિયલ લિંક્સ",products:"ઑનલાઇન શોપ",services:"પ્રોડક્ટ્સ અને સર્વિસિસ",
-      gallery:"ગેલેરી",youtube:"યુટ્યુબ વીડિયો",reels:"રીલ્સ અને પોસ્ટ",payment:"પેમેન્ટ માહિતી",bank:"બેંક વિગતો",
-      feedback:"ફીડબેક",location:"સ્થાન",contactform:"સંપર્ક ફોર્મ",
-      save:"ફોનમાં સેવ કરો",share:"કાર્ડ શેર કરો",pdf:"PDF સેવ કરો",qr:"QR કોડ સ્કેન કરો",copy:"URL કૉપિ કરો",
-      call:"કૉલ",email:"ઈમેલ",whatsapp:"વ્હોટ્સએપ",enquiry:"વ્હોટ્સએપ પર મોકલો",order:"ઓર્ડર",watch:"હમણાં જુઓ"
-    },
-    ta: {
-      about:"எங்களைப் பற்றி",contact:"தொடர்பு",social:"சமூக இணைப்புகள்",products:"ஆன்லைன் ஷாப்",services:"தயாரிப்புகள் மற்றும் சேவைகள்",
-      gallery:"கேலரி",youtube:"யூடியூப் வீடியோக்கள்",reels:"ரீல்ஸ் மற்றும் பதிவுகள்",payment:"கட்டண விவரம்",bank:"வங்கி விவரங்கள்",
-      feedback:"கருத்து",location:"இருப்பிடம்",contactform:"தொடர்பு படிவம்",
-      save:"ஃபோனில் சேமிக்கவும்",share:"கார்டை பகிரவும்",pdf:"PDF சேமிக்கவும்",qr:"QR குறியீடு ஸ்கேன்",copy:"URL நகலெடு",
-      call:"அழைப்பு",email:"மின்னஞ்சல்",whatsapp:"வாட்ஸ்அப்",enquiry:"வாட்ஸ்அப் வழியாக அனுப்பு",order:"ஆர்டர்",watch:"இப்போது பார்க்க"
-    },
-    te: {
-      about:"మా గురించి",contact:"సంప్రదించండి",social:"సోషల్ లింక్స్",products:"ఆన్‌లైన్ షాప్",services:"ఉత్పత్తులు మరియు సేవలు",
-      gallery:"గ్యాలరీ",youtube:"యూట్యూబ్ వీడియోలు",reels:"రీల్స్ మరియు పోస్ట్‌లు",payment:"చెల్లింపు సమాచారం",bank:"బ్యాంక్ వివరాలు",
-      feedback:"ఫీడ్‌బ్యాక్",location:"ప్రదేశం",contactform:"సంప్రదింపు ఫారం",
-      save:"ఫోన్‌లో సేవ్ చేయి",share:"కార్డ్ షేర్ చేయి",pdf:"PDF సేవ్",qr:"QR కోడ్ స్కాన్",copy:"URL కాపీ",
-      call:"కాల్",email:"ఈమెయిల్",whatsapp:"వాట్సాప్",enquiry:"వాట్సాప్ ద్వారా పంపు",order:"ఆర్డర్",watch:"ఇప్పుడే చూడండి"
-    },
-    bn: {
-      about:"আমাদের সম্পর্কে",contact:"যোগাযোগ",social:"সোশ্যাল লিংক",products:"অনলাইন শপ",services:"পণ্য ও পরিষেবা",
-      gallery:"গ্যালারি",youtube:"ইউটিউব ভিডিও",reels:"রিলস ও পোস্ট",payment:"পেমেন্ট তথ্য",bank:"ব্যাংক বিবরণ",
-      feedback:"মতামত",location:"অবস্থান",contactform:"যোগাযোগ ফর্ম",
-      save:"ফোনে সংরক্ষণ",share:"কার্ড শেয়ার",pdf:"PDF সংরক্ষণ",qr:"QR কোড স্ক্যান",copy:"URL কপি",
-      call:"কল",email:"ইমেইল",whatsapp:"হোয়াটসঅ্যাপ",enquiry:"হোয়াটসঅ্যাপে পাঠান",order:"অর্ডার",watch:"এখন দেখুন"
-    },
-    kn: {
-      about:"ನಮ್ಮ ಬಗ್ಗೆ",contact:"ಸಂಪರ್ಕ",social:"ಸಾಮಾಜಿಕ ಲಿಂಕ್‌ಗಳು",products:"ಆನ್‌ಲೈನ್ ಶಾಪ್",services:"ಉತ್ಪನ್ನಗಳು ಮತ್ತು ಸೇವೆಗಳು",
-      gallery:"ಗ್ಯಾಲರಿ",youtube:"ಯೂಟ್ಯೂಬ್ ವೀಡಿಯೊಗಳು",reels:"ರೀಲ್ಸ್ ಮತ್ತು ಪೋಸ್ಟ್‌ಗಳು",payment:"ಪಾವತಿ ಮಾಹಿತಿ",bank:"ಬ್ಯಾಂಕ್ ವಿವರ",
-      feedback:"ಪ್ರತಿಕ್ರಿಯೆ",location:"ಸ್ಥಳ",contactform:"ಸಂಪರ್ಕ ಫಾರ್ಮ್",
-      save:"ಫೋನ್‌ನಲ್ಲಿ ಉಳಿಸಿ",share:"ಕಾರ್ಡ್ ಹಂಚಿಕೊಳ್ಳಿ",pdf:"PDF ಉಳಿಸಿ",qr:"QR ಕೋಡ್ ಸ್ಕ್ಯಾನ್",copy:"URL ನಕಲಿಸಿ",
-      call:"ಕರೆ",email:"ಇಮೇಲ್",whatsapp:"ವಾಟ್ಸಾಪ್",enquiry:"ವಾಟ್ಸಾಪ್ ಮೂಲಕ ಕಳುಹಿಸಿ",order:"ಆರ್ಡರ್",watch:"ಈಗ ವೀಕ್ಷಿಸಿ"
-    },
-    ml: {
-      about:"ഞങ്ങളെക്കുറിച്ച്",contact:"ബന്ധപ്പെടുക",social:"സോഷ്യൽ ലിങ്കുകൾ",products:"ഓൺലൈൻ ഷോപ്പ്",services:"ഉൽപ്പന്നങ്ങളും സേവനങ്ങളും",
-      gallery:"ഗാലറി",youtube:"യൂട്യൂബ് വീഡിയോകൾ",reels:"റീൽസും പോസ്റ്റുകളും",payment:"പേയ്‌മെന്റ് വിവരം",bank:"ബാങ്ക് വിശദാംശങ്ങൾ",
-      feedback:"ഫീഡ്ബാക്ക്",location:"സ്ഥലം",contactform:"ബന്ധപ്പെടാനുള്ള ഫോം",
-      save:"ഫോണിൽ സേവ് ചെയ്യുക",share:"കാർഡ് ഷെയർ ചെയ്യുക",pdf:"PDF സേവ് ചെയ്യുക",qr:"QR കോഡ് സ്കാൻ",copy:"URL പകർത്തുക",
-      call:"കാൾ",email:"ഇമെയിൽ",whatsapp:"വാട്സ്ആപ്പ്",enquiry:"വാട്സ്ആപ്പ് വഴി അയയ്‌ക്കുക",order:"ഓർഡർ",watch:"ഇപ്പോൾ കാണുക"
-    },
-    pa: {
-      about:"ਸਾਡੇ ਬਾਰੇ",contact:"ਸੰਪਰਕ",social:"ਸੋਸ਼ਲ ਲਿੰਕ",products:"ਆਨਲਾਈਨ ਦੁਕਾਨ",services:"ਉਤਪਾਦ ਅਤੇ ਸੇਵਾਵਾਂ",
-      gallery:"ਗੈਲਰੀ",youtube:"ਯੂਟਿਊਬ ਵੀਡੀਓ",reels:"ਰੀਲਜ਼ ਅਤੇ ਪੋਸਟ",payment:"ਭੁਗਤਾਨ ਜਾਣਕਾਰੀ",bank:"ਬੈਂਕ ਵੇਰਵਾ",
-      feedback:"ਫੀਡਬੈਕ",location:"ਸਥਾਨ",contactform:"ਸੰਪਰਕ ਫਾਰਮ",
-      save:"ਫੋਨ ਵਿੱਚ ਸੇਵ ਕਰੋ",share:"ਕਾਰਡ ਸਾਂਝਾ ਕਰੋ",pdf:"PDF ਸੇਵ ਕਰੋ",qr:"QR ਕੋਡ ਸਕੈਨ",copy:"URL ਕਾਪੀ",
-      call:"ਕਾਲ",email:"ਈਮੇਲ",whatsapp:"ਵਟਸਐਪ",enquiry:"ਵਟਸਐਪ ਰਾਹੀਂ ਭੇਜੋ",order:"ਆਰਡਰ",watch:"ਹੁਣੇ ਦੇਖੋ"
-    },
-    or: {
-      about:"ଆମ ବିଷୟରେ",contact:"ଯୋଗାଯୋଗ",social:"ସୋସିଆଲ ଲିଙ୍କ",products:"ଅନଲାଇନ ଦୋକାନ",services:"ଉତ୍ପାଦ ଏବଂ ସେବା",
-      gallery:"ଗ୍ୟାଲେରୀ",youtube:"ୟୁଟ୍ୟୁବ ଭିଡିଓ",reels:"ରୀଲ୍ସ ଏବଂ ପୋଷ୍ଟ",payment:"ପେମେଣ୍ଟ ସୂଚନା",bank:"ବ୍ୟାଙ୍କ ବିବରଣୀ",
-      feedback:"ମତାମତ",location:"ଅବସ୍ଥାନ",contactform:"ଯୋଗାଯୋଗ ଫର୍ମ",
-      save:"ଫୋନରେ ସେଭ୍ କରନ୍ତୁ",share:"କାର୍ଡ ସେୟାର କରନ୍ତୁ",pdf:"PDF ସେଭ୍",qr:"QR କୋଡ୍ ସ୍କାନ",copy:"URL କପି",
-      call:"କଲ",email:"ଇମେଲ",whatsapp:"ହ୍ୱାଟସଆପ",enquiry:"ହ୍ୱାଟସଆପ ମାଧ୍ୟମରେ ପଠାନ୍ତୁ",order:"ଅର୍ଡର",watch:"ବର୍ତ୍ତମାନ ଦେଖନ୍ତୁ"
-    },
-    ur: {
-      about:"ہمارے بارے میں",contact:"رابطہ",social:"سوشل لنکس",products:"آن لائن شاپ",services:"مصنوعات اور خدمات",
-      gallery:"گیلری",youtube:"یوٹیوب ویڈیوز",reels:"ریلز اور پوسٹس",payment:"ادائیگی کی معلومات",bank:"بینک تفصیلات",
-      feedback:"رائے",location:"مقام",contactform:"رابطہ فارم",
-      save:"فون میں محفوظ کریں",share:"کارڈ شیئر کریں",pdf:"PDF محفوظ کریں",qr:"QR کوڈ اسکین",copy:"URL کاپی",
-      call:"کال",email:"ای میل",whatsapp:"واٹس ایپ",enquiry:"واٹس ایپ پر بھیجیں",order:"آرڈر",watch:"ابھی دیکھیں"
-    },
-    fr: {
-      about:"À Propos",contact:"Contact",social:"Réseaux Sociaux",products:"Boutique",services:"Produits & Services",
-      gallery:"Galerie",youtube:"Vidéos YouTube",reels:"Reels & Posts",payment:"Paiement",bank:"Banque",
-      feedback:"Avis",location:"Emplacement",contactform:"Formulaire",
-      save:"Enregistrer",share:"Partager",pdf:"PDF",qr:"Scanner QR",copy:"Copier URL",
-      call:"Appeler",email:"Email",whatsapp:"WhatsApp",enquiry:"Envoyer WhatsApp",order:"Commander",watch:"Regarder"
-    },
-    es: {
-      about:"Sobre Nosotros",contact:"Contacto",social:"Redes Sociales",products:"Tienda",services:"Productos y Servicios",
-      gallery:"Galería",youtube:"Videos YouTube",reels:"Reels",payment:"Pago",bank:"Banco",
-      feedback:"Comentarios",location:"Ubicación",contactform:"Formulario",
-      save:"Guardar",share:"Compartir",pdf:"PDF",qr:"Escanear QR",copy:"Copiar URL",
-      call:"Llamar",email:"Correo",whatsapp:"WhatsApp",enquiry:"Enviar WhatsApp",order:"Pedir",watch:"Ver Ahora"
-    },
-    ar: {
-      about:"من نحن",contact:"اتصال",social:"روابط اجتماعية",products:"متجر",services:"منتجات وخدمات",
-      gallery:"معرض",youtube:"فيديوهات يوتيوب",reels:"ريلز",payment:"الدفع",bank:"البنك",
-      feedback:"ملاحظات",location:"الموقع",contactform:"نموذج الاتصال",
-      save:"حفظ",share:"مشاركة",pdf:"PDF",qr:"مسح QR",copy:"نسخ URL",
-      call:"اتصال",email:"بريد",whatsapp:"واتساب",enquiry:"إرسال واتساب",order:"طلب",watch:"شاهد الآن"
-    },
-    de: {
-      about:"Über Uns",contact:"Kontakt",social:"Soziale Medien",products:"Shop",services:"Produkte & Dienste",
-      gallery:"Galerie",youtube:"YouTube Videos",reels:"Reels",payment:"Zahlung",bank:"Bank",
-      feedback:"Feedback",location:"Standort",contactform:"Kontaktformular",
-      save:"Speichern",share:"Teilen",pdf:"PDF",qr:"QR scannen",copy:"URL kopieren",
-      call:"Anruf",email:"E-Mail",whatsapp:"WhatsApp",enquiry:"WhatsApp senden",order:"Bestellen",watch:"Jetzt ansehen"
-    },
-    pt: {
-      about:"Sobre Nós",contact:"Contato",social:"Redes Sociais",products:"Loja",services:"Produtos e Serviços",
-      gallery:"Galeria",youtube:"Vídeos YouTube",reels:"Reels",payment:"Pagamento",bank:"Banco",
-      feedback:"Feedback",location:"Localização",contactform:"Formulário",
-      save:"Salvar",share:"Compartilhar",pdf:"PDF",qr:"Escanear QR",copy:"Copiar URL",
-      call:"Ligar",email:"E-mail",whatsapp:"WhatsApp",enquiry:"Enviar WhatsApp",order:"Pedir",watch:"Assistir"
-    }
-  };
 
-  function changeLanguage() {
-    var lang = document.getElementById('lang-select').value;
-    var t = translations[lang] || translations.en;
-    
-    // Update section headings
-    var headings = document.querySelectorAll('#sections-container h3');
-    var keys = ['about','contact','social','products','services','gallery','youtube','reels','payment','bank','feedback','location','contactform'];
-    headings.forEach(function(h, i) {
-      if (keys[i] && t[keys[i]]) h.textContent = t[keys[i]];
-    });
-    
-    // Update buttons
-    var btnSave = document.getElementById('save-contact');
-    if (btnSave) btnSave.textContent = '📇 ' + (t.save || 'Save to Phone');
-    var btnShare = document.getElementById('btn-share');
-    if (btnShare) btnShare.textContent = '📤 ' + (t.share || 'Share Card');
-    var btnPdf = document.getElementById('btn-pdf');
-    if (btnPdf) btnPdf.textContent = '📄 ' + (t.pdf || 'Save as PDF');
-    
-    // Update action buttons
-    var btnCall = document.querySelector('#action-buttons a:first-child');
-    if (btnCall) btnCall.innerHTML = '<span style="font-size:22px;">📞</span> ' + (t.call || 'Call');
-    var btnEmail = document.querySelector('#action-buttons a:nth-child(2)');
-    if (btnEmail) btnEmail.innerHTML = '<span style="font-size:22px;">✉️</span> ' + (t.email || 'Email');
-    var btnWA = document.querySelector('#action-buttons a:last-child');
-    if (btnWA) btnWA.innerHTML = '<span style="font-size:22px;">💬</span> ' + (t.whatsapp || 'WhatsApp');
-
-    // Update QR heading
-    var qrH3 = document.querySelector('#qr-section h3');
-    if (qrH3) qrH3.textContent = '📱 ' + (t.qr || 'Scan QR Code');
-    var copyBtn = document.getElementById('btn-copy-url');
-    if (copyBtn) copyBtn.textContent = '📋 ' + (t.copy || 'Copy URL');
-    
-    localStorage.setItem('vcard-lang', lang);
-  }
-
-  (function() {
-    var saved = localStorage.getItem('vcard-lang');
-    if (saved) document.getElementById('lang-select').value = saved;
-    document.getElementById('lang-section').style.display = 'block';
-    if (saved && saved !== 'en') changeLanguage();
-  })();
+// Language
+var translations = {
+  en:{about:"About Us",contact:"Contact",social:"Social Links",products:"Online Shop",services:"Products & Services",gallery:"Gallery",youtube:"YouTube Videos",reels:"Reels & Posts",payment:"Payment Info",bank:"Bank Details",feedback:"Feedback",location:"Location",contactform:"Contact Us",save:"Save to Phone",share:"Share Card",pdf:"Save as PDF",qr:"Scan QR Code",copy:"Copy URL",call:"Call",email:"Email",whatsapp:"WhatsApp"},
+  hi:{about:"हमारे बारे में",contact:"संपर्क",social:"सोशल लिंक्स",products:"ऑनलाइन शॉप",services:"प्रोडक्ट्स और सर्विसेज़",gallery:"गैलरी",youtube:"यूट्यूब वीडियो",reels:"रील्स और पोस्ट",payment:"पेमेंट जानकारी",bank:"बैंक डिटेल",feedback:"फीडबैक",location:"लोकेशन",contactform:"संपर्क फॉर्म",save:"फ़ोन में सेव करें",share:"कार्ड शेयर करें",pdf:"PDF सेव करें",qr:"QR कोड स्कैन करें",copy:"URL कॉपी करें",call:"कॉल",email:"ईमेल",whatsapp:"व्हाट्सएप"}
+};
+function changeLanguage() {
+  var lang = document.getElementById('lang-select').value;
+  var t = translations[lang] || translations.en;
+  var headings = document.querySelectorAll('#sections-container h3');
+  var keys = ['about','contact','social','products','services','gallery','youtube','reels','payment','bank','feedback','location','contactform'];
+  headings.forEach(function(h,i){ if(keys[i]&&t[keys[i]]) h.textContent = t[keys[i]]; });
+  var btnSave = document.getElementById('save-contact');
+  if(btnSave) btnSave.textContent = '📇 ' + (t.save||'Save to Phone');
+  var btnShare = document.getElementById('btn-share');
+  if(btnShare) btnShare.textContent = '📤 ' + (t.share||'Share');
+  var btnPdf = document.getElementById('btn-pdf');
+  if(btnPdf) btnPdf.textContent = '📄 ' + (t.pdf||'PDF');
+  localStorage.setItem('vcard-lang', lang);
+}
+(function(){
+  var saved = localStorage.getItem('vcard-lang');
+  if(saved) document.getElementById('lang-select').value = saved;
+  document.getElementById('lang-section').style.display = 'block';
+  if(saved && saved !== 'en') changeLanguage();
+})();
 </script>
 </body>
 </html>
