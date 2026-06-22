@@ -292,6 +292,35 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     galleryData.push('');
     renderGallery();
   };
+    // YouTube Videos
+  const youtubeDiv = document.getElementById('youtube-list');
+  const youtubeData = cardData.youtube || [];
+  function renderYoutube() {
+    youtubeDiv.innerHTML = '';
+    youtubeData.forEach((url, i) => {
+      const row = document.createElement('div');
+      row.style.border = '1px solid #e2e8f0';
+      row.style.padding = '10px';
+      row.style.margin = '8px 0';
+      row.style.borderRadius = '10px';
+      row.innerHTML = `
+        <label>YouTube वीडियो URL:</label>
+        <input type="url" class="yt-url" value="${url || ''}" placeholder="https://youtube.com/watch?v=... या https://youtu.be/..." style="width: 100%;">
+        <button type="button" class="remove-yt" style="background:#ef4444; color:#fff; border:none; padding:6px 12px; border-radius:6px; margin-top:8px;">हटाएँ</button>
+      `;
+      
+      row.querySelector('.remove-yt').onclick = () => {
+        youtubeData.splice(i, 1);
+        renderYoutube();
+      };
+      youtubeDiv.appendChild(row);
+    });
+  }
+  renderYoutube();
+  document.getElementById('add-youtube').onclick = () => {
+    youtubeData.push('');
+    renderYoutube();
+  };
   // Social links
   const socialDiv = document.getElementById('social-links');
   const socialData = cardData.social || {};
@@ -378,6 +407,17 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
         const rows = galleryDiv.children;
         for (let i = 0; i < rows.length; i++) {
           const urlInput = rows[i].querySelector('.gal-img-url');
+          if (urlInput && urlInput.value.trim()) {
+            result.push(urlInput.value.trim());
+          }
+        }
+        return result;
+      })(),
+      youtube: (() => {
+        const result = [];
+        const rows = youtubeDiv.children;
+        for (let i = 0; i < rows.length; i++) {
+          const urlInput = rows[i].querySelector('.yt-url');
           if (urlInput && urlInput.value.trim()) {
             result.push(urlInput.value.trim());
           }
