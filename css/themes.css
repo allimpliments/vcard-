@@ -702,3 +702,11 @@ button, .btn, a.btn {
 @keyframes ripple-anim {
   to { transform: scale(4); opacity: 0; }
 }
+/* Global Button Glass Hover */
+button:hover, a.btn:hover, #save-contact:hover, #action-buttons a:hover,
+#btn-share:hover, #btn-pdf:hover, #btn-copy-url:hover, #feedback-submit:hover,
+#enquiry-send:hover {
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.1) !important;
+}
