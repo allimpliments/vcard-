@@ -176,7 +176,65 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     productsData.push({ name: '', sellingPrice: '', actualPrice: '', image: '' });
     renderProducts();
   };
-
+    // Services
+  const servicesDiv = document.getElementById('services-list');
+  const servicesData = cardData.services || [];
+  function renderServices() {
+    servicesDiv.innerHTML = '';
+    servicesData.forEach((s, i) => {
+      const row = document.createElement('div');
+      row.style.border = '1px solid #e2e8f0';
+      row.style.padding = '10px';
+      row.style.margin = '8px 0';
+      row.style.borderRadius = '10px';
+      row.innerHTML = `
+        <label>सर्विस इमेज:</label>
+        <input type="file" class="serv-img-file" accept="image/*" style="padding: 6px; width: 100%;">
+        <p style="font-size: 11px; color: #64748b;">— या —</p>
+        <input type="url" class="serv-img-url" value="${s.image || ''}" placeholder="इमेज URL" style="width: 100%;">
+        <img class="serv-img-preview" src="${s.image || ''}" style="max-width: 80px; max-height: 80px; display: ${s.image ? 'block' : 'none'}; margin-top: 5px; border-radius: 8px;">
+        <label>सर्विस टाइटल:</label>
+        <input type="text" class="serv-title" value="${s.title || ''}" placeholder="सर्विस का नाम">
+        <button type="button" class="remove-service" style="background:#ef4444; color:#fff; border:none; padding:6px 12px; border-radius:6px; margin-top:8px;">हटाएँ</button>
+      `;
+      
+      const fileInput = row.querySelector('.serv-img-file');
+      const urlInput = row.querySelector('.serv-img-url');
+      const preview = row.querySelector('.serv-img-preview');
+      
+      fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          const img = new Image();
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            let w = img.width, h = img.height, max = 300;
+            if (w > max) { h = (h * max) / w; w = max; }
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            urlInput.value = canvas.toDataURL('image/jpeg', 0.6);
+            preview.src = urlInput.value;
+            preview.style.display = 'block';
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+      
+      row.querySelector('.remove-service').onclick = () => {
+        servicesData.splice(i, 1);
+        renderServices();
+      };
+      servicesDiv.appendChild(row);
+    });
+  }
+  renderServices();
+  document.getElementById('add-service').onclick = () => {
+    servicesData.push({ title: '', image: '' });
+    renderServices();
+  };
   // Social links
   const socialDiv = document.getElementById('social-links');
   const socialData = cardData.social || {};
