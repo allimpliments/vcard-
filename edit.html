@@ -71,6 +71,7 @@
         <li data-section="gallery">Gallery</li>
         <li data-section="youtube">YouTube Videos</li>
         <li data-section="reels">Reels (Insta/FB)</li>
+        <li data-section="payment">Payment Info</li>
       </ul>
       <h3>🛍️ ऑनलाइन शॉप - प्रोडक्ट्स</h3>
       <div id="products-list"></div>
@@ -87,6 +88,19 @@
       <h3>📱 Instagram & Facebook Reels</h3>
       <div id="reels-list"></div>
       <button type="button" id="add-reel">+ Reel जोड़ें</button>
+      <h3>💳 पेमेंट इन्फो</h3>
+      
+      <label>Paytm नंबर:</label>
+      <input type="text" id="e-paytm" placeholder="1234567890">
+      
+      <label>UPI ID:</label>
+      <input type="text" id="e-upi" placeholder="yourname@upi">
+      
+      <label>पेमेंट QR इमेज:</label>
+      <input type="file" id="e-payment-qr-file" accept="image/*" style="padding:8px;width:100%;">
+      <p style="font-size:12px;color:#64748b;margin:4px 0;">— या —</p>
+      <input type="url" id="e-payment-qr" placeholder="या QR इमेज URL डालें...">
+      <img id="e-payment-qr-preview" src="" style="max-width:100px;max-height:100px;display:none;margin-top:8px;border-radius:10px;">
       <button type="submit">💾 सेव और पब्लिश करें</button>
     </form>
     <div id="publish-link" style="display:none;"></div>
