@@ -23,7 +23,14 @@ if (!slug) {
       const data = docSnap.data();
       console.log('Data mila:', data);
 
-      document.body.className = data.theme || 'default';
+      // Auto-detect dark mode, but user theme overrides
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var savedTheme = data.theme || '';
+      if (!savedTheme || savedTheme === 'default') {
+        document.body.className = prefersDark ? 'dark' : 'default';
+      } else {
+        document.body.className = savedTheme;
+      }
       document.getElementById('loader').style.display = 'none';
       document.getElementById('card-container').style.display = 'block';
 
