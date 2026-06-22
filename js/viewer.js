@@ -253,12 +253,10 @@ if (!slug) {
             }, 100);
           }
         }
-
-        // REELS
-        else if (sec === 'reels' && data.reels && data.reels.length > 0) {
+                else if (sec === 'reels' && data.reels && data.reels.length > 0) {
           const reels = data.reels;
           let curR = 0;
-          function info(url) {
+          function getInfo(url) {
             if (url.includes('instagram.com/reel/')) return { p:'Instagram', t:'Reel', g:'linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', c:'#e4405f', i:'📽️' };
             if (url.includes('instagram.com/p/')) return { p:'Instagram', t:'Post', g:'linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045)', c:'#c13584', i:'📷' };
             if (url.includes('facebook.com/reel/')) return { p:'Facebook', t:'Reel', g:'linear-gradient(135deg,#1877f2,#0c5dc7)', c:'#1877f2', i:'📽️' };
@@ -266,7 +264,7 @@ if (!slug) {
             if (url.includes('facebook.com/')) return { p:'Facebook', t:'Post', g:'linear-gradient(135deg,#1877f2,#0c5dc7)', c:'#1877f2', i:'📝' };
             return { p:'Social', t:'Media', g:'linear-gradient(135deg,#6366f1,#4f46e5)', c:'#6366f1', i:'📱' };
           }
-          const fi = info(reels[0]);
+          const fi = getInfo(reels[0]);
           let h = '<h3>📱 Reels & Posts</h3>';
           h += '<div style="position:relative;width:100%;text-align:center;margin-bottom:15px;">';
           h += '<div id="reel-card" style="width:290px;margin:0 auto;border-radius:24px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,0.2);background:#fff;">';
@@ -278,16 +276,15 @@ if (!slug) {
           h += '<img id="reel-thumb" src="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:none;">';
           h += '</div>';
           h += '<div style="padding:16px 20px;">';
-          h += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">';
-          h += '<span id="reel-platform" style="background:' + fi.c + ';color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">' + fi.p + '</span>';
-          h += '<span id="reel-type" style="color:#64748b;font-size:12px;font-weight:600;">' + fi.t + '</span></div>';
-          h += '<p id="reel-title" style="font-weight:600;font-size:14px;color:#1e293b;margin:6px 0;line-height:1.5;">' + fi.p + ' ' + fi.t + '</p>';
+          h += '<span id="reel-platform" style="background:' + fi.c + ';color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">' + fi.p + '</span> ';
+          h += '<span id="reel-type" style="color:#64748b;font-size:12px;font-weight:600;">' + fi.t + '</span>';
+          h += '<p id="reel-title" style="font-weight:600;font-size:14px;color:#1e293b;margin:6px 0;">' + fi.p + ' ' + fi.t + '</p>';
           h += '<p id="reel-counter" style="color:#94a3b8;font-size:12px;margin-bottom:12px;">1 of ' + reels.length + '</p>';
           h += '<a id="reel-link" href="' + reels[0] + '" target="_blank" style="display:block;text-align:center;padding:14px;background:' + fi.c + ';color:#fff;text-decoration:none;border-radius:50px;font-weight:700;font-size:15px;">▶ Watch Now</a>';
           h += '</div></div>';
           if (reels.length > 1) {
-            h += '<button id="reel-prev" style="position:absolute;left:0;top:42%;transform:translateY(-50%);background:rgba(255,255,255,0.95);color:#333;border:none;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;z-index:10;box-shadow:0 4px 15px rgba(0,0,0,0.2);">◀</button>';
-            h += '<button id="reel-next" style="position:absolute;right:0;top:42%;transform:translateY(-50%);background:rgba(255,255,255,0.95);color:#333;border:none;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;z-index:10;box-shadow:0 4px 15px rgba(0,0,0,0.2);">▶</button>';
+            h += '<button id="reel-prev" style="position:absolute;left:0;top:42%;transform:translateY(-50%);background:rgba(255,255,255,0.95);color:#333;border:none;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;z-index:10;">◀</button>';
+            h += '<button id="reel-next" style="position:absolute;right:0;top:42%;transform:translateY(-50%);background:rgba(255,255,255,0.95);color:#333;border:none;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;z-index:10;">▶</button>';
           }
           h += '</div>';
           if (reels.length > 1) {
@@ -301,41 +298,30 @@ if (!slug) {
 
           function updateReelUI(index) {
             curR = index;
-            const inf = info(reels[index]);
+            const inf = getInfo(reels[index]);
             const area = document.getElementById('reel-thumb-area');
-            const fallback = document.getElementById('reel-icon-fallback');
-            const platform = document.getElementById('reel-platform');
-            const type = document.getElementById('reel-type');
-            const link = document.getElementById('reel-link');
-            const title = document.getElementById('reel-title');
-            const counter = document.getElementById('reel-counter');
-            const thumbImg = document.getElementById('reel-thumb');
-            const thumbBg = document.getElementById('reel-thumb-bg');
-
             if (!area) return;
             area.style.background = inf.g;
-            fallback.textContent = inf.i;
-            platform.textContent = inf.p;
-            platform.style.background = inf.c;
-            type.textContent = inf.t;
-            link.href = reels[index];
-            link.style.background = inf.c;
-            counter.textContent = (index + 1) + ' of ' + reels.length;
-            thumbImg.style.display = 'none';
-            thumbBg.style.display = 'flex';
-            title.textContent = inf.p + ' ' + inf.t;
-
+            document.getElementById('reel-icon-fallback').textContent = inf.i;
+            document.getElementById('reel-platform').textContent = inf.p;
+            document.getElementById('reel-platform').style.background = inf.c;
+            document.getElementById('reel-type').textContent = inf.t;
+            document.getElementById('reel-link').href = reels[index];
+            document.getElementById('reel-link').style.background = inf.c;
+            document.getElementById('reel-counter').textContent = (index + 1) + ' of ' + reels.length;
+            document.getElementById('reel-thumb').style.display = 'none';
+            document.getElementById('reel-thumb-bg').style.display = 'flex';
+            document.getElementById('reel-title').textContent = inf.p + ' ' + inf.t;
             if (typeof fetchOGData === 'function') {
               fetchOGData(reels[index], function(og) {
                 if (og.image) {
-                  thumbImg.src = og.image;
-                  thumbImg.style.display = 'block';
-                  thumbBg.style.display = 'none';
+                  document.getElementById('reel-thumb').src = og.image;
+                  document.getElementById('reel-thumb').style.display = 'block';
+                  document.getElementById('reel-thumb-bg').style.display = 'none';
                 }
-                if (og.title) title.textContent = og.title;
+                if (og.title) document.getElementById('reel-title').textContent = og.title;
               });
             }
-
             document.querySelectorAll('.reel-dot').forEach(function(d, i) {
               d.style.background = i === index ? 'var(--primary)' : '#ccc';
             });
@@ -347,16 +333,14 @@ if (!slug) {
             setTimeout(function() {
               const next = document.getElementById('reel-next');
               const prev = document.getElementById('reel-prev');
-              const dots = document.querySelectorAll('.reel-dot');
               if (next) next.onclick = function() { updateReelUI((curR + 1) % reels.length); };
               if (prev) prev.onclick = function() { updateReelUI((curR - 1 + reels.length) % reels.length); };
-              dots.forEach(function(d) {
+              document.querySelectorAll('.reel-dot').forEach(function(d) {
                 d.onclick = function() { updateReelUI(parseInt(this.getAttribute('data-index'))); };
               });
             }, 100);
           }
         }
-
         container.appendChild(div);
       }
 
