@@ -172,7 +172,30 @@ if (data.profileImage && data.profileImage.trim() !== '') {
           prodHTML += '</div>';
           div.innerHTML = prodHTML;
         }
-
+                else if (sec === 'services' && data.services && data.services.length > 0) {
+          let servHTML = '<h3>📦 Products & Services</h3><div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">';
+          
+          for (let k = 0; k < data.services.length; k++) {
+            const s = data.services[k];
+            const phone = data.phone ? data.phone.replace(/[^0-9]/g, '') : '';
+            const waLink = phone ? 'https://wa.me/' + phone + '?text=Hi,%20I%20am%20interested%20in%20' + encodeURIComponent(s.title) : '#';
+            
+            servHTML += '<div style="width: 140px; background: var(--card-bg-secondary); border-radius: var(--radius-sm); padding: 12px; text-align: center; box-shadow: var(--shadow-sm);">';
+            
+            if (s.image) {
+              servHTML += '<img src="' + s.image + '" alt="' + s.title + '" style="width: 100%; height: 100px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;">';
+            }
+            
+            servHTML += '<p style="font-weight: 600; font-size: 13px; margin: 5px 0;">' + s.title + '</p>';
+            
+            servHTML += '<a href="' + waLink + '" target="_blank" style="display: inline-block; padding: 8px 16px; background: #25d366; color: #fff; text-decoration: none; border-radius: 50px; font-size: 12px; font-weight: 600;">Enquiry Now</a>';
+            
+            servHTML += '</div>';
+          }
+          
+          servHTML += '</div>';
+          div.innerHTML = servHTML;
+        }
         container.appendChild(div);
       }
 
