@@ -366,6 +366,10 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
   document.getElementById('e-ifsc').value = bankData.ifsc || '';
   document.getElementById('e-bank-name').value = bankData.bankName || '';
   document.getElementById('e-holder-name').value = bankData.holderName || '';
+  // Location
+  const locationData = cardData.location || {};
+  document.getElementById('e-map-link').value = locationData.mapLink || '';
+  document.getElementById('e-address').value = locationData.address || '';
   // Social links
   const socialDiv = document.getElementById('social-links');
   const socialData = cardData.social || {};
@@ -485,11 +489,15 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
         upi: document.getElementById('e-upi').value.trim(),
         qrImage: document.getElementById('e-payment-qr').value.trim()
       },
-            bank: {
+      bank: {
         accountNumber: document.getElementById('e-acc-num').value.trim(),
         ifsc: document.getElementById('e-ifsc').value.trim(),
         bankName: document.getElementById('e-bank-name').value.trim(),
         holderName: document.getElementById('e-holder-name').value.trim()
+      },
+      location: {
+        mapLink: document.getElementById('e-map-link').value.trim(),
+        address: document.getElementById('e-address').value.trim()
       },
       sectionOrder: currentOrder
     };
