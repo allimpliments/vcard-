@@ -614,19 +614,21 @@ button, .btn, a.btn {
 #action-buttons a { flex: 1; min-width: 90px; padding: 14px 8px; border-radius: 50px; font-weight: 600; font-size: 13px; text-align: center; text-decoration: none; color: #fff; transition: var(--transition); }
 #action-buttons a:hover { transform: translateY(-3px); }
 
-.social-icons { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; padding: 10px 0; }
 .social-icons a {
   display: inline-flex; align-items: center; justify-content: center;
   width: 44px; height: 44px; border-radius: 50%;
-  background: rgba(128,128,128,0.15); color: var(--text);
+  background: #e2e8f0; color: #1e293b;
   text-decoration: none; font-size: 18px; transition: var(--transition);
 }
-.social-icons a:hover { transform: translateY(-4px); }
-.social-icons a.fa-whatsapp:hover { background: #25D366; color: #fff; }
-.social-icons a.fa-instagram:hover { background: #E4405F; color: #fff; }
-.social-icons a.fa-facebook:hover, .social-icons a.fa-facebook-f:hover { background: #1877F2; color: #fff; }
-.social-icons a.fa-youtube:hover { background: #FF0000; color: #fff; }
-.social-icons a.fa-linkedin:hover, .social-icons a.fa-linkedin-in:hover { background: #0A66C2; color: #fff; }
+.social-icons a.fa-whatsapp { background: #25D366; color: #fff; }
+.social-icons a.fa-instagram { background: #E4405F; color: #fff; }
+.social-icons a.fa-facebook, .social-icons a.fa-facebook-f { background: #1877F2; color: #fff; }
+.social-icons a.fa-youtube { background: #FF0000; color: #fff; }
+.social-icons a.fa-linkedin, .social-icons a.fa-linkedin-in { background: #0A66C2; color: #fff; }
+.social-icons a.fa-twitter, .social-icons a.fa-x-twitter { background: #1DA1F2; color: #fff; }
+.social-icons a.fa-telegram { background: #26A5E4; color: #fff; }
+.social-icons a.fa-globe { background: #6366f1; color: #fff; }
+.social-icons a:hover { transform: translateY(-4px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
 
 #loader { text-align: center; padding: 60px 20px; font-size: 18px; color: var(--text); }
 #error { color: #ff5252; background: var(--card-bg); border-radius: var(--radius); max-width: 400px; margin: 40px auto; text-align: center; padding: 40px 20px; }
