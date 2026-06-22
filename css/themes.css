@@ -1,69 +1,509 @@
 /* ============================================
-   PREMIUM THEME - GLASSMORPHISM + NEON
+   15 PREMIUM THEMES - DYNAMIC UX/UI
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
-:root {
-  --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-  --glass-bg: rgba(255, 255, 255, 0.08);
-  --glass-border: rgba(255, 255, 255, 0.15);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  --glass-blur: blur(20px);
-  --neon-glow: 0 0 15px rgba(0, 255, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.2);
-  --card-bg: rgba(255, 255, 255, 0.05);
-  --card-border: rgba(255, 255, 255, 0.1);
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --text-light: #ffffff;
+/* ============================================
+   1. DEFAULT - Neon Blue Glass
+   ============================================ */
+:root, body.default {
+  --bg: #0a0a1a;
+  --bg-gradient: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --text: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.65);
   --primary: #00d4ff;
   --primary-hover: #00b8e6;
   --accent: #ff2d95;
   --accent-hover: #e6007e;
-  --border: rgba(255, 255, 255, 0.1);
+  --border: rgba(255, 255, 255, 0.08);
   --radius: 24px;
   --radius-sm: 16px;
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow: 0 8px 32px rgba(0,0,0,0.5);
+  --shadow-sm: 0 4px 16px rgba(0,0,0,0.3);
   --font-heading: 'Poppins', sans-serif;
   --font-body: 'Poppins', sans-serif;
   --btn-radius: 50px;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --profile-glow: 0 0 20px rgba(0, 212, 255, 0.5);
+  --heading-glow: 0 0 10px rgba(0, 212, 255, 0.4);
+  --card-hover-scale: 1.02;
 }
 
+/* ============================================
+   2. HEALTHCARE - Fresh Green
+   ============================================ */
+body.healthcare {
+  --bg: #f0fdf4;
+  --bg-gradient: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(34, 197, 94, 0.2);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  --card-bg: #ffffff;
+  --card-border: rgba(34, 197, 94, 0.15);
+  --text: #1a2e1a;
+  --text-secondary: #4a7c4a;
+  --primary: #22c55e;
+  --primary-hover: #16a34a;
+  --accent: #f43f5e;
+  --accent-hover: #e11d48;
+  --border: rgba(34, 197, 94, 0.15);
+  --radius: 20px;
+  --radius-sm: 14px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.06);
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.04);
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --btn-radius: 12px;
+  --transition: all 0.25s ease;
+  --profile-glow: 0 0 0 4px rgba(34, 197, 94, 0.2);
+  --heading-glow: none;
+  --card-hover-scale: 1.01;
+}
+
+/* ============================================
+   3. SALOON - Soft Pink
+   ============================================ */
+body.saloon {
+  --bg: #fff5f7;
+  --bg-gradient: linear-gradient(135deg, #fff5f7 0%, #ffe4e9 50%, #ffd1dc 100%);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(236, 72, 153, 0.2);
+  --glass-shadow: 0 8px 32px rgba(236,72,153,0.1);
+  --card-bg: #ffffff;
+  --card-border: rgba(236, 72, 153, 0.12);
+  --text: #3d1a2e;
+  --text-secondary: #8b5e7a;
+  --primary: #ec4899;
+  --primary-hover: #db2777;
+  --accent: #f59e0b;
+  --accent-hover: #d97706;
+  --border: rgba(236, 72, 153, 0.1);
+  --radius: 30px;
+  --radius-sm: 18px;
+  --shadow: 0 4px 24px rgba(236,72,153,0.1);
+  --shadow-sm: 0 2px 12px rgba(236,72,153,0.06);
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Raleway', sans-serif;
+  --btn-radius: 30px;
+  --transition: all 0.35s ease;
+  --profile-glow: 0 0 0 6px rgba(236, 72, 153, 0.15);
+  --heading-glow: none;
+  --card-hover-scale: 1.02;
+}
+
+/* ============================================
+   4. TECH - Purple Haze
+   ============================================ */
+body.tech {
+  --bg: #0f0a1a;
+  --bg-gradient: linear-gradient(135deg, #0f0a1a 0%, #1a1040 50%, #2d1b69 100%);
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(139, 92, 246, 0.2);
+  --glass-shadow: 0 8px 32px rgba(139,92,246,0.2);
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(139, 92, 246, 0.15);
+  --text: #f5f3ff;
+  --text-secondary: #a78bfa;
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --accent: #06b6d4;
+  --accent-hover: #0891b2;
+  --border: rgba(139, 92, 246, 0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 8px 32px rgba(139,92,246,0.3);
+  --shadow-sm: 0 4px 16px rgba(139,92,246,0.15);
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --btn-radius: 8px;
+  --transition: all 0.2s ease;
+  --profile-glow: 0 0 25px rgba(139, 92, 246, 0.6);
+  --heading-glow: 0 0 15px rgba(139, 92, 246, 0.4);
+  --card-hover-scale: 1.01;
+}
+
+/* ============================================
+   5. DARK PREMIUM - Midnight Gold
+   ============================================ */
+body.dark {
+  --bg: #000000;
+  --bg-gradient: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #0d0d0d 100%);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 215, 0, 0.2);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  --card-bg: rgba(255, 255, 255, 0.02);
+  --card-border: rgba(255, 215, 0, 0.1);
+  --text: #f5f5f5;
+  --text-secondary: #a3a3a3;
+  --primary: #ffd700;
+  --primary-hover: #ffc107;
+  --accent: #ff6b6b;
+  --accent-hover: #ee5a24;
+  --border: rgba(255, 215, 0, 0.1);
+  --radius: 0px;
+  --radius-sm: 0px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.8);
+  --shadow-sm: 0 4px 16px rgba(0,0,0,0.6);
+  --font-heading: 'Montserrat', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+  --btn-radius: 0px;
+  --transition: all 0.2s ease;
+  --profile-glow: 0 0 0 3px #ffd700;
+  --heading-glow: none;
+  --card-hover-scale: 1.0;
+}
+
+/* ============================================
+   6. RESTAURANT - Warm Orange
+   ============================================ */
+body.restaurant {
+  --bg: #fff7ed;
+  --bg-gradient: linear-gradient(135deg, #fff7ed 0%, #ffedd5 50%, #fed7aa 100%);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(249, 115, 22, 0.2);
+  --glass-shadow: 0 8px 32px rgba(249,115,22,0.1);
+  --card-bg: #ffffff;
+  --card-border: rgba(249, 115, 22, 0.12);
+  --text: #3d1a00;
+  --text-secondary: #9a5d2a;
+  --primary: #f97316;
+  --primary-hover: #ea580c;
+  --accent: #ef4444;
+  --accent-hover: #dc2626;
+  --border: rgba(249, 115, 22, 0.1);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --shadow: 0 4px 20px rgba(249,115,22,0.08);
+  --shadow-sm: 0 2px 10px rgba(249,115,22,0.05);
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --btn-radius: 25px;
+  --transition: all 0.3s ease;
+  --profile-glow: 0 0 0 5px rgba(249, 115, 22, 0.15);
+  --heading-glow: none;
+  --card-hover-scale: 1.02;
+}
+
+/* ============================================
+   7. REAL ESTATE - Earth Green
+   ============================================ */
+body.realestate {
+  --bg: #f0fdf4;
+  --bg-gradient: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #d1fae5 100%);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(16, 185, 129, 0.15);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.06);
+  --card-bg: #ffffff;
+  --card-border: rgba(16, 185, 129, 0.1);
+  --text: #1a2e1a;
+  --text-secondary: #5a7a5a;
+  --primary: #10b981;
+  --primary-hover: #059669;
+  --accent: #f59e0b;
+  --accent-hover: #d97706;
+  --border: rgba(16, 185, 129, 0.1);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 16px rgba(0,0,0,0.04);
+  --shadow-sm: 0 1px 8px rgba(0,0,0,0.03);
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --btn-radius: 8px;
+  --transition: all 0.2s ease;
+  --profile-glow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+  --heading-glow: none;
+  --card-hover-scale: 1.01;
+}
+
+/* ============================================
+   8. EDUCATION - Royal Blue
+   ============================================ */
+body.education {
+  --bg: #eff6ff;
+  --bg-gradient: linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #bfdbfe 100%);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(59, 130, 246, 0.15);
+  --glass-shadow: 0 8px 32px rgba(59,130,246,0.08);
+  --card-bg: #ffffff;
+  --card-border: rgba(59, 130, 246, 0.1);
+  --text: #1a2a4a;
+  --text-secondary: #5a6a8a;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --accent: #f59e0b;
+  --accent-hover: #d97706;
+  --border: rgba(59, 130, 246, 0.1);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 4px 20px rgba(59,130,246,0.06);
+  --shadow-sm: 0 2px 10px rgba(59,130,246,0.04);
+  --font-heading: 'Raleway', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --btn-radius: 10px;
+  --transition: all 0.25s ease;
+  --profile-glow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+  --heading-glow: none;
+  --card-hover-scale: 1.01;
+}
+
+/* ============================================
+   9. WEDDING - Rose Gold
+   ============================================ */
+body.wedding {
+  --bg: #fff5f5;
+  --bg-gradient: linear-gradient(135deg, #fff5f5 0%, #ffe4e6 50%, #fce7f3 100%);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(244, 114, 182, 0.2);
+  --glass-shadow: 0 8px 32px rgba(244,114,182,0.1);
+  --card-bg: #ffffff;
+  --card-border: rgba(244, 114, 182, 0.12);
+  --text: #3d1a2e;
+  --text-secondary: #8b5e7a;
+  --primary: #f472b6;
+  --primary-hover: #ec4899;
+  --accent: #fbbf24;
+  --accent-hover: #f59e0b;
+  --border: rgba(244, 114, 182, 0.1);
+  --radius: 40px;
+  --radius-sm: 24px;
+  --shadow: 0 4px 24px rgba(244,114,182,0.1);
+  --shadow-sm: 0 2px 12px rgba(244,114,182,0.06);
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Raleway', sans-serif;
+  --btn-radius: 50px;
+  --transition: all 0.4s ease;
+  --profile-glow: 0 0 0 8px rgba(244, 114, 182, 0.12);
+  --heading-glow: none;
+  --card-hover-scale: 1.03;
+}
+
+/* ============================================
+   10. MINIMAL - Clean White
+   ============================================ */
+body.minimal {
+  --bg: #ffffff;
+  --bg-gradient: none;
+  --glass-bg: #ffffff;
+  --glass-border: rgba(0,0,0,0.06);
+  --glass-shadow: 0 2px 16px rgba(0,0,0,0.04);
+  --card-bg: #ffffff;
+  --card-border: rgba(0,0,0,0.04);
+  --text: #1a1a1a;
+  --text-secondary: #737373;
+  --primary: #000000;
+  --primary-hover: #333333;
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
+  --border: rgba(0,0,0,0.06);
+  --radius: 8px;
+  --radius-sm: 4px;
+  --shadow: 0 1px 8px rgba(0,0,0,0.04);
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.02);
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --btn-radius: 4px;
+  --transition: all 0.15s ease;
+  --profile-glow: none;
+  --heading-glow: none;
+  --card-hover-scale: 1.0;
+}
+
+/* ============================================
+   11. SUNSET - Warm Gradient
+   ============================================ */
+body.sunset {
+  --bg: #1a0a0a;
+  --bg-gradient: linear-gradient(135deg, #ff416c 0%, #ff4b2b 50%, #ff6b35 100%);
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px rgba(255,65,108,0.3);
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --card-border: rgba(255, 255, 255, 0.15);
+  --text: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --primary: #ffd700;
+  --primary-hover: #ffc107;
+  --accent: #ffffff;
+  --accent-hover: #e0e0e0;
+  --border: rgba(255, 255, 255, 0.15);
+  --radius: 24px;
+  --radius-sm: 16px;
+  --shadow: 0 8px 32px rgba(255,65,108,0.4);
+  --shadow-sm: 0 4px 16px rgba(255,65,108,0.2);
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+  --btn-radius: 50px;
+  --transition: all 0.3s ease;
+  --profile-glow: 0 0 25px rgba(255, 215, 0, 0.5);
+  --heading-glow: 0 0 10px rgba(255, 215, 0, 0.3);
+  --card-hover-scale: 1.02;
+}
+
+/* ============================================
+   12. OCEAN - Blue Depth
+   ============================================ */
+body.ocean {
+  --bg: #0a1628;
+  --bg-gradient: linear-gradient(135deg, #0a1628 0%, #0d2137 30%, #006994 70%, #003366 100%);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(0, 180, 216, 0.2);
+  --glass-shadow: 0 8px 32px rgba(0,180,216,0.2);
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(0, 180, 216, 0.12);
+  --text: #e0f7fa;
+  --text-secondary: #80deea;
+  --primary: #00b4d8;
+  --primary-hover: #0096c7;
+  --accent: #ff6b6b;
+  --accent-hover: #ee5a24;
+  --border: rgba(0, 180, 216, 0.12);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --shadow: 0 8px 32px rgba(0,180,216,0.3);
+  --shadow-sm: 0 4px 16px rgba(0,180,216,0.15);
+  --font-heading: 'Raleway', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --btn-radius: 30px;
+  --transition: all 0.3s ease;
+  --profile-glow: 0 0 20px rgba(0, 180, 216, 0.5);
+  --heading-glow: 0 0 10px rgba(0, 180, 216, 0.3);
+  --card-hover-scale: 1.02;
+}
+
+/* ============================================
+   13. FOREST - Deep Green
+   ============================================ */
+body.forest {
+  --bg: #0a1a0a;
+  --bg-gradient: linear-gradient(135deg, #0a1a0a 0%, #1a3a1a 50%, #0d3320 100%);
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(34, 197, 94, 0.15);
+  --glass-shadow: 0 8px 32px rgba(34,197,94,0.15);
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(34, 197, 94, 0.1);
+  --text: #d1fae5;
+  --text-secondary: #6ee7b7;
+  --primary: #4ade80;
+  --primary-hover: #22c55e;
+  --accent: #fbbf24;
+  --accent-hover: #f59e0b;
+  --border: rgba(34, 197, 94, 0.1);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 8px 32px rgba(34,197,94,0.2);
+  --shadow-sm: 0 4px 16px rgba(34,197,94,0.1);
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
+  --btn-radius: 8px;
+  --transition: all 0.25s ease;
+  --profile-glow: 0 0 20px rgba(74, 222, 128, 0.4);
+  --heading-glow: 0 0 10px rgba(74, 222, 128, 0.2);
+  --card-hover-scale: 1.01;
+}
+
+/* ============================================
+   14. LUXURY - Black & Gold
+   ============================================ */
+body.luxury {
+  --bg: #0a0a0a;
+  --bg-gradient: linear-gradient(135deg, #0a0a0a 0%, #1a1a0a 50%, #0a0a0a 100%);
+  --glass-bg: rgba(255, 215, 0, 0.03);
+  --glass-border: rgba(255, 215, 0, 0.15);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  --card-bg: rgba(255, 215, 0, 0.02);
+  --card-border: rgba(255, 215, 0, 0.1);
+  --text: #f5f5f0;
+  --text-secondary: #a3a390;
+  --primary: #ffd700;
+  --primary-hover: #ffc107;
+  --accent: #c0a060;
+  --accent-hover: #a08040;
+  --border: rgba(255, 215, 0, 0.08);
+  --radius: 4px;
+  --radius-sm: 2px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.8);
+  --shadow-sm: 0 4px 16px rgba(0,0,0,0.6);
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Montserrat', sans-serif;
+  --btn-radius: 2px;
+  --transition: all 0.3s ease;
+  --profile-glow: 0 0 0 2px #ffd700;
+  --heading-glow: none;
+  --card-hover-scale: 1.0;
+}
+
+/* ============================================
+   15. COTTON CANDY - Pastel Dream
+   ============================================ */
+body.cottoncandy {
+  --bg: #fef6ff;
+  --bg-gradient: linear-gradient(135deg, #fef6ff 0%, #fce7f3 25%, #e0e7ff 50%, #fce7f3 75%, #fef6ff 100%);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(236, 72, 153, 0.15);
+  --glass-shadow: 0 8px 32px rgba(236,72,153,0.08);
+  --card-bg: #ffffff;
+  --card-border: rgba(236, 72, 153, 0.08);
+  --text: #4a1a3e;
+  --text-secondary: #8b5e7a;
+  --primary: #c084fc;
+  --primary-hover: #a855f7;
+  --accent: #f472b6;
+  --accent-hover: #ec4899;
+  --border: rgba(236, 72, 153, 0.08);
+  --radius: 32px;
+  --radius-sm: 20px;
+  --shadow: 0 4px 24px rgba(236,72,153,0.08);
+  --shadow-sm: 0 2px 12px rgba(236,72,153,0.04);
+  --font-heading: 'Raleway', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --btn-radius: 50px;
+  --transition: all 0.4s ease;
+  --profile-glow: 0 0 0 6px rgba(192, 132, 252, 0.2);
+  --heading-glow: none;
+  --card-hover-scale: 1.02;
+}
+
+/* ============================================
+   COMMON STYLES
+   ============================================ */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: var(--font-body);
-  background: var(--bg-gradient);
+  background: var(--bg);
+  background-image: var(--bg-gradient);
   background-attachment: fixed;
   min-height: 100vh;
-  color: var(--text-primary);
+  color: var(--text);
   transition: var(--transition);
   padding: 20px 10px;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-/* ============================================
-   FADE-IN SCROLL ANIMATION
-   ============================================ */
-.fade-section {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.fade-section.visible {
-  opacity: 1;
-  transform: translateY(0);
+
+#card-container {
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--glass-shadow);
+  overflow: hidden;
+  transition: var(--transition);
+  padding: 20px;
 }
 
-/* ============================================
-   HERO / PROFILE SECTION
-   ============================================ */
 #lottie-box {
   background: transparent;
   padding: 10px;
@@ -75,28 +515,21 @@ body {
   height: 130px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid var(--primary);
-  box-shadow: var(--neon-glow), 0 0 40px rgba(0, 212, 255, 0.3);
+  border: 3px solid var(--primary);
+  box-shadow: var(--profile-glow);
   margin: 10px auto 15px;
   display: block;
   position: relative;
   z-index: 2;
-  animation: pulseGlow 2s infinite;
-}
-
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 15px rgba(0, 255, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.2); }
-  50% { box-shadow: 0 0 25px rgba(0, 255, 255, 0.7), 0 0 50px rgba(0, 255, 255, 0.4); }
 }
 
 h1 {
   font-family: var(--font-heading);
   font-size: 26px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--text);
   text-align: center;
   margin: 0 20px 5px;
-  letter-spacing: 0.5px;
 }
 
 #title {
@@ -104,29 +537,8 @@ h1 {
   color: var(--text-secondary);
   font-size: 14px;
   margin-bottom: 20px;
-  font-weight: 400;
 }
 
-/* ============================================
-   GLASS CARD CONTAINER
-   ============================================ */
-#card-container {
-  max-width: 480px;
-  margin: 0 auto;
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
-  box-shadow: var(--glass-shadow);
-  overflow: hidden;
-  transition: var(--transition);
-  padding: 20px;
-}
-
-/* ============================================
-   SECTION CONTAINERS
-   ============================================ */
 #sections-container > div {
   background: var(--card-bg);
   backdrop-filter: blur(10px);
@@ -138,13 +550,11 @@ h1 {
   box-shadow: var(--shadow-sm);
   transition: var(--transition);
 }
-
 #sections-container > div:hover {
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(var(--card-hover-scale));
+  box-shadow: var(--shadow);
 }
 
-/* Section Headings */
 #sections-container h3 {
   font-family: var(--font-heading);
   font-size: 16px;
@@ -155,12 +565,9 @@ h1 {
   border-bottom: 2px solid var(--primary);
   text-transform: uppercase;
   letter-spacing: 1px;
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  text-shadow: var(--heading-glow);
 }
 
-/* ============================================
-   BUTTONS - NEON EFFECT
-   ============================================ */
 button, .btn, a.btn {
   display: inline-block;
   padding: 12px 28px;
@@ -173,196 +580,56 @@ button, .btn, a.btn {
   transition: var(--transition);
   text-decoration: none;
   text-align: center;
-  letter-spacing: 0.3px;
-  position: relative;
-  overflow: hidden;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary), #0099cc);
-  color: var(--text-light);
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  background: var(--primary);
+  color: #fff;
 }
-.btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 30px rgba(0, 212, 255, 0.6), 0 10px 30px rgba(0,0,0,0.3);
-}
+.btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
 
 .btn-accent {
-  background: linear-gradient(135deg, var(--accent), #cc0066);
-  color: var(--text-light);
-  box-shadow: 0 0 20px rgba(255, 45, 149, 0.3);
+  background: var(--accent);
+  color: #fff;
 }
-.btn-accent:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 30px rgba(255, 45, 149, 0.6), 0 10px 30px rgba(0,0,0,0.3);
-}
+.btn-accent:hover { background: var(--accent-hover); transform: translateY(-2px); }
 
 #save-contact {
   display: block;
   width: calc(100% - 40px);
   margin: 20px auto;
   padding: 14px;
-  background: linear-gradient(135deg, var(--primary), #0099cc);
-  color: var(--text-light);
+  background: var(--primary);
+  color: #fff;
   border: none;
   border-radius: var(--btn-radius);
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
   transition: var(--transition);
 }
-#save-contact:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
-}
+#save-contact:hover { background: var(--primary-hover); transform: translateY(-3px); }
 
-/* ============================================
-   ACTION BUTTONS (Call, Email, WhatsApp)
-   ============================================ */
-#action-buttons {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 0 0 15px 0;
-}
+#action-buttons { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; padding: 0 0 15px; }
+#action-buttons a { flex: 1; min-width: 90px; padding: 14px 8px; border-radius: 50px; font-weight: 600; font-size: 13px; text-align: center; text-decoration: none; color: #fff; transition: var(--transition); }
+#action-buttons a:hover { transform: translateY(-3px); }
 
-#action-buttons a {
-  flex: 1;
-  min-width: 90px;
-  padding: 14px 8px;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 13px;
-  text-align: center;
-  text-decoration: none;
-  color: #fff;
-  transition: var(--transition);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-#btn-call { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 0 15px rgba(16,185,129,0.3); }
-#btn-email { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 0 15px rgba(245,158,11,0.3); }
-#btn-whatsapp { background: linear-gradient(135deg, #25d366, #1da851); box-shadow: 0 0 15px rgba(37,211,102,0.3); }
-
-#action-buttons a:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-}
-
-/* ============================================
-   SOCIAL ICONS
-   ============================================ */
-.social-icons {
-  display: flex;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  padding: 10px 0;
-}
+.social-icons { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; padding: 10px 0; }
 .social-icons a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  text-decoration: none;
-  font-size: 18px;
-  transition: var(--transition);
-  border: 1px solid rgba(255,255,255,0.2);
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(128,128,128,0.15); color: var(--text);
+  text-decoration: none; font-size: 18px; transition: var(--transition);
 }
-.social-icons a:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0 20px rgba(255,255,255,0.2);
-}
-.social-icons a.fa-whatsapp:hover { background: #25D366; border-color: #25D366; }
-.social-icons a.fa-instagram:hover { background: #E4405F; border-color: #E4405F; }
-.social-icons a.fa-facebook:hover, .social-icons a.fa-facebook-f:hover { background: #1877F2; border-color: #1877F2; }
-.social-icons a.fa-youtube:hover { background: #FF0000; border-color: #FF0000; }
-.social-icons a.fa-linkedin:hover, .social-icons a.fa-linkedin-in:hover { background: #0A66C2; border-color: #0A66C2; }
+.social-icons a:hover { transform: translateY(-4px); }
+.social-icons a.fa-whatsapp:hover { background: #25D366; color: #fff; }
+.social-icons a.fa-instagram:hover { background: #E4405F; color: #fff; }
+.social-icons a.fa-facebook:hover, .social-icons a.fa-facebook-f:hover { background: #1877F2; color: #fff; }
+.social-icons a.fa-youtube:hover { background: #FF0000; color: #fff; }
+.social-icons a.fa-linkedin:hover, .social-icons a.fa-linkedin-in:hover { background: #0A66C2; color: #fff; }
 
-/* ============================================
-   LOADER & ERROR
-   ============================================ */
-#loader {
-  text-align: center;
-  padding: 60px 20px;
-  font-size: 18px;
-  color: var(--text-light);
-}
-#error {
-  color: #ff5252;
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  border-radius: var(--radius);
-  max-width: 400px;
-  margin: 40px auto;
-  text-align: center;
-  padding: 40px 20px;
-  font-size: 18px;
-}
+#loader { text-align: center; padding: 60px 20px; font-size: 18px; color: var(--text); }
+#error { color: #ff5252; background: var(--card-bg); border-radius: var(--radius); max-width: 400px; margin: 40px auto; text-align: center; padding: 40px 20px; }
 
-/* ============================================
-   THEME VARIATIONS
-   ============================================ */
-body.healthcare {
-  --bg-gradient: linear-gradient(135deg, #0a1f1a, #0d3b2e, #00695c);
-  --primary: #00e676;
-  --primary-hover: #00c853;
-  --accent: #ff5252;
-  --accent-hover: #d32f2f;
-}
-body.saloon {
-  --bg-gradient: linear-gradient(135deg, #2d0a1a, #4a0e2e, #880e4f);
-  --primary: #ff4081;
-  --primary-hover: #e91e63;
-  --accent: #ffd600;
-  --accent-hover: #f9a825;
-}
-body.tech {
-  --bg-gradient: linear-gradient(135deg, #0a0a2e, #1a1050, #1e1b4b);
-  --primary: #7c4dff;
-  --primary-hover: #651fff;
-  --accent: #00e5ff;
-  --accent-hover: #00b8d4;
-}
-body.dark {
-  --bg-gradient: linear-gradient(135deg, #0a0a0a, #1a1a2e, #0f0f1a);
-  --primary: #bb86fc;
-  --primary-hover: #9c27b0;
-  --accent: #03dac6;
-  --accent-hover: #00bcd4;
-}
-body.restaurant {
-  --bg-gradient: linear-gradient(135deg, #1a0a00, #3e1a00, #bf360c);
-  --primary: #ff6d00;
-  --primary-hover: #e65100;
-  --accent: #ffca28;
-  --accent-hover: #ffb300;
-}
-body.realestate {
-  --bg-gradient: linear-gradient(135deg, #0a1a0a, #1a3a1a, #1b5e20);
-  --primary: #69f0ae;
-  --primary-hover: #00e676;
-  --accent: #ffc107;
-  --accent-hover: #ffb300;
-}
-body.education {
-  --bg-gradient: linear-gradient(135deg, #0a0a2e, #1a1a4e, #283593);
-  --primary: #8c9eff;
-  --primary-hover: #7986cb;
-  --accent: #ff7043;
-  --accent-hover: #f4511e;
-}
-body.wedding {
-  --bg-gradient: linear-gradient(135deg, #2d001a, #4a0030, #6a1b9a);
-  --primary: #ff80ab;
-  --primary-hover: #f06292;
-  --accent: #ffd700;
-  --accent-hover: #ffc107;
-}
+.fade-section { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-section.visible { opacity: 1; transform: translateY(0); }
