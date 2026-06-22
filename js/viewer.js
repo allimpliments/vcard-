@@ -359,24 +359,36 @@ if (data.profileImage && data.profileImage.trim() !== '') {
         else if (sec === 'reels' && data.reels && data.reels.length > 0) {
           let reelsHTML = '<h3>📱 Instagram & FB Reels</h3>';
           
-          // Slider
-          let currentReel = 0;
           const reels = data.reels;
+          let currentReel = 0;
           
-          reelsHTML += '<div style="text-align: center; margin-bottom: 10px;">';
+          // Detect platform and type from first URL
+          function getReelInfo(url) {
+            if (url.includes('instagram.com/reel/')) return { platform: 'Instagram', type: 'Reel', color: 'linear-gradient(180deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)', icon: '📽️' };
+            if (url.includes('instagram.com/p/')) return { platform: 'Instagram', type: 'Post', color: 'linear-gradient(180deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)', icon: '📷' };
+            if (url.includes('facebook.com/reel/')) return { platform: 'Facebook', type: 'Reel', color: 'linear-gradient(180deg, #1877f2, #0c5dc7)', icon: '📽️' };
+            if (url.includes('fb.watch/')) return { platform: 'Facebook', type: 'Video', color: 'linear-gradient(180deg, #1877f2, #0c5dc7)', icon: '🎬' };
+            return { platform: 'Social', type: 'Media', color: 'linear-gradient(180deg, #6366f1, #4f46e5)', icon: '📱' };
+          }
+          
+          const firstInfo = getReelInfo(reels[0]);
+          
+          reelsHTML += '<div style="position: relative; display: inline-block; width: 100%; text-align: center; margin-bottom: 10px;">';
           
           // Reel Card
-          reelsHTML += '<div id="reel-card" style="width: 220px; height: 380px; margin: 0 auto; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); position: relative; background: linear-gradient(180deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">';
+          reelsHTML += '<div id="reel-card" style="width: 220px; height: 380px; margin: 0 auto; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); position: relative; background: ' + firstInfo.color + ';">';
           
-          // Instagram Logo
-          reelsHTML += '<div style="position: absolute; top: 15px; left: 15px; background: #fff; border-radius: 10px; padding: 5px 10px; font-weight: 700; font-size: 12px; color: #e4405f;">Instagram</div>';
+          // Platform Badge
+          reelsHTML += '<div id="reel-platform" style="position: absolute; top: 15px; left: 15px; background: #fff; border-radius: 10px; padding: 5px 10px; font-weight: 700; font-size: 12px; color: #e4405f;">' + firstInfo.platform + ' ' + firstInfo.type + '</div>';
           
-          // Play Button (Center)
-          reelsHTML += '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center;">';
-          reelsHTML += '<span style="font-size: 30px; color: #e4405f; margin-left: 5px;">▶</span></div>';
+          // Icon
+          reelsHTML += '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">';
+          reelsHTML += '<span id="reel-icon" style="font-size: 60px;">' + firstInfo.icon + '</span>';
+          reelsHTML += '<div style="width: 70px; height: 70px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 10px auto 0;">';
+          reelsHTML += '<span style="font-size: 30px; color: #e4405f; margin-left: 5px;">▶</span></div></div>';
           
-          // Reel Number
-          reelsHTML += '<div style="position: absolute; bottom: 80px; width: 100%; text-align: center; color: #fff; font-weight: 600; font-size: 16px;" id="reel-label">Reel 1 of ' + reels.length + '</div>';
+          // Number
+          reelsHTML += '<div style="position: absolute; bottom: 80px; width: 100%; text-align: center; color: #fff; font-weight: 600; font-size: 16px;" id="reel-label">' + firstInfo.type + ' 1 of ' + reels.length + '</div>';
           
           // Watch Button
           reelsHTML += '<a id="reel-link" href="' + reels[0] + '" target="_blank" style="position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); padding: 12px 30px; background: #fff; color: #e4405f; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 14px;">▶ Watch Now</a>';
@@ -385,14 +397,14 @@ if (data.profileImage && data.profileImage.trim() !== '') {
           
           // Arrows
           if (reels.length > 1) {
-            reelsHTML += '<button id="reel-prev" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 16px; cursor: pointer; z-index: 5;">◀</button>';
-            reelsHTML += '<button id="reel-next" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 16px; cursor: pointer; z-index: 5;">▶</button>';
+            reelsHTML += '<button id="reel-prev" style="position: absolute; left: 5px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 18px; cursor: pointer; z-index: 10;">◀</button>';
+            reelsHTML += '<button id="reel-next" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 18px; cursor: pointer; z-index: 10;">▶</button>';
           }
           reelsHTML += '</div>';
           
           // Dots
           if (reels.length > 1) {
-            reelsHTML += '<div style="text-align: center;">';
+          reelsHTML += '<div style="position: relative; text-align: center; margin-bottom: 10px; display: inline-block; width: 100%;">';
             for (let d = 0; d < reels.length; d++) {
               reelsHTML += '<span class="reel-dot" data-index="' + d + '" style="display: inline-block; width: 10px; height: 10px; background: ' + (d === 0 ? 'var(--primary)' : '#ccc') + '; border-radius: 50%; margin: 0 4px; cursor: pointer;"></span>';
             }
@@ -404,16 +416,25 @@ if (data.profileImage && data.profileImage.trim() !== '') {
           // Slider
           if (reels.length > 1) {
             setTimeout(function() {
+              const reelCard = document.getElementById('reel-card');
               const reelLink = document.getElementById('reel-link');
               const reelLabel = document.getElementById('reel-label');
+              const reelPlatform = document.getElementById('reel-platform');
+              const reelIcon = document.getElementById('reel-icon');
               const prevBtn = document.getElementById('reel-prev');
               const nextBtn = document.getElementById('reel-next');
               const dots = document.querySelectorAll('.reel-dot');
               
               function updateReel(index) {
                 currentReel = index;
+                const info = getReelInfo(reels[currentReel]);
+                
+                reelCard.style.background = info.color;
                 reelLink.href = reels[currentReel];
-                reelLabel.textContent = 'Reel ' + (currentReel + 1) + ' of ' + reels.length;
+                reelLabel.textContent = info.type + ' ' + (currentReel + 1) + ' of ' + reels.length;
+                reelPlatform.textContent = info.platform + ' ' + info.type;
+                reelIcon.textContent = info.icon;
+                
                 dots.forEach(function(dot, i) {
                   dot.style.background = i === currentReel ? 'var(--primary)' : '#ccc';
                 });
