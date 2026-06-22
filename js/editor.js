@@ -321,6 +321,35 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     youtubeData.push('');
     renderYoutube();
   };
+    // Reels (Instagram & Facebook)
+  const reelsDiv = document.getElementById('reels-list');
+  const reelsData = cardData.reels || [];
+  function renderReels() {
+    reelsDiv.innerHTML = '';
+    reelsData.forEach((url, i) => {
+      const row = document.createElement('div');
+      row.style.border = '1px solid #e2e8f0';
+      row.style.padding = '10px';
+      row.style.margin = '8px 0';
+      row.style.borderRadius = '10px';
+      row.innerHTML = `
+        <label>Reel URL (Instagram / Facebook):</label>
+        <input type="url" class="reel-url" value="${url || ''}" placeholder="https://instagram.com/reel/... या https://facebook.com/reel/..." style="width: 100%;">
+        <button type="button" class="remove-reel" style="background:#ef4444; color:#fff; border:none; padding:6px 12px; border-radius:6px; margin-top:8px;">हटाएँ</button>
+      `;
+      
+      row.querySelector('.remove-reel').onclick = () => {
+        reelsData.splice(i, 1);
+        renderReels();
+      };
+      reelsDiv.appendChild(row);
+    });
+  }
+  renderReels();
+  document.getElementById('add-reel').onclick = () => {
+    reelsData.push('');
+    renderReels();
+  };
   // Social links
   const socialDiv = document.getElementById('social-links');
   const socialData = cardData.social || {};
@@ -418,6 +447,17 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
         const rows = youtubeDiv.children;
         for (let i = 0; i < rows.length; i++) {
           const urlInput = rows[i].querySelector('.yt-url');
+          if (urlInput && urlInput.value.trim()) {
+            result.push(urlInput.value.trim());
+          }
+        }
+        return result;
+      })(),
+            reels: (() => {
+        const result = [];
+        const rows = reelsDiv.children;
+        for (let i = 0; i < rows.length; i++) {
+          const urlInput = rows[i].querySelector('.reel-url');
           if (urlInput && urlInput.value.trim()) {
             result.push(urlInput.value.trim());
           }
