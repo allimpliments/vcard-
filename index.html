@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>डिजिटल vCard</title>
+  <title>Digital vCard</title>
   <link rel="stylesheet" href="css/themes.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="manifest" href="manifest.json">
@@ -12,340 +12,176 @@
   <script src="js/firebase-config.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script>
-  async function fetchOGData(url, callback) {
-    try {
-      const proxyUrl = 'https://api.allorigins.win/raw?url=';
-      const response = await fetch(proxyUrl + encodeURIComponent(url));
-      const html = await response.text();
-      
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      
-      const ogTitle = doc.querySelector('meta[property="og:title"]')?.getAttribute('content') || '';
-      const ogImage = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
-      const ogDesc = doc.querySelector('meta[property="og:description"]')?.getAttribute('content') || '';
-      
-      callback({ title: ogTitle, image: ogImage, description: ogDesc });
-    } catch (e) {
-      console.log('OG fetch failed, using default');
-      callback({ title: '', image: '', description: '' });
+  <style>
+    @media (min-width: 768px) {
+      #card-container { margin-left: 130px !important; margin-right: 20px !important; }
     }
-  }
-</script>
+    @media (max-width: 767px) {
+      #card-container { margin: 0 auto !important; }
+      #desktop-nav { display: none !important; }
+    }
+  </style>
 </head>
 <body>
+
 <!-- Desktop Sidebar -->
-<nav id="desktop-nav" style="position:fixed;left:15px;top:50%;transform:translateY(-50%);z-index:998;display:none;flex-direction:column;gap:6px;max-height:80vh;overflow-y:auto;">
-  <a href="#about-section" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:25px;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;transition:all 0.3s ease;white-space:nowrap;">👤 About</a>
-  <a href="#social-section" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:25px;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;transition:all 0.3s ease;white-space:nowrap;">🌐 Social</a>
-  <a href="#products-section" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:25px;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;transition:all 0.3s ease;white-space:nowrap;">🛍️ Shop</a>
-  <a href="#services-section" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:25px;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;transition:all 0.3s ease;white-space:nowrap;">📦 Services</a>
-  <a href="#gallery-section" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:25px;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;transition:all 0.3s ease;white-space:nowrap;">🖼️ Gallery</a>
-  <a href="#youtube-section" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:25px;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;transition:all 0.3s ease;white-space:nowrap;">🎬 YouTube</a>
-  <a href="#reels-section" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:25px;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;transition:all 0.3s ease;white-space:nowrap;">📱 Reels</a>
-  <a href="#payment-section" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:25px;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;transition:all 0.3s ease;white-space:nowrap;">💳 Payment</a>
-  <a href="#bank-section" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:25px;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;transition:all 0.3s ease;white-space:nowrap;">🏦 Bank</a>
-  <a href="#feedback-section" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:25px;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;transition:all 0.3s ease;white-space:nowrap;">⭐ Feedback</a>
-  <a href="#contactform-section" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:25px;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;transition:all 0.3s ease;white-space:nowrap;">📩 Contact</a>
-  <a href="#location-section" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:25px;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;transition:all 0.3s ease;white-space:nowrap;">📍 Location</a>
-  <a href="#contact-section" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:25px;text-decoration:none;color:var(--text);font-size:12px;font-weight:600;transition:all 0.3s ease;white-space:nowrap;">📞 Contact</a>
+<nav id="desktop-nav" style="position:fixed;left:8px;top:50%;transform:translateY(-50%);z-index:998;display:flex;flex-direction:column;gap:4px;max-height:75vh;overflow-y:auto;">
+  <a href="#about-section" style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:20px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;white-space:nowrap;">👤 About</a>
+  <a href="#social-section" style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:20px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;white-space:nowrap;">🌐 Social</a>
+  <a href="#products-section" style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:20px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;white-space:nowrap;">🛍️ Shop</a>
+  <a href="#services-section" style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:20px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;white-space:nowrap;">📦 Services</a>
+  <a href="#gallery-section" style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:20px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;white-space:nowrap;">🖼️ Gallery</a>
+  <a href="#youtube-section" style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:20px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;white-space:nowrap;">🎬 YouTube</a>
+  <a href="#reels-section" style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:20px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;white-space:nowrap;">📱 Reels</a>
+  <a href="#payment-section" style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:20px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;white-space:nowrap;">💳 Payment</a>
+  <a href="#bank-section" style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:20px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;white-space:nowrap;">🏦 Bank</a>
+  <a href="#feedback-section" style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:20px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;white-space:nowrap;">⭐ Feedback</a>
+  <a href="#contactform-section" style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:20px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;white-space:nowrap;">📩 Contact</a>
+  <a href="#location-section" style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:20px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;white-space:nowrap;">📍 Location</a>
 </nav>
 
 <!-- Mobile Hamburger -->
-<div id="mobile-hamburger" style="position:fixed;top:12px;right:12px;z-index:1000;display:none;">☰</div>
+<div id="mobile-hamburger" style="position:fixed;top:12px;right:12px;z-index:1000;width:40px;height:40px;background:var(--glass-bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:50%;display:none;align-items:center;justify-content:center;font-size:20px;color:var(--text);cursor:pointer;">☰</div>
 <div id="mobile-nav-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:998;" onclick="closeMobileNav()"></div>
-<div id="mobile-nav" style="position:fixed;top:0;right:-300px;width:270px;height:100%;background:var(--glass-bg);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-left:1px solid var(--glass-border);z-index:999;transition:right 0.3s ease;padding:50px 15px 15px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;">
+<div id="mobile-nav" style="position:fixed;top:0;right:-260px;width:240px;height:100%;background:var(--glass-bg);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-left:1px solid var(--glass-border);z-index:999;transition:right 0.3s ease;padding:50px 10px 15px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;">
   <button onclick="closeMobileNav()" style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.1);border:none;color:var(--text);font-size:20px;cursor:pointer;border-radius:50%;width:35px;height:35px;">✕</button>
-  <a href="#about-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:10px 14px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:13px;">👤 About</a>
-  <a href="#social-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:10px 14px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:13px;">🌐 Social</a>
-  <a href="#products-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:10px 14px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:13px;">🛍️ Shop</a>
-  <a href="#services-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:10px 14px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:13px;">📦 Services</a>
-  <a href="#gallery-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:10px 14px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:13px;">🖼️ Gallery</a>
-  <a href="#youtube-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:10px 14px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:13px;">🎬 YouTube</a>
-  <a href="#reels-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:10px 14px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:13px;">📱 Reels</a>
-  <a href="#payment-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:10px 14px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:13px;">💳 Payment</a>
-  <a href="#bank-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:10px 14px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:13px;">🏦 Bank</a>
-  <a href="#feedback-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:10px 14px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:13px;">⭐ Feedback</a>
-  <a href="#contactform-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:10px 14px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:13px;">📩 Contact</a>
-  <a href="#location-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:10px 14px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:13px;">📍 Location</a>
-</nav>
+  <a href="#about-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:9px 12px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:12px;">👤 About</a>
+  <a href="#social-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:9px 12px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:12px;">🌐 Social</a>
+  <a href="#products-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:9px 12px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:12px;">🛍️ Shop</a>
+  <a href="#services-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:9px 12px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:12px;">📦 Services</a>
+  <a href="#gallery-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:9px 12px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:12px;">🖼️ Gallery</a>
+  <a href="#youtube-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:9px 12px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:12px;">🎬 YouTube</a>
+  <a href="#reels-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:9px 12px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:12px;">📱 Reels</a>
+  <a href="#payment-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:9px 12px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:12px;">💳 Payment</a>
+  <a href="#bank-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:9px 12px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:12px;">🏦 Bank</a>
+  <a href="#feedback-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:9px 12px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:12px;">⭐ Feedback</a>
+  <a href="#contactform-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:9px 12px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:12px;">📩 Contact</a>
+  <a href="#location-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:9px 12px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:12px;">📍 Location</a>
+</div>
+
+<!-- Main Card -->
+<div id="card-container" style="display:none;">
+  <div id="lottie-box"><div id="main-anim" style="width:100%;height:180px;"></div></div>
+  <img id="profile-img" src="assets/default-user.png" alt="Profile" crossorigin="anonymous">
+  <h1 id="name"></h1>
+  <p id="title"></p>
+
+  <div id="action-buttons" style="display:flex;gap:8px;justify-content:center;padding:0 10px 20px;flex-wrap:wrap;">
+    <a id="btn-call" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:#10b981;color:#fff;text-align:center;text-decoration:none;border-radius:16px;font-weight:600;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;"><span style="font-size:22px;">📞</span> Call</a>
+    <a id="btn-email" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:#f59e0b;color:#fff;text-align:center;text-decoration:none;border-radius:16px;font-weight:600;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;"><span style="font-size:22px;">✉️</span> Email</a>
+    <a id="btn-whatsapp" href="#" target="_blank" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:#25d366;color:#fff;text-align:center;text-decoration:none;border-radius:16px;font-weight:600;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;"><span style="font-size:22px;">💬</span> WhatsApp</a>
+  </div>
+
+  <div id="sections-container"></div>
+  <button id="save-contact">📇 Save to Phone</button>
+
+  <div style="padding:0 20px 10px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+    <button id="btn-share" style="flex:1;min-width:100px;padding:12px 15px;background:#6366f1;color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;">📤 Share</button>
+    <button id="btn-pdf" style="flex:1;min-width:100px;padding:12px 15px;background:#ef4444;color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;">📄 PDF</button>
+  </div>
+
+  <div id="qr-section" style="padding:20px;text-align:center;">
+    <h3 style="font-size:16px;font-weight:600;color:var(--primary);margin-bottom:15px;">📱 Scan QR Code</h3>
+    <div id="qr-box" style="display:inline-block;padding:15px;background:#fff;border-radius:15px;margin-bottom:15px;">
+      <img id="qr-image" src="" alt="QR Code" style="display:none;width:200px;height:200px;">
+    </div>
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;"><span id="card-url-text"></span></p>
+    <button id="btn-copy-url" style="padding:12px 25px;background:var(--primary);color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;">📋 Copy URL</button>
+  </div>
+</div>
+
+<div id="loader">⏳ Loading...</div>
+<div id="error" style="display:none;">❌ Card not found</div>
+
+<!-- Lightbox -->
+<div id="lightbox" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:9999;text-align:center;">
+  <span id="lightbox-close" style="position:absolute;top:15px;right:25px;color:#fff;font-size:35px;font-weight:bold;cursor:pointer;">&times;</span>
+  <button id="lightbox-prev" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.3);color:#fff;border:none;border-radius:50%;width:45px;height:45px;font-size:22px;cursor:pointer;">◀</button>
+  <img id="lightbox-img" src="" style="max-width:90%;max-height:85%;margin-top:40px;object-fit:contain;border-radius:10px;">
+  <button id="lightbox-next" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.3);color:#fff;border:none;border-radius:50%;width:45px;height:45px;font-size:22px;cursor:pointer;">▶</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="js/viewer.js"></script>
 
 <script>
+(function(){
+  var dnav = document.getElementById('desktop-nav');
+  var hamb = document.getElementById('mobile-hamburger');
   function setupNav() {
     var mobile = window.innerWidth < 768;
-    document.getElementById('desktop-nav').style.display = mobile ? 'none' : 'flex';
-    document.getElementById('mobile-hamburger').style.display = mobile ? 'flex' : 'none';
+    if (dnav) dnav.style.display = mobile ? 'none' : 'flex';
+    if (hamb) hamb.style.display = mobile ? 'flex' : 'none';
   }
   setupNav();
   window.addEventListener('resize', setupNav);
-  
-  document.getElementById('mobile-hamburger').onclick = function() {
+  if (hamb) hamb.onclick = function() {
     document.getElementById('mobile-nav').style.right = '0';
     document.getElementById('mobile-nav-overlay').style.display = 'block';
   };
-  function closeMobileNav() {
-    document.getElementById('mobile-nav').style.right = '-300px';
-    document.getElementById('mobile-nav-overlay').style.display = 'none';
-  }
+})();
+function closeMobileNav() {
+  document.getElementById('mobile-nav').style.right = '-260px';
+  document.getElementById('mobile-nav-overlay').style.display = 'none';
+}
 
-  // Hamburger style
-  var ham = document.getElementById('mobile-hamburger');
-  ham.style.width = '40px'; ham.style.height = '40px';
-  ham.style.background = 'var(--glass-bg)';
-  ham.style.backdropFilter = 'blur(10px)';
-  ham.style.webkitBackdropFilter = 'blur(10px)';
-  ham.style.border = '1px solid var(--glass-border)';
-  ham.style.borderRadius = '50%';
-  ham.style.display = 'flex';
-  ham.style.alignItems = 'center';
-  ham.style.justifyContent = 'center';
-  ham.style.fontSize = '20px';
-  ham.style.color = 'var(--text)';
-  ham.style.cursor = 'pointer';
-  ham.style.display = 'none';
-</script>
-  <div id="card-container" style="display:none;">
-    <!-- Lottie Animation -->
-    <div id="lottie-box">
-      <div id="main-anim" style="width:100%; height:180px;"></div>
-    </div>
-    <!-- Profile Image -->
-    <img id="profile-img" src="assets/default-user.png" alt="Profile" crossorigin="anonymous">
-    <h1 id="name"></h1>
-    <p id="title"></p>
-    <!-- Action Buttons -->
-    <style>
-      .action-btn {
-        flex: 1;
-        min-width: 100px;
-        padding: 14px 10px;
-        color: #fff;
-        text-align: center;
-        text-decoration: none;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 14px;
-        transition: all 0.3s ease;
-        display: inline-block;
-      }
-      .action-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.25) !important;
-      }
-      .btn-call {
-        background: #10b981;
-        box-shadow: 0 4px 15px rgba(16,185,129,0.3);
-      }
-      .btn-call:hover {
-        background: #059669;
-        box-shadow: 0 8px 25px rgba(16,185,129,0.5) !important;
-      }
-      .btn-email {
-        background: #f59e0b;
-        box-shadow: 0 4px 15px rgba(245,158,11,0.3);
-      }
-      .btn-email:hover {
-        background: #d97706;
-        box-shadow: 0 8px 25px rgba(245,158,11,0.5) !important;
-      }
-      .btn-whatsapp {
-        background: #25d366;
-        box-shadow: 0 4px 15px rgba(37,211,102,0.3);
-      }
-      .btn-whatsapp:hover {
-        background: #1da851;
-        box-shadow: 0 8px 25px rgba(37,211,102,0.5) !important;
-      }
-    </style>
-    <!-- Action Buttons - Professional -->
-    <div id="action-buttons" style="display:flex;gap:8px;justify-content:center;padding:0 10px 20px;flex-wrap:wrap;">
-      <a id="btn-call" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:#10b981;color:#fff;text-align:center;text-decoration:none;border-radius:16px;font-weight:600;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;transition:all 0.3s ease;box-shadow:0 4px 15px rgba(16,185,129,0.3);">
-        <span style="font-size:22px;">📞</span> Call
-      </a>
-      <a id="btn-email" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:#f59e0b;color:#fff;text-align:center;text-decoration:none;border-radius:16px;font-weight:600;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;transition:all 0.3s ease;box-shadow:0 4px 15px rgba(245,158,11,0.3);">
-        <span style="font-size:22px;">✉️</span> Email
-      </a>
-      <a id="btn-whatsapp" href="#" target="_blank" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:#25d366;color:#fff;text-align:center;text-decoration:none;border-radius:16px;font-weight:600;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;transition:all 0.3s ease;box-shadow:0 4px 15px rgba(37,211,102,0.3);">
-        <span style="font-size:22px;">💬</span> WhatsApp
-      </a>
-    </div>
-    <div id="sections-container"></div>
-    <button id="save-contact">📇 Save to Phone</button>
-        <!-- Share & PDF Buttons -->
-    <div style="padding: 0 20px 10px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-      <button id="btn-share" style="flex: 1; min-width: 100px; padding: 12px 15px; background: #6366f1; color: #fff; border: none; border-radius: 50px; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(99,102,241,0.3); transition: all 0.3s ease;"
-        onmouseover="this.style.background='#4f46e5'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(99,102,241,0.5)';"
-        onmouseout="this.style.background='#6366f1'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(99,102,241,0.3)';">
-        📤 Share Card
-      </button>
-      <button id="btn-pdf" style="flex: 1; min-width: 100px; padding: 12px 15px; background: #ef4444; color: #fff; border: none; border-radius: 50px; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(239,68,68,0.3); transition: all 0.3s ease;"
-        onmouseover="this.style.background='#dc2626'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(239,68,68,0.5)';"
-        onmouseout="this.style.background='#ef4444'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(239,68,68,0.3)';">
-        📄 Save as PDF
-      </button>
-    </div>
-        <!-- QR Code Section -->
-    <div id="qr-section" style="padding: 20px; text-align: center; border-top: 1px solid var(--border);">
-      <h3 style="font-size: 16px; font-weight: 600; color: var(--primary); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px;">
-        📱 Scan QR Code
-      </h3>
-      <div id="qr-box" style="display: inline-block; padding: 15px; background: #fff; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 15px;">
-        <!-- QR image uploaded by client -->
-        <img id="qr-image" src="" alt="QR Code" style="display: none; width: 200px; height: 200px; object-fit: contain; margin: 0 auto;">
-        <!-- Generated QR canvas -->
-      </div>
-      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; word-break: break-all;">
-        <span id="card-url-text"></span>
-      </p>
-      <button id="btn-copy-url" style="padding: 12px 25px; background: var(--primary); color: #fff; border: none; border-radius: 50px; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(26,115,232,0.3); transition: all 0.3s ease;"
-        onmouseover="this.style.background='var(--primary-hover)'; this.style.transform='translateY(-2px)';"
-        onmouseout="this.style.background='var(--primary)'; this.style.transform='translateY(0)';">
-        📋 Copy URL
-      </button>
-    </div>
-  </div>
-    <!-- Skeleton Loader -->
-  <div id="loader" style="max-width:480px;margin:20px auto;padding:20px;">
-    <div style="background:var(--glass-bg);border-radius:24px;padding:20px;backdrop-filter:blur(20px);border:1px solid var(--glass-border);">
-      <div style="height:180px;background:rgba(255,255,255,0.05);border-radius:16px;margin-bottom:20px;animation:pulse 1.5s infinite;"></div>
-      <div style="width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.05);margin:0 auto 15px;animation:pulse 1.5s infinite 0.2s;"></div>
-      <div style="width:180px;height:20px;background:rgba(255,255,255,0.05);border-radius:10px;margin:0 auto 10px;animation:pulse 1.5s infinite 0.4s;"></div>
-      <div style="width:120px;height:14px;background:rgba(255,255,255,0.05);border-radius:10px;margin:0 auto 20px;animation:pulse 1.5s infinite 0.6s;"></div>
-      <div style="display:flex;gap:10px;margin-bottom:15px;">
-        <div style="flex:1;height:45px;background:rgba(255,255,255,0.05);border-radius:50px;animation:pulse 1.5s infinite 0.8s;"></div>
-        <div style="flex:1;height:45px;background:rgba(255,255,255,0.05);border-radius:50px;animation:pulse 1.5s infinite 1s;"></div>
-        <div style="flex:1;height:45px;background:rgba(255,255,255,0.05);border-radius:50px;animation:pulse 1.5s infinite 1.2s;"></div>
-      </div>
-      <div style="height:100px;background:rgba(255,255,255,0.05);border-radius:16px;animation:pulse 1.5s infinite 1.4s;"></div>
-    </div>
-  </div>
-  <div id="error" style="display:none;">❌ कार्ड नहीं मिला</div>
+var lbImages = [], lbIndex = 0;
+function openLightbox(images, index) {
+  lbImages = images; lbIndex = index;
+  document.getElementById('lightbox').style.display = 'block';
+  document.getElementById('lightbox-img').src = lbImages[lbIndex];
+  document.body.style.overflow = 'hidden';
+}
+document.getElementById('lightbox-close').onclick = function() {
+  document.getElementById('lightbox').style.display = 'none';
+  document.body.style.overflow = '';
+};
+document.getElementById('lightbox').onclick = function(e) {
+  if (e.target === this) { this.style.display = 'none'; document.body.style.overflow = ''; }
+};
+document.getElementById('lightbox-next').onclick = function() {
+  lbIndex = (lbIndex + 1) % lbImages.length;
+  document.getElementById('lightbox-img').src = lbImages[lbIndex];
+};
+document.getElementById('lightbox-prev').onclick = function() {
+  lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length;
+  document.getElementById('lightbox-img').src = lbImages[lbIndex];
+};
 
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-  <script src="js/viewer.js"></script>
-  <script>
-  // Cart functions
-  let cart = [];
-  function addToCart(name, price, img) {
-    cart.push({ name, price, img });
-    alert('✅ Product added to cart!\n\n' + name + '\n💰 ' + price);
-    updateCartCount();
-  }
-  function updateCartCount() {
-    const badge = document.getElementById('cart-count');
-    if (badge) badge.textContent = cart.length;
-  }
-</script>
-<!-- Lightbox -->
-<div id="lightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; text-align: center;">
-  <span id="lightbox-close" style="position: absolute; top: 15px; right: 25px; color: #fff; font-size: 35px; font-weight: bold; cursor: pointer; z-index: 10000;">&times;</span>
-  <button id="lightbox-prev" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.3); color: #fff; border: none; border-radius: 50%; width: 45px; height: 45px; font-size: 22px; cursor: pointer;">◀</button>
-  <img id="lightbox-img" src="" style="max-width: 90%; max-height: 85%; margin-top: 40px; object-fit: contain; border-radius: 10px;">
-  <button id="lightbox-next" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.3); color: #fff; border: none; border-radius: 50%; width: 45px; height: 45px; font-size: 22px; cursor: pointer;">▶</button>
-</div>
+function changeQty(id, delta) {
+  var el = document.getElementById(id); if (!el) return;
+  var qty = parseInt(el.textContent) + delta;
+  if (qty < 1) qty = 1; if (qty > 99) qty = 99;
+  el.textContent = qty;
+}
+function orderNow(name, price, qtyId, phone) {
+  var qtyEl = document.getElementById(qtyId);
+  var qty = qtyEl ? parseInt(qtyEl.textContent) : 1;
+  if (!phone) { alert('Phone not available!'); return; }
+  var total = parseFloat(price) * qty;
+  var msg = '%F0%9F%9B%8D%EF%B8%8F *New Order!*%0A%0A';
+  msg += '*Product:* ' + encodeURIComponent(name) + '%0A';
+  msg += '*Price:* %E2%82%B9' + price + '%0A';
+  msg += '*Quantity:* ' + qty + '%0A';
+  msg += '*Total:* %E2%82%B9' + total;
+  window.open('https://wa.me/' + phone + '?text=' + msg, '_blank');
+}
 
-<script>
-  let lbImages = [];
-  let lbIndex = 0;
-  
-  function openLightbox(images, index) {
-    lbImages = images;
-    lbIndex = index;
-    document.getElementById('lightbox').style.display = 'block';
-    document.getElementById('lightbox-img').src = lbImages[lbIndex];
-    document.body.style.overflow = 'hidden';
-  }
-  
-  document.getElementById('lightbox-close').onclick = function() {
-    document.getElementById('lightbox').style.display = 'none';
-    document.body.style.overflow = '';
-  };
-  
-  document.getElementById('lightbox').onclick = function(e) {
-    if (e.target === this) {
-      this.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-  };
-  
-  document.getElementById('lightbox-next').onclick = function() {
-    lbIndex = (lbIndex + 1) % lbImages.length;
-    document.getElementById('lightbox-img').src = lbImages[lbIndex];
-  };
-  
-  document.getElementById('lightbox-prev').onclick = function() {
-    lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length;
-    document.getElementById('lightbox-img').src = lbImages[lbIndex];
-  };
-</script>
-  <script>
-  function changeQty(id, delta) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    var qty = parseInt(el.textContent) + delta;
-    if (qty < 1) qty = 1;
-    if (qty > 99) qty = 99;
-    el.textContent = qty;
-  }
-  
-  function orderNow(name, price, qtyId, phone) {
-    var qtyEl = document.getElementById(qtyId);
-    var qty = qtyEl ? parseInt(qtyEl.textContent) : 1;
-    if (!phone) { alert('Phone number not available!'); return; }
-    var msg = '%F0%9F%9B%8D%EF%B8%8F *New Order!*%0A%0A';
-    msg += '*Product:* ' + encodeURIComponent(name) + '%0A';
-    msg += '*Price:* %E2%82%B9' + price + '%0A';
-    msg += '*Quantity:* ' + qty + '%0A';
-    msg += '*Total:* %E2%82%B9' + (parseFloat(price) * qty) + '%0A%0A';
-    msg += 'Please confirm my order!';
-    window.open('https://wa.me/' + phone + '?text=' + msg, '_blank');
-  }
-</script>
-  <script>
-  // Ripple Effect on all buttons
-  document.addEventListener('click', function(e) {
-    var btn = e.target.closest('button, .btn, a.btn, #save-contact, #action-buttons a');
-    if (!btn) return;
-    
-    var ripple = document.createElement('span');
-    ripple.className = 'ripple';
-    var rect = btn.getBoundingClientRect();
-    var size = Math.max(rect.width, rect.height);
-    ripple.style.width = ripple.style.height = size + 'px';
-    ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-    ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-    btn.style.position = btn.style.position || 'relative';
-    btn.style.overflow = 'hidden';
-    btn.appendChild(ripple);
-    
-    setTimeout(function() { ripple.remove(); }, 600);
-  });
-</script>
-<!-- Bottom Navigation -->
-<nav style="position:fixed;bottom:0;left:0;width:100%;background:var(--glass-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--glass-border);display:flex;justify-content:space-around;padding:10px 5px;z-index:999;">
-  <a href="#" onclick="scrollToTop()" style="color:var(--primary);text-decoration:none;font-size:11px;text-align:center;font-weight:600;">
-    <div style="font-size:20px;">🏠</div> Home
-  </a>
-  <a href="#about-section" style="color:var(--text-secondary);text-decoration:none;font-size:11px;text-align:center;font-weight:600;">
-    <div style="font-size:20px;">👤</div> About
-  </a>
-  <a href="#products-section" style="color:var(--text-secondary);text-decoration:none;font-size:11px;text-align:center;font-weight:600;">
-    <div style="font-size:20px;">🛍️</div> Shop
-  </a>
-  <a href="#gallery-section" style="color:var(--text-secondary);text-decoration:none;font-size:11px;text-align:center;font-weight:600;">
-    <div style="font-size:20px;">🖼️</div> Gallery
-  </a>
-  <a href="#contact-section" style="color:var(--text-secondary);text-decoration:none;font-size:11px;text-align:center;font-weight:600;">
-    <div style="font-size:20px;">📩</div> Contact
-  </a>
-</nav>
-
-<!-- Bottom spacer so content doesn't hide behind nav -->
-<div style="height:70px;"></div>
-
-<script>
-function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('button, a.btn, #save-contact, #action-buttons a');
+  if (!btn) return;
+  var ripple = document.createElement('span');
+  ripple.className = 'ripple';
+  var rect = btn.getBoundingClientRect();
+  var size = Math.max(rect.width, rect.height);
+  ripple.style.width = ripple.style.height = size + 'px';
+  ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+  ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+  btn.style.position = 'relative';
+  btn.style.overflow = 'hidden';
+  btn.appendChild(ripple);
+  setTimeout(function(){ ripple.remove(); }, 600);
+});
 </script>
 </body>
 </html>
