@@ -355,7 +355,6 @@ if (data.profileImage && data.profileImage.trim() !== '') {
               });
             }, 100);
           }
-        }
         else if (sec === 'reels' && data.reels && data.reels.length > 0) {
           const reels = data.reels;
           let currentReel = 0;
