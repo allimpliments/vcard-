@@ -74,6 +74,7 @@
         <li data-section="payment">Payment Info</li>
         <li data-section="bank">Bank Details</li>
         <li data-section="feedback">Feedback</li>
+        <li data-section="location">Location</li>
       </ul>
       <h3>🛍️ ऑनलाइन शॉप - प्रोडक्ट्स</h3>
       <div id="products-list"></div>
@@ -103,7 +104,7 @@
       <p style="font-size:12px;color:#64748b;margin:4px 0;">— या —</p>
       <input type="url" id="e-payment-qr" placeholder="या QR इमेज URL डालें...">
       <img id="e-payment-qr-preview" src="" style="max-width:100px;max-height:100px;display:none;margin-top:8px;border-radius:10px;">
-            <h3>🏦 बैंक अकाउंट डिटेल</h3>
+      <h3>🏦 बैंक अकाउंट डिटेल</h3>
       
       <label>अकाउंट नंबर:</label>
       <input type="text" id="e-acc-num" placeholder="1234567890">
@@ -116,6 +117,13 @@
       
       <label>अकाउंट होल्डर का नाम:</label>
       <input type="text" id="e-holder-name" placeholder="आपका नाम">
+      <h3>📍 लोकेशन</h3>
+      
+      <label>Google Maps लिंक:</label>
+      <input type="url" id="e-map-link" placeholder="https://goo.gl/maps/... या https://maps.google.com/...">
+      
+      <label>पूरा पता:</label>
+      <textarea id="e-address" rows="2" placeholder="Shop No, Street, City, State, Pincode"></textarea>
       <button type="submit">💾 सेव और पब्लिश करें</button>
     </form>
     <div id="publish-link" style="display:none;"></div>
