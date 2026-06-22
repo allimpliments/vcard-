@@ -118,23 +118,41 @@ if (!slug) {
 
         // PRODUCTS
         else if (sec === 'products' && data.products && data.products.length > 0) {
-          let h = '<h3>🛍️ Online Shop</h3><div style="display:flex;flex-direction:column;gap:12px;">';
+          let h = '<h3>🛍️ Online Shop</h3><div style="display:flex;flex-direction:column;gap:15px;">';
           for (let k = 0; k < data.products.length; k++) {
             const p = data.products[k];
+            const pid = 'prod-' + k;
             const phone = data.phone ? data.phone.replace(/[^0-9]/g, '') : '';
-            const wa = phone ? 'https://wa.me/' + phone + '?text=I%20am%20interested%20in%20' + encodeURIComponent(p.name) + '%20Price:%20' + p.sellingPrice : '#';
-            h += '<div style="display:flex;align-items:center;gap:12px;background:var(--card-bg-secondary);border-radius:14px;padding:12px;">';
-            if (p.image) h += '<img src="' + p.image + '" style="width:80px;height:80px;object-fit:cover;border-radius:10px;flex-shrink:0;">';
-            h += '<div style="flex:1;min-width:0;"><p style="font-weight:600;font-size:14px;margin:0 0 4px;color:var(--text-primary);">' + p.name + '</p>';
-            if (p.actualPrice) h += '<span style="text-decoration:line-through;color:#ef4444;font-size:12px;">₹' + p.actualPrice + '</span> ';
-            h += '<span style="font-weight:700;color:var(--primary);font-size:16px;">₹' + p.sellingPrice + '</span></div>';
-            h += '<div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">';
-            h += '<a href="' + wa + '" target="_blank" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:#25d366;color:#fff;border-radius:50%;text-decoration:none;font-size:16px;">💬</a>';
-            h += '<button onclick="addToCart(\'' + p.name.replace(/'/g, "\\'") + '\',\'' + p.sellingPrice + '\',\'' + (p.image || '').replace(/'/g, "\\'") + '\')" style="padding:6px 10px;background:var(--accent);color:#fff;border:none;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;">Add to Cart</button>';
-            h += '</div></div>';
+            
+            h += '<div style="background:var(--card-bg-secondary);border-radius:16px;padding:15px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">';
+            
+            // Image
+            if (p.image) {
+              h += '<img src="' + p.image + '" style="width:90px;height:90px;object-fit:cover;border-radius:12px;flex-shrink:0;">';
+            }
+            
+            // Info
+            h += '<div style="flex:1;min-width:140px;">';
+            h += '<p style="font-weight:600;font-size:15px;color:var(--text-primary);margin:0 0 4px;">' + p.name + '</p>';
+            if (p.actualPrice) {
+              h += '<span style="text-decoration:line-through;color:#ef4444;font-size:13px;">₹' + p.actualPrice + '</span> ';
+            }
+            h += '<span style="font-weight:700;color:var(--primary);font-size:18px;">₹' + p.sellingPrice + '</span>';
+            h += '</div>';
+            
+            // Quantity + Order Button
+            h += '<div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">';
+            h += '<div style="display:flex;align-items:center;background:var(--card-bg);border-radius:25px;overflow:hidden;border:1px solid var(--border);">';
+            h += '<button onclick="changeQty(\'' + pid + '\', -1)" style="background:none;border:none;padding:8px 12px;font-size:16px;cursor:pointer;color:var(--text-primary);">−</button>';
+            h += '<span id="' + pid + '" style="padding:4px 8px;font-weight:600;font-size:14px;min-width:30px;text-align:center;">1</span>';
+            h += '<button onclick="changeQty(\'' + pid + '\', 1)" style="background:none;border:none;padding:8px 12px;font-size:16px;cursor:pointer;color:var(--text-primary);">+</button>';
+            h += '</div>';
+            h += '<button onclick="orderNow(\'' + p.name.replace(/'/g, "\\'") + '\',\'' + p.sellingPrice + '\',\'' + pid + '\',\'' + phone + '\')" style="padding:10px 16px;background:#25d366;color:#fff;border:none;border-radius:25px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">💬 Order</button>';
+            h += '</div>';
+            
+            h += '</div>';
           }
           h += '</div>';
-          h += '<div style="position:fixed;bottom:20px;right:20px;z-index:999;"><button onclick="viewCart()" style="width:55px;height:55px;background:var(--accent);color:#fff;border:none;border-radius:50%;font-size:22px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.3);position:relative;">🛒<span id="cart-count" style="position:absolute;top:-5px;right:-5px;background:#ef4444;color:#fff;border-radius:50%;width:24px;height:24px;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:700;">0</span></button></div>';
           div.innerHTML = h;
         }
 
