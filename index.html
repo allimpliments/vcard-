@@ -69,18 +69,20 @@
   <h1 id="name"></h1>
   <p id="title"></p>
 
-  <div id="action-buttons" style="display:flex;gap:8px;justify-content:center;padding:0 10px 20px;flex-wrap:wrap;">
-    <a id="btn-call" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--primary);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:var(--btn-font-weight);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);transition:all var(--transition-speed) var(--transition-style);"><span style="font-size:22px;">📞</span> Call</a>
-    <a id="btn-email" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--accent);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:var(--btn-font-weight);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);transition:all var(--transition-speed) var(--transition-style);"><span style="font-size:22px;">✉️</span> Email</a>
-    <a id="btn-whatsapp" href="#" target="_blank" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--whatsapp);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:var(--btn-font-weight);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);transition:all var(--transition-speed) var(--transition-style);"><span style="font-size:22px;">💬</span> WhatsApp</a>
-  </div>
+      <div id="action-buttons" style="display:flex;gap:8px;justify-content:center;padding:0 10px 20px;flex-wrap:wrap;">
+      <a id="btn-call" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--c4);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:500;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);"><span style="font-size:22px;">📞</span> Call</a>
+      <a id="btn-email" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--c3);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:500;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);"><span style="font-size:22px;">✉️</span> Email</a>
+      <a id="btn-whatsapp" href="#" target="_blank" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--c4);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:500;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);"><span style="font-size:22px;">💬</span> WhatsApp</a>
+    </div>
 
   <div id="sections-container"></div>
-  <button id="save-contact" style="display:block;width:calc(100% - 40px);margin:20px auto;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:16px;cursor:pointer;transition:all var(--transition-speed) var(--transition-style);">📇 Save to Phone</button>
+      <button id="save-contact" style="display:block;width:calc(100% - 40px);margin:20px auto;padding:14px;background:var(--c4);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:16px;cursor:pointer;">📇 Save to Phone</button>
 
   <div style="padding:0 20px 10px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-    <button id="btn-share" style="flex:1;min-width:100px;padding:var(--btn-padding);background:var(--primary);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:var(--btn-font-weight);font-size:14px;cursor:pointer;transition:all var(--transition-speed) var(--transition-style);">📤 Share</button>
-    <button id="btn-pdf" style="flex:1;min-width:100px;padding:var(--btn-padding);background:var(--accent);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:var(--btn-font-weight);font-size:14px;cursor:pointer;transition:all var(--transition-speed) var(--transition-style);">📄 PDF</button>
+        <div style="padding:0 20px 10px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+      <button id="btn-share" style="flex:1;min-width:100px;padding:var(--btn-padding);background:var(--c4);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:14px;cursor:pointer;">📤 Share</button>
+      <button id="btn-pdf" style="flex:1;min-width:100px;padding:var(--btn-padding);background:var(--c3);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:14px;cursor:pointer;">📄 PDF</button>
+    </div>
   </div>
 
   <div id="qr-section" style="padding:20px;text-align:center;">
@@ -89,7 +91,7 @@
       <img id="qr-image" src="" alt="QR Code" style="display:none;width:200px;height:200px;">
     </div>
     <p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;"><span id="card-url-text"></span></p>
-    <button id="btn-copy-url" style="padding:var(--btn-padding);background:var(--primary);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:var(--btn-font-weight);font-size:14px;cursor:pointer;transition:all var(--transition-speed) var(--transition-style);">📋 Copy URL</button>
+          <button id="btn-copy-url" style="padding:var(--btn-padding);background:var(--c4);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:14px;cursor:pointer;">📋 Copy URL</button>
   </div>
 </div>
 
