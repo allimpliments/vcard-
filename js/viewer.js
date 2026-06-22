@@ -197,23 +197,19 @@ if (data.profileImage && data.profileImage.trim() !== '') {
           div.innerHTML = servHTML;
         }
         else if (sec === 'gallery' && data.gallery && data.gallery.length > 0) {
-          let currentIndex = 0;
           const images = data.gallery;
+          let currentIndex = 0;
           
           let galHTML = '<h3>🖼️ Gallery</h3>';
-          
-          // Main large image
           galHTML += '<div style="position: relative; text-align: center; margin-bottom: 10px;">';
-          galHTML += '<img id="gallery-main" src="' + images[0] + '" alt="Gallery" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 15px; box-shadow: var(--shadow-sm); cursor: pointer;" onclick="window.open(\'' + images[0] + '\', \'_blank\')">';
+          galHTML += '<img id="gallery-main" src="' + images[0] + '" alt="Gallery" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 15px; box-shadow: var(--shadow-sm); cursor: pointer;">';
           
-          // Navigation arrows
           if (images.length > 1) {
-            galHTML += '<button id="gal-prev" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 35px; height: 35px; font-size: 18px; cursor: pointer;">◀</button>';
-            galHTML += '<button id="gal-next" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 35px; height: 35px; font-size: 18px; cursor: pointer;">▶</button>';
+            galHTML += '<button id="gal-prev" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 35px; height: 35px; font-size: 18px; cursor: pointer; z-index: 5;">◀</button>';
+            galHTML += '<button id="gal-next" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 35px; height: 35px; font-size: 18px; cursor: pointer; z-index: 5;">▶</button>';
           }
           galHTML += '</div>';
           
-          // Thumbnail dots
           if (images.length > 1) {
             galHTML += '<div id="gal-dots" style="text-align: center; margin-bottom: 10px;">';
             for (let d = 0; d < images.length; d++) {
@@ -224,38 +220,53 @@ if (data.profileImage && data.profileImage.trim() !== '') {
           
           div.innerHTML = galHTML;
           
-          // Gallery slider logic
-          if (images.length > 1) {
+          // Slider logic - setTimeout se DOM ready hone ke baad
+          setTimeout(function() {
             const mainImg = document.getElementById('gallery-main');
+            const prevBtn = document.getElementById('gal-prev');
+            const nextBtn = document.getElementById('gal-next');
             const dots = document.querySelectorAll('.gal-dot');
+            
+            if (!mainImg) return;
+            
+            mainImg.onclick = function() {
+              window.open(images[currentIndex], '_blank');
+            };
             
             function updateGallery(index) {
               currentIndex = index;
-              mainImg.src = images[currentIndex];
-              mainImg.onclick = function() { window.open(images[currentIndex], '_blank'); };
-              dots.forEach((dot, i) => {
+              if (mainImg) {
+                mainImg.src = images[currentIndex];
+              }
+              dots.forEach(function(dot, i) {
                 dot.style.background = i === currentIndex ? 'var(--primary)' : '#ccc';
               });
             }
             
-            document.getElementById('gal-next').onclick = () => {
-              updateGallery((currentIndex + 1) % images.length);
-            };
-            document.getElementById('gal-prev').onclick = () => {
-              updateGallery((currentIndex - 1 + images.length) % images.length);
-            };
+            if (nextBtn) {
+              nextBtn.onclick = function() {
+                updateGallery((currentIndex + 1) % images.length);
+              };
+            }
             
-            dots.forEach(dot => {
+            if (prevBtn) {
+              prevBtn.onclick = function() {
+                updateGallery((currentIndex - 1 + images.length) % images.length);
+              };
+            }
+            
+            dots.forEach(function(dot) {
               dot.onclick = function() {
-                updateGallery(parseInt(this.dataset.index));
+                updateGallery(parseInt(this.getAttribute('data-index')));
               };
             });
             
-            // Auto scroll every 3 seconds
-            setInterval(() => {
-              updateGallery((currentIndex + 1) % images.length);
-            }, 3000);
-          }
+            if (images.length > 1) {
+              setInterval(function() {
+                updateGallery((currentIndex + 1) % images.length);
+              }, 3000);
+            }
+          }, 100);
         }
         container.appendChild(div);
       }
