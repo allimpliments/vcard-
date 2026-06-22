@@ -373,9 +373,17 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
           image: row.querySelector('.serv-img-url').value.trim()
         };
       }),
-      gallery: galleryData.map((img, i) => {
-        return galleryDiv.children[i].querySelector('.gal-img-url').value.trim();
-      }),
+      gallery: (() => {
+        const result = [];
+        const rows = galleryDiv.children;
+        for (let i = 0; i < rows.length; i++) {
+          const urlInput = rows[i].querySelector('.gal-img-url');
+          if (urlInput && urlInput.value.trim()) {
+            result.push(urlInput.value.trim());
+          }
+        }
+        return result;
+      })(),
       sectionOrder: currentOrder
     };
 
