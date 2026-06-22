@@ -454,21 +454,18 @@ if (!slug) {
         const blob = new Blob([vcf], { type: 'text/vcard' });
         const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = (data.name || 'contact') + '.vcf'; a.click();
       });
-            // Force WhatsApp button colors based on theme
+            // Inject WhatsApp button styles directly
+      var waStyle = document.createElement('style');
       var theme = document.body.className;
-      var waColors = {
-        'default': '#25d366', 'midnight': '#25d366', 'graphite': '#25d366',
-        'porcelain': '#25d366', 'obsidian': '#25d366', 'linen': '#25d366',
-        'ocean': '#00e676', 'sunset': '#ffd700', 'forest': '#4ade80',
-        'aurora': '#34d399', 'mono': '#000000'
-      };
-      var waColor = waColors[theme] || '#25d366';
+      var waColor = '#25d366';
+      if (theme === 'sunset') waColor = '#ffd700';
+      else if (theme === 'ocean') waColor = '#00e676';
+      else if (theme === 'forest') waColor = '#4ade80';
+      else if (theme === 'aurora') waColor = '#34d399';
+      else if (theme === 'mono') waColor = '#000000';
       
-      // Apply to all WhatsApp buttons
-      var allWA = document.querySelectorAll('#btn-whatsapp, button[onclick*="orderNow"], a[href*="wa.me"], #enquiry-send');
-      allWA.forEach(function(el) {
-        el.style.setProperty('background', waColor, 'important');
-      });
+      waStyle.textContent = '#btn-whatsapp, button[onclick*="orderNow"], a[href*="wa.me"]:not(.social-icons a), #enquiry-send { background: ' + waColor + ' !important; }';
+      document.head.appendChild(waStyle);
       console.log('✅ Card successfully displayed!');
     })
     .catch((error) => {
