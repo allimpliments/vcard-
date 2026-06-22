@@ -80,7 +80,7 @@ if (!slug) {
       const btnStyle = 'font-family:var(--font-body);border-radius:var(--btn-radius);font-weight:var(--btn-font-weight);transition:all var(--transition-speed) var(--transition-style);';
       const btnPrimary = btnStyle + 'background:var(--primary);color:#fff;';
       const btnAccent = btnStyle + 'background:var(--accent);color:#fff;';
-      const btnGreen = btnStyle + 'background:#25d366;color:#fff;';
+      const btnGreen = btnStyle + 'background:var(--whatsapp);color:#fff;';
 
       for (let i = 0; i < order.length; i++) {
         const sec = order[i];
