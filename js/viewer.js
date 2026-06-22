@@ -466,6 +466,7 @@ if (!slug) {
       
       waStyle.textContent = '#btn-whatsapp, button[onclick*="orderNow"], a[href*="wa.me"]:not(.social-icons a), #enquiry-send { background: ' + waColor + ' !important; }';
       document.head.appendChild(waStyle);
+      
       console.log('✅ Card successfully displayed!');
     })
     .catch((error) => {
