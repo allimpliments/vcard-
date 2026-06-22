@@ -17,7 +17,7 @@ if (!slug) {
         console.log('Document nahi mila');
         document.getElementById('loader').style.display = 'none';
         document.getElementById('error').style.display = 'block';
-        return;ab
+        return;
       }
 
       const data = docSnap.data();
@@ -27,12 +27,11 @@ if (!slug) {
       document.getElementById('loader').style.display = 'none';
       document.getElementById('card-container').style.display = 'block';
 
-      // Lottie animation with bodymovin
+      // Lottie animation
       const animContainer = document.getElementById('main-anim');
       if (animContainer && typeof lottie !== 'undefined') {
         const animName = data.animation || 'wave';
         const animPath = 'assets/lottie/' + animName + '.json';
-        console.log('Lottie path:', animPath);
         lottie.loadAnimation({
           container: animContainer,
           renderer: 'svg',
@@ -40,502 +39,373 @@ if (!slug) {
           autoplay: true,
           path: animPath
         });
-        console.log('✅ Lottie animation started!');
-      } else {
-        console.log('❌ Lottie container or library not found');
       }
-            // Action Buttons
+
+      // Action Buttons
       const btnCall = document.getElementById('btn-call');
       const btnEmail = document.getElementById('btn-email');
       const btnWhatsapp = document.getElementById('btn-whatsapp');
-      
-      if (data.phone) {
-        btnCall.href = 'tel:' + data.phone;
-      } else {
-        btnCall.style.display = 'none';
+      if (btnCall) {
+        if (data.phone) btnCall.href = 'tel:' + data.phone;
+        else btnCall.style.display = 'none';
       }
-      
-      if (data.email) {
-        btnEmail.href = 'mailto:' + data.email;
-      } else {
-        btnEmail.style.display = 'none';
+      if (btnEmail) {
+        if (data.email) btnEmail.href = 'mailto:' + data.email;
+        else btnEmail.style.display = 'none';
       }
-      
-      if (data.phone) {
-        btnWhatsapp.href = 'https://wa.me/' + data.phone.replace(/[^0-9]/g, '');
-      } else {
-        btnWhatsapp.style.display = 'none';
+      if (btnWhatsapp) {
+        if (data.phone) btnWhatsapp.href = 'https://wa.me/' + data.phone.replace(/[^0-9]/g, '');
+        else btnWhatsapp.style.display = 'none';
       }
+
+      // Profile Image
       const profileImg = document.getElementById('profile-img');
-if (data.profileImage && data.profileImage.trim() !== '') {
-  profileImg.src = data.profileImage;
-} else {
-  profileImg.src = 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><rect width="120" height="120" fill="#e2e8f0"/><text x="60" y="65" text-anchor="middle" font-size="40" fill="#94a3b8">👤</text></svg>');
-}
+      if (profileImg) {
+        if (data.profileImage && data.profileImage.trim() !== '') {
+          profileImg.src = data.profileImage;
+        } else {
+          profileImg.src = 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><rect width="120" height="120" fill="#e2e8f0"/><text x="60" y="65" text-anchor="middle" font-size="40" fill="#94a3b8">👤</text></svg>');
+        }
+      }
+
       document.getElementById('name').textContent = data.name || '';
       document.getElementById('title').textContent = data.title || '';
 
       const container = document.getElementById('sections-container');
       container.innerHTML = '';
-      
       const order = data.sectionOrder || ['about', 'contact', 'social'];
 
       for (let i = 0; i < order.length; i++) {
         const sec = order[i];
         const div = document.createElement('div');
 
+        // ABOUT
         if (sec === 'about' && data.about) {
-          let aboutHTML = '<h3>About Us</h3>';
-          
-          // About Image (agar ho)
+          let h = '<h3>About Us</h3>';
           if (data.aboutImage && data.aboutImage.trim() !== '') {
-            aboutHTML += '<div style="text-align: center; margin-bottom: 15px;">';
-            aboutHTML += '<img src="' + data.aboutImage + '" alt="About" style="max-width: 200px; max-height: 200px; border-radius: 15px; object-fit: cover; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">';
-            aboutHTML += '</div>';
+            h += '<div style="text-align:center;margin-bottom:15px;"><img src="' + data.aboutImage + '" style="max-width:200px;max-height:200px;border-radius:15px;object-fit:cover;box-shadow:0 4px 15px rgba(0,0,0,0.1);"></div>';
           }
-          
-          // About Text
-          aboutHTML += '<p style="font-size: 14px; line-height: 1.7; color: var(--text-secondary); text-align: center; margin-bottom: 15px;">' + data.about + '</p>';
-          
-          // PDF Download Button (agar PDF link ho)
+          h += '<p style="font-size:14px;line-height:1.7;color:var(--text-secondary);text-align:center;margin-bottom:15px;">' + data.about + '</p>';
           if (data.aboutPdf && data.aboutPdf.trim() !== '') {
-            aboutHTML += '<div style="text-align: center;">';
-            aboutHTML += '<a href="' + data.aboutPdf + '" target="_blank" style="display: inline-block; padding: 12px 25px; background: #ef4444; color: #fff; text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 14px; box-shadow: 0 4px 15px rgba(239,68,68,0.3); transition: all 0.3s ease;" onmouseover="this.style.background=\'#dc2626\'; this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.background=\'#ef4444\'; this.style.transform=\'translateY(0)\';">📥 Download PDF</a>';
-            aboutHTML += '</div>';
+            h += '<div style="text-align:center;"><a href="' + data.aboutPdf + '" target="_blank" style="display:inline-block;padding:12px 25px;background:#ef4444;color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:14px;">📥 Download PDF</a></div>';
           }
-          
-          div.innerHTML = aboutHTML;
-        } 
+          div.innerHTML = h;
+        }
+
+        // CONTACT
         else if (sec === 'contact') {
-          div.innerHTML = '<h3>Contact</h3>' +
-            '<p>📞 ' + (data.phone || '-') + '</p>' +
-            '<p>✉️ ' + (data.email || '-') + '</p>' +
-            '<p>🌐 <a href="' + (data.website || '#') + '">' + (data.website || '-') + '</a></p>';
-        } 
+          div.innerHTML = '<h3>Contact</h3><p>📞 ' + (data.phone || '-') + '</p><p>✉️ ' + (data.email || '-') + '</p><p>🌐 <a href="' + (data.website || '#') + '">' + (data.website || '-') + '</a></p>';
+        }
+
+        // SOCIAL
         else if (sec === 'social' && data.social) {
           div.innerHTML = '<h3>Social</h3><div class="social-icons"></div>';
           const iconsDiv = div.querySelector('.social-icons');
           const platforms = Object.keys(data.social);
           for (let j = 0; j < platforms.length; j++) {
-            const platform = platforms[j].toLowerCase();
+            const p = platforms[j].toLowerCase();
             const url = data.social[platforms[j]];
             if (url) {
-              let iconClass = 'fa-globe';
-              if (platform.includes('whatsapp')) iconClass = 'fa-whatsapp';
-              else if (platform.includes('instagram')) iconClass = 'fa-instagram';
-              else if (platform.includes('facebook')) iconClass = 'fa-facebook';
-              else if (platform.includes('youtube')) iconClass = 'fa-youtube';
-              else if (platform.includes('linkedin')) iconClass = 'fa-linkedin';
-              else if (platform.includes('twitter') || platform.includes('x')) iconClass = 'fa-x-twitter';
-              else if (platform.includes('telegram')) iconClass = 'fa-telegram';
-              else if (platform.includes('snapchat')) iconClass = 'fa-snapchat';
-              else if (platform.includes('pinterest')) iconClass = 'fa-pinterest';
-              
-              iconsDiv.innerHTML += '<a href="' + url + '" target="_blank" class="fa-brands ' + iconClass + '"></a>';
+              let cls = 'fa-globe';
+              if (p.includes('whatsapp')) cls = 'fa-whatsapp';
+              else if (p.includes('instagram')) cls = 'fa-instagram';
+              else if (p.includes('facebook')) cls = 'fa-facebook';
+              else if (p.includes('youtube')) cls = 'fa-youtube';
+              else if (p.includes('linkedin')) cls = 'fa-linkedin';
+              else if (p.includes('twitter') || p.includes('x')) cls = 'fa-x-twitter';
+              else if (p.includes('telegram')) cls = 'fa-telegram';
+              else if (p.includes('snapchat')) cls = 'fa-snapchat';
+              else if (p.includes('pinterest')) cls = 'fa-pinterest';
+              iconsDiv.innerHTML += '<a href="' + url + '" target="_blank" class="fa-brands ' + cls + '"></a>';
             }
           }
         }
-                else if (sec === 'products' && data.products && data.products.length > 0) {
-          let prodHTML = '<h3>🛍️ Online Shop</h3><div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">';
-          
+
+        // PRODUCTS
+        else if (sec === 'products' && data.products && data.products.length > 0) {
+          let h = '<h3>🛍️ Online Shop</h3><div style="display:flex;flex-wrap:wrap;gap:15px;justify-content:center;">';
           for (let k = 0; k < data.products.length; k++) {
             const p = data.products[k];
             const phone = data.phone ? data.phone.replace(/[^0-9]/g, '') : '';
-            const waLink = phone ? 'https://wa.me/' + phone + '?text=I%20am%20interested%20in%20' + encodeURIComponent(p.name) + '%20Price:%20' + p.sellingPrice : '#';
-            
-            prodHTML += '<div style="width: 140px; background: var(--card-bg-secondary); border-radius: var(--radius-sm); padding: 12px; text-align: center; box-shadow: var(--shadow-sm);">';
-            
-            // Product Image
-            if (p.image) {
-              prodHTML += '<img src="' + p.image + '" alt="' + p.name + '" style="width: 100%; height: 100px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;">';
-            }
-            
-            // Product Name
-            prodHTML += '<p style="font-weight: 600; font-size: 13px; margin: 5px 0;">' + p.name + '</p>';
-            
-            // Prices
-            if (p.actualPrice) {
-              prodHTML += '<p style="text-decoration: line-through; color: #ef4444; font-size: 12px; margin: 2px 0;">₹' + p.actualPrice + '</p>';
-            }
-            prodHTML += '<p style="font-weight: 700; color: var(--primary); font-size: 16px; margin: 2px 0;">₹' + p.sellingPrice + '</p>';
-            
-            // WhatsApp Button
-            prodHTML += '<a href="' + waLink + '" target="_blank" style="display: inline-block; width: 30px; height: 30px; background: #25d366; color: #fff; border-radius: 50%; text-decoration: none; font-size: 16px; line-height: 30px; margin: 3px;">💬</a>';
-            
-            // Quantity + Add to Cart
-            prodHTML += '<div style="margin-top: 6px;"><input type="number" min="1" value="1" id="qty-' + k + '" style="width: 45px; padding: 3px; border: 1px solid var(--border); border-radius: 5px; text-align: center; font-size: 12px;">';
-            prodHTML += '<button onclick="addToCart(\'' + p.name + '\', \'' + p.sellingPrice + '\', \'' + (p.image || '') + '\')" style="margin-left: 4px; padding: 4px 8px; background: var(--accent); color: #fff; border: none; border-radius: 5px; font-size: 11px; cursor: pointer;">Add to Cart</button></div>';
-            
-            prodHTML += '</div>';
+            const wa = phone ? 'https://wa.me/' + phone + '?text=I%20am%20interested%20in%20' + encodeURIComponent(p.name) + '%20Price:%20' + p.sellingPrice : '#';
+            h += '<div style="width:140px;background:var(--card-bg-secondary);border-radius:var(--radius-sm);padding:12px;text-align:center;box-shadow:var(--shadow-sm);">';
+            if (p.image) h += '<img src="' + p.image + '" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:8px;">';
+            h += '<p style="font-weight:600;font-size:13px;margin:5px 0;">' + p.name + '</p>';
+            if (p.actualPrice) h += '<p style="text-decoration:line-through;color:#ef4444;font-size:12px;">₹' + p.actualPrice + '</p>';
+            h += '<p style="font-weight:700;color:var(--primary);font-size:16px;">₹' + p.sellingPrice + '</p>';
+            h += '<a href="' + wa + '" target="_blank" style="display:inline-block;width:30px;height:30px;background:#25d366;color:#fff;border-radius:50%;text-decoration:none;font-size:16px;line-height:30px;">💬</a>';
+            h += '<div style="margin-top:6px;"><input type="number" min="1" value="1" style="width:45px;padding:3px;border:1px solid #ddd;border-radius:5px;text-align:center;font-size:12px;">';
+            h += '<button onclick="addToCart(\'' + p.name + '\',\'' + p.sellingPrice + '\',\'' + (p.image || '') + '\')" style="margin-left:4px;padding:4px 8px;background:var(--accent);color:#fff;border:none;border-radius:5px;font-size:11px;cursor:pointer;">Add to Cart</button></div>';
+            h += '</div>';
           }
-          
-          prodHTML += '</div>';
-          div.innerHTML = prodHTML;
+          h += '</div>';
+          div.innerHTML = h;
         }
-                else if (sec === 'services' && data.services && data.services.length > 0) {
-          let servHTML = '<h3>📦 Products & Services</h3><div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">';
-          
+
+        // SERVICES
+        else if (sec === 'services' && data.services && data.services.length > 0) {
+          let h = '<h3>📦 Products & Services</h3><div style="display:flex;flex-wrap:wrap;gap:15px;justify-content:center;">';
           for (let k = 0; k < data.services.length; k++) {
             const s = data.services[k];
             const phone = data.phone ? data.phone.replace(/[^0-9]/g, '') : '';
-            const waLink = phone ? 'https://wa.me/' + phone + '?text=Hi,%20I%20am%20interested%20in%20' + encodeURIComponent(s.title) : '#';
-            
-            servHTML += '<div style="width: 140px; background: var(--card-bg-secondary); border-radius: var(--radius-sm); padding: 12px; text-align: center; box-shadow: var(--shadow-sm);">';
-            
-            if (s.image) {
-              servHTML += '<img src="' + s.image + '" alt="' + s.title + '" style="width: 100%; height: 100px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;">';
-            }
-            
-            servHTML += '<p style="font-weight: 600; font-size: 13px; margin: 5px 0;">' + s.title + '</p>';
-            
-            servHTML += '<a href="' + waLink + '" target="_blank" style="display: inline-block; padding: 8px 16px; background: #25d366; color: #fff; text-decoration: none; border-radius: 50px; font-size: 12px; font-weight: 600;">Enquiry Now</a>';
-            
-            servHTML += '</div>';
+            const wa = phone ? 'https://wa.me/' + phone + '?text=Hi,%20I%20am%20interested%20in%20' + encodeURIComponent(s.title) : '#';
+            h += '<div style="width:140px;background:var(--card-bg-secondary);border-radius:var(--radius-sm);padding:12px;text-align:center;box-shadow:var(--shadow-sm);">';
+            if (s.image) h += '<img src="' + s.image + '" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:8px;">';
+            h += '<p style="font-weight:600;font-size:13px;">' + s.title + '</p>';
+            h += '<a href="' + wa + '" target="_blank" style="display:inline-block;padding:8px 16px;background:#25d366;color:#fff;text-decoration:none;border-radius:50px;font-size:12px;font-weight:600;">Enquiry Now</a>';
+            h += '</div>';
           }
-          
-          servHTML += '</div>';
-          div.innerHTML = servHTML;
+          h += '</div>';
+          div.innerHTML = h;
         }
+
+        // GALLERY
         else if (sec === 'gallery' && data.gallery && data.gallery.length > 0) {
           const images = data.gallery;
-          let currentIndex = 0;
-          
-          let galHTML = '<h3>🖼️ Gallery</h3>';
-          galHTML += '<div style="position: relative; text-align: center; margin-bottom: 10px;">';
-          galHTML += '<img id="gallery-main" src="' + images[0] + '" alt="Gallery" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 15px; box-shadow: var(--shadow-sm); cursor: pointer;">';
-          
+          let cur = 0;
+          let h = '<h3>🖼️ Gallery</h3>';
+          h += '<div style="position:relative;text-align:center;margin-bottom:10px;">';
+          h += '<img id="gallery-main" src="' + images[0] + '" style="width:100%;max-height:300px;object-fit:cover;border-radius:15px;box-shadow:var(--shadow-sm);cursor:pointer;">';
           if (images.length > 1) {
-            galHTML += '<button id="gal-prev" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 35px; height: 35px; font-size: 18px; cursor: pointer; z-index: 5;">◀</button>';
-            galHTML += '<button id="gal-next" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 35px; height: 35px; font-size: 18px; cursor: pointer; z-index: 5;">▶</button>';
+            h += '<button id="gal-prev" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:35px;height:35px;font-size:18px;cursor:pointer;z-index:5;">◀</button>';
+            h += '<button id="gal-next" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:35px;height:35px;font-size:18px;cursor:pointer;z-index:5;">▶</button>';
           }
-          galHTML += '</div>';
-          
+          h += '</div>';
           if (images.length > 1) {
-            galHTML += '<div id="gal-dots" style="text-align: center; margin-bottom: 10px;">';
+            h += '<div id="gal-dots" style="text-align:center;margin-bottom:10px;">';
             for (let d = 0; d < images.length; d++) {
-              galHTML += '<span class="gal-dot" data-index="' + d + '" style="display: inline-block; width: 10px; height: 10px; background: ' + (d === 0 ? 'var(--primary)' : '#ccc') + '; border-radius: 50%; margin: 0 4px; cursor: pointer;"></span>';
+              h += '<span class="gal-dot" data-index="' + d + '" style="display:inline-block;width:10px;height:10px;background:' + (d === 0 ? 'var(--primary)' : '#ccc') + ';border-radius:50%;margin:0 4px;cursor:pointer;"></span>';
             }
-            galHTML += '</div>';
+            h += '</div>';
           }
-          
-          div.innerHTML = galHTML;
-          
-          // Slider logic - setTimeout se DOM ready hone ke baad
+          div.innerHTML = h;
           setTimeout(function() {
-            const mainImg = document.getElementById('gallery-main');
-            const prevBtn = document.getElementById('gal-prev');
-            const nextBtn = document.getElementById('gal-next');
+            const main = document.getElementById('gallery-main');
+            const prev = document.getElementById('gal-prev');
+            const next = document.getElementById('gal-next');
             const dots = document.querySelectorAll('.gal-dot');
-            
-            if (!mainImg) return;
-            
-            mainImg.onclick = function() {
-              openLightbox(images, currentIndex);
-            };
-            
-            function updateGallery(index) {
-              currentIndex = index;
-              if (mainImg) {
-                mainImg.src = images[currentIndex];
-              }
-              dots.forEach(function(dot, i) {
-                dot.style.background = i === currentIndex ? 'var(--primary)' : '#ccc';
-              });
+            if (!main) return;
+            main.onclick = function() { openLightbox(images, cur); };
+            function upd(idx) {
+              cur = idx;
+              main.src = images[cur];
+              dots.forEach(function(d, i) { d.style.background = i === cur ? 'var(--primary)' : '#ccc'; });
             }
-            
-            if (nextBtn) {
-              nextBtn.onclick = function() {
-                updateGallery((currentIndex + 1) % images.length);
-              };
-            }
-            
-            if (prevBtn) {
-              prevBtn.onclick = function() {
-                updateGallery((currentIndex - 1 + images.length) % images.length);
-              };
-            }
-            
-            dots.forEach(function(dot) {
-              dot.onclick = function() {
-                updateGallery(parseInt(this.getAttribute('data-index')));
-              };
-            });
-            
-            if (images.length > 1) {
-              setInterval(function() {
-                updateGallery((currentIndex + 1) % images.length);
-              }, 3000);
-            }
+            if (next) next.onclick = function() { upd((cur + 1) % images.length); };
+            if (prev) prev.onclick = function() { upd((cur - 1 + images.length) % images.length); };
+            dots.forEach(function(d) { d.onclick = function() { upd(parseInt(this.getAttribute('data-index'))); }; });
+            if (images.length > 1) setInterval(function() { upd((cur + 1) % images.length); }, 3000);
           }, 100);
         }
+
+        // YOUTUBE
         else if (sec === 'youtube' && data.youtube && data.youtube.length > 0) {
           const videos = [];
           for (let k = 0; k < data.youtube.length; k++) {
             const url = data.youtube[k];
-            let videoId = '';
-            let isShort = false;
-            
-            if (url.includes('youtube.com/shorts/')) {
-              videoId = url.split('shorts/')[1].split('?')[0];
-              isShort = true;
-            } else if (url.includes('youtube.com/watch?v=')) {
-              videoId = url.split('v=')[1].split('&')[0];
-            } else if (url.includes('youtu.be/')) {
-              videoId = url.split('youtu.be/')[1].split('?')[0];
-            } else if (url.includes('youtube.com/embed/')) {
-              videoId = url.split('embed/')[1].split('?')[0];
-            }
-            
-            if (videoId) {
-              videos.push({ 
-                id: videoId, 
-                isShort: isShort,
-                thumb: 'https://img.youtube.com/vi/' + videoId + '/hqdefault.jpg'
-              });
-            }
+            let id = '', isShort = false;
+            if (url.includes('shorts/')) { id = url.split('shorts/')[1].split('?')[0]; isShort = true; }
+            else if (url.includes('watch?v=')) id = url.split('v=')[1].split('&')[0];
+            else if (url.includes('youtu.be/')) id = url.split('youtu.be/')[1].split('?')[0];
+            else if (url.includes('embed/')) id = url.split('embed/')[1].split('?')[0];
+            if (id) videos.push({ id, isShort, thumb: 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg' });
           }
-          
           if (videos.length === 0) { container.appendChild(div); return; }
-          
-          let currentIdx = 0;
-          let ytHTML = '<h3>🎬 YouTube Videos</h3>';
-          
-          // Main video - Simple centered container
-          ytHTML += '<div style="width: 100%; text-align: center; margin-bottom: 10px;">';
-          ytHTML += '<div id="yt-video-wrapper" style="width: 100%; border-radius: 15px; overflow: hidden; box-shadow: var(--shadow-sm);">';
-          ytHTML += '<div id="yt-main-container" style="position: relative; padding-bottom: ' + (videos[0].isShort ? '177%' : '56.25%') + '; height: 0;">';
-          ytHTML += '<iframe id="yt-main" src="https://www.youtube.com/embed/' + videos[0].id + '" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 15px;" frameborder="0" allowfullscreen></iframe>';
-          ytHTML += '</div></div></div>';
-          
-          // Navigation row
+          let curV = 0;
+          let h = '<h3>🎬 YouTube Videos</h3>';
+          h += '<div style="text-align:center;margin-bottom:10px;">';
+          h += '<div style="border-radius:15px;overflow:hidden;box-shadow:var(--shadow-sm);">';
+          h += '<div id="yt-container" style="position:relative;padding-bottom:' + (videos[0].isShort ? '177%' : '56.25%') + ';height:0;">';
+          h += '<iframe id="yt-main" src="https://www.youtube.com/embed/' + videos[0].id + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:15px;" frameborder="0" allowfullscreen></iframe>';
+          h += '</div></div></div>';
           if (videos.length > 1) {
-            ytHTML += '<div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px;">';
-            ytHTML += '<button id="yt-prev" style="background: var(--primary); color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; cursor: pointer;">◀</button>';
-            
-            // Thumbnails
-            ytHTML += '<div style="display: flex; gap: 8px; overflow-x: auto; max-width: 250px; padding: 5px 0;">';
+            h += '<div style="display:flex;align-items:center;justify-content:center;gap:15px;margin-bottom:10px;">';
+            h += '<button id="yt-prev" style="background:var(--primary);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;">◀</button>';
+            h += '<div style="display:flex;gap:8px;overflow-x:auto;max-width:250px;">';
             for (let t = 0; t < videos.length; t++) {
-              ytHTML += '<img src="' + videos[t].thumb + '" class="yt-thumb" data-index="' + t + '" style="width: 70px; height: 50px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid ' + (t === 0 ? 'var(--primary)' : 'transparent') + '; opacity: ' + (t === 0 ? '1' : '0.6') + '; flex-shrink: 0;">';
+              h += '<img src="' + videos[t].thumb + '" class="yt-thumb" data-index="' + t + '" style="width:70px;height:50px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid ' + (t === 0 ? 'var(--primary)' : 'transparent') + ';opacity:' + (t === 0 ? '1' : '0.6') + ';flex-shrink:0;">';
             }
-            ytHTML += '</div>';
-            
-            ytHTML += '<button id="yt-next" style="background: var(--primary); color: #fff; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; cursor: pointer;">▶</button>';
-            ytHTML += '</div>';
+            h += '</div>';
+            h += '<button id="yt-next" style="background:var(--primary);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;">▶</button>';
+            h += '</div>';
           }
-          
-          div.innerHTML = ytHTML;
-          
-          // Slider logic
+          div.innerHTML = h;
           if (videos.length > 1) {
             setTimeout(function() {
               const iframe = document.getElementById('yt-main');
-              const container = document.getElementById('yt-main-container');
-              const prevBtn = document.getElementById('yt-prev');
-              const nextBtn = document.getElementById('yt-next');
+              const container2 = document.getElementById('yt-container');
+              const prev = document.getElementById('yt-prev');
+              const next = document.getElementById('yt-next');
               const thumbs = document.querySelectorAll('.yt-thumb');
-              
-              if (!iframe || !container) return;
-              
-              function updateVideo(index) {
-                currentIdx = index;
-                iframe.src = 'https://www.youtube.com/embed/' + videos[currentIdx].id;
-                container.style.paddingBottom = videos[currentIdx].isShort ? '177%' : '56.25%';
-                
-                thumbs.forEach(function(thumb, i) {
-                  thumb.style.border = i === currentIdx ? '2px solid var(--primary)' : '2px solid transparent';
-                  thumb.style.opacity = i === currentIdx ? '1' : '0.6';
+              if (!iframe) return;
+              function updV(idx) {
+                curV = idx;
+                iframe.src = 'https://www.youtube.com/embed/' + videos[curV].id;
+                container2.style.paddingBottom = videos[curV].isShort ? '177%' : '56.25%';
+                thumbs.forEach(function(t, i) {
+                  t.style.border = i === curV ? '2px solid var(--primary)' : '2px solid transparent';
+                  t.style.opacity = i === curV ? '1' : '0.6';
                 });
               }
-              
-              if (nextBtn) nextBtn.onclick = function() { updateVideo((currentIdx + 1) % videos.length); };
-              if (prevBtn) prevBtn.onclick = function() { updateVideo((currentIdx - 1 + videos.length) % videos.length); };
-              
-              thumbs.forEach(function(thumb) {
-                thumb.onclick = function() { updateVideo(parseInt(this.getAttribute('data-index'))); };
-              });
+              if (next) next.onclick = function() { updV((curV + 1) % videos.length); };
+              if (prev) prev.onclick = function() { updV((curV - 1 + videos.length) % videos.length); };
+              thumbs.forEach(function(t) { t.onclick = function() { updV(parseInt(this.getAttribute('data-index'))); }; });
             }, 100);
           }
+        }
+
+        // REELS
         else if (sec === 'reels' && data.reels && data.reels.length > 0) {
           const reels = data.reels;
-          let currentReel = 0;
-          const ogCache = [];
-          
-          function getReelInfo(url) {
-            if (url.includes('instagram.com/reel/')) return { platform: 'Instagram', type: 'Reel', gradient: 'linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)', btnColor: '#e4405f', icon: '📽️' };
-            if (url.includes('instagram.com/p/')) return { platform: 'Instagram', type: 'Post', gradient: 'linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045)', btnColor: '#c13584', icon: '📷' };
-            if (url.includes('facebook.com/reel/')) return { platform: 'Facebook', type: 'Reel', gradient: 'linear-gradient(135deg, #1877f2, #0c5dc7)', btnColor: '#1877f2', icon: '📽️' };
-            if (url.includes('fb.watch/')) return { platform: 'Facebook', type: 'Video', gradient: 'linear-gradient(135deg, #1877f2, #42b72a)', btnColor: '#1877f2', icon: '🎬' };
-            if (url.includes('facebook.com/')) return { platform: 'Facebook', type: 'Post', gradient: 'linear-gradient(135deg, #1877f2, #0c5dc7)', btnColor: '#1877f2', icon: '📝' };
-            return { platform: 'Social', type: 'Media', gradient: 'linear-gradient(135deg, #6366f1, #4f46e5)', btnColor: '#6366f1', icon: '📱' };
+          let curR = 0;
+          function info(url) {
+            if (url.includes('instagram.com/reel/')) return { p:'Instagram', t:'Reel', g:'linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', c:'#e4405f', i:'📽️' };
+            if (url.includes('instagram.com/p/')) return { p:'Instagram', t:'Post', g:'linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045)', c:'#c13584', i:'📷' };
+            if (url.includes('facebook.com/reel/')) return { p:'Facebook', t:'Reel', g:'linear-gradient(135deg,#1877f2,#0c5dc7)', c:'#1877f2', i:'📽️' };
+            if (url.includes('fb.watch/')) return { p:'Facebook', t:'Video', g:'linear-gradient(135deg,#1877f2,#42b72a)', c:'#1877f2', i:'🎬' };
+            if (url.includes('facebook.com/')) return { p:'Facebook', t:'Post', g:'linear-gradient(135deg,#1877f2,#0c5dc7)', c:'#1877f2', i:'📝' };
+            return { p:'Social', t:'Media', g:'linear-gradient(135deg,#6366f1,#4f46e5)', c:'#6366f1', i:'📱' };
           }
-          
-          const firstInfo = getReelInfo(reels[0]);
-          
-          let reelsHTML = '<h3>📱 Reels & Posts</h3>';
-          reelsHTML += '<div style="position: relative; width: 100%; text-align: center; margin-bottom: 15px;">';
-          
-          // Card
-          reelsHTML += '<div id="reel-card" style="width: 290px; margin: 0 auto; border-radius: 24px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.2); background: #fff;">';
-          
-          // Thumbnail area
-          reelsHTML += '<div id="reel-thumb-area" style="width: 100%; height: 240px; background: ' + firstInfo.gradient + '; position: relative; overflow: hidden;">';
-          reelsHTML += '<div id="reel-thumb-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">';
-          reelsHTML += '<span id="reel-icon-fallback" style="font-size: 70px;">' + firstInfo.icon + '</span>';
-          reelsHTML += '<div style="width: 60px; height: 60px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 10px;">';
-          reelsHTML += '<span style="font-size: 24px; color: ' + firstInfo.btnColor + ';">▶</span></div>';
-          reelsHTML += '</div>';
-          reelsHTML += '<img id="reel-thumb" src="" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none;">';
-          reelsHTML += '</div>';
-          
-          // Info
-          reelsHTML += '<div style="padding: 16px 20px;">';
-          reelsHTML += '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">';
-          reelsHTML += '<span id="reel-platform" style="background: ' + firstInfo.btnColor + '; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700;">' + firstInfo.platform + '</span>';
-          reelsHTML += '<span id="reel-type" style="color: #64748b; font-size: 12px; font-weight: 600;">' + firstInfo.type + '</span>';
-          reelsHTML += '</div>';
-          reelsHTML += '<p id="reel-title" style="font-weight: 600; font-size: 14px; color: #1e293b; margin: 6px 0; line-height: 1.5;">' + firstInfo.platform + ' ' + firstInfo.type + '</p>';
-          reelsHTML += '<p id="reel-counter" style="color: #94a3b8; font-size: 12px; margin-bottom: 12px;">1 of ' + reels.length + '</p>';
-          reelsHTML += '<a id="reel-link" href="' + reels[0] + '" target="_blank" style="display: block; text-align: center; padding: 14px; background: ' + firstInfo.btnColor + '; color: #fff; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 15px;">▶ Watch Now</a>';
-          reelsHTML += '</div>';
-          reelsHTML += '</div>';
-          
-          // Arrows
+          const fi = info(reels[0]);
+          let h = '<h3>📱 Reels & Posts</h3>';
+          h += '<div style="position:relative;width:100%;text-align:center;margin-bottom:15px;">';
+          h += '<div id="reel-card" style="width:290px;margin:0 auto;border-radius:24px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,0.2);background:#fff;">';
+          h += '<div id="reel-thumb-area" style="width:100%;height:240px;background:' + fi.g + ';position:relative;overflow:hidden;">';
+          h += '<div id="reel-thumb-bg" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">';
+          h += '<span id="reel-icon-fallback" style="font-size:70px;">' + fi.i + '</span>';
+          h += '<div style="width:60px;height:60px;background:rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:10px;"><span style="font-size:24px;color:' + fi.c + ';">▶</span></div>';
+          h += '</div>';
+          h += '<img id="reel-thumb" src="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:none;">';
+          h += '</div>';
+          h += '<div style="padding:16px 20px;">';
+          h += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">';
+          h += '<span id="reel-platform" style="background:' + fi.c + ';color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">' + fi.p + '</span>';
+          h += '<span id="reel-type" style="color:#64748b;font-size:12px;font-weight:600;">' + fi.t + '</span></div>';
+          h += '<p id="reel-title" style="font-weight:600;font-size:14px;color:#1e293b;margin:6px 0;line-height:1.5;">' + fi.p + ' ' + fi.t + '</p>';
+          h += '<p id="reel-counter" style="color:#94a3b8;font-size:12px;margin-bottom:12px;">1 of ' + reels.length + '</p>';
+          h += '<a id="reel-link" href="' + reels[0] + '" target="_blank" style="display:block;text-align:center;padding:14px;background:' + fi.c + ';color:#fff;text-decoration:none;border-radius:50px;font-weight:700;font-size:15px;">▶ Watch Now</a>';
+          h += '</div></div>';
           if (reels.length > 1) {
-            reelsHTML += '<button id="reel-prev" style="position: absolute; left: 0px; top: 42%; transform: translateY(-50%); background: rgba(255,255,255,0.95); color: #333; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 18px; cursor: pointer; z-index: 10; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">◀</button>';
-            reelsHTML += '<button id="reel-next" style="position: absolute; right: 0px; top: 42%; transform: translateY(-50%); background: rgba(255,255,255,0.95); color: #333; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 18px; cursor: pointer; z-index: 10; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">▶</button>';
+            h += '<button id="reel-prev" style="position:absolute;left:0;top:42%;transform:translateY(-50%);background:rgba(255,255,255,0.95);color:#333;border:none;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;z-index:10;box-shadow:0 4px 15px rgba(0,0,0,0.2);">◀</button>';
+            h += '<button id="reel-next" style="position:absolute;right:0;top:42%;transform:translateY(-50%);background:rgba(255,255,255,0.95);color:#333;border:none;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;z-index:10;box-shadow:0 4px 15px rgba(0,0,0,0.2);">▶</button>';
           }
-          reelsHTML += '</div>';
-          
-          // Dots
+          h += '</div>';
           if (reels.length > 1) {
-            reelsHTML += '<div style="text-align: center; margin-bottom: 10px;">';
+            h += '<div style="text-align:center;margin-bottom:10px;">';
             for (let d = 0; d < reels.length; d++) {
-              reelsHTML += '<span class="reel-dot" data-index="' + d + '" style="display: inline-block; width: 10px; height: 10px; background: ' + (d === 0 ? 'var(--primary)' : '#ccc') + '; border-radius: 50%; margin: 0 5px; cursor: pointer;"></span>';
+              h += '<span class="reel-dot" data-index="' + d + '" style="display:inline-block;width:10px;height:10px;background:' + (d === 0 ? 'var(--primary)' : '#ccc') + ';border-radius:50%;margin:0 5px;cursor:pointer;"></span>';
             }
-            reelsHTML += '</div>';
+            h += '</div>';
           }
-          
-          div.innerHTML = reelsHTML;
-          
-          // Function to update UI
+          div.innerHTML = h;
+
           function updateReelUI(index) {
-            currentReel = index;
-            const info = getReelInfo(reels[index]);
-            
-            document.getElementById('reel-thumb-area').style.background = info.gradient;
-            document.getElementById('reel-icon-fallback').textContent = info.icon;
-            document.getElementById('reel-platform').textContent = info.platform;
-            document.getElementById('reel-platform').style.background = info.btnColor;
-            document.getElementById('reel-type').textContent = info.type;
-            document.getElementById('reel-link').href = reels[index];
-            document.getElementById('reel-link').style.background = info.btnColor;
-            document.getElementById('reel-counter').textContent = (index + 1) + ' of ' + reels.length;
-            
-            // Reset thumbnail
+            curR = index;
+            const inf = info(reels[index]);
+            const area = document.getElementById('reel-thumb-area');
+            const fallback = document.getElementById('reel-icon-fallback');
+            const platform = document.getElementById('reel-platform');
+            const type = document.getElementById('reel-type');
+            const link = document.getElementById('reel-link');
+            const title = document.getElementById('reel-title');
+            const counter = document.getElementById('reel-counter');
             const thumbImg = document.getElementById('reel-thumb');
             const thumbBg = document.getElementById('reel-thumb-bg');
+
+            if (!area) return;
+            area.style.background = inf.g;
+            fallback.textContent = inf.i;
+            platform.textContent = inf.p;
+            platform.style.background = inf.c;
+            type.textContent = inf.t;
+            link.href = reels[index];
+            link.style.background = inf.c;
+            counter.textContent = (index + 1) + ' of ' + reels.length;
             thumbImg.style.display = 'none';
             thumbBg.style.display = 'flex';
-            document.getElementById('reel-title').textContent = info.platform + ' ' + info.type;
-            
-            // Fetch OG data in background
-            fetchOGData(reels[index], function(ogData) {
-              if (ogData.image) {
-                thumbImg.src = ogData.image;
-                thumbImg.style.display = 'block';
-                thumbBg.style.display = 'none';
-              }
-              if (ogData.title) {
-                document.getElementById('reel-title').textContent = ogData.title;
-              }
-              ogCache[index] = ogData;
-            });
-            
-            // Update dots
-            document.querySelectorAll('.reel-dot').forEach(function(dot, i) {
-              dot.style.background = i === index ? 'var(--primary)' : '#ccc';
+            title.textContent = inf.p + ' ' + inf.t;
+
+            if (typeof fetchOGData === 'function') {
+              fetchOGData(reels[index], function(og) {
+                if (og.image) {
+                  thumbImg.src = og.image;
+                  thumbImg.style.display = 'block';
+                  thumbBg.style.display = 'none';
+                }
+                if (og.title) title.textContent = og.title;
+              });
+            }
+
+            document.querySelectorAll('.reel-dot').forEach(function(d, i) {
+              d.style.background = i === index ? 'var(--primary)' : '#ccc';
             });
           }
-          
-          // Load first reel
+
           updateReelUI(0);
-          
-          // Slider
+
           if (reels.length > 1) {
             setTimeout(function() {
-              document.getElementById('reel-next').onclick = function() { updateReelUI((currentReel + 1) % reels.length); };
-              document.getElementById('reel-prev').onclick = function() { updateReelUI((currentReel - 1 + reels.length) % reels.length); };
-              document.querySelectorAll('.reel-dot').forEach(function(dot) {
-                dot.onclick = function() { updateReelUI(parseInt(this.getAttribute('data-index'))); };
+              const next = document.getElementById('reel-next');
+              const prev = document.getElementById('reel-prev');
+              const dots = document.querySelectorAll('.reel-dot');
+              if (next) next.onclick = function() { updateReelUI((curR + 1) % reels.length); };
+              if (prev) prev.onclick = function() { updateReelUI((curR - 1 + reels.length) % reels.length); };
+              dots.forEach(function(d) {
+                d.onclick = function() { updateReelUI(parseInt(this.getAttribute('data-index'))); };
               });
             }, 100);
           }
         }
+
         container.appendChild(div);
       }
 
-      // QR Code Section
+      // QR Code
       const qrImage = document.getElementById('qr-image');
       const qrBox = document.getElementById('qr-box');
       const cardUrlText = document.getElementById('card-url-text');
       const currentUrl = window.location.href;
-      
-      cardUrlText.textContent = currentUrl;
-
-      // Check if user uploaded a QR image
-      if (data.qrImage && data.qrImage.trim() !== '') {
+      if (cardUrlText) cardUrlText.textContent = currentUrl;
+      if (data.qrImage && data.qrImage.trim() !== '' && qrImage) {
         qrImage.src = data.qrImage;
         qrImage.style.display = 'block';
       } else if (qrBox && typeof QRCode !== 'undefined') {
-        // Generate QR code
-        new QRCode(qrBox, {
-          text: currentUrl,
-          width: 200,
-          height: 200
+        new QRCode(qrBox, { text: currentUrl, width: 200, height: 200 });
+      }
+      const btnCopy = document.getElementById('btn-copy-url');
+      if (btnCopy) {
+        btnCopy.addEventListener('click', function() {
+          navigator.clipboard.writeText(currentUrl).then(function() { alert('✅ URL कॉपी हो गया!'); });
         });
       }
 
-      // Copy URL Button
-      document.getElementById('btn-copy-url').addEventListener('click', function() {
-        navigator.clipboard.writeText(currentUrl).then(function() {
-          alert('✅ URL कॉपी हो गया!');
-        }).catch(function() {
-          prompt('URL को कॉपी करें:', currentUrl);
+      // Share
+      const btnShare = document.getElementById('btn-share');
+      if (btnShare) {
+        btnShare.addEventListener('click', function() {
+          const txt = data.name + ' - ' + (data.title || '') + ' - Digital vCard';
+          if (navigator.share) navigator.share({ title: txt, text: txt, url: currentUrl }).catch(function(){});
+          else navigator.clipboard.writeText(currentUrl).then(function() { alert('🔗 लिंक कॉपी हो गया!'); });
         });
-      });
-      // Share Button
-      document.getElementById('btn-share').addEventListener('click', function() {
-        const url = window.location.href;
-        const text = data.name + ' - ' + (data.title || '') + ' - Digital vCard';
-        if (navigator.share) {
-          navigator.share({ title: text, text: text, url: url }).catch(() => {});
-        } else {
-          navigator.clipboard.writeText(url).then(function() {
-            alert('🔗 लिंक कॉपी हो गया! अब WhatsApp या कहीं भी पेस्ट करें।');
-          });
-        }
-      });
+      }
 
-      // PDF Button
-      document.getElementById('btn-pdf').addEventListener('click', function() {
-        window.print();
-      });
+      // PDF
+      const btnPdf = document.getElementById('btn-pdf');
+      if (btnPdf) btnPdf.addEventListener('click', function() { window.print(); });
 
-      // Save Contact Button
-      document.getElementById('save-contact').addEventListener('click', function() {
-        let vcf = 'BEGIN:VCARD\nVERSION:3.0\n';
-        vcf += 'FN:' + (data.name || '') + '\n';
-        vcf += 'TITLE:' + (data.title || '') + '\n';
-        vcf += 'TEL:' + (data.phone || '') + '\n';
-        vcf += 'EMAIL:' + (data.email || '') + '\n';
-        vcf += 'URL:' + (data.website || '') + '\n';
-        vcf += 'END:VCARD';
-        const blob = new Blob([vcf], { type: 'text/vcard' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = (data.name || 'contact') + '.vcf';
-        link.click();
-      });
+      // Save Contact
+      const btnSave = document.getElementById('save-contact');
+      if (btnSave) {
+        btnSave.addEventListener('click', function() {
+          let vcf = 'BEGIN:VCARD\nVERSION:3.0\nFN:' + (data.name || '') + '\nTITLE:' + (data.title || '') + '\nTEL:' + (data.phone || '') + '\nEMAIL:' + (data.email || '') + '\nURL:' + (data.website || '') + '\nEND:VCARD';
+          const blob = new Blob([vcf], { type: 'text/vcard' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = (data.name || 'contact') + '.vcf';
+          a.click();
+        });
+      }
+
       console.log('✅ Card successfully displayed!');
     })
     .catch((error) => {
