@@ -454,18 +454,31 @@ if (!slug) {
         const blob = new Blob([vcf], { type: 'text/vcard' });
         const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = (data.name || 'contact') + '.vcf'; a.click();
       });
-            // Inject WhatsApp button styles directly
-      var waStyle = document.createElement('style');
-      var theme = document.body.className;
+            // Force WhatsApp button colors - DIRECT method
+      var theme = document.body.className || '';
       var waColor = '#25d366';
-      if (theme === 'sunset') waColor = '#ffd700';
-      else if (theme === 'ocean') waColor = '#00e676';
-      else if (theme === 'forest') waColor = '#4ade80';
-      else if (theme === 'aurora') waColor = '#34d399';
-      else if (theme === 'mono') waColor = '#000000';
       
-      waStyle.textContent = '#btn-whatsapp, button[onclick*="orderNow"], a[href*="wa.me"]:not(.social-icons a), #enquiry-send { background: ' + waColor + ' !important; }';
-      document.head.appendChild(waStyle);
+      if (theme.indexOf('sunset') >= 0) waColor = '#ffd700';
+      else if (theme.indexOf('ocean') >= 0) waColor = '#00e676';
+      else if (theme.indexOf('forest') >= 0) waColor = '#4ade80';
+      else if (theme.indexOf('aurora') >= 0) waColor = '#34d399';
+      else if (theme.indexOf('mono') >= 0) waColor = '#000000';
+      else if (theme.indexOf('obsidian') >= 0) waColor = '#25d366';
+      else if (theme.indexOf('graphite') >= 0) waColor = '#25d366';
+      else if (theme.indexOf('porcelain') >= 0) waColor = '#25d366';
+      else if (theme.indexOf('linen') >= 0) waColor = '#25d366';
+      
+      // Apply directly to elements
+      var btns = document.querySelectorAll('#btn-whatsapp, button[onclick*="orderNow"], #enquiry-send');
+      for (var b = 0; b < btns.length; b++) {
+        btns[b].style.background = waColor;
+      }
+      
+      // Also apply to Navigate and Enquiry links
+      var links = document.querySelectorAll('a[href*="wa.me"]:not(.social-icons a), a[href*="api=1&destination"]');
+      for (var l = 0; l < links.length; l++) {
+        links[l].style.background = waColor;
+      }
       
       console.log('✅ Card successfully displayed!');
     })
