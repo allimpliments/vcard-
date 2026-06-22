@@ -24,12 +24,12 @@ if (!slug) {
       console.log('Data mila:', data);
 
       var savedTheme = data.theme || 'default';
-      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (!savedTheme || savedTheme === 'default') {
-        document.body.className = prefersDark ? 'dark' : 'default';
-      } else {
-        document.body.className = savedTheme;
+      if (savedTheme === 'default') {
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        savedTheme = prefersDark ? 'graphite' : 'default';
       }
+      document.body.className = savedTheme;
+      document.documentElement.setAttribute('data-theme', savedTheme);
 
       document.getElementById('loader').style.display = 'none';
       document.getElementById('card-container').style.display = 'block';
