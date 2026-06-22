@@ -393,6 +393,98 @@ if (!slug) {
           h += '</div>';
           div.innerHTML = h;
         }
+                else if (sec === 'feedback') {
+          let h = '<h3>⭐ Feedback</h3>';
+          
+          // Feedback Form
+          h += '<div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;margin-bottom:15px;">';
+          h += '<div id="star-rating" style="text-align:center;margin-bottom:15px;">';
+          h += '<p style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">Select Star</p>';
+          for (let s = 1; s <= 5; s++) {
+            h += '<span class="star" data-star="' + s + '" style="font-size:30px;cursor:pointer;color:#ccc;transition:all 0.2s;">★</span>';
+          }
+          h += '<input type="hidden" id="feedback-star" value="0">';
+          h += '</div>';
+          h += '<input type="text" id="feedback-name" placeholder="Your name" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;">';
+          h += '<input type="email" id="feedback-email" placeholder="Your email id" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;">';
+          h += '<input type="tel" id="feedback-contact" placeholder="Your contact" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;">';
+          h += '<textarea id="feedback-msg" placeholder="Your feedback" rows="3" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;"></textarea>';
+          h += '<button id="feedback-submit" style="width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:50px;font-weight:600;font-size:15px;cursor:pointer;">Submit</button>';
+          h += '<p style="font-size:11px;color:#94a3b8;text-align:center;margin-top:10px;">Note: for privacy and security reasons we do not show your contact details. For more info you can contact admin.</p>';
+          h += '</div>';
+          
+          // Latest Feedbacks
+          h += '<h4 style="font-size:14px;font-weight:600;color:var(--primary);margin-bottom:10px;">📝 Latest Feedback</h4>';
+          h += '<div id="feedback-list" style="max-height:300px;overflow-y:auto;">';
+          
+          if (data.feedbacks && data.feedbacks.length > 0) {
+            for (let f = data.feedbacks.length - 1; f >= 0; f--) {
+              const fb = data.feedbacks[f];
+              h += '<div style="background:var(--card-bg-secondary);border-radius:12px;padding:15px;margin-bottom:10px;">';
+              h += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">';
+              h += '<span style="font-weight:600;font-size:14px;">' + (fb.name || 'Anonymous') + '</span>';
+              h += '<span style="color:#f59e0b;">' + '★'.repeat(fb.stars || 5) + '</span></div>';
+              h += '<p style="font-size:13px;color:var(--text-secondary);margin:5px 0;">' + (fb.message || '') + '</p>';
+              h += '<p style="font-size:10px;color:#94a3b8;">Date: ' + (fb.date || '') + '</p>';
+              h += '</div>';
+            }
+          } else {
+            h += '<p style="text-align:center;color:var(--text-secondary);font-size:13px;">No feedback yet. Be the first!</p>';
+          }
+          
+          h += '</div>';
+          div.innerHTML = h;
+          
+          // Star rating logic
+          setTimeout(function() {
+            const stars = document.querySelectorAll('.star');
+            const starInput = document.getElementById('feedback-star');
+            stars.forEach(function(star) {
+              star.addEventListener('click', function() {
+                const val = parseInt(this.getAttribute('data-star'));
+                starInput.value = val;
+                stars.forEach(function(s, i) {
+                  s.style.color = i < val ? '#f59e0b' : '#ccc';
+                });
+              });
+              star.addEventListener('mouseover', function() {
+                const val = parseInt(this.getAttribute('data-star'));
+                stars.forEach(function(s, i) {
+                  s.style.color = i < val ? '#f59e0b' : '#ccc';
+                });
+              });
+            });
+            
+            document.getElementById('feedback-submit').addEventListener('click', async function() {
+              const star = parseInt(starInput.value);
+              const name = document.getElementById('feedback-name').value.trim();
+              const msg = document.getElementById('feedback-msg').value.trim();
+              
+              if (!star || star === 0) { alert('Please select star rating!'); return; }
+              if (!msg) { alert('Please enter your feedback!'); return; }
+              
+              const newFeedback = {
+                stars: star,
+                name: name || 'Anonymous',
+                email: document.getElementById('feedback-email').value.trim(),
+                contact: document.getElementById('feedback-contact').value.trim(),
+                message: msg,
+                date: new Date().toLocaleDateString('en-IN', { year:'numeric', month:'short', day:'numeric' })
+              };
+              
+              const allFeedbacks = data.feedbacks || [];
+              allFeedbacks.push(newFeedback);
+              
+              try {
+                await db.collection('cards').doc(slug).update({ feedbacks: allFeedbacks });
+                alert('✅ Feedback submitted! Thank you.');
+                location.reload();
+              } catch (err) {
+                alert('❌ Error: ' + err.message);
+              }
+            });
+          }, 100);
+        }
         container.appendChild(div);
       }
 
