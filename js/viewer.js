@@ -362,49 +362,52 @@ if (data.profileImage && data.profileImage.trim() !== '') {
           const reels = data.reels;
           let currentReel = 0;
           
-          // Detect platform and type from first URL
           function getReelInfo(url) {
-            if (url.includes('instagram.com/reel/')) return { platform: 'Instagram', type: 'Reel', color: 'linear-gradient(180deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)', icon: '📽️' };
-            if (url.includes('instagram.com/p/')) return { platform: 'Instagram', type: 'Post', color: 'linear-gradient(180deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)', icon: '📷' };
-            if (url.includes('facebook.com/reel/')) return { platform: 'Facebook', type: 'Reel', color: 'linear-gradient(180deg, #1877f2, #0c5dc7)', icon: '📽️' };
-            if (url.includes('fb.watch/')) return { platform: 'Facebook', type: 'Video', color: 'linear-gradient(180deg, #1877f2, #0c5dc7)', icon: '🎬' };
-            return { platform: 'Social', type: 'Media', color: 'linear-gradient(180deg, #6366f1, #4f46e5)', icon: '📱' };
+            if (url.includes('instagram.com/reel/')) return { platform: 'Instagram', type: 'Reel', gradient: 'linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)', icon: '📽️', btnColor: '#e4405f' };
+            if (url.includes('instagram.com/p/')) return { platform: 'Instagram', type: 'Post', gradient: 'linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045)', icon: '📷', btnColor: '#c13584' };
+            if (url.includes('facebook.com/reel/')) return { platform: 'Facebook', type: 'Reel', gradient: 'linear-gradient(135deg, #1877f2, #0c5dc7)', icon: '📽️', btnColor: '#1877f2' };
+            if (url.includes('fb.watch/')) return { platform: 'Facebook', type: 'Video', gradient: 'linear-gradient(135deg, #1877f2, #42b72a)', icon: '🎬', btnColor: '#1877f2' };
+            if (url.includes('facebook.com/')) return { platform: 'Facebook', type: 'Post', gradient: 'linear-gradient(135deg, #1877f2, #0c5dc7)', icon: '📝', btnColor: '#1877f2' };
+            return { platform: 'Social', type: 'Media', gradient: 'linear-gradient(135deg, #6366f1, #4f46e5)', icon: '📱', btnColor: '#6366f1' };
           }
           
           const firstInfo = getReelInfo(reels[0]);
           
-          reelsHTML += '<div style="position: relative; display: inline-block; width: 100%; text-align: center; margin-bottom: 10px;">';
+          reelsHTML += '<div style="position: relative; width: 100%; text-align: center; margin-bottom: 15px;">';
           
-          // Reel Card
-          reelsHTML += '<div id="reel-card" style="width: 220px; height: 380px; margin: 0 auto; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); position: relative; background: ' + firstInfo.color + ';">';
+          // Card
+          reelsHTML += '<div id="reel-card" style="width: 260px; height: 350px; margin: 0 auto; border-radius: 24px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.2); position: relative; background: ' + firstInfo.gradient + ';">';
           
-          // Platform Badge
-          reelsHTML += '<div id="reel-platform" style="position: absolute; top: 15px; left: 15px; background: #fff; border-radius: 10px; padding: 5px 10px; font-weight: 700; font-size: 12px; color: #e4405f;">' + firstInfo.platform + ' ' + firstInfo.type + '</div>';
+          // Top area - Icon
+          reelsHTML += '<div style="padding: 40px 20px 20px; text-align: center;">';
+          reelsHTML += '<div style="width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">';
+          reelsHTML += '<span id="reel-icon" style="font-size: 40px;">' + firstInfo.icon + '</span></div>';
+          reelsHTML += '</div>';
           
-          // Icon
-          reelsHTML += '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">';
-          reelsHTML += '<span id="reel-icon" style="font-size: 60px;">' + firstInfo.icon + '</span>';
-          reelsHTML += '<div style="width: 70px; height: 70px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 10px auto 0;">';
-          reelsHTML += '<span style="font-size: 30px; color: #e4405f; margin-left: 5px;">▶</span></div></div>';
+          // Platform + Type
+          reelsHTML += '<div id="reel-platform" style="color: #fff; font-size: 14px; font-weight: 600; text-align: center; margin-top: 5px;">' + firstInfo.platform + '</div>';
+          reelsHTML += '<div id="reel-type" style="color: rgba(255,255,255,0.8); font-size: 12px; text-align: center; margin-bottom: 15px;">' + firstInfo.type + '</div>';
           
-          // Number
-          reelsHTML += '<div style="position: absolute; bottom: 80px; width: 100%; text-align: center; color: #fff; font-weight: 600; font-size: 16px;" id="reel-label">' + firstInfo.type + ' 1 of ' + reels.length + '</div>';
+          // Counter
+          reelsHTML += '<div id="reel-label" style="color: rgba(255,255,255,0.7); font-size: 12px; text-align: center; margin-bottom: 20px;">1 of ' + reels.length + '</div>';
           
-          // Watch Button
-          reelsHTML += '<a id="reel-link" href="' + reels[0] + '" target="_blank" style="position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); padding: 12px 30px; background: #fff; color: #e4405f; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 14px;">▶ Watch Now</a>';
+          // Watch Button - Only ONE button
+          reelsHTML += '<div style="text-align: center;">';
+          reelsHTML += '<a id="reel-link" href="' + reels[0] + '" target="_blank" style="display: inline-block; padding: 14px 35px; background: #fff; color: ' + firstInfo.btnColor + '; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 15px; box-shadow: 0 6px 20px rgba(0,0,0,0.2); transition: all 0.3s ease;">▶ Watch Now</a>';
+          reelsHTML += '</div>';
           
           reelsHTML += '</div>';
           
           // Arrows
           if (reels.length > 1) {
-            reelsHTML += '<button id="reel-prev" style="position: absolute; left: 5px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 18px; cursor: pointer; z-index: 10;">◀</button>';
-            reelsHTML += '<button id="reel-next" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 18px; cursor: pointer; z-index: 10;">▶</button>';
+            reelsHTML += '<button id="reel-prev" style="position: absolute; left: 2px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); color: #333; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 16px; cursor: pointer; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">◀</button>';
+            reelsHTML += '<button id="reel-next" style="position: absolute; right: 2px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); color: #333; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 16px; cursor: pointer; z-index: 10; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">▶</button>';
           }
           reelsHTML += '</div>';
           
           // Dots
           if (reels.length > 1) {
-          reelsHTML += '<div style="position: relative; text-align: center; margin-bottom: 10px; display: inline-block; width: 100%;">';
+            reelsHTML += '<div style="text-align: center; margin-bottom: 10px;">';
             for (let d = 0; d < reels.length; d++) {
               reelsHTML += '<span class="reel-dot" data-index="' + d + '" style="display: inline-block; width: 10px; height: 10px; background: ' + (d === 0 ? 'var(--primary)' : '#ccc') + '; border-radius: 50%; margin: 0 4px; cursor: pointer;"></span>';
             }
@@ -420,6 +423,7 @@ if (data.profileImage && data.profileImage.trim() !== '') {
               const reelLink = document.getElementById('reel-link');
               const reelLabel = document.getElementById('reel-label');
               const reelPlatform = document.getElementById('reel-platform');
+              const reelType = document.getElementById('reel-type');
               const reelIcon = document.getElementById('reel-icon');
               const prevBtn = document.getElementById('reel-prev');
               const nextBtn = document.getElementById('reel-next');
@@ -429,10 +433,12 @@ if (data.profileImage && data.profileImage.trim() !== '') {
                 currentReel = index;
                 const info = getReelInfo(reels[currentReel]);
                 
-                reelCard.style.background = info.color;
+                reelCard.style.background = info.gradient;
                 reelLink.href = reels[currentReel];
-                reelLabel.textContent = info.type + ' ' + (currentReel + 1) + ' of ' + reels.length;
-                reelPlatform.textContent = info.platform + ' ' + info.type;
+                reelLink.style.color = info.btnColor;
+                reelLabel.textContent = (currentReel + 1) + ' of ' + reels.length;
+                reelPlatform.textContent = info.platform;
+                reelType.textContent = info.type;
                 reelIcon.textContent = info.icon;
                 
                 dots.forEach(function(dot, i) {
