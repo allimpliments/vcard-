@@ -41,6 +41,8 @@
   --profile-border: 2px solid rgba(255,255,255,0.1);
   --profile-glow: none;
   --section-glow: none;
+  --glass-bg: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.06);
 }
 
 /* ============================================
@@ -79,6 +81,8 @@ body.graphite {
   --profile-border: 3px solid #636366;
   --profile-glow: none;
   --section-glow: none;
+  --glass-bg: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.06);
 }
 
 /* ============================================
@@ -117,6 +121,8 @@ body.porcelain {
   --profile-border: 2px solid rgba(0,0,0,0.08);
   --profile-glow: none;
   --section-glow: none;
+  --glass-bg: rgba(255,255,255,0.9);
+  --glass-border: rgba(0,0,0,0.06);
 }
 
 /* ============================================
@@ -155,11 +161,13 @@ body.obsidian {
   --profile-border: 2px solid #fafafa;
   --profile-glow: none;
   --section-glow: none;
+  --glass-bg: #0a0a0a;
+  --glass-border: rgba(255,255,255,0.04);
 }
 
 /* ============================================
    5. LINEN - Elegant Warm
-   Font: Cormorant (Heading) + Inter (Body) | Button: Soft 4px | Card: 12px | Anim: Slow
+   Font: Cormorant + Inter | Button: Soft 4px | Card: 12px | Anim: Slow
    ============================================ */
 body.linen {
   --font-heading: 'Cormorant Garamond', serif;
@@ -193,6 +201,8 @@ body.linen {
   --profile-border: 4px solid #8c6d5a;
   --profile-glow: none;
   --section-glow: none;
+  --glass-bg: rgba(255,255,255,0.8);
+  --glass-border: rgba(0,0,0,0.05);
 }
 
 /* ============================================
@@ -220,7 +230,7 @@ body.ocean {
   --primary-hover: #5aafff;
   --accent: #ff6b6b;
   --accent-hover: #ff5252;
-  --whatsapp: #25d366;
+  --whatsapp: #00e676;
   --border: rgba(64,156,255,0.12);
   --btn-radius: 30px;
   --btn-padding: 13px 30px;
@@ -231,6 +241,8 @@ body.ocean {
   --profile-border: 2px solid #409cff;
   --profile-glow: 0 0 30px rgba(64,156,255,0.4);
   --section-glow: 0 0 15px rgba(64,156,255,0.2);
+  --glass-bg: rgba(255,255,255,0.04);
+  --glass-border: rgba(64,156,255,0.15);
 }
 
 /* ============================================
@@ -258,7 +270,7 @@ body.sunset {
   --primary-hover: #ffc107;
   --accent: #ffffff;
   --accent-hover: #e0e0e0;
-  --whatsapp: #25d366;
+  --whatsapp: #ffd700;
   --border: rgba(255,255,255,0.12);
   --btn-radius: 50px;
   --btn-padding: 14px 32px;
@@ -269,11 +281,13 @@ body.sunset {
   --profile-border: 3px solid #ffd700;
   --profile-glow: 0 0 30px rgba(255,215,0,0.5);
   --section-glow: 0 0 10px rgba(255,215,0,0.3);
+  --glass-bg: rgba(255,255,255,0.08);
+  --glass-border: rgba(255,255,255,0.15);
 }
 
 /* ============================================
    8. FOREST - Natural Earth
-   Font: Playfair (Heading) + Inter (Body) | Button: Sharp 8px | Card: 16px | Anim: Slow
+   Font: Playfair + Inter | Button: Sharp 8px | Card: 16px | Anim: Slow
    ============================================ */
 body.forest {
   --font-heading: 'Playfair Display', serif;
@@ -296,7 +310,7 @@ body.forest {
   --primary-hover: #22c55e;
   --accent: #fbbf24;
   --accent-hover: #f59e0b;
-  --whatsapp: #25d366;
+  --whatsapp: #4ade80;
   --border: rgba(34,197,94,0.08);
   --btn-radius: 8px;
   --btn-padding: 11px 24px;
@@ -307,6 +321,8 @@ body.forest {
   --profile-border: 2px solid #4ade80;
   --profile-glow: 0 0 25px rgba(74,222,128,0.4);
   --section-glow: 0 0 10px rgba(74,222,128,0.2);
+  --glass-bg: rgba(255,255,255,0.03);
+  --glass-border: rgba(34,197,94,0.12);
 }
 
 /* ============================================
@@ -334,7 +350,7 @@ body.aurora {
   --primary-hover: #8b5cf6;
   --accent: #34d399;
   --accent-hover: #10b981;
-  --whatsapp: #25d366;
+  --whatsapp: #34d399;
   --border: rgba(139,92,246,0.12);
   --btn-radius: 20px;
   --btn-padding: 12px 26px;
@@ -345,6 +361,8 @@ body.aurora {
   --profile-border: 2px solid #a78bfa;
   --profile-glow: 0 0 35px rgba(167,139,250,0.5);
   --section-glow: 0 0 20px rgba(167,139,250,0.3);
+  --glass-bg: rgba(255,255,255,0.04);
+  --glass-border: rgba(139,92,246,0.2);
 }
 
 /* ============================================
@@ -372,7 +390,7 @@ body.mono {
   --primary-hover: #333333;
   --accent: #666666;
   --accent-hover: #444444;
-  --whatsapp: #25d366;
+  --whatsapp: #000000;
   --border: rgba(0,0,0,0.08);
   --btn-radius: 0px;
   --btn-padding: 10px 22px;
@@ -383,10 +401,12 @@ body.mono {
   --profile-border: 1px solid #000;
   --profile-glow: none;
   --section-glow: none;
+  --glass-bg: #ffffff;
+  --glass-border: rgba(0,0,0,0.06);
 }
 
 /* ============================================
-   GLOBAL STYLES (Uses Theme Variables)
+   GLOBAL STYLES
    ============================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -410,10 +430,10 @@ body {
 #card-container {
   max-width: 480px;
   margin: 0 auto;
-  background: var(--card-bg);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--glass-border);
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
   overflow: hidden;
@@ -432,74 +452,52 @@ body {
 }
 
 h1 {
-  font-family: var(--font-heading);
-  font-weight: var(--font-weight-heading);
-  font-size: 26px; color: var(--text);
-  text-align: center; margin: 0 20px 5px;
+  font-family: var(--font-heading); font-weight: var(--font-weight-heading);
+  font-size: 26px; color: var(--text); text-align: center; margin: 0 20px 5px;
   letter-spacing: var(--letter-spacing);
 }
 
-#title {
-  text-align: center; color: var(--text-secondary);
-  font-size: 14px; margin-bottom: 20px; font-weight: 400;
-}
+#title { text-align: center; color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; }
 
 #sections-container > div {
   background: var(--card-bg-secondary);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--card-border);
-  border-radius: var(--card-radius-sm);
+  border: 1px solid var(--card-border); border-radius: var(--card-radius-sm);
   padding: 20px; margin-bottom: 15px;
-  box-shadow: var(--card-shadow-sm);
-  transition: all var(--transition-speed) var(--transition-style);
+  box-shadow: var(--card-shadow-sm); transition: all var(--transition-speed) var(--transition-style);
 }
-#sections-container > div:hover {
-  transform: var(--card-hover);
-  box-shadow: var(--card-shadow);
-}
+#sections-container > div:hover { transform: var(--card-hover); box-shadow: var(--card-shadow); }
 
 #sections-container h3 {
-  font-family: var(--font-heading);
-  font-weight: var(--font-weight-heading);
-  font-size: 14px; color: var(--text-secondary);
-  margin-bottom: 15px; padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-  text-transform: uppercase; letter-spacing: 1.5px;
+  font-family: var(--font-heading); font-weight: var(--font-weight-heading);
+  font-size: 14px; color: var(--text-secondary); margin-bottom: 15px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border); text-transform: uppercase; letter-spacing: 1.5px;
   text-shadow: var(--section-glow);
 }
 
 button, .btn, a.btn {
-  display: inline-block;
-  padding: var(--btn-padding);
-  border-radius: var(--btn-radius);
-  font-family: var(--font-body);
-  font-weight: var(--btn-font-weight);
-  font-size: 14px; cursor: pointer; border: none;
-  transition: all var(--transition-speed) var(--transition-style);
-  text-decoration: none; text-align: center;
-  letter-spacing: var(--letter-spacing);
+  display: inline-block; padding: var(--btn-padding); border-radius: var(--btn-radius);
+  font-family: var(--font-body); font-weight: var(--btn-font-weight); font-size: 14px;
+  cursor: pointer; border: none; transition: all var(--transition-speed) var(--transition-style);
+  text-decoration: none; text-align: center; letter-spacing: var(--letter-spacing);
 }
-button:hover, .btn:hover, a.btn:hover {
-  transform: var(--btn-transform);
-}
+button:hover, .btn:hover, a.btn:hover { transform: var(--btn-transform); opacity: 0.9; }
 
 #save-contact {
   display: block; width: calc(100% - 40px); margin: 20px auto;
   padding: 14px; background: var(--primary); color: #fff;
-  border: none; border-radius: var(--btn-radius);
-  font-family: var(--font-body); font-weight: 500;
-  font-size: 16px; cursor: pointer;
+  border: none; border-radius: var(--btn-radius); font-family: var(--font-body);
+  font-weight: 500; font-size: 16px; cursor: pointer;
   transition: all var(--transition-speed) var(--transition-style);
 }
 #save-contact:hover { opacity: 0.9; transform: var(--btn-transform); }
 
 #action-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 0 0 15px; }
 #action-buttons a {
-  flex: 1; min-width: 80px; padding: 12px 8px;
-  border-radius: var(--btn-radius);
-  font-family: var(--font-body); font-weight: 500;
-  font-size: 13px; text-align: center; text-decoration: none;
-  color: #fff; transition: all var(--transition-speed) var(--transition-style);
+  flex: 1; min-width: 80px; padding: 12px 8px; border-radius: var(--btn-radius);
+  font-family: var(--font-body); font-weight: 500; font-size: 13px;
+  text-align: center; text-decoration: none; color: #fff;
+  transition: all var(--transition-speed) var(--transition-style);
 }
 #action-buttons a:hover { transform: var(--btn-transform); opacity: 0.9; }
 
@@ -507,8 +505,7 @@ button:hover, .btn:hover, a.btn:hover {
 .social-icons a {
   display: inline-flex; align-items: center; justify-content: center;
   width: 40px; height: 40px; border-radius: 50%;
-  text-decoration: none; font-size: 18px;
-  transition: all var(--transition-speed) var(--transition-style);
+  text-decoration: none; font-size: 18px; transition: all 0.3s ease;
   flex-shrink: 0; background: var(--card-bg); color: var(--text-secondary);
 }
 .social-icons a:hover { transform: translateY(-3px); color: #fff; }
@@ -520,21 +517,13 @@ button:hover, .btn:hover, a.btn:hover {
 .social-icons a.fa-twitter:hover, .social-icons a.fa-x-twitter:hover { background: #1DA1F2; }
 .social-icons a.fa-telegram:hover { background: #26A5E4; }
 
-#loader { text-align: center; padding: 60px 20px; font-size: 15px; color: var(--text-secondary); font-weight: 400; }
-#error {
-  color: var(--accent); background: var(--card-bg);
-  border-radius: var(--card-radius); max-width: 400px;
-  margin: 40px auto; text-align: center; padding: 40px 20px; font-weight: 500;
-}
+#loader { text-align: center; padding: 60px 20px; font-size: 15px; color: var(--text-secondary); }
+#error { color: var(--accent); background: var(--card-bg); border-radius: var(--card-radius); max-width: 400px; margin: 40px auto; text-align: center; padding: 40px 20px; }
 
 .fade-section { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
 .fade-section.visible { opacity: 1; transform: translateY(0); }
 
-.ripple {
-  position: absolute; border-radius: 50%;
-  background: rgba(255,255,255,0.2); transform: scale(0);
-  animation: ripple-anim 0.6s ease-out; pointer-events: none;
-}
+.ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.2); transform: scale(0); animation: ripple-anim 0.6s ease-out; pointer-events: none; }
 @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
 
 .profile-circle, #profile-img { border-radius: 50%; }
@@ -543,11 +532,3 @@ button:hover, .btn:hover, a.btn:hover {
 .profile-leaf { border-radius: 50% 10% 50% 10% / 10% 50% 10% 50%; }
 .profile-hexagon { clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); border-radius: 0; }
 .profile-diamond { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); border-radius: 0; }
-/* Force WhatsApp buttons to use theme variable */
-#btn-whatsapp,
-a[href*="wa.me"],
-button[onclick*="orderNow"],
-#enquiry-send,
-a[href*="api=1&destination"] {
-  background: var(--whatsapp) !important;
-}
