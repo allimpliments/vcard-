@@ -252,5 +252,30 @@
     setTimeout(function() { ripple.remove(); }, 600);
   });
 </script>
+<!-- Bottom Navigation -->
+<nav style="position:fixed;bottom:0;left:0;width:100%;background:var(--glass-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--glass-border);display:flex;justify-content:space-around;padding:10px 5px;z-index:999;">
+  <a href="#" onclick="scrollToTop()" style="color:var(--primary);text-decoration:none;font-size:11px;text-align:center;font-weight:600;">
+    <div style="font-size:20px;">🏠</div> Home
+  </a>
+  <a href="#about-section" style="color:var(--text-secondary);text-decoration:none;font-size:11px;text-align:center;font-weight:600;">
+    <div style="font-size:20px;">👤</div> About
+  </a>
+  <a href="#products-section" style="color:var(--text-secondary);text-decoration:none;font-size:11px;text-align:center;font-weight:600;">
+    <div style="font-size:20px;">🛍️</div> Shop
+  </a>
+  <a href="#gallery-section" style="color:var(--text-secondary);text-decoration:none;font-size:11px;text-align:center;font-weight:600;">
+    <div style="font-size:20px;">🖼️</div> Gallery
+  </a>
+  <a href="#contact-section" style="color:var(--text-secondary);text-decoration:none;font-size:11px;text-align:center;font-weight:600;">
+    <div style="font-size:20px;">📩</div> Contact
+  </a>
+</nav>
+
+<!-- Bottom spacer so content doesn't hide behind nav -->
+<div style="height:70px;"></div>
+
+<script>
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+</script>
 </body>
 </html>
