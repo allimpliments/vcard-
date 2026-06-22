@@ -230,7 +230,7 @@ if (data.profileImage && data.profileImage.trim() !== '') {
             if (!mainImg) return;
             
             mainImg.onclick = function() {
-              window.open(images[currentIndex], '_blank');
+              openLightbox(images, currentIndex);
             };
             
             function updateGallery(index) {
