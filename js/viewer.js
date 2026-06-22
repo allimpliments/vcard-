@@ -302,15 +302,15 @@ if (data.profileImage && data.profileImage.trim() !== '') {
           
           // Main video container
           ytHTML += '<div style="position: relative; text-align: center; margin-bottom: 10px;">';
-          ytHTML += '<div style="width: 100%; border-radius: 15px; overflow: hidden; box-shadow: var(--shadow-sm);">';
+          ytHTML += '<div style="width: 100%; max-width: 100%; border-radius: 15px; overflow: hidden; box-shadow: var(--shadow-sm); margin: 0 auto;">';
           ytHTML += '<div id="yt-main-container" style="position: relative; padding-bottom: ' + (videos[0].isShort ? '177%' : '56.25%') + '; height: 0;">';
           ytHTML += '<iframe id="yt-main" src="https://www.youtube.com/embed/' + videos[0].id + '" style="position: absolute; width: 100%; height: 100%; border-radius: 15px;" frameborder="0" allowfullscreen></iframe>';
           ytHTML += '</div></div>';
           
           // Arrows
           if (videos.length > 1) {
-            ytHTML += '<button id="yt-prev" style="position: absolute; left: 5px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 14px; cursor: pointer; z-index: 5;">◀</button>';
-            ytHTML += '<button id="yt-next" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 14px; cursor: pointer; z-index: 5;">▶</button>';
+            ytHTML += '<button id="yt-prev" style="position: absolute; left: 5px; top: 40%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 14px; cursor: pointer; z-index: 5;">◀</button>';
+            ytHTML += '<button id="yt-next" style="position: absolute; right: 5px; top: 40%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 14px; cursor: pointer; z-index: 5;">▶</button>';
           }
           ytHTML += '</div>';
           
@@ -364,31 +364,64 @@ if (data.profileImage && data.profileImage.trim() !== '') {
         }
         else if (sec === 'reels' && data.reels && data.reels.length > 0) {
           let reelsHTML = '<h3>📱 Instagram & FB Reels</h3>';
-          reelsHTML += '<div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">';
           
-          for (let k = 0; k < data.reels.length; k++) {
-            const url = data.reels[k];
-            let thumbHTML = '';
-            
-            if (url.includes('instagram.com/reel/') || url.includes('instagram.com/p/')) {
-              thumbHTML = '<div style="width: 150px; text-align: center; background: var(--card-bg-secondary); border-radius: 15px; padding: 12px; box-shadow: var(--shadow-sm);">' +
-                '<div style="width: 100%; height: 200px; background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">' +
-                '<span style="font-size: 40px; color: #fff;">📱</span></div>' +
-                '<a href="' + url + '" target="_blank" style="display: inline-block; padding: 10px 20px; background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 13px;">Watch on Instagram</a></div>';
-            } else if (url.includes('facebook.com/reel/') || url.includes('facebook.com/share/') || url.includes('fb.watch/')) {
-              thumbHTML = '<div style="width: 150px; text-align: center; background: var(--card-bg-secondary); border-radius: 15px; padding: 12px; box-shadow: var(--shadow-sm);">' +
-                '<div style="width: 100%; height: 200px; background: linear-gradient(135deg, #1877f2, #0c5dc7); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">' +
-                '<span style="font-size: 40px; color: #fff;">📱</span></div>' +
-                '<a href="' + url + '" target="_blank" style="display: inline-block; padding: 10px 20px; background: #1877f2; color: #fff; text-decoration: none; border-radius: 50px; font-weight: 600; font-size: 13px;">Watch on Facebook</a></div>';
+          // Slider style for reels
+          let currentReel = 0;
+          
+          reelsHTML += '<div style="position: relative; text-align: center; margin-bottom: 10px;">';
+          
+          // Main reel card
+          reelsHTML += '<div id="reel-main-card" style="width: 200px; height: 350px; margin: 0 auto; border-radius: 15px; overflow: hidden; box-shadow: var(--shadow); position: relative; background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); display: flex; flex-direction: column; align-items: center; justify-content: center;">';
+          reelsHTML += '<div style="text-align: center; color: #fff; padding: 20px;">';
+          reelsHTML += '<span style="font-size: 50px;">📱</span>';
+          reelsHTML += '<p id="reel-label" style="font-size: 14px; font-weight: 600; margin-top: 10px;">Reel 1</p>';
+          reelsHTML += '<a id="reel-link" href="' + data.reels[0] + '" target="_blank" style="display: inline-block; margin-top: 15px; padding: 12px 25px; background: #fff; color: #e4405f; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 14px;">▶ Watch Now</a>';
+          reelsHTML += '</div></div>';
+          
+          // Arrows
+          if (data.reels.length > 1) {
+            reelsHTML += '<button id="reel-prev" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 35px; height: 35px; font-size: 16px; cursor: pointer; z-index: 5;">◀</button>';
+            reelsHTML += '<button id="reel-next" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 35px; height: 35px; font-size: 16px; cursor: pointer; z-index: 5;">▶</button>';
+          }
+          reelsHTML += '</div>';
+          
+          // Dots
+          if (data.reels.length > 1) {
+            reelsHTML += '<div style="text-align: center; margin-bottom: 10px;">';
+            for (let d = 0; d < data.reels.length; d++) {
+              reelsHTML += '<span class="reel-dot" data-index="' + d + '" style="display: inline-block; width: 10px; height: 10px; background: ' + (d === 0 ? 'var(--primary)' : '#ccc') + '; border-radius: 50%; margin: 0 4px; cursor: pointer;"></span>';
             }
-            
-            if (thumbHTML) {
-              reelsHTML += thumbHTML;
-            }
+            reelsHTML += '</div>';
           }
           
-          reelsHTML += '</div>';
           div.innerHTML = reelsHTML;
+          
+          // Slider logic
+          if (data.reels.length > 1) {
+            setTimeout(function() {
+              const reelLink = document.getElementById('reel-link');
+              const reelLabel = document.getElementById('reel-label');
+              const prevBtn = document.getElementById('reel-prev');
+              const nextBtn = document.getElementById('reel-next');
+              const dots = document.querySelectorAll('.reel-dot');
+              
+              function updateReel(index) {
+                currentReel = index;
+                reelLink.href = data.reels[currentReel];
+                reelLabel.textContent = 'Reel ' + (currentReel + 1);
+                dots.forEach(function(dot, i) {
+                  dot.style.background = i === currentReel ? 'var(--primary)' : '#ccc';
+                });
+              }
+              
+              if (nextBtn) nextBtn.onclick = function() { updateReel((currentReel + 1) % data.reels.length); };
+              if (prevBtn) prevBtn.onclick = function() { updateReel((currentReel - 1 + data.reels.length) % data.reels.length); };
+              
+              dots.forEach(function(dot) {
+                dot.onclick = function() { updateReel(parseInt(this.getAttribute('data-index'))); };
+              });
+            }, 100);
+          }
         }
         container.appendChild(div);
       }
