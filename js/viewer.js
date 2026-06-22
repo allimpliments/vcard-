@@ -91,6 +91,7 @@ if (!slug) {
       for (let i = 0; i < order.length; i++) {
         const sec = order[i];
         const div = document.createElement('div');
+        div.id = sec + '-section';
 
         // ABOUT
         if (sec === 'about' && data.about) {
