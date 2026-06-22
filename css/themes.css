@@ -1,409 +1,299 @@
-/* v2.0 - Updated: 2024 */
 /* ============================================
-   10 UNIQUE PREMIUM THEMES
-   Each with own Font, Button, Card, Animation
+   10 UNIQUE PROFESSIONAL THEMES
+   Color Palettes from ColorHunt
+   Each theme has unique fonts, buttons, cards & animations
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Raleway:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600&display=swap');
 
 /* ============================================
-   1. MIDNIGHT - Apple Style
-   Font: Inter | Button: Pill 50px | Card: 20px | Anim: Smooth
+   THEME 1: WARM BLUSH
+   Palette: #FFFAF3, #FFF2DB, #FFE5BF, #F62440
+   Font: Cormorant + Inter | Button: Soft Pill | Card: Rounded
    ============================================ */
-:root, body.default, body.midnight {
-  --font-heading: 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-weight-heading: 700;
-  --font-weight-body: 400;
-  --letter-spacing: -0.3px;
-  --bg-gradient: linear-gradient(180deg, #0a0a0f 0%, #0d0d1a 50%, #0a0a14 100%);
-  --card-bg: rgba(255,255,255,0.03);
-  --card-bg-secondary: rgba(255,255,255,0.05);
-  --card-border: rgba(255,255,255,0.06);
-  --card-radius: 20px;
-  --card-radius-sm: 14px;
-  --card-shadow: 0 8px 40px rgba(0,0,0,0.5);
-  --card-shadow-sm: 0 4px 20px rgba(0,0,0,0.3);
-  --card-hover: translateY(-2px);
-  --text: #f5f5f7;
-  --text-secondary: #86868b;
-  --primary: #0071e3;
-  --primary-hover: #0077ed;
-  --accent: #ff375f;
-  --accent-hover: #ff2d55;
-  --whatsapp: #25d366;
-  --border: rgba(255,255,255,0.08);
-  --btn-radius: 50px;
-  --btn-padding: 13px 28px;
-  --btn-font-weight: 500;
-  --btn-transform: translateY(-1px);
-  --transition-speed: 0.3s;
-  --transition-style: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --profile-border: 2px solid rgba(255,255,255,0.1);
-  --profile-glow: none;
-  --section-glow: none;
-  --glass-bg: rgba(255,255,255,0.03);
-  --glass-border: rgba(255,255,255,0.06);
-}
-
-/* ============================================
-   2. GRAPHITE - Tech Style
-   Font: Space Grotesk | Button: Sharp 8px | Card: 12px | Anim: Fast
-   ============================================ */
-body.graphite {
-  --font-heading: 'Space Grotesk', sans-serif;
-  --font-body: 'Space Grotesk', sans-serif;
-  --font-weight-heading: 600;
-  --font-weight-body: 400;
-  --letter-spacing: 0px;
-  --bg-gradient: linear-gradient(180deg, #1a1a1a 0%, #222 50%, #1a1a1a 100%);
-  --card-bg: rgba(255,255,255,0.04);
-  --card-bg-secondary: rgba(255,255,255,0.06);
-  --card-border: rgba(255,255,255,0.06);
-  --card-radius: 12px;
-  --card-radius-sm: 8px;
-  --card-shadow: 0 4px 20px rgba(0,0,0,0.4);
-  --card-shadow-sm: 0 2px 10px rgba(0,0,0,0.2);
-  --card-hover: none;
-  --text: #e8e8ed;
-  --text-secondary: #98989d;
-  --primary: #636366;
-  --primary-hover: #7c7c80;
-  --accent: #ff9f0a;
-  --accent-hover: #ffb340;
-  --whatsapp: #25d366;
-  --border: rgba(255,255,255,0.08);
-  --btn-radius: 8px;
-  --btn-padding: 11px 24px;
-  --btn-font-weight: 500;
-  --btn-transform: none;
-  --transition-speed: 0.2s;
-  --transition-style: ease;
-  --profile-border: 3px solid #636366;
-  --profile-glow: none;
-  --section-glow: none;
-  --glass-bg: rgba(255,255,255,0.04);
-  --glass-border: rgba(255,255,255,0.06);
-}
-
-/* ============================================
-   3. PORCELAIN - Luxury White
-   Font: Inter | Button: Pill 50px | Card: 24px | Anim: Smooth
-   ============================================ */
-body.porcelain {
-  --font-heading: 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-weight-heading: 700;
-  --font-weight-body: 400;
-  --letter-spacing: -0.3px;
-  --bg-gradient: linear-gradient(180deg, #f5f5f7 0%, #fff 50%, #f5f5f7 100%);
-  --card-bg: #ffffff;
-  --card-bg-secondary: #f9f9fb;
-  --card-border: rgba(0,0,0,0.04);
-  --card-radius: 24px;
-  --card-radius-sm: 16px;
-  --card-shadow: 0 8px 40px rgba(0,0,0,0.06);
-  --card-shadow-sm: 0 4px 20px rgba(0,0,0,0.03);
-  --card-hover: translateY(-3px);
-  --text: #1d1d1f;
-  --text-secondary: #6e6e73;
-  --primary: #0071e3;
-  --primary-hover: #0077ed;
-  --accent: #ff375f;
-  --accent-hover: #ff2d55;
-  --whatsapp: #25d366;
-  --border: rgba(0,0,0,0.06);
-  --btn-radius: 50px;
-  --btn-padding: 13px 28px;
-  --btn-font-weight: 500;
-  --btn-transform: translateY(-1px);
-  --transition-speed: 0.3s;
-  --transition-style: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --profile-border: 2px solid rgba(0,0,0,0.08);
-  --profile-glow: none;
-  --section-glow: none;
-  --glass-bg: rgba(255,255,255,0.9);
-  --glass-border: rgba(0,0,0,0.06);
-}
-
-/* ============================================
-   4. OBSIDIAN - Ultra Minimal
-   Font: DM Sans | Button: Sharp 0px | Card: 0px | Anim: Instant
-   ============================================ */
-body.obsidian {
-  --font-heading: 'DM Sans', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
-  --font-weight-heading: 700;
-  --font-weight-body: 400;
-  --letter-spacing: 0px;
-  --bg-gradient: none;
-  --card-bg: #0d0d0d;
-  --card-bg-secondary: #111;
-  --card-border: rgba(255,255,255,0.04);
-  --card-radius: 0px;
-  --card-radius-sm: 0px;
-  --card-shadow: 0 2px 10px rgba(0,0,0,0.8);
-  --card-shadow-sm: 0 1px 5px rgba(0,0,0,0.5);
-  --card-hover: none;
-  --text: #fafafa;
-  --text-secondary: #737373;
-  --primary: #fafafa;
-  --primary-hover: #e5e5e5;
-  --accent: #ff4500;
-  --accent-hover: #ff5722;
-  --whatsapp: #25d366;
-  --border: rgba(255,255,255,0.06);
-  --btn-radius: 0px;
-  --btn-padding: 10px 22px;
-  --btn-font-weight: 500;
-  --btn-transform: none;
-  --transition-speed: 0.1s;
-  --transition-style: ease;
-  --profile-border: 2px solid #fafafa;
-  --profile-glow: none;
-  --section-glow: none;
-  --glass-bg: #0a0a0a;
-  --glass-border: rgba(255,255,255,0.04);
-}
-
-/* ============================================
-   5. LINEN - Elegant Warm
-   Font: Cormorant + Inter | Button: Soft 4px | Card: 12px | Anim: Slow
-   ============================================ */
-body.linen {
+:root, body.default {
   --font-heading: 'Cormorant Garamond', serif;
   --font-body: 'Inter', sans-serif;
-  --font-weight-heading: 600;
-  --font-weight-body: 400;
-  --letter-spacing: 0.5px;
-  --bg-gradient: linear-gradient(180deg, #faf9f6 0%, #f5f0eb 50%, #faf9f6 100%);
-  --card-bg: #ffffff;
-  --card-bg-secondary: #faf8f5;
-  --card-border: rgba(0,0,0,0.04);
-  --card-radius: 12px;
-  --card-radius-sm: 8px;
-  --card-shadow: 0 4px 24px rgba(0,0,0,0.04);
-  --card-shadow-sm: 0 2px 12px rgba(0,0,0,0.02);
-  --card-hover: none;
-  --text: #2c2420;
-  --text-secondary: #8c7a6e;
-  --primary: #8c6d5a;
-  --primary-hover: #6b5243;
-  --accent: #c4956a;
-  --accent-hover: #a67c52;
+  --bg: #FFF2DB;
+  --card-bg: rgba(255,250,243,0.9);
+  --card-bg-secondary: #FFFAF3;
+  --text: #4a2020;
+  --text-secondary: #8a6060;
+  --primary: #F62440;
+  --accent: #FFE5BF;
+  --border: #FFE5BF;
+  --radius: 20px;
+  --radius-sm: 14px;
+  --shadow: 0 4px 24px rgba(246,36,64,0.08);
+  --shadow-sm: 0 2px 12px rgba(246,36,64,0.04);
+  --btn-radius: 30px;
+  --btn-padding: 12px 28px;
+  --glass-bg: rgba(255,250,243,0.8);
+  --glass-border: rgba(246,36,64,0.1);
+  --profile-border: 3px solid #FFE5BF;
   --whatsapp: #25d366;
-  --border: rgba(0,0,0,0.06);
-  --btn-radius: 4px;
-  --btn-padding: 11px 24px;
-  --btn-font-weight: 400;
-  --btn-transform: none;
-  --transition-speed: 0.4s;
-  --transition-style: ease;
-  --profile-border: 4px solid #8c6d5a;
-  --profile-glow: none;
-  --section-glow: none;
-  --glass-bg: rgba(255,255,255,0.8);
-  --glass-border: rgba(0,0,0,0.05);
+  --transition: all 0.3s ease;
 }
 
 /* ============================================
-   6. OCEAN - Creative Float
-   Font: Raleway | Button: Round 30px | Card: 24px Glass | Anim: Float
+   THEME 2: COASTAL BLUE
+   Palette: #355872, #7AAACE, #9CD5FF, #F7F8F0
+   Font: Raleway | Button: Round | Card: Glass
    ============================================ */
-body.ocean {
+body.coastal {
   --font-heading: 'Raleway', sans-serif;
   --font-body: 'Raleway', sans-serif;
-  --font-weight-heading: 600;
-  --font-weight-body: 400;
-  --letter-spacing: 0.5px;
-  --bg-gradient: linear-gradient(180deg, #0a1628 0%, #0d2847 40%, #0a3366 100%);
-  --card-bg: rgba(255,255,255,0.04);
-  --card-bg-secondary: rgba(255,255,255,0.06);
-  --card-border: rgba(64,156,255,0.15);
-  --card-radius: 24px;
-  --card-radius-sm: 16px;
-  --card-shadow: 0 8px 40px rgba(0,64,128,0.4);
-  --card-shadow-sm: 0 4px 20px rgba(0,64,128,0.2);
-  --card-hover: translateY(-4px);
-  --text: #dceeff;
-  --text-secondary: #7eb8da;
-  --primary: #409cff;
-  --primary-hover: #5aafff;
-  --accent: #ff6b6b;
-  --accent-hover: #ff5252;
-  --whatsapp: #00e676;
-  --border: rgba(64,156,255,0.12);
-  --btn-radius: 30px;
+  --bg: linear-gradient(135deg, #F7F8F0 0%, #9CD5FF 50%, #F7F8F0 100%);
+  --card-bg: rgba(255,255,255,0.7);
+  --card-bg-secondary: rgba(247,248,240,0.8);
+  --text: #355872;
+  --text-secondary: #7AAACE;
+  --primary: #355872;
+  --accent: #7AAACE;
+  --border: rgba(53,88,114,0.1);
+  --radius: 24px;
+  --radius-sm: 16px;
+  --shadow: 0 8px 32px rgba(53,88,114,0.1);
+  --shadow-sm: 0 4px 16px rgba(53,88,114,0.05);
+  --btn-radius: 40px;
   --btn-padding: 13px 30px;
-  --btn-font-weight: 500;
-  --btn-transform: translateY(-2px);
-  --transition-speed: 0.35s;
-  --transition-style: ease;
-  --profile-border: 2px solid #409cff;
-  --profile-glow: 0 0 30px rgba(64,156,255,0.4);
-  --section-glow: 0 0 15px rgba(64,156,255,0.2);
-  --glass-bg: rgba(255,255,255,0.04);
-  --glass-border: rgba(64,156,255,0.15);
+  --glass-bg: rgba(255,255,255,0.6);
+  --glass-border: rgba(53,88,114,0.15);
+  --profile-border: 3px solid #7AAACE;
+  --whatsapp: #25d366;
+  --transition: all 0.35s ease;
 }
 
 /* ============================================
-   7. SUNSET - Bold Vibrant
-   Font: Plus Jakarta | Button: Pill 50px | Card: 24px | Anim: Bouncy
+   THEME 3: SOFT ROSE
+   Palette: #FCF8F8, #FBEFEF, #F9DFDF, #F5AFAF
+   Font: Playfair + DM Sans | Button: Elegant | Card: Soft
    ============================================ */
-body.sunset {
+body.rose {
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --bg: #FBEFEF;
+  --card-bg: #FCF8F8;
+  --card-bg-secondary: #FCF8F8;
+  --text: #4a2a2a;
+  --text-secondary: #8a5a5a;
+  --primary: #F5AFAF;
+  --accent: #F9DFDF;
+  --border: #F9DFDF;
+  --radius: 30px;
+  --radius-sm: 20px;
+  --shadow: 0 4px 20px rgba(245,175,175,0.12);
+  --shadow-sm: 0 2px 10px rgba(245,175,175,0.06);
+  --btn-radius: 25px;
+  --btn-padding: 12px 26px;
+  --glass-bg: rgba(252,248,248,0.85);
+  --glass-border: rgba(245,175,175,0.2);
+  --profile-border: 4px solid #F5AFAF;
+  --whatsapp: #25d366;
+  --transition: all 0.4s ease;
+}
+
+/* ============================================
+   THEME 4: WARM EARTH
+   Palette: #F9F8F6, #EFE9E3, #D9CFC7, #C9B59C
+   Font: Cormorant + Montserrat | Button: Soft Square | Card: Subtle
+   ============================================ */
+body.earth {
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Montserrat', sans-serif;
+  --bg: #EFE9E3;
+  --card-bg: #F9F8F6;
+  --card-bg-secondary: #F9F8F6;
+  --text: #3a2a1a;
+  --text-secondary: #8a6a5a;
+  --primary: #C9B59C;
+  --accent: #D9CFC7;
+  --border: #D9CFC7;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 16px rgba(201,181,156,0.1);
+  --shadow-sm: 0 1px 8px rgba(201,181,156,0.05);
+  --btn-radius: 6px;
+  --btn-padding: 11px 24px;
+  --glass-bg: rgba(249,248,246,0.9);
+  --glass-border: rgba(201,181,156,0.15);
+  --profile-border: 3px solid #C9B59C;
+  --whatsapp: #25d366;
+  --transition: all 0.3s ease;
+}
+
+/* ============================================
+   THEME 5: MODERN SLATE
+   Palette: #EAEFEF, #BFC9D1, #25343F, #FF9B51
+   Font: Plus Jakarta | Button: Sharp | Card: Flat
+   ============================================ */
+body.slate {
   --font-heading: 'Plus Jakarta Sans', sans-serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
-  --font-weight-heading: 700;
-  --font-weight-body: 500;
-  --letter-spacing: -0.2px;
-  --bg-gradient: linear-gradient(180deg, #ff416c 0%, #ff4b2b 50%, #ff8c42 100%);
-  --card-bg: rgba(255,255,255,0.08);
-  --card-bg-secondary: rgba(255,255,255,0.1);
-  --card-border: rgba(255,255,255,0.15);
-  --card-radius: 24px;
-  --card-radius-sm: 16px;
-  --card-shadow: 0 8px 40px rgba(255,65,108,0.5);
-  --card-shadow-sm: 0 4px 20px rgba(255,65,108,0.3);
-  --card-hover: translateY(-4px);
-  --text: #ffffff;
-  --text-secondary: rgba(255,255,255,0.75);
-  --primary: #ffd700;
-  --primary-hover: #ffc107;
-  --accent: #ffffff;
-  --accent-hover: #e0e0e0;
-  --whatsapp: #ffd700;
-  --border: rgba(255,255,255,0.12);
-  --btn-radius: 50px;
-  --btn-padding: 14px 32px;
-  --btn-font-weight: 600;
-  --btn-transform: translateY(-2px);
-  --transition-speed: 0.35s;
-  --transition-style: cubic-bezier(0.68, -0.55, 0.27, 1.55);
-  --profile-border: 3px solid #ffd700;
-  --profile-glow: 0 0 30px rgba(255,215,0,0.5);
-  --section-glow: 0 0 10px rgba(255,215,0,0.3);
-  --glass-bg: rgba(255,255,255,0.08);
-  --glass-border: rgba(255,255,255,0.15);
+  --bg: #EAEFEF;
+  --card-bg: #ffffff;
+  --card-bg-secondary: #EAEFEF;
+  --text: #25343F;
+  --text-secondary: #BFC9D1;
+  --primary: #25343F;
+  --accent: #FF9B51;
+  --border: #BFC9D1;
+  --radius: 8px;
+  --radius-sm: 4px;
+  --shadow: 0 2px 12px rgba(37,52,63,0.06);
+  --shadow-sm: 0 1px 6px rgba(37,52,63,0.03);
+  --btn-radius: 4px;
+  --btn-padding: 10px 22px;
+  --glass-bg: #ffffff;
+  --glass-border: rgba(37,52,63,0.1);
+  --profile-border: 2px solid #25343F;
+  --whatsapp: #25d366;
+  --transition: all 0.2s ease;
 }
 
 /* ============================================
-   8. FOREST - Natural Earth
-   Font: Playfair + Inter | Button: Sharp 8px | Card: 16px | Anim: Slow
+   THEME 6: FOREST DEEP
+   Palette: #F5E5E1, #F9B487, #427A76, #174143
+   Font: Playfair + Inter | Button: Round | Card: Organic
    ============================================ */
 body.forest {
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
-  --font-weight-heading: 700;
-  --font-weight-body: 400;
-  --letter-spacing: 0px;
-  --bg-gradient: linear-gradient(180deg, #0a1a0a 0%, #0d2818 50%, #0a1f0d 100%);
-  --card-bg: rgba(255,255,255,0.03);
-  --card-bg-secondary: rgba(255,255,255,0.05);
-  --card-border: rgba(34,197,94,0.1);
-  --card-radius: 16px;
-  --card-radius-sm: 10px;
-  --card-shadow: 0 8px 40px rgba(0,0,0,0.5);
-  --card-shadow-sm: 0 4px 20px rgba(0,0,0,0.3);
-  --card-hover: none;
-  --text: #d1fae5;
-  --text-secondary: #6ee7b7;
-  --primary: #4ade80;
-  --primary-hover: #22c55e;
-  --accent: #fbbf24;
-  --accent-hover: #f59e0b;
-  --whatsapp: #4ade80;
-  --border: rgba(34,197,94,0.08);
-  --btn-radius: 8px;
-  --btn-padding: 11px 24px;
-  --btn-font-weight: 500;
-  --btn-transform: none;
-  --transition-speed: 0.35s;
-  --transition-style: ease;
-  --profile-border: 2px solid #4ade80;
-  --profile-glow: 0 0 25px rgba(74,222,128,0.4);
-  --section-glow: 0 0 10px rgba(74,222,128,0.2);
-  --glass-bg: rgba(255,255,255,0.03);
-  --glass-border: rgba(34,197,94,0.12);
+  --bg: linear-gradient(135deg, #F5E5E1 0%, #F9B487 50%, #F5E5E1 100%);
+  --card-bg: rgba(255,255,255,0.7);
+  --card-bg-secondary: rgba(245,229,225,0.8);
+  --text: #174143;
+  --text-secondary: #427A76;
+  --primary: #427A76;
+  --accent: #F9B487;
+  --border: rgba(66,122,118,0.15);
+  --radius: 24px;
+  --radius-sm: 16px;
+  --shadow: 0 8px 32px rgba(66,122,118,0.1);
+  --shadow-sm: 0 4px 16px rgba(66,122,118,0.05);
+  --btn-radius: 30px;
+  --btn-padding: 13px 28px;
+  --glass-bg: rgba(255,255,255,0.65);
+  --glass-border: rgba(66,122,118,0.2);
+  --profile-border: 3px solid #427A76;
+  --whatsapp: #25d366;
+  --transition: all 0.4s ease;
 }
 
 /* ============================================
-   9. AURORA - Magical Glow
-   Font: Raleway | Button: Soft 20px | Card: 20px Glow | Anim: Glow
+   THEME 7: VINTAGE PASTEL
+   Palette: #81A6C6, #AACDDC, #F3E3D0, #D2C4B4
+   Font: Nunito | Button: Soft Pill | Card: Floating
    ============================================ */
-body.aurora {
-  --font-heading: 'Raleway', sans-serif;
-  --font-body: 'Raleway', sans-serif;
-  --font-weight-heading: 600;
-  --font-weight-body: 400;
-  --letter-spacing: 1px;
-  --bg-gradient: linear-gradient(180deg, #1a0a2e 0%, #0d2847 40%, #0a3d2e 100%);
-  --card-bg: rgba(255,255,255,0.04);
-  --card-bg-secondary: rgba(255,255,255,0.06);
-  --card-border: rgba(139,92,246,0.2);
-  --card-radius: 20px;
-  --card-radius-sm: 12px;
-  --card-shadow: 0 8px 40px rgba(139,92,246,0.3);
-  --card-shadow-sm: 0 4px 20px rgba(139,92,246,0.15);
-  --card-hover: translateY(-3px);
-  --text: #e8daef;
-  --text-secondary: #b39ddb;
-  --primary: #a78bfa;
-  --primary-hover: #8b5cf6;
-  --accent: #34d399;
-  --accent-hover: #10b981;
-  --whatsapp: #34d399;
-  --border: rgba(139,92,246,0.12);
-  --btn-radius: 20px;
-  --btn-padding: 12px 26px;
-  --btn-font-weight: 500;
-  --btn-transform: translateY(-2px);
-  --transition-speed: 0.4s;
-  --transition-style: ease;
-  --profile-border: 2px solid #a78bfa;
-  --profile-glow: 0 0 35px rgba(167,139,250,0.5);
-  --section-glow: 0 0 20px rgba(167,139,250,0.3);
-  --glass-bg: rgba(255,255,255,0.04);
-  --glass-border: rgba(139,92,246,0.2);
+body.vintage {
+  --font-heading: 'Nunito', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+  --bg: #F3E3D0;
+  --card-bg: rgba(255,255,255,0.85);
+  --card-bg-secondary: #F3E3D0;
+  --text: #4a3a2a;
+  --text-secondary: #8a7a6a;
+  --primary: #81A6C6;
+  --accent: #D2C4B4;
+  --border: #AACDDC;
+  --radius: 20px;
+  --radius-sm: 14px;
+  --shadow: 0 6px 24px rgba(129,166,198,0.1);
+  --shadow-sm: 0 3px 12px rgba(129,166,198,0.05);
+  --btn-radius: 50px;
+  --btn-padding: 12px 28px;
+  --glass-bg: rgba(255,255,255,0.8);
+  --glass-border: rgba(129,166,198,0.2);
+  --profile-border: 3px solid #AACDDC;
+  --whatsapp: #25d366;
+  --transition: all 0.3s ease;
 }
 
 /* ============================================
-   10. MONO - Pure Nothing
-   Font: Inter | Button: Sharp 0px | Card: 0px | Anim: None
+   THEME 8: MIDNIGHT NAVY
+   Palette: #111844, #4B5694, #7288AE, #EAE0CF
+   Font: Inter | Button: Sharp | Card: Modern
    ============================================ */
-body.mono {
+body.navy {
   --font-heading: 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
-  --font-weight-heading: 700;
-  --font-weight-body: 400;
-  --letter-spacing: 0px;
-  --bg-gradient: none;
+  --bg: #EAE0CF;
   --card-bg: #ffffff;
-  --card-bg-secondary: #fafafa;
-  --card-border: rgba(0,0,0,0.06);
-  --card-radius: 0px;
-  --card-radius-sm: 0px;
-  --card-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  --card-shadow-sm: 0 1px 2px rgba(0,0,0,0.02);
-  --card-hover: none;
-  --text: #000000;
-  --text-secondary: #666666;
-  --primary: #000000;
-  --primary-hover: #333333;
-  --accent: #666666;
-  --accent-hover: #444444;
-  --whatsapp: #000000;
-  --border: rgba(0,0,0,0.08);
-  --btn-radius: 0px;
+  --card-bg-secondary: #EAE0CF;
+  --text: #111844;
+  --text-secondary: #7288AE;
+  --primary: #4B5694;
+  --accent: #7288AE;
+  --border: #7288AE;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow: 0 2px 14px rgba(17,24,68,0.08);
+  --shadow-sm: 0 1px 6px rgba(17,24,68,0.04);
+  --btn-radius: 6px;
   --btn-padding: 10px 22px;
-  --btn-font-weight: 500;
-  --btn-transform: none;
-  --transition-speed: 0.1s;
-  --transition-style: ease;
-  --profile-border: 1px solid #000;
-  --profile-glow: none;
-  --section-glow: none;
   --glass-bg: #ffffff;
-  --glass-border: rgba(0,0,0,0.06);
+  --glass-border: rgba(17,24,68,0.1);
+  --profile-border: 2px solid #4B5694;
+  --whatsapp: #25d366;
+  --transition: all 0.2s ease;
+}
+
+/* ============================================
+   THEME 9: DUSTY BLUE
+   Palette: #E8EDF2, #2C3947, #547A95, #C2A56D
+   Font: Work Sans | Button: Elegant | Card: Clean
+   ============================================ */
+body.dusty {
+  --font-heading: 'Work Sans', sans-serif;
+  --font-body: 'Work Sans', sans-serif;
+  --bg: #E8EDF2;
+  --card-bg: #ffffff;
+  --card-bg-secondary: #E8EDF2;
+  --text: #2C3947;
+  --text-secondary: #547A95;
+  --primary: #2C3947;
+  --accent: #C2A56D;
+  --border: #547A95;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 4px 20px rgba(44,57,71,0.06);
+  --shadow-sm: 0 2px 10px rgba(44,57,71,0.03);
+  --btn-radius: 20px;
+  --btn-padding: 11px 26px;
+  --glass-bg: #ffffff;
+  --glass-border: rgba(44,57,71,0.1);
+  --profile-border: 2px solid #C2A56D;
+  --whatsapp: #25d366;
+  --transition: all 0.3s ease;
+}
+
+/* ============================================
+   THEME 10: SUNSET WARM
+   Palette: #FFEDCE, #FFC193, #FF8383, #FF3737
+   Font: Quicksand | Button: Round | Card: Playful
+   ============================================ */
+body.sunset {
+  --font-heading: 'Quicksand', sans-serif;
+  --font-body: 'Quicksand', sans-serif;
+  --bg: linear-gradient(135deg, #FFEDCE 0%, #FFC193 50%, #FFEDCE 100%);
+  --card-bg: rgba(255,255,255,0.75);
+  --card-bg-secondary: rgba(255,237,206,0.8);
+  --text: #4a1a1a;
+  --text-secondary: #8a4a4a;
+  --primary: #FF8383;
+  --accent: #FF3737;
+  --border: #FFC193;
+  --radius: 28px;
+  --radius-sm: 18px;
+  --shadow: 0 6px 28px rgba(255,131,131,0.12);
+  --shadow-sm: 0 3px 14px rgba(255,131,131,0.06);
+  --btn-radius: 40px;
+  --btn-padding: 13px 30px;
+  --glass-bg: rgba(255,255,255,0.7);
+  --glass-border: rgba(255,131,131,0.2);
+  --profile-border: 3px solid #FFC193;
+  --whatsapp: #25d366;
+  --transition: all 0.35s ease;
 }
 
 /* ============================================
@@ -413,49 +303,45 @@ body.mono {
 
 body {
   font-family: var(--font-body);
-  font-weight: var(--font-weight-body);
-  letter-spacing: var(--letter-spacing);
-  background: var(--bg-gradient);
+  background: var(--bg);
   background-attachment: fixed;
   min-height: 100vh;
   color: var(--text);
-  transition: all var(--transition-speed) var(--transition-style);
+  transition: var(--transition);
   padding: 20px 10px;
   -webkit-tap-highlight-color: transparent;
 }
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; opacity: 0.5; }
 
 #card-container {
-  max-width: 480px;
+  max-width: 460px;
   margin: 0 auto;
   background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   border: 1px solid var(--glass-border);
-  border-radius: var(--card-radius);
-  box-shadow: var(--card-shadow);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
   overflow: hidden;
-  transition: all var(--transition-speed) var(--transition-style);
+  transition: var(--transition);
   padding: 20px;
 }
 
 #lottie-box { background: transparent; padding: 10px; text-align: center; }
 
 #profile-img {
-  width: 130px; height: 130px; border-radius: 50%;
+  width: 120px; height: 120px; border-radius: 50%;
   object-fit: cover; border: var(--profile-border);
-  box-shadow: var(--profile-glow);
-  margin: 10px auto 15px; display: block; position: relative; z-index: 2;
-  transition: all var(--transition-speed) var(--transition-style);
+  margin: 10px auto 15px; display: block;
+  transition: var(--transition);
 }
 
 h1 {
-  font-family: var(--font-heading); font-weight: var(--font-weight-heading);
+  font-family: var(--font-heading); font-weight: 700;
   font-size: 26px; color: var(--text); text-align: center; margin: 0 20px 5px;
-  letter-spacing: var(--letter-spacing);
 }
 
 #title { text-align: center; color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; }
@@ -463,68 +349,72 @@ h1 {
 #sections-container > div {
   background: var(--card-bg-secondary);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--card-border); border-radius: var(--card-radius-sm);
-  padding: 20px; margin-bottom: 15px;
-  box-shadow: var(--card-shadow-sm); transition: all var(--transition-speed) var(--transition-style);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 18px; margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
 }
-#sections-container > div:hover { transform: var(--card-hover); box-shadow: var(--card-shadow); }
+#sections-container > div:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
 
 #sections-container h3 {
-  font-family: var(--font-heading); font-weight: var(--font-weight-heading);
-  font-size: 14px; color: var(--text-secondary); margin-bottom: 15px; padding-bottom: 8px;
-  border-bottom: 1px solid var(--border); text-transform: uppercase; letter-spacing: 1.5px;
-  text-shadow: var(--section-glow);
+  font-family: var(--font-heading); font-weight: 600;
+  font-size: 13px; color: var(--text-secondary);
+  margin-bottom: 12px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  text-transform: uppercase; letter-spacing: 1px;
 }
 
 button, .btn, a.btn {
   display: inline-block; padding: var(--btn-padding); border-radius: var(--btn-radius);
-  font-family: var(--font-body); font-weight: var(--btn-font-weight); font-size: 14px;
-  cursor: pointer; border: none; transition: all var(--transition-speed) var(--transition-style);
-  text-decoration: none; text-align: center; letter-spacing: var(--letter-spacing);
+  font-family: var(--font-body); font-weight: 500; font-size: 14px;
+  cursor: pointer; border: none; transition: var(--transition);
+  text-decoration: none; text-align: center;
 }
-button:hover, .btn:hover, a.btn:hover { transform: var(--btn-transform); opacity: 0.9; }
+button:hover, .btn:hover, a.btn:hover { opacity: 0.85; transform: translateY(-1px); }
 
 #save-contact {
   display: block; width: calc(100% - 40px); margin: 20px auto;
   padding: 14px; background: var(--primary); color: #fff;
-  border: none; border-radius: var(--btn-radius); font-family: var(--font-body);
-  font-weight: 500; font-size: 16px; cursor: pointer;
-  transition: all var(--transition-speed) var(--transition-style);
+  border: none; border-radius: var(--btn-radius);
+  font-family: var(--font-body); font-weight: 500; font-size: 16px; cursor: pointer;
+  transition: var(--transition);
 }
-#save-contact:hover { opacity: 0.9; transform: var(--btn-transform); }
 
 #action-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 0 0 15px; }
 #action-buttons a {
   flex: 1; min-width: 80px; padding: 12px 8px; border-radius: var(--btn-radius);
   font-family: var(--font-body); font-weight: 500; font-size: 13px;
-  text-align: center; text-decoration: none; color: #fff;
-  transition: all var(--transition-speed) var(--transition-style);
+  text-align: center; text-decoration: none; color: #fff; transition: var(--transition);
 }
-#action-buttons a:hover { transform: var(--btn-transform); opacity: 0.9; }
+#action-buttons a:hover { transform: translateY(-2px); }
+#btn-call { background: var(--primary); }
+#btn-email { background: var(--accent); }
+#btn-whatsapp { background: #25d366; }
 
-.social-icons { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; padding: 10px 0; }
+.social-icons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; padding: 8px 0; }
 .social-icons a {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 40px; height: 40px; border-radius: 50%;
-  text-decoration: none; font-size: 18px; transition: all 0.3s ease;
-  flex-shrink: 0; background: var(--card-bg); color: var(--text-secondary);
+  width: 38px; height: 38px; border-radius: 50%;
+  text-decoration: none; font-size: 16px; transition: all 0.3s ease;
+  background: var(--card-bg); color: var(--text-secondary); border: 1px solid var(--border);
 }
-.social-icons a:hover { transform: translateY(-3px); color: #fff; }
-.social-icons a.fa-whatsapp:hover { background: #25D366; }
-.social-icons a.fa-instagram:hover { background: #E4405F; }
-.social-icons a.fa-facebook:hover, .social-icons a.fa-facebook-f:hover { background: #1877F2; }
-.social-icons a.fa-youtube:hover { background: #FF0000; }
-.social-icons a.fa-linkedin:hover, .social-icons a.fa-linkedin-in:hover { background: #0A66C2; }
-.social-icons a.fa-twitter:hover, .social-icons a.fa-x-twitter:hover { background: #1DA1F2; }
-.social-icons a.fa-telegram:hover { background: #26A5E4; }
+.social-icons a:hover { color: #fff; }
+.social-icons a.fa-whatsapp:hover { background: #25D366; border-color: #25D366; }
+.social-icons a.fa-instagram:hover { background: #E4405F; border-color: #E4405F; }
+.social-icons a.fa-facebook:hover, .social-icons a.fa-facebook-f:hover { background: #1877F2; border-color: #1877F2; }
+.social-icons a.fa-youtube:hover { background: #FF0000; border-color: #FF0000; }
+.social-icons a.fa-linkedin:hover { background: #0A66C2; border-color: #0A66C2; }
+.social-icons a.fa-twitter:hover { background: #1DA1F2; border-color: #1DA1F2; }
+.social-icons a.fa-telegram:hover { background: #26A5E4; border-color: #26A5E4; }
 
 #loader { text-align: center; padding: 60px 20px; font-size: 15px; color: var(--text-secondary); }
-#error { color: var(--accent); background: var(--card-bg); border-radius: var(--card-radius); max-width: 400px; margin: 40px auto; text-align: center; padding: 40px 20px; }
+#error { color: #ef4444; background: var(--card-bg); border-radius: var(--radius); max-width: 400px; margin: 40px auto; text-align: center; padding: 40px 20px; }
 
 .fade-section { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
 .fade-section.visible { opacity: 1; transform: translateY(0); }
 
-.ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.2); transform: scale(0); animation: ripple-anim 0.6s ease-out; pointer-events: none; }
+.ripple { position: absolute; border-radius: 50%; background: rgba(0,0,0,0.1); transform: scale(0); animation: ripple-anim 0.6s ease-out; pointer-events: none; }
 @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
 
 .profile-circle, #profile-img { border-radius: 50%; }
