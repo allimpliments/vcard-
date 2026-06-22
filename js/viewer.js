@@ -123,42 +123,72 @@ if (!slug) {
 
         // PRODUCTS
         else if (sec === 'products' && data.products && data.products.length > 0) {
-          let h = '<h3>🛍️ Online Shop</h3><div style="display:flex;flex-wrap:wrap;gap:15px;justify-content:center;">';
+          let h = '<h3>🛍️ Online Shop</h3>';
+          h += '<div style="display:flex;flex-direction:column;gap:12px;">';
+          
           for (let k = 0; k < data.products.length; k++) {
             const p = data.products[k];
             const phone = data.phone ? data.phone.replace(/[^0-9]/g, '') : '';
             const wa = phone ? 'https://wa.me/' + phone + '?text=I%20am%20interested%20in%20' + encodeURIComponent(p.name) + '%20Price:%20' + p.sellingPrice : '#';
-            h += '<div style="width:140px;background:var(--card-bg-secondary);border-radius:var(--radius-sm);padding:12px;text-align:center;box-shadow:var(--shadow-sm);">';
-            if (p.image) h += '<img src="' + p.image + '" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:8px;">';
-            h += '<p style="font-weight:600;font-size:13px;margin:5px 0;">' + p.name + '</p>';
-            if (p.actualPrice) h += '<p style="text-decoration:line-through;color:#ef4444;font-size:12px;">₹' + p.actualPrice + '</p>';
-            h += '<p style="font-weight:700;color:var(--primary);font-size:16px;">₹' + p.sellingPrice + '</p>';
-            h += '<a href="' + wa + '" target="_blank" style="display:inline-block;width:30px;height:30px;background:#25d366;color:#fff;border-radius:50%;text-decoration:none;font-size:16px;line-height:30px;">💬</a>';
-            h += '<div style="margin-top:6px;"><input type="number" min="1" value="1" style="width:45px;padding:3px;border:1px solid #ddd;border-radius:5px;text-align:center;font-size:12px;">';
-            h += '<button onclick="addToCart(\'' + p.name + '\',\'' + p.sellingPrice + '\',\'' + (p.image || '') + '\')" style="margin-left:4px;padding:4px 8px;background:var(--accent);color:#fff;border:none;border-radius:5px;font-size:11px;cursor:pointer;">Add to Cart</button></div>';
+            
+            h += '<div style="display:flex;align-items:center;gap:12px;background:var(--card-bg-secondary);border-radius:14px;padding:12px;box-shadow:var(--shadow-sm);">';
+            
+            // Product Image
+            if (p.image) {
+              h += '<img src="' + p.image + '" style="width:80px;height:80px;object-fit:cover;border-radius:10px;flex-shrink:0;">';
+            }
+            
+            // Info
+            h += '<div style="flex:1;min-width:0;">';
+            h += '<p style="font-weight:600;font-size:14px;margin:0 0 4px;color:var(--text-primary);">' + p.name + '</p>';
+            if (p.actualPrice) {
+              h += '<span style="text-decoration:line-through;color:#ef4444;font-size:12px;">₹' + p.actualPrice + '</span> ';
+            }
+            h += '<span style="font-weight:700;color:var(--primary);font-size:16px;">₹' + p.sellingPrice + '</span>';
+            h += '</div>';
+            
+            // Buttons
+            h += '<div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">';
+            h += '<a href="' + wa + '" target="_blank" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:#25d366;color:#fff;border-radius:50%;text-decoration:none;font-size:16px;">💬</a>';
+            h += '<button onclick="addToCart(\'' + p.name + '\',\'' + p.sellingPrice + '\',\'' + (p.image || '') + '\')" style="padding:6px 10px;background:var(--accent);color:#fff;border:none;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;">Add to Cart</button>';
+            h += '</div>';
+            
             h += '</div>';
           }
+          
           h += '</div>';
+          
+          // Cart icon with count
+          h += '<div style="position:fixed;bottom:20px;right:20px;z-index:999;">';
+          h += '<button onclick="viewCart()" style="width:55px;height:55px;background:var(--accent);color:#fff;border:none;border-radius:50%;font-size:22px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.3);position:relative;">🛒';
+          h += '<span id="cart-count" style="position:absolute;top:-5px;right:-5px;background:#ef4444;color:#fff;border-radius:50%;width:24px;height:24px;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:700;">0</span>';
+          h += '</button></div>';
+          
           div.innerHTML = h;
         }
 
         // SERVICES
         else if (sec === 'services' && data.services && data.services.length > 0) {
-          let h = '<h3>📦 Products & Services</h3><div style="display:flex;flex-wrap:wrap;gap:15px;justify-content:center;">';
+          let h = '<h3>📦 Products & Services</h3>';
+          h += '<div style="display:flex;flex-direction:column;gap:12px;">';
+          
           for (let k = 0; k < data.services.length; k++) {
             const s = data.services[k];
             const phone = data.phone ? data.phone.replace(/[^0-9]/g, '') : '';
             const wa = phone ? 'https://wa.me/' + phone + '?text=Hi,%20I%20am%20interested%20in%20' + encodeURIComponent(s.title) : '#';
-            h += '<div style="width:140px;background:var(--card-bg-secondary);border-radius:var(--radius-sm);padding:12px;text-align:center;box-shadow:var(--shadow-sm);">';
-            if (s.image) h += '<img src="' + s.image + '" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:8px;">';
-            h += '<p style="font-weight:600;font-size:13px;">' + s.title + '</p>';
-            h += '<a href="' + wa + '" target="_blank" style="display:inline-block;padding:8px 16px;background:#25d366;color:#fff;text-decoration:none;border-radius:50px;font-size:12px;font-weight:600;">Enquiry Now</a>';
+            
+            h += '<div style="display:flex;align-items:center;gap:12px;background:var(--card-bg-secondary);border-radius:14px;padding:12px;box-shadow:var(--shadow-sm);">';
+            if (s.image) {
+              h += '<img src="' + s.image + '" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0;">';
+            }
+            h += '<p style="flex:1;font-weight:600;font-size:14px;color:var(--text-primary);margin:0;">' + s.title + '</p>';
+            h += '<a href="' + wa + '" target="_blank" style="padding:10px 16px;background:#25d366;color:#fff;text-decoration:none;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;flex-shrink:0;">Enquiry Now</a>';
             h += '</div>';
           }
+          
           h += '</div>';
           div.innerHTML = h;
         }
-
         // GALLERY
         else if (sec === 'gallery' && data.gallery && data.gallery.length > 0) {
           const images = data.gallery;
