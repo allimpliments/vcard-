@@ -235,6 +235,63 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     servicesData.push({ title: '', image: '' });
     renderServices();
   };
+    // Gallery
+  const galleryDiv = document.getElementById('gallery-list');
+  const galleryData = cardData.gallery || [];
+  function renderGallery() {
+    galleryDiv.innerHTML = '';
+    galleryData.forEach((img, i) => {
+      const row = document.createElement('div');
+      row.style.border = '1px solid #e2e8f0';
+      row.style.padding = '10px';
+      row.style.margin = '8px 0';
+      row.style.borderRadius = '10px';
+      row.innerHTML = `
+        <label>इमेज:</label>
+        <input type="file" class="gal-img-file" accept="image/*" style="padding: 6px; width: 100%;">
+        <p style="font-size: 11px; color: #64748b;">— या —</p>
+        <input type="url" class="gal-img-url" value="${img || ''}" placeholder="इमेज URL" style="width: 100%;">
+        <img class="gal-img-preview" src="${img || ''}" style="max-width: 100px; max-height: 100px; display: ${img ? 'block' : 'none'}; margin-top: 5px; border-radius: 8px;">
+        <button type="button" class="remove-gallery" style="background:#ef4444; color:#fff; border:none; padding:6px 12px; border-radius:6px; margin-top:8px;">हटाएँ</button>
+      `;
+      
+      const fileInput = row.querySelector('.gal-img-file');
+      const urlInput = row.querySelector('.gal-img-url');
+      const preview = row.querySelector('.gal-img-preview');
+      
+      fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          const imgEl = new Image();
+          imgEl.onload = function() {
+            const canvas = document.createElement('canvas');
+            let w = imgEl.width, h = imgEl.height, max = 300;
+            if (w > max) { h = (h * max) / w; w = max; }
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(imgEl, 0, 0, w, h);
+            urlInput.value = canvas.toDataURL('image/jpeg', 0.6);
+            preview.src = urlInput.value;
+            preview.style.display = 'block';
+          };
+          imgEl.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+      
+      row.querySelector('.remove-gallery').onclick = () => {
+        galleryData.splice(i, 1);
+        renderGallery();
+      };
+      galleryDiv.appendChild(row);
+    });
+  }
+  renderGallery();
+  document.getElementById('add-gallery').onclick = () => {
+    galleryData.push('');
+    renderGallery();
+  };
   // Social links
   const socialDiv = document.getElementById('social-links');
   const socialData = cardData.social || {};
