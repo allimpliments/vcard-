@@ -582,7 +582,23 @@ if (!slug) {
           a.click();
         });
       }
+            // Fade-in scroll animation
+      const sections = container.querySelectorAll('#sections-container > div');
+      sections.forEach(function(sec) {
+        sec.classList.add('fade-section');
+      });
 
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      sections.forEach(function(sec) {
+        observer.observe(sec);
+      });
       console.log('✅ Card successfully displayed!');
     })
     .catch((error) => {
