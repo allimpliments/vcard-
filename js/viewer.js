@@ -27,17 +27,12 @@ if (!slug) {
       document.getElementById('loader').style.display = 'none';
       document.getElementById('card-container').style.display = 'block';
 
-      // Lottie animation
+      // Lottie
       const animContainer = document.getElementById('main-anim');
       if (animContainer && typeof lottie !== 'undefined') {
-        const animName = data.animation || 'wave';
-        const animPath = 'assets/lottie/' + animName + '.json';
         lottie.loadAnimation({
-          container: animContainer,
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-          path: animPath
+          container: animContainer, renderer: 'svg', loop: true, autoplay: true,
+          path: 'assets/lottie/' + (data.animation || 'wave') + '.json'
         });
       }
 
@@ -83,7 +78,7 @@ if (!slug) {
         if (sec === 'about' && data.about) {
           let h = '<h3>About Us</h3>';
           if (data.aboutImage && data.aboutImage.trim() !== '') {
-            h += '<div style="text-align:center;margin-bottom:15px;"><img src="' + data.aboutImage + '" style="max-width:200px;max-height:200px;border-radius:15px;object-fit:cover;box-shadow:0 4px 15px rgba(0,0,0,0.1);"></div>';
+            h += '<div style="text-align:center;margin-bottom:15px;"><img src="' + data.aboutImage + '" style="max-width:200px;max-height:200px;border-radius:15px;object-fit:cover;"></div>';
           }
           h += '<p style="font-size:14px;line-height:1.7;color:var(--text-secondary);text-align:center;margin-bottom:15px;">' + data.about + '</p>';
           if (data.aboutPdf && data.aboutPdf.trim() !== '') {
@@ -123,79 +118,49 @@ if (!slug) {
 
         // PRODUCTS
         else if (sec === 'products' && data.products && data.products.length > 0) {
-          let h = '<h3>🛍️ Online Shop</h3>';
-          h += '<div style="display:flex;flex-direction:column;gap:12px;">';
-          
+          let h = '<h3>🛍️ Online Shop</h3><div style="display:flex;flex-direction:column;gap:12px;">';
           for (let k = 0; k < data.products.length; k++) {
             const p = data.products[k];
             const phone = data.phone ? data.phone.replace(/[^0-9]/g, '') : '';
             const wa = phone ? 'https://wa.me/' + phone + '?text=I%20am%20interested%20in%20' + encodeURIComponent(p.name) + '%20Price:%20' + p.sellingPrice : '#';
-            
-            h += '<div style="display:flex;align-items:center;gap:12px;background:var(--card-bg-secondary);border-radius:14px;padding:12px;box-shadow:var(--shadow-sm);">';
-            
-            // Product Image
-            if (p.image) {
-              h += '<img src="' + p.image + '" style="width:80px;height:80px;object-fit:cover;border-radius:10px;flex-shrink:0;">';
-            }
-            
-            // Info
-            h += '<div style="flex:1;min-width:0;">';
-            h += '<p style="font-weight:600;font-size:14px;margin:0 0 4px;color:var(--text-primary);">' + p.name + '</p>';
-            if (p.actualPrice) {
-              h += '<span style="text-decoration:line-through;color:#ef4444;font-size:12px;">₹' + p.actualPrice + '</span> ';
-            }
-            h += '<span style="font-weight:700;color:var(--primary);font-size:16px;">₹' + p.sellingPrice + '</span>';
-            h += '</div>';
-            
-            // Buttons
+            h += '<div style="display:flex;align-items:center;gap:12px;background:var(--card-bg-secondary);border-radius:14px;padding:12px;">';
+            if (p.image) h += '<img src="' + p.image + '" style="width:80px;height:80px;object-fit:cover;border-radius:10px;flex-shrink:0;">';
+            h += '<div style="flex:1;min-width:0;"><p style="font-weight:600;font-size:14px;margin:0 0 4px;color:var(--text-primary);">' + p.name + '</p>';
+            if (p.actualPrice) h += '<span style="text-decoration:line-through;color:#ef4444;font-size:12px;">₹' + p.actualPrice + '</span> ';
+            h += '<span style="font-weight:700;color:var(--primary);font-size:16px;">₹' + p.sellingPrice + '</span></div>';
             h += '<div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">';
             h += '<a href="' + wa + '" target="_blank" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:#25d366;color:#fff;border-radius:50%;text-decoration:none;font-size:16px;">💬</a>';
-            h += '<button onclick="addToCart(\'' + p.name + '\',\'' + p.sellingPrice + '\',\'' + (p.image || '') + '\')" style="padding:6px 10px;background:var(--accent);color:#fff;border:none;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;">Add to Cart</button>';
-            h += '</div>';
-            
-            h += '</div>';
+            h += '<button onclick="addToCart(\'' + p.name.replace(/'/g, "\\'") + '\',\'' + p.sellingPrice + '\',\'' + (p.image || '').replace(/'/g, "\\'") + '\')" style="padding:6px 10px;background:var(--accent);color:#fff;border:none;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;">Add to Cart</button>';
+            h += '</div></div>';
           }
-          
           h += '</div>';
-          
-          // Cart icon with count
-          h += '<div style="position:fixed;bottom:20px;right:20px;z-index:999;">';
-          h += '<button onclick="viewCart()" style="width:55px;height:55px;background:var(--accent);color:#fff;border:none;border-radius:50%;font-size:22px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.3);position:relative;">🛒';
-          h += '<span id="cart-count" style="position:absolute;top:-5px;right:-5px;background:#ef4444;color:#fff;border-radius:50%;width:24px;height:24px;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:700;">0</span>';
-          h += '</button></div>';
-          
+          h += '<div style="position:fixed;bottom:20px;right:20px;z-index:999;"><button onclick="viewCart()" style="width:55px;height:55px;background:var(--accent);color:#fff;border:none;border-radius:50%;font-size:22px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.3);position:relative;">🛒<span id="cart-count" style="position:absolute;top:-5px;right:-5px;background:#ef4444;color:#fff;border-radius:50%;width:24px;height:24px;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:700;">0</span></button></div>';
           div.innerHTML = h;
         }
 
         // SERVICES
         else if (sec === 'services' && data.services && data.services.length > 0) {
-          let h = '<h3>📦 Products & Services</h3>';
-          h += '<div style="display:flex;flex-direction:column;gap:12px;">';
-          
+          let h = '<h3>📦 Products & Services</h3><div style="display:flex;flex-direction:column;gap:12px;">';
           for (let k = 0; k < data.services.length; k++) {
             const s = data.services[k];
             const phone = data.phone ? data.phone.replace(/[^0-9]/g, '') : '';
             const wa = phone ? 'https://wa.me/' + phone + '?text=Hi,%20I%20am%20interested%20in%20' + encodeURIComponent(s.title) : '#';
-            
-            h += '<div style="display:flex;align-items:center;gap:12px;background:var(--card-bg-secondary);border-radius:14px;padding:12px;box-shadow:var(--shadow-sm);">';
-            if (s.image) {
-              h += '<img src="' + s.image + '" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0;">';
-            }
+            h += '<div style="display:flex;align-items:center;gap:12px;background:var(--card-bg-secondary);border-radius:14px;padding:12px;">';
+            if (s.image) h += '<img src="' + s.image + '" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0;">';
             h += '<p style="flex:1;font-weight:600;font-size:14px;color:var(--text-primary);margin:0;">' + s.title + '</p>';
             h += '<a href="' + wa + '" target="_blank" style="padding:10px 16px;background:#25d366;color:#fff;text-decoration:none;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;flex-shrink:0;">Enquiry Now</a>';
             h += '</div>';
           }
-          
           h += '</div>';
           div.innerHTML = h;
         }
+
         // GALLERY
         else if (sec === 'gallery' && data.gallery && data.gallery.length > 0) {
           const images = data.gallery;
           let cur = 0;
-          let h = '<h3>🖼️ Gallery</h3>';
-          h += '<div style="position:relative;text-align:center;margin-bottom:10px;">';
-          h += '<img id="gallery-main" src="' + images[0] + '" style="width:100%;max-height:300px;object-fit:cover;border-radius:15px;box-shadow:var(--shadow-sm);cursor:pointer;">';
+          let h = '<h3>🖼️ Gallery</h3><div style="position:relative;text-align:center;margin-bottom:10px;">';
+          h += '<img id="gallery-main" src="' + images[0] + '" style="width:100%;max-height:300px;object-fit:cover;border-radius:15px;cursor:pointer;">';
           if (images.length > 1) {
             h += '<button id="gal-prev" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:35px;height:35px;font-size:18px;cursor:pointer;z-index:5;">◀</button>';
             h += '<button id="gal-next" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:35px;height:35px;font-size:18px;cursor:pointer;z-index:5;">▶</button>';
@@ -216,11 +181,7 @@ if (!slug) {
             const dots = document.querySelectorAll('.gal-dot');
             if (!main) return;
             main.onclick = function() { openLightbox(images, cur); };
-            function upd(idx) {
-              cur = idx;
-              main.src = images[cur];
-              dots.forEach(function(d, i) { d.style.background = i === cur ? 'var(--primary)' : '#ccc'; });
-            }
+            function upd(idx) { cur = idx; main.src = images[cur]; dots.forEach(function(d, i) { d.style.background = i === cur ? 'var(--primary)' : '#ccc'; }); }
             if (next) next.onclick = function() { upd((cur + 1) % images.length); };
             if (prev) prev.onclick = function() { upd((cur - 1 + images.length) % images.length); };
             dots.forEach(function(d) { d.onclick = function() { upd(parseInt(this.getAttribute('data-index'))); }; });
@@ -242,12 +203,7 @@ if (!slug) {
           }
           if (videos.length === 0) { container.appendChild(div); return; }
           let curV = 0;
-          let h = '<h3>🎬 YouTube Videos</h3>';
-          h += '<div style="text-align:center;margin-bottom:10px;">';
-          h += '<div style="border-radius:15px;overflow:hidden;box-shadow:var(--shadow-sm);">';
-          h += '<div id="yt-container" style="position:relative;padding-bottom:' + (videos[0].isShort ? '177%' : '56.25%') + ';height:0;">';
-          h += '<iframe id="yt-main" src="https://www.youtube.com/embed/' + videos[0].id + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:15px;" frameborder="0" allowfullscreen></iframe>';
-          h += '</div></div></div>';
+          let h = '<h3>🎬 YouTube Videos</h3><div style="text-align:center;margin-bottom:10px;"><div style="border-radius:15px;overflow:hidden;"><div id="yt-container" style="position:relative;padding-bottom:' + (videos[0].isShort ? '177%' : '56.25%') + ';height:0;"><iframe id="yt-main" src="https://www.youtube.com/embed/' + videos[0].id + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:15px;" frameborder="0" allowfullscreen></iframe></div></div></div>';
           if (videos.length > 1) {
             h += '<div style="display:flex;align-items:center;justify-content:center;gap:15px;margin-bottom:10px;">';
             h += '<button id="yt-prev" style="background:var(--primary);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;">◀</button>';
@@ -255,27 +211,21 @@ if (!slug) {
             for (let t = 0; t < videos.length; t++) {
               h += '<img src="' + videos[t].thumb + '" class="yt-thumb" data-index="' + t + '" style="width:70px;height:50px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid ' + (t === 0 ? 'var(--primary)' : 'transparent') + ';opacity:' + (t === 0 ? '1' : '0.6') + ';flex-shrink:0;">';
             }
-            h += '</div>';
-            h += '<button id="yt-next" style="background:var(--primary);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;">▶</button>';
-            h += '</div>';
+            h += '</div><button id="yt-next" style="background:var(--primary);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;">▶</button></div>';
           }
           div.innerHTML = h;
           if (videos.length > 1) {
             setTimeout(function() {
               const iframe = document.getElementById('yt-main');
-              const container2 = document.getElementById('yt-container');
+              const ctr = document.getElementById('yt-container');
               const prev = document.getElementById('yt-prev');
               const next = document.getElementById('yt-next');
               const thumbs = document.querySelectorAll('.yt-thumb');
               if (!iframe) return;
               function updV(idx) {
-                curV = idx;
-                iframe.src = 'https://www.youtube.com/embed/' + videos[curV].id;
-                container2.style.paddingBottom = videos[curV].isShort ? '177%' : '56.25%';
-                thumbs.forEach(function(t, i) {
-                  t.style.border = i === curV ? '2px solid var(--primary)' : '2px solid transparent';
-                  t.style.opacity = i === curV ? '1' : '0.6';
-                });
+                curV = idx; iframe.src = 'https://www.youtube.com/embed/' + videos[curV].id;
+                ctr.style.paddingBottom = videos[curV].isShort ? '177%' : '56.25%';
+                thumbs.forEach(function(t, i) { t.style.border = i === curV ? '2px solid var(--primary)' : '2px solid transparent'; t.style.opacity = i === curV ? '1' : '0.6'; });
               }
               if (next) next.onclick = function() { updV((curV + 1) % videos.length); };
               if (prev) prev.onclick = function() { updV((curV - 1 + videos.length) % videos.length); };
@@ -283,7 +233,9 @@ if (!slug) {
             }, 100);
           }
         }
-                else if (sec === 'reels' && data.reels && data.reels.length > 0) {
+
+        // REELS
+        else if (sec === 'reels' && data.reels && data.reels.length > 0) {
           const reels = data.reels;
           let curR = 0;
           function getInfo(url) {
@@ -295,23 +247,18 @@ if (!slug) {
             return { p:'Social', t:'Media', g:'linear-gradient(135deg,#6366f1,#4f46e5)', c:'#6366f1', i:'📱' };
           }
           const fi = getInfo(reels[0]);
-          let h = '<h3>📱 Reels & Posts</h3>';
-          h += '<div style="position:relative;width:100%;text-align:center;margin-bottom:15px;">';
-          h += '<div id="reel-card" style="width:290px;margin:0 auto;border-radius:24px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,0.2);background:#fff;">';
+          let h = '<h3>📱 Reels & Posts</h3><div style="position:relative;width:100%;text-align:center;margin-bottom:15px;">';
+          h += '<div id="reel-card" style="width:290px;margin:0 auto;border-radius:24px;overflow:hidden;background:#fff;">';
           h += '<div id="reel-thumb-area" style="width:100%;height:240px;background:' + fi.g + ';position:relative;overflow:hidden;">';
           h += '<div id="reel-thumb-bg" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">';
           h += '<span id="reel-icon-fallback" style="font-size:70px;">' + fi.i + '</span>';
           h += '<div style="width:60px;height:60px;background:rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:10px;"><span style="font-size:24px;color:' + fi.c + ';">▶</span></div>';
-          h += '</div>';
-          h += '<img id="reel-thumb" src="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:none;">';
-          h += '</div>';
-          h += '<div style="padding:16px 20px;">';
-          h += '<span id="reel-platform" style="background:' + fi.c + ';color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">' + fi.p + '</span> ';
+          h += '</div><img id="reel-thumb" src="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:none;"></div>';
+          h += '<div style="padding:16px 20px;"><span id="reel-platform" style="background:' + fi.c + ';color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">' + fi.p + '</span> ';
           h += '<span id="reel-type" style="color:#64748b;font-size:12px;font-weight:600;">' + fi.t + '</span>';
           h += '<p id="reel-title" style="font-weight:600;font-size:14px;color:#1e293b;margin:6px 0;">' + fi.p + ' ' + fi.t + '</p>';
           h += '<p id="reel-counter" style="color:#94a3b8;font-size:12px;margin-bottom:12px;">1 of ' + reels.length + '</p>';
-          h += '<a id="reel-link" href="' + reels[0] + '" target="_blank" style="display:block;text-align:center;padding:14px;background:' + fi.c + ';color:#fff;text-decoration:none;border-radius:50px;font-weight:700;font-size:15px;">▶ Watch Now</a>';
-          h += '</div></div>';
+          h += '<a id="reel-link" href="' + reels[0] + '" target="_blank" style="display:block;text-align:center;padding:14px;background:' + fi.c + ';color:#fff;text-decoration:none;border-radius:50px;font-weight:700;font-size:15px;">▶ Watch Now</a></div></div>';
           if (reels.length > 1) {
             h += '<button id="reel-prev" style="position:absolute;left:0;top:42%;transform:translateY(-50%);background:rgba(255,255,255,0.95);color:#333;border:none;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;z-index:10;">◀</button>';
             h += '<button id="reel-next" style="position:absolute;right:0;top:42%;transform:translateY(-50%);background:rgba(255,255,255,0.95);color:#333;border:none;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;z-index:10;">▶</button>';
@@ -325,12 +272,9 @@ if (!slug) {
             h += '</div>';
           }
           div.innerHTML = h;
-
           function updateReelUI(index) {
-            curR = index;
-            const inf = getInfo(reels[index]);
-            const area = document.getElementById('reel-thumb-area');
-            if (!area) return;
+            curR = index; const inf = getInfo(reels[index]);
+            const area = document.getElementById('reel-thumb-area'); if (!area) return;
             area.style.background = inf.g;
             document.getElementById('reel-icon-fallback').textContent = inf.i;
             document.getElementById('reel-platform').textContent = inf.p;
@@ -344,228 +288,128 @@ if (!slug) {
             document.getElementById('reel-title').textContent = inf.p + ' ' + inf.t;
             if (typeof fetchOGData === 'function') {
               fetchOGData(reels[index], function(og) {
-                if (og.image) {
-                  document.getElementById('reel-thumb').src = og.image;
-                  document.getElementById('reel-thumb').style.display = 'block';
-                  document.getElementById('reel-thumb-bg').style.display = 'none';
-                }
+                if (og.image) { document.getElementById('reel-thumb').src = og.image; document.getElementById('reel-thumb').style.display = 'block'; document.getElementById('reel-thumb-bg').style.display = 'none'; }
                 if (og.title) document.getElementById('reel-title').textContent = og.title;
               });
             }
-            document.querySelectorAll('.reel-dot').forEach(function(d, i) {
-              d.style.background = i === index ? 'var(--primary)' : '#ccc';
-            });
+            document.querySelectorAll('.reel-dot').forEach(function(d, i) { d.style.background = i === index ? 'var(--primary)' : '#ccc'; });
           }
-
           updateReelUI(0);
-
           if (reels.length > 1) {
             setTimeout(function() {
               const next = document.getElementById('reel-next');
               const prev = document.getElementById('reel-prev');
               if (next) next.onclick = function() { updateReelUI((curR + 1) % reels.length); };
               if (prev) prev.onclick = function() { updateReelUI((curR - 1 + reels.length) % reels.length); };
-              document.querySelectorAll('.reel-dot').forEach(function(d) {
-                d.onclick = function() { updateReelUI(parseInt(this.getAttribute('data-index'))); };
-              });
+              document.querySelectorAll('.reel-dot').forEach(function(d) { d.onclick = function() { updateReelUI(parseInt(this.getAttribute('data-index'))); }; });
             }, 100);
           }
         }
-                else if (sec === 'payment' && data.payment) {
-          let h = '<h3>💳 Payment Info</h3>';
-          h += '<div style="text-align:center;">';
-          
-          // Payment QR Image
+
+        // PAYMENT
+        else if (sec === 'payment' && data.payment) {
+          let h = '<h3>💳 Payment Info</h3><div style="text-align:center;">';
           if (data.payment.qrImage && data.payment.qrImage.trim() !== '') {
-            h += '<img src="' + data.payment.qrImage + '" alt="Payment QR" style="width:180px;height:180px;object-fit:contain;border-radius:15px;box-shadow:var(--shadow-sm);margin-bottom:15px;">';
+            h += '<img src="' + data.payment.qrImage + '" style="width:180px;height:180px;object-fit:contain;border-radius:15px;margin-bottom:15px;">';
           }
-          
-          // Paytm
           if (data.payment.paytm && data.payment.paytm.trim() !== '') {
-            h += '<div style="background:#e8f5e9;border-radius:12px;padding:15px;margin:8px 0;">';
-            h += '<p style="font-weight:700;color:#00bcd4;margin:0;">Paytm</p>';
-            h += '<p style="font-size:18px;font-weight:700;color:#1e293b;margin:5px 0;">' + data.payment.paytm + '</p>';
-            h += '</div>';
+            h += '<div style="background:rgba(0,188,212,0.1);border-radius:12px;padding:15px;margin:8px 0;"><p style="font-weight:700;color:#00bcd4;margin:0;">Paytm</p><p style="font-size:18px;font-weight:700;margin:5px 0;">' + data.payment.paytm + '</p></div>';
           }
-          
-          // UPI
           if (data.payment.upi && data.payment.upi.trim() !== '') {
-            h += '<div style="background:#e3f2fd;border-radius:12px;padding:15px;margin:8px 0;">';
-            h += '<p style="font-weight:700;color:#1976d2;margin:0;">UPI</p>';
-            h += '<p style="font-size:18px;font-weight:700;color:#1e293b;margin:5px 0;">' + data.payment.upi + '</p>';
-            h += '</div>';
+            h += '<div style="background:rgba(25,118,210,0.1);border-radius:12px;padding:15px;margin:8px 0;"><p style="font-weight:700;color:#1976d2;margin:0;">UPI</p><p style="font-size:18px;font-weight:700;margin:5px 0;">' + data.payment.upi + '</p></div>';
           }
-          
-          h += '</div>';
-          div.innerHTML = h;
+          h += '</div>'; div.innerHTML = h;
         }
-                else if (sec === 'bank' && data.bank) {
-          let h = '<h3>🏦 Bank Account Details</h3>';
-          h += '<div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;box-shadow:var(--shadow-sm);">';
-          
-          if (data.bank.accountNumber && data.bank.accountNumber.trim() !== '') {
-            h += '<div style="margin-bottom:12px;"><p style="font-size:11px;color:var(--text-secondary);margin:0;">Account Number</p>';
-            h += '<p style="font-size:16px;font-weight:700;color:var(--text-primary);margin:2px 0;">' + data.bank.accountNumber + '</p></div>';
-          }
-          if (data.bank.ifsc && data.bank.ifsc.trim() !== '') {
-            h += '<div style="margin-bottom:12px;"><p style="font-size:11px;color:var(--text-secondary);margin:0;">IFSC Code</p>';
-            h += '<p style="font-size:16px;font-weight:700;color:var(--text-primary);margin:2px 0;">' + data.bank.ifsc + '</p></div>';
-          }
-          if (data.bank.bankName && data.bank.bankName.trim() !== '') {
-            h += '<div style="margin-bottom:12px;"><p style="font-size:11px;color:var(--text-secondary);margin:0;">Bank Name</p>';
-            h += '<p style="font-size:16px;font-weight:700;color:var(--text-primary);margin:2px 0;">' + data.bank.bankName + '</p></div>';
-          }
-          if (data.bank.holderName && data.bank.holderName.trim() !== '') {
-            h += '<div style="margin-bottom:12px;"><p style="font-size:11px;color:var(--text-secondary);margin:0;">Account Holder</p>';
-            h += '<p style="font-size:16px;font-weight:700;color:var(--text-primary);margin:2px 0;">' + data.bank.holderName + '</p></div>';
-          }
-          
-          h += '</div>';
-          div.innerHTML = h;
+
+        // BANK
+        else if (sec === 'bank' && data.bank) {
+          let h = '<h3>🏦 Bank Account Details</h3><div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;">';
+          if (data.bank.accountNumber) h += '<div style="margin-bottom:12px;"><p style="font-size:11px;color:var(--text-secondary);margin:0;">Account Number</p><p style="font-size:16px;font-weight:700;margin:2px 0;">' + data.bank.accountNumber + '</p></div>';
+          if (data.bank.ifsc) h += '<div style="margin-bottom:12px;"><p style="font-size:11px;color:var(--text-secondary);margin:0;">IFSC Code</p><p style="font-size:16px;font-weight:700;margin:2px 0;">' + data.bank.ifsc + '</p></div>';
+          if (data.bank.bankName) h += '<div style="margin-bottom:12px;"><p style="font-size:11px;color:var(--text-secondary);margin:0;">Bank Name</p><p style="font-size:16px;font-weight:700;margin:2px 0;">' + data.bank.bankName + '</p></div>';
+          if (data.bank.holderName) h += '<div style="margin-bottom:12px;"><p style="font-size:11px;color:var(--text-secondary);margin:0;">Account Holder</p><p style="font-size:16px;font-weight:700;margin:2px 0;">' + data.bank.holderName + '</p></div>';
+          h += '</div>'; div.innerHTML = h;
         }
-                else if (sec === 'feedback') {
-          let h = '<h3>⭐ Feedback</h3>';
-          
-          // Feedback Form
-          h += '<div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;margin-bottom:15px;">';
-          h += '<div id="star-rating" style="text-align:center;margin-bottom:15px;">';
-          h += '<p style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">Select Star</p>';
-          for (let s = 1; s <= 5; s++) {
-            h += '<span class="star" data-star="' + s + '" style="font-size:30px;cursor:pointer;color:#ccc;transition:all 0.2s;">★</span>';
-          }
-          h += '<input type="hidden" id="feedback-star" value="0">';
-          h += '</div>';
+
+        // FEEDBACK
+        else if (sec === 'feedback') {
+          let h = '<h3>⭐ Feedback</h3><div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;margin-bottom:15px;">';
+          h += '<div id="star-rating" style="text-align:center;margin-bottom:15px;"><p style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">Select Star</p>';
+          for (let s = 1; s <= 5; s++) h += '<span class="star" data-star="' + s + '" style="font-size:30px;cursor:pointer;color:#ccc;">★</span>';
+          h += '<input type="hidden" id="feedback-star" value="0"></div>';
           h += '<input type="text" id="feedback-name" placeholder="Your name" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;">';
-          h += '<input type="email" id="feedback-email" placeholder="Your email id" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;">';
+          h += '<input type="email" id="feedback-email" placeholder="Your email" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;">';
           h += '<input type="tel" id="feedback-contact" placeholder="Your contact" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;">';
           h += '<textarea id="feedback-msg" placeholder="Your feedback" rows="3" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;"></textarea>';
           h += '<button id="feedback-submit" style="width:100%;padding:14px;background:var(--primary);color:#fff;border:none;border-radius:50px;font-weight:600;font-size:15px;cursor:pointer;">Submit</button>';
-          h += '<p style="font-size:11px;color:#94a3b8;text-align:center;margin-top:10px;">Note: for privacy and security reasons we do not show your contact details. For more info you can contact admin.</p>';
-          h += '</div>';
-          
-          // Latest Feedbacks
-          h += '<h4 style="font-size:14px;font-weight:600;color:var(--primary);margin-bottom:10px;">📝 Latest Feedback</h4>';
-          h += '<div id="feedback-list" style="max-height:300px;overflow-y:auto;">';
-          
+          h += '<p style="font-size:11px;color:var(--text-secondary);text-align:center;margin-top:10px;">Note: for privacy and security reasons we do not show your contact details.</p></div>';
+          h += '<h4 style="font-size:14px;font-weight:600;color:var(--primary);margin-bottom:10px;">📝 Latest Feedback</h4><div id="feedback-list" style="max-height:300px;overflow-y:auto;">';
           if (data.feedbacks && data.feedbacks.length > 0) {
             for (let f = data.feedbacks.length - 1; f >= 0; f--) {
               const fb = data.feedbacks[f];
-              h += '<div style="background:var(--card-bg-secondary);border-radius:12px;padding:15px;margin-bottom:10px;">';
-              h += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">';
-              h += '<span style="font-weight:600;font-size:14px;">' + (fb.name || 'Anonymous') + '</span>';
-              h += '<span style="color:#f59e0b;">' + '★'.repeat(fb.stars || 5) + '</span></div>';
-              h += '<p style="font-size:13px;color:var(--text-secondary);margin:5px 0;">' + (fb.message || '') + '</p>';
-              h += '<p style="font-size:10px;color:#94a3b8;">Date: ' + (fb.date || '') + '</p>';
-              h += '</div>';
+              h += '<div style="background:var(--card-bg-secondary);border-radius:12px;padding:15px;margin-bottom:10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;"><span style="font-weight:600;font-size:14px;">' + (fb.name || 'Anonymous') + '</span><span style="color:#f59e0b;">' + '★'.repeat(fb.stars || 5) + '</span></div><p style="font-size:13px;color:var(--text-secondary);margin:5px 0;">' + (fb.message || '') + '</p><p style="font-size:10px;color:var(--text-secondary);">Date: ' + (fb.date || '') + '</p></div>';
             }
-          } else {
-            h += '<p style="text-align:center;color:var(--text-secondary);font-size:13px;">No feedback yet. Be the first!</p>';
-          }
-          
-          h += '</div>';
-          div.innerHTML = h;
-          
-          // Star rating logic
+          } else { h += '<p style="text-align:center;color:var(--text-secondary);font-size:13px;">No feedback yet.</p>'; }
+          h += '</div>'; div.innerHTML = h;
           setTimeout(function() {
             const stars = document.querySelectorAll('.star');
             const starInput = document.getElementById('feedback-star');
             stars.forEach(function(star) {
               star.addEventListener('click', function() {
-                const val = parseInt(this.getAttribute('data-star'));
-                starInput.value = val;
-                stars.forEach(function(s, i) {
-                  s.style.color = i < val ? '#f59e0b' : '#ccc';
-                });
-              });
-              star.addEventListener('mouseover', function() {
-                const val = parseInt(this.getAttribute('data-star'));
-                stars.forEach(function(s, i) {
-                  s.style.color = i < val ? '#f59e0b' : '#ccc';
-                });
+                const val = parseInt(this.getAttribute('data-star')); starInput.value = val;
+                stars.forEach(function(s, i) { s.style.color = i < val ? '#f59e0b' : '#ccc'; });
               });
             });
-            
             document.getElementById('feedback-submit').addEventListener('click', async function() {
               const star = parseInt(starInput.value);
-              const name = document.getElementById('feedback-name').value.trim();
               const msg = document.getElementById('feedback-msg').value.trim();
-              
-              if (!star || star === 0) { alert('Please select star rating!'); return; }
-              if (!msg) { alert('Please enter your feedback!'); return; }
-              
-              const newFeedback = {
-                stars: star,
-                name: name || 'Anonymous',
-                email: document.getElementById('feedback-email').value.trim(),
-                contact: document.getElementById('feedback-contact').value.trim(),
-                message: msg,
-                date: new Date().toLocaleDateString('en-IN', { year:'numeric', month:'short', day:'numeric' })
-              };
-              
-              const allFeedbacks = data.feedbacks || [];
-              allFeedbacks.push(newFeedback);
-              
-              try {
-                await db.collection('cards').doc(slug).update({ feedbacks: allFeedbacks });
-                alert('✅ Feedback submitted! Thank you.');
-                location.reload();
-              } catch (err) {
-                alert('❌ Error: ' + err.message);
-              }
+              if (!star) { alert('Please select star!'); return; }
+              if (!msg) { alert('Please enter feedback!'); return; }
+              const newFB = { stars: star, name: document.getElementById('feedback-name').value.trim() || 'Anonymous', email: document.getElementById('feedback-email').value.trim(), contact: document.getElementById('feedback-contact').value.trim(), message: msg, date: new Date().toLocaleDateString('en-IN', { year:'numeric', month:'short', day:'numeric' }) };
+              const all = data.feedbacks || []; all.push(newFB);
+              try { await db.collection('cards').doc(slug).update({ feedbacks: all }); alert('✅ Feedback submitted!'); location.reload(); }
+              catch (err) { alert('❌ Error: ' + err.message); }
             });
           }, 100);
         }
+
+        // LOCATION
         else if (sec === 'location' && data.location) {
-          let h = '<h3>📍 Location</h3>';
-          
-          // Map Button + Address
-          h += '<div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;text-align:center;box-shadow:var(--shadow-sm);">';
-          
-          // Map Icon
+          let h = '<h3>📍 Location</h3><div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;text-align:center;">';
           h += '<div style="font-size:50px;margin-bottom:10px;">🗺️</div>';
-          
-          // Address
-          if (data.location.address && data.location.address.trim() !== '') {
-            h += '<p style="font-size:14px;color:var(--text-primary);margin:10px 0;line-height:1.6;">📍 ' + data.location.address + '</p>';
-          }
-          
-          // Buttons
-          if (data.location.mapLink && data.location.mapLink.trim() !== '') {
-            h += '<a href="' + data.location.mapLink + '" target="_blank" style="display:inline-block;margin:8px;padding:14px 30px;background:var(--primary);color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:15px;box-shadow:0 4px 15px rgba(0,0,0,0.2);">🗺️ Open in Google Maps</a>';
-          }
-          
-          // Direct navigation (if address exists)
-          if (data.location.address && data.location.address.trim() !== '') {
-            const navUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(data.location.address);
-            h += '<a href="' + navUrl + '" target="_blank" style="display:inline-block;margin:8px;padding:14px 30px;background:#10b981;color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:15px;box-shadow:0 4px 15px rgba(0,0,0,0.2);">🧭 Navigate</a>';
-          }
-          
-          h += '</div>';
-          div.innerHTML = h;
+          if (data.location.address) h += '<p style="font-size:14px;margin:10px 0;line-height:1.6;">📍 ' + data.location.address + '</p>';
+          if (data.location.mapLink) h += '<a href="' + data.location.mapLink + '" target="_blank" style="display:inline-block;margin:8px;padding:14px 30px;background:var(--primary);color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:15px;">🗺️ Open in Google Maps</a>';
+          if (data.location.address) h += '<a href="https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(data.location.address) + '" target="_blank" style="display:inline-block;margin:8px;padding:14px 30px;background:#10b981;color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:15px;">🧭 Navigate</a>';
+          h += '</div>'; div.innerHTML = h;
         }
+
+        // CONTACT FORM
         else if (sec === 'contactform') {
-          let h = '<h3>📩 Contact Us</h3>';
-          h += '<div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;">';
+          let h = '<h3>📩 Contact Us</h3><div style="background:var(--card-bg-secondary);border-radius:15px;padding:20px;">';
           h += '<textarea id="enquiry-msg" placeholder="Enter your enquiry text..." rows="3" style="width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;font-family:inherit;font-size:14px;margin-bottom:12px;"></textarea>';
-          h += '<button id="enquiry-send" style="width:100%;padding:14px;background:#25d366;color:#fff;border:none;border-radius:50px;font-weight:600;font-size:15px;cursor:pointer;">📤 Send via WhatsApp</button>';
-          h += '</div>';
+          h += '<button id="enquiry-send" style="width:100%;padding:14px;background:#25d366;color:#fff;border:none;border-radius:50px;font-weight:600;font-size:15px;cursor:pointer;">📤 Send via WhatsApp</button></div>';
           div.innerHTML = h;
-          
           setTimeout(function() {
             document.getElementById('enquiry-send').addEventListener('click', function() {
               const msg = document.getElementById('enquiry-msg').value.trim();
               if (!msg) { alert('Please enter your message!'); return; }
               const phone = data.phone ? data.phone.replace(/[^0-9]/g, '') : '';
-              if (phone) {
-                window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(msg), '_blank');
-              } else {
-                alert('Phone number not available!');
-              }
+              if (phone) window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(msg), '_blank');
+              else alert('Phone not available!');
             });
           }, 100);
         }
+
         container.appendChild(div);
       }
+
+      // Fade-in animation
+      const sections = container.querySelectorAll('#sections-container > div');
+      sections.forEach(function(sec) { sec.classList.add('fade-section'); });
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+      }, { threshold: 0.1 });
+      sections.forEach(function(sec) { observer.observe(sec); });
 
       // QR Code
       const qrImage = document.getElementById('qr-image');
@@ -573,28 +417,18 @@ if (!slug) {
       const cardUrlText = document.getElementById('card-url-text');
       const currentUrl = window.location.href;
       if (cardUrlText) cardUrlText.textContent = currentUrl;
-      if (data.qrImage && data.qrImage.trim() !== '' && qrImage) {
-        qrImage.src = data.qrImage;
-        qrImage.style.display = 'block';
-      } else if (qrBox && typeof QRCode !== 'undefined') {
-        new QRCode(qrBox, { text: currentUrl, width: 200, height: 200 });
-      }
+      if (data.qrImage && data.qrImage.trim() !== '' && qrImage) { qrImage.src = data.qrImage; qrImage.style.display = 'block'; }
+      else if (qrBox && typeof QRCode !== 'undefined') { new QRCode(qrBox, { text: currentUrl, width: 200, height: 200 }); }
       const btnCopy = document.getElementById('btn-copy-url');
-      if (btnCopy) {
-        btnCopy.addEventListener('click', function() {
-          navigator.clipboard.writeText(currentUrl).then(function() { alert('✅ URL कॉपी हो गया!'); });
-        });
-      }
+      if (btnCopy) btnCopy.addEventListener('click', function() { navigator.clipboard.writeText(currentUrl).then(function() { alert('✅ URL copied!'); }); });
 
       // Share
       const btnShare = document.getElementById('btn-share');
-      if (btnShare) {
-        btnShare.addEventListener('click', function() {
-          const txt = data.name + ' - ' + (data.title || '') + ' - Digital vCard';
-          if (navigator.share) navigator.share({ title: txt, text: txt, url: currentUrl }).catch(function(){});
-          else navigator.clipboard.writeText(currentUrl).then(function() { alert('🔗 लिंक कॉपी हो गया!'); });
-        });
-      }
+      if (btnShare) btnShare.addEventListener('click', function() {
+        const txt = data.name + ' - ' + (data.title || '');
+        if (navigator.share) navigator.share({ title: txt, text: txt, url: currentUrl }).catch(function(){});
+        else navigator.clipboard.writeText(currentUrl).then(function() { alert('🔗 Link copied!'); });
+      });
 
       // PDF
       const btnPdf = document.getElementById('btn-pdf');
@@ -602,33 +436,12 @@ if (!slug) {
 
       // Save Contact
       const btnSave = document.getElementById('save-contact');
-      if (btnSave) {
-        btnSave.addEventListener('click', function() {
-          let vcf = 'BEGIN:VCARD\nVERSION:3.0\nFN:' + (data.name || '') + '\nTITLE:' + (data.title || '') + '\nTEL:' + (data.phone || '') + '\nEMAIL:' + (data.email || '') + '\nURL:' + (data.website || '') + '\nEND:VCARD';
-          const blob = new Blob([vcf], { type: 'text/vcard' });
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(blob);
-          a.download = (data.name || 'contact') + '.vcf';
-          a.click();
-        });
-      }
-            // Fade-in scroll animation
-      const sections = container.querySelectorAll('#sections-container > div');
-      sections.forEach(function(sec) {
-        sec.classList.add('fade-section');
+      if (btnSave) btnSave.addEventListener('click', function() {
+        let vcf = 'BEGIN:VCARD\nVERSION:3.0\nFN:' + (data.name || '') + '\nTITLE:' + (data.title || '') + '\nTEL:' + (data.phone || '') + '\nEMAIL:' + (data.email || '') + '\nURL:' + (data.website || '') + '\nEND:VCARD';
+        const blob = new Blob([vcf], { type: 'text/vcard' });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = (data.name || 'contact') + '.vcf'; a.click();
       });
 
-      const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      }, { threshold: 0.1 });
-
-      sections.forEach(function(sec) {
-        observer.observe(sec);
-      });
       console.log('✅ Card successfully displayed!');
     })
     .catch((error) => {
