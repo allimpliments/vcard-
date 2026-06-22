@@ -536,11 +536,77 @@ body {
 
 #lottie-box { background: transparent; padding: 10px; text-align: center; }
 
+/* Profile Image - Base */
 #profile-img {
-  width: 130px; height: 130px; border-radius: 50%;
+  width: 140px; height: 140px;
   object-fit: cover; border: 3px solid var(--primary);
-  box-shadow: var(--profile-glow); margin: 10px auto 15px;
+  box-shadow: var(--profile-glow);
+  margin: 10px auto 15px;
   display: block; position: relative; z-index: 2;
+  transition: all 0.4s ease;
+}
+
+/* Profile Style - Circle (Default) */
+.profile-circle, #profile-img {
+  border-radius: 50%;
+  animation: pulseGlow 2s infinite;
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 15px rgba(0, 212, 255, 0.4), 0 0 30px rgba(0, 212, 255, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(0, 212, 255, 0.7), 0 0 50px rgba(0, 212, 255, 0.4); }
+}
+
+/* Profile Style - Rounded Square */
+.profile-rounded {
+  border-radius: 20px;
+  animation: rotateGlow 3s infinite;
+}
+@keyframes rotateGlow {
+  0%, 100% { box-shadow: 0 0 15px var(--primary); }
+  50% { box-shadow: 0 0 30px var(--accent), 0 0 60px var(--primary); }
+}
+
+/* Profile Style - Soft Round */
+.profile-soft {
+  border-radius: 40% 60% 50% 50% / 50% 40% 60% 50%;
+  animation: morphGlow 4s infinite alternate;
+}
+@keyframes morphGlow {
+  0% { border-radius: 40% 60% 50% 50% / 50% 40% 60% 50%; box-shadow: 0 0 20px var(--primary); }
+  100% { border-radius: 60% 40% 40% 60% / 40% 60% 40% 60%; box-shadow: 0 0 35px var(--accent); }
+}
+
+/* Profile Style - Leaf Shape */
+.profile-leaf {
+  border-radius: 50% 10% 50% 10% / 10% 50% 10% 50%;
+  animation: leafSway 3s ease-in-out infinite alternate;
+}
+@keyframes leafSway {
+  0% { border-radius: 50% 10% 50% 10% / 10% 50% 10% 50%; transform: rotate(-3deg); }
+  100% { border-radius: 10% 50% 10% 50% / 50% 10% 50% 10%; transform: rotate(3deg); }
+}
+
+/* Profile Style - Hexagon */
+.profile-hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  border-radius: 0;
+  animation: hexPulse 2s ease-in-out infinite;
+}
+@keyframes hexPulse {
+  0%, 100% { box-shadow: 0 0 15px var(--primary); transform: scale(1); }
+  50% { box-shadow: 0 0 35px var(--accent), 0 0 60px var(--primary); transform: scale(1.05); }
+}
+
+/* Profile Style - Diamond */
+.profile-diamond {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  border-radius: 0;
+  animation: diamondSpin 5s linear infinite;
+}
+@keyframes diamondSpin {
+  0% { box-shadow: 0 0 20px var(--primary); }
+  50% { box-shadow: 0 0 40px var(--accent), 0 0 80px var(--primary); }
+  100% { box-shadow: 0 0 20px var(--primary); }
 }
 
 h1 {
