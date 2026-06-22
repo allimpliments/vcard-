@@ -17,7 +17,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
         const canvas = document.createElement('canvas');
         let w = img.width;
         let h = img.height;
-        const maxSize = 300;
+        const maxSize = 800;
 
         if (w > maxSize) {
           h = (h * maxSize) / w;
@@ -29,7 +29,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, w, h);
 
-        const resized = canvas.toDataURL('image/jpeg', 0.6);
+        const resized = canvas.toDataURL('image/jpeg', 0.85);
         urlInput.value = resized;
         preview.src = resized;
         preview.style.display = 'block';
@@ -150,11 +150,11 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
           const img = new Image();
           img.onload = function() {
             const canvas = document.createElement('canvas');
-            let w = img.width, h = img.height, max = 300;
+            let w = imgEl.width, h = imgEl.height, max = 800;
             if (w > max) { h = (h * max) / w; w = max; }
             canvas.width = w; canvas.height = h;
-            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-            const resized = canvas.toDataURL('image/jpeg', 0.6);
+            canvas.getContext('2d').drawImage(imgEl, 0, 0, w, h);
+            urlInput.value = canvas.toDataURL('image/jpeg', 0.85);
             urlInput.value = resized;
             preview.src = resized;
             preview.style.display = 'block';
@@ -210,11 +210,11 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
           const img = new Image();
           img.onload = function() {
             const canvas = document.createElement('canvas');
-            let w = img.width, h = img.height, max = 300;
+            let w = imgEl.width, h = imgEl.height, max = 800;
             if (w > max) { h = (h * max) / w; w = max; }
             canvas.width = w; canvas.height = h;
-            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-            urlInput.value = canvas.toDataURL('image/jpeg', 0.6);
+            canvas.getContext('2d').drawImage(imgEl, 0, 0, w, h);
+            urlInput.value = canvas.toDataURL('image/jpeg', 0.85);
             preview.src = urlInput.value;
             preview.style.display = 'block';
           };
@@ -267,11 +267,11 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
           const imgEl = new Image();
           imgEl.onload = function() {
             const canvas = document.createElement('canvas');
-            let w = imgEl.width, h = imgEl.height, max = 300;
+            let w = imgEl.width, h = imgEl.height, max = 800;
             if (w > max) { h = (h * max) / w; w = max; }
             canvas.width = w; canvas.height = h;
             canvas.getContext('2d').drawImage(imgEl, 0, 0, w, h);
-            urlInput.value = canvas.toDataURL('image/jpeg', 0.6);
+            urlInput.value = canvas.toDataURL('image/jpeg', 0.85);
             preview.src = urlInput.value;
             preview.style.display = 'block';
           };
