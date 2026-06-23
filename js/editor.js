@@ -504,8 +504,25 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
       sectionOrder: currentOrder
     };
 
-    try {
-      await docRef.update(updates);
+        try {
+      // Save with token verification
+      const saveData = {
+        slug: slug,
+        token: token,
+        updates: updates
+      };
+      
+      // Direct Firestore update with security check
+      const cardRef = db.collection('cards').doc(slug);
+      const cardSnap = await cardRef.get();
+      const cardData = cardSnap.data();
+      
+      if (cardData.editToken !== token) {
+        alert('❌ अनधिकृत! Edit token गलत है।');
+        return;
+      }
+      
+      await cardRef.update(updates);
       alert('✅ सफलतापूर्वक सेव हो गया!');
       document.getElementById('publish-link').innerHTML = `
         <p>आपका पब्लिक कार्ड: <a href="index.html?id=${slug}" target="_blank">यहाँ क्लिक करें</a></p>
