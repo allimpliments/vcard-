@@ -24,6 +24,28 @@
       #desktop-nav { display: none !important; }
     }
   </style>
+  <script>
+  // OG Thumbnail Fetcher using Microlink (Free)
+  async function fetchOGData(url, callback) {
+    try {
+      const apiUrl = 'https://api.microlink.io/?url=' + encodeURIComponent(url);
+      const response = await fetch(apiUrl);
+      const result = await response.json();
+      if (result.status === 'success' && result.data) {
+        callback({
+          title: result.data.title || '',
+          image: result.data.image?.url || '',
+          description: result.data.description || ''
+        });
+      } else {
+        callback({ title: '', image: '', description: '' });
+      }
+    } catch (e) {
+      console.log('OG fetch failed, using fallback');
+      callback({ title: '', image: '', description: '' });
+    }
+  }
+</script>
 </head>
 <body>
 
