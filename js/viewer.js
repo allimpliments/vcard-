@@ -220,7 +220,7 @@ if (!slug) {
         h += '<div id="reel-card" style="width:290px;margin:0 auto;border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.15);background:#fff;">';
 
         // Thumbnail Area
-        h += '<div id="reel-thumb-area" style="width:100%;height:200px;background:' + fi.gradient + ';position:relative;overflow:hidden;">';
+        h += '<div id="reel-thumb-area" style="width:100%;height:300px;background:' + fi.gradient + ';position:relative;overflow:hidden;">';
         // OG Image (hidden until loaded)
         h += '<img id="reel-og-img" src="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:none;">';
         // Fallback
@@ -231,9 +231,9 @@ if (!slug) {
         h += '</div>';
 
         // Info
-        h += '<div style="padding:14px 18px;">';
+        h += '<div style="padding:12px 14px;">';
         h += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">';
-        h += '<span id="reel-platform" style="background:' + fi.btnColor + ';color:#fff;padding:3px 10px;border-radius:15px;font-size:10px;font-weight:700;">' + fi.p + '</span>';
+        h += '<span id="reel-platform" style="background:' + fi.btnColor + ';color:#fff;padding:3px 8px;border-radius:15px;font-size:10px;font-weight:700;">' + fi.p + '</span>';
         h += '<span id="reel-type" style="color:#64748b;font-size:11px;font-weight:600;">' + fi.t + '</span></div>';
         h += '<p id="reel-title" style="font-weight:600;font-size:13px;color:#1e293b;margin:4px 0;line-height:1.4;">' + fi.p + ' ' + fi.t + '</p>';
         h += '<p id="reel-counter" style="color:#94a3b8;font-size:11px;margin-bottom:10px;">1 of ' + reels.length + '</p>';
@@ -242,8 +242,8 @@ if (!slug) {
 
         // Arrows
         if (reels.length > 1) {
-          h += '<button id="reel-prev" style="position:absolute;left:0;top:42%;transform:translateY(-50%);background:rgba(255,255,255,0.9);color:#333;border:none;border-radius:50%;width:34px;height:34px;font-size:14px;cursor:pointer;z-index:10;">◀</button>';
-          h += '<button id="reel-next" style="position:absolute;right:0;top:42%;transform:translateY(-50%);background:rgba(255,255,255,0.9);color:#333;border:none;border-radius:50%;width:34px;height:34px;font-size:14px;cursor:pointer;z-index:10;">▶</button>';
+          h += '<button id="reel-prev" style="position:absolute;left:0;top:22%;transform:translateY(-50%);background:rgba(255,255,255,0.9);color:#333;border:none;border-radius:50%;width:24px;height:24px;font-size:14px;cursor:pointer;z-index:10;">◀</button>';
+          h += '<button id="reel-next" style="position:absolute;right:0;top:22%;transform:translateY(-50%);background:rgba(255,255,255,0.9);color:#333;border:none;border-radius:50%;width:24px;height:24px;font-size:14px;cursor:pointer;z-index:10;">▶</button>';
         }
         h += '</div>';
 
@@ -251,7 +251,7 @@ if (!slug) {
         if (reels.length > 1) {
           h += '<div style="text-align:center;margin-top:8px;">';
           for (let d = 0; d < reels.length; d++) {
-            h += '<span class="reel-dot" data-index="' + d + '" style="display:inline-block;width:7px;height:7px;background:' + (d === 0 ? 'var(--c4)' : '#ccc') + ';border-radius:50%;margin:0 3px;cursor:pointer;"></span>';
+            h += '<span class="reel-dot" data-index="' + d + '" style="display:inline-block;width:7px;height:7px;background:' + (d === 0 ? 'var(--c4)' : '#ccc') + ';border-radius:50%;margin:0 2px;cursor:pointer;"></span>';
           }
           h += '</div>';
         }
