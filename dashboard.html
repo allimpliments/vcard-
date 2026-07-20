@@ -45,7 +45,7 @@
       Cards Used: <b id="card-count">0</b> / <b id="card-limit">1</b>
     </p>
     <div id="limit-warning" class="limit-warning" style="display:none;">
-      ⚠️ Free plan limit reached! <b>Upgrade to ₹299/year</b> for up to 10 cards.
+      ⚠️ Free plan limit reached! <b>Upgrade to Pro</b> for more cards.
     </div>
     <button class="primary" id="create-btn" onclick="createCard()">+ Create New vCard</button>
     <p id="create-msg" style="font-size:12px;margin-top:8px;"></p>
@@ -57,9 +57,9 @@
   </div>
 
   <div class="card">
-    <h3>💳 Upgrade to Pro</h3>
-    <p style="color:#64748b;font-size:13px;margin:8px 0;">₹299/year — Up to <b>10 cards</b></p>
-    <button class="primary" onclick="payNow()" style="background:#10b981;margin-bottom:15px;">💰 Pay ₹299 via UPI</button>
+    <h3>💳 Upgrade Plan</h3>
+    <p style="color:#64748b;font-size:13px;margin:8px 0;">Choose a plan that fits your business</p>
+    <button class="primary" onclick="payNow()" style="background:#10b981;margin-bottom:15px;">💰 Pay via UPI</button>
     <div id="pay-msg" style="font-size:12px;margin-top:8px;"></div>
   </div>
 </div>
@@ -68,10 +68,9 @@
 
 <script>
 var currentUser = null;
-var userPlan = 'free';
+var userPlan = 'trial';
 var cardLimit = 1;
 var currentCards = 0;
-var qrGenerated = false;
 
 firebase.auth().onAuthStateChanged(function(user){
   if(!user){
@@ -81,25 +80,23 @@ firebase.auth().onAuthStateChanged(function(user){
   currentUser = user;
   document.getElementById('dashboard').style.display = 'block';
   document.getElementById('login-msg').style.display = 'none';
-  document.getElementById('user-name').textContent = user.email;
+  document.getElementById('user-name').textContent = user.email || 'User';
   
-    db.collection('users').doc(user.uid).get().then(function(doc){
+  db.collection('users').doc(user.uid).get().then(function(doc){
     if(doc.exists){
-      userPlan = doc.data().plan || 'free';
-      // Plan ke according card limit
-      if(userPlan === 'free') cardLimit = 1;
-      else if(userPlan === 'single') cardLimit = 1;
-      else if(userPlan === 'team') cardLimit = 5;
-      else if(userPlan === 'startup') cardLimit = 10;
-      else if(userPlan === 'business') cardLimit = 30;
-      else if(userPlan === 'enterprise') cardLimit = 50;
-      else cardLimit = 1;
-      
-      document.getElementById('user-plan').textContent = userPlan.charAt(0).toUpperCase() + userPlan.slice(1);
+      var d = doc.data();
+      userPlan = d.plan || 'trial';
+      var limits = {trial:1, single:1, team:5, startup:10, business:30, enterprise:50};
+      cardLimit = limits[userPlan] || 1;
+      document.getElementById('user-plan').textContent = userPlan.toUpperCase();
       document.getElementById('card-limit').textContent = cardLimit;
     }
     loadCards(user.uid);
+  }).catch(function(e){
+    console.error('User load error:', e);
+    loadCards(user.uid);
   });
+});
 
 function loadCards(uid){
   var tbody = document.getElementById('card-list');
@@ -111,7 +108,7 @@ function loadCards(uid){
     var btn = document.getElementById('create-btn');
     if(currentCards >= cardLimit){
       btn.disabled = true;
-      btn.textContent = '🚫 Limit Reached — Upgrade to Pro';
+      btn.textContent = '🚫 Limit Reached';
       document.getElementById('limit-warning').style.display = 'block';
     } else {
       btn.disabled = false;
@@ -125,14 +122,17 @@ function loadCards(uid){
       var edit = 'https://vcard.11avatardigitalhub.cloud/edit.html?slug=' + doc.id + '&token=' + (d.editToken || '');
       tbody.innerHTML += '<tr><td><b>'+doc.id+'</b></td><td>'+ (d.name||'-') +'</td><td><a href="'+pub+'" target="_blank">📱</a> <a href="'+edit+'" target="_blank">✏️</a></td></tr>';
     });
-    if(snap.empty) tbody.innerHTML = '<tr><td colspan="3">No cards yet. Create your first vCard!</td></tr>';
+    if(snap.empty) tbody.innerHTML = '<tr><td colspan="3">No cards yet.</td></tr>';
+  }).catch(function(e){
+    tbody.innerHTML = '<tr><td colspan="3">Error loading cards</td></tr>';
+    console.error(e);
   });
 }
 
 function createCard(){
   if(!currentUser) return;
   if(currentCards >= cardLimit){
-    alert('🚫 Free plan limit (1 card) reached! Please upgrade to Pro for ₹299/year.');
+    alert('🚫 Limit reached! Please upgrade your plan.');
     return;
   }
   
@@ -147,7 +147,7 @@ function createCard(){
     name: '',
     title: '',
     phone: '',
-    email: currentUser.email,
+    email: currentUser.email || '',
     editToken: token,
     theme: 'default',
     sectionOrder: ["about","contact","social"],
@@ -155,9 +155,9 @@ function createCard(){
     status: 'active',
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   }).then(function(){
-    msg.innerHTML = '✅ Created! <a href="https://vcard.11avatardigitalhub.cloud/edit.html?slug='+slug+'&token='+token+'" target="_blank">Edit Your Card</a>';
+    msg.innerHTML = '✅ Created! <a href="https://vcard.11avatardigitalhub.cloud/edit.html?slug='+slug+'&token='+token+'" target="_blank">Edit Card</a>';
     loadCards(currentUser.uid);
-    db.collection('users').doc(currentUser.uid).update({
+    return db.collection('users').doc(currentUser.uid).update({
       cards: firebase.firestore.FieldValue.increment(1)
     });
   }).catch(function(e){
@@ -170,44 +170,25 @@ function payNow(){
   var name = '11Avatar Digital Hub';
   var amount = '299.00';
   var note = 'vCard_Pro_Yearly';
-  
   var upiUrl = 'upi://pay?pa=' + upiID + '&pn=' + encodeURIComponent(name) + '&am=' + amount + '&tn=' + note + '&cu=INR';
   
-  var qrContainer = document.getElementById('pay-msg');
-  qrContainer.innerHTML = '';
+  var qr = document.getElementById('pay-msg');
+  qr.innerHTML = '';
+  qr.innerHTML += '<p style="font-weight:600;margin-bottom:8px;">📱 Scan QR Code to Pay</p>';
+  qr.innerHTML += '<div id="upi-qr" style="display:inline-block;padding:15px;background:#fff;border-radius:15px;margin-bottom:8px;border:2px solid #e2e8f0;"></div>';
+  qr.innerHTML += '<p style="color:#94a3b8;font-size:12px;margin:12px 0;">— or pay via —</p>';
+  qr.innerHTML += '<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">';
+  qr.innerHTML += '<a href="'+upiUrl+'" target="_blank" rel="noopener" class="upi-btn upi-phonepe" style="flex:1;min-width:90px;">PhonePe</a>';
+  qr.innerHTML += '<a href="'+upiUrl+'" target="_blank" rel="noopener" class="upi-btn upi-gpay" style="flex:1;min-width:90px;">GPay</a>';
+  qr.innerHTML += '<a href="'+upiUrl+'" target="_blank" rel="noopener" class="upi-btn upi-paytm" style="flex:1;min-width:90px;">Paytm</a>';
+  qr.innerHTML += '</div>';
+  qr.innerHTML += '<p style="color:#64748b;font-size:11px;margin-top:8px;">UPI: <b>'+upiID+'</b> | After payment, contact admin.</p>';
   
-  // QR Code section
-  qrContainer.innerHTML += '<div style="text-align:center;margin-bottom:15px;">';
-  qrContainer.innerHTML += '<p style="font-weight:600;margin-bottom:8px;color:#1e293b;">📱 Scan QR Code to Pay ₹299</p>';
-  qrContainer.innerHTML += '<div id="upi-qr" style="display:inline-block;padding:15px;background:#fff;border-radius:15px;margin-bottom:8px;border:2px solid #e2e8f0;"></div>';
-  qrContainer.innerHTML += '</div>';
-  
-  // Divider
-  qrContainer.innerHTML += '<p style="text-align:center;color:#94a3b8;font-size:12px;margin:12px 0;">— or pay directly via —</p>';
-  
-  // UPI App Buttons
-  qrContainer.innerHTML += '<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:10px;">';
-  qrContainer.innerHTML += '<a href="' + upiUrl + '" target="_blank" rel="noopener" class="upi-btn upi-phonepe" style="flex:1;min-width:100px;">📱 PhonePe</a>';
-  qrContainer.innerHTML += '<a href="' + upiUrl + '" target="_blank" rel="noopener" class="upi-btn upi-gpay" style="flex:1;min-width:100px;">💳 Google Pay</a>';
-  qrContainer.innerHTML += '<a href="' + upiUrl + '" target="_blank" rel="noopener" class="upi-btn upi-paytm" style="flex:1;min-width:100px;">💰 Paytm</a>';
-  qrContainer.innerHTML += '</div>';
-  
-  // Manual UPI ID
-  qrContainer.innerHTML += '<p style="text-align:center;color:#64748b;font-size:11px;margin-top:8px;">UPI ID: <b style="color:#1e293b;">' + upiID + '</b></p>';
-  qrContainer.innerHTML += '<p style="text-align:center;color:#64748b;font-size:11px;margin-top:5px;">After payment, contact admin to activate your Pro plan.</p>';
-  
-  // QR Generate karo
   setTimeout(function(){
     var qrDiv = document.getElementById('upi-qr');
     if(qrDiv && typeof QRCode !== 'undefined'){
       qrDiv.innerHTML = '';
-      new QRCode(qrDiv, {
-        text: upiUrl,
-        width: 150,
-        height: 150,
-        colorDark: '#1e293b',
-        colorLight: '#ffffff'
-      });
+      new QRCode(qrDiv, { text: upiUrl, width: 150, height: 150, colorDark: '#1e293b', colorLight: '#ffffff' });
     }
   }, 300);
 }
