@@ -83,16 +83,23 @@ firebase.auth().onAuthStateChanged(function(user){
   document.getElementById('login-msg').style.display = 'none';
   document.getElementById('user-name').textContent = user.email;
   
-  db.collection('users').doc(user.uid).get().then(function(doc){
+    db.collection('users').doc(user.uid).get().then(function(doc){
     if(doc.exists){
       userPlan = doc.data().plan || 'free';
-      cardLimit = userPlan === 'pro' ? 10 : 1;
-      document.getElementById('user-plan').textContent = userPlan === 'pro' ? 'Pro' : 'Free';
+      // Plan ke according card limit
+      if(userPlan === 'free') cardLimit = 1;
+      else if(userPlan === 'single') cardLimit = 1;
+      else if(userPlan === 'team') cardLimit = 5;
+      else if(userPlan === 'startup') cardLimit = 10;
+      else if(userPlan === 'business') cardLimit = 30;
+      else if(userPlan === 'enterprise') cardLimit = 50;
+      else cardLimit = 1;
+      
+      document.getElementById('user-plan').textContent = userPlan.charAt(0).toUpperCase() + userPlan.slice(1);
       document.getElementById('card-limit').textContent = cardLimit;
     }
     loadCards(user.uid);
   });
-});
 
 function loadCards(uid){
   var tbody = document.getElementById('card-list');
