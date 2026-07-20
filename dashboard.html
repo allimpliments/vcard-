@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - vCard</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#f1f5f9;min-height:100vh;padding:20px}
+    .container{max-width:700px;margin:0 auto}
+    .header{background:#fff;border-radius:16px;padding:20px 30px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+    .header button{background:#ef4444;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:600}
+    .card{background:#fff;border-radius:16px;padding:25px;margin-bottom:15px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+    h2{color:#1e293b}
+    button.primary{background:#667eea;color:#fff;border:none;padding:12px 24px;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px}
+    button.primary:hover{background:#5a67d8}
+    button.success{background:#10b981;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-weight:600;cursor:pointer;font-size:12px;margin-right:8px}
+    table{width:100%;border-collapse:collapse;margin-top:15px}
+    th,td{padding:12px;text-align:left;border-bottom:1px solid #e2e8f0;font-size:13px}
+    th{background:#f8fafc;font-weight:600}
+  </style>
+</head>
+<body>
+<div class="container" id="dashboard" style="display:none;">
+  <div class="header">
+    <h2>👋 <span id="user-name"></span></h2>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div class="card">
+    <h3>📇 My vCards</h3>
+    <p style="color:#64748b;font-size:13px;margin:8px 0;">Plan: <b id="user-plan">Free</b> | Cards: <b id="card-count">0</b></p>
+    <button class="primary" onclick="createCard()">+ Create New vCard</button>
+    <p id="create-msg" style="font-size:12px;margin-top:8px;"></p>
+    
+    <table>
+      <thead><tr><th>Card</th><th>Name</th><th>Links</th></tr></thead>
+      <tbody id="card-list"><tr><td colspan="3">Loading...</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>💳 Upgrade Plan</h3>
+    <p style="color:#64748b;font-size:13px;margin:8px 0;">₹299/year per card</p>
+    <button class="success" onclick="payNow()">Pay ₹299 via UPI</button>
+    <p id="pay-msg" style="font-size:12px;margin-top:8px;"></p>
+  </div>
+</div>
+
+<div id="login-msg" style="text-align:center;padding:60px;font-size:18px;">🔐 Please <a href="login.html">Login</a></div>
+
+<script>
+firebase.auth().onAuthStateChanged(function(user){
+  if(!user){
+    document.getElementById('login-msg').style.display = 'block';
+    return;
+  }
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('login-msg').style.display = 'none';
+  document.getElementById('user-name').textContent = user.email;
+  
+  db.collection('users').doc(user.uid).get().then(function(doc){
+    if(doc.exists){
+      document.getElementById('user-plan').textContent = doc.data().plan || 'Free';
+      document.getElementById('card-count').textContent = doc.data().cards || 0;
+    }
+  });
+  
+  loadCards(user.uid);
+});
+
+function loadCards(uid){
+  var tbody = document.getElementById('card-list');
+  db.collection('cards').where('owner','==',uid).get().then(function(snap){
+    tbody.innerHTML = '';
+    snap.forEach(function(doc){
+      var d = doc.data();
+      var pub = 'https://vcard.11avatardigitalhub.cloud/?id=' + doc.id;
+      var edit = 'https://vcard.11avatardigitalhub.cloud/edit.html?slug=' + doc.id + '&token=' + (d.editToken || '');
+      tbody.innerHTML += '<tr><td><b>'+doc.id+'</b></td><td>'+ (d.name||'-') +'</td><td><a href="'+pub+'" target="_blank">📱</a> <a href="'+edit+'" target="_blank">✏️</a></td></tr>';
+    });
+    if(snap.empty) tbody.innerHTML = '<tr><td colspan="3">No cards yet</td></tr>';
+  });
+}
+
+function createCard(){
+  var user = firebase.auth().currentUser;
+  var msg = document.getElementById('create-msg');
+  msg.textContent = 'Creating...';
+  
+  var slug = 'card-' + Date.now();
+  var token = Math.random().toString(36).substring(2,10) + '@' + Math.random().toString(36).substring(2,6);
+  
+  db.collection('cards').doc(slug).set({
+    owner: user.uid,
+    name: '',
+    title: '',
+    phone: '',
+    email: user.email,
+    editToken: token,
+    theme: 'default',
+    sectionOrder: ["about","contact","social"],
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(){
+    msg.innerHTML = '✅ Created! <a href="https://vcard.11avatardigitalhub.cloud/edit.html?slug='+slug+'&token='+token+'" target="_blank">Edit Card</a>';
+    loadCards(user.uid);
+  }).catch(function(e){
+    msg.textContent = 'Error: ' + e.message;
+  });
+}
+
+function payNow(){
+  var upiID = 'your-upi-id@upi';  // 👈 APNA UPI ID YAHAN DALO
+  var name = '11Avatar Digital Hub';
+  var amount = '299.00';
+  var note = 'vCard_Yearly';
+  
+  var upiUrl = 'upi://pay?pa=' + upiID + '&pn=' + encodeURIComponent(name) + '&am=' + amount + '&tn=' + note + '&cu=INR';
+  
+  document.getElementById('pay-msg').innerHTML = '📱 <a href="'+upiUrl+'" target="_blank">Click here to Pay ₹299 via UPI</a><br><small>After payment, your card limit will increase.</small>';
+}
+
+function logout(){
+  firebase.auth().signOut().then(function(){
+    window.location.href = 'login.html';
+  });
+}
+</script>
+</body>
+</html>
