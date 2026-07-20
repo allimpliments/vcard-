@@ -346,7 +346,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     renderAptServices(); 
   };
 
-  /  // Load existing bookings with Cancel option
+  // Load existing bookings with Cancel option
   var bookingsData = cardData.bookings || [];
   var bookingsDiv = document.getElementById('bookings-list-apt');
   if (bookingsDiv && bookingsData.length > 0) {
