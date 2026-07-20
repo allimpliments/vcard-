@@ -102,7 +102,7 @@ if (!slug) {
           h += '<span style="font-weight:700;color:var(--c4);font-size:18px;">₹' + p.sellingPrice + '</span></div>';
           h += '<div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">';
           h += '<div style="display:flex;align-items:center;background:var(--card-bg);border-radius:25px;overflow:hidden;border:1px solid var(--c3);">';
-          h += '<button onclick="changeQty(\'' + pid + '\', -1)" style="background:none;border:none;padding:8px 12px;font-size:16px;cursor:pointer;color:var(--text);">−</button>';
+          h += '<button onclick="changeQty(\'' + pid + '\', -1)" style="background:none;border:none;padding:8px 12px;font-size:16px;cursor:pointer;color:var(--text);">-</button>';
           h += '<span id="' + pid + '" style="padding:4px 8px;font-weight:600;font-size:14px;min-width:30px;text-align:center;color:var(--text);">1</span>';
           h += '<button onclick="changeQty(\'' + pid + '\', 1)" style="background:none;border:none;padding:8px 12px;font-size:16px;cursor:pointer;color:var(--text);">+</button>';
           h += '</div>';
@@ -174,10 +174,9 @@ if (!slug) {
           else if (url.includes('watch?v=')) id = url.split('v=')[1].split('&')[0];
           else if (url.includes('youtu.be/')) id = url.split('youtu.be/')[1].split('?')[0];
           else if (url.includes('embed/')) id = url.split('embed/')[1].split('?')[0];
-          if (id) videos.push({ id, isShort, thumb: 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg' });
+          if (id) videos.push({ id: id, isShort: isShort, thumb: 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg' });
         }
-        if (videos.length === 0) { /* skip */ }
-        else {
+        if (videos.length > 0) {
           let curV = 0;
           let h = '<h3>🎬 YouTube Videos</h3><div style="text-align:center;"><div style="border-radius:15px;overflow:hidden;"><div id="yt-container" style="position:relative;padding-bottom:' + (videos[0].isShort ? '177%' : '56.25%') + ';height:0;"><iframe id="yt-main" src="https://www.youtube.com/embed/' + videos[0].id + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:15px;" frameborder="0" allowfullscreen></iframe></div></div></div>';
           if (videos.length > 1) {
@@ -228,7 +227,8 @@ if (!slug) {
         h += '<div style="width:60px;height:60px;background:rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;"><span style="font-size:28px;color:' + fi.btnColor + ';">▶</span></div>';
         h += '<p style="color:#fff;font-weight:600;font-size:13px;margin-top:10px;">' + fi.p + ' ' + fi.t + '</p></div></div>';
         h += '<div style="padding:14px 18px;">';
-        h += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span id="reel-platform" style="background:' + fi.btnColor + ';color:#fff;padding:3px 10px;border-radius:15px;font-size:10px;font-weight:700;">' + fi.p + '</span><span id="reel-type" style="color:#64748b;font-size:11px;font-weight:600;">' + fi.t + '</span></div>';
+        h += '<span id="reel-platform" style="background:' + fi.btnColor + ';color:#fff;padding:3px 10px;border-radius:15px;font-size:10px;font-weight:700;">' + fi.p + '</span> ';
+        h += '<span id="reel-type" style="color:#64748b;font-size:11px;font-weight:600;">' + fi.t + '</span>';
         h += '<p id="reel-title" style="font-weight:600;font-size:13px;color:#1e293b;margin:4px 0;line-height:1.4;">' + fi.p + ' ' + fi.t + '</p>';
         h += '<p id="reel-counter" style="color:#94a3b8;font-size:11px;margin-bottom:10px;">1 of ' + reels.length + '</p>';
         h += '<a id="reel-link" href="' + reels[0] + '" target="_blank" style="display:block;text-align:center;padding:10px;background:' + fi.btnColor + ';color:#fff;text-decoration:none;border-radius:50px;font-weight:600;font-size:13px;">▶ Watch Now</a>';
@@ -310,7 +310,7 @@ if (!slug) {
           document.getElementById('apt-book').addEventListener('click', async function(){
             var service = document.getElementById('apt-service').value;
             var date = document.getElementById('apt-date').value;
-            var time = document.querySelector('.apt-slot.selected')?.textContent;
+            var time = document.querySelector('.apt-slot.selected') ? document.querySelector('.apt-slot.selected').textContent : '';
             var name = document.getElementById('apt-name').value.trim();
             var phone = document.getElementById('apt-phone').value.trim();
             if(!service || !date || !time || !name || !phone){ alert('Please fill all fields!'); return; }
@@ -337,36 +337,26 @@ if (!slug) {
             } catch(e){ alert('Error: '+e.message); }
           });
         }, 300);
-                function generateTimeSlots(){
+
+        function generateTimeSlots(){
           var slotsDiv = document.getElementById('apt-slots');
           slotsDiv.innerHTML = '';
-          
-          // Get selected date
           var selectedDate = document.getElementById('apt-date').value;
           if(!selectedDate) return;
-          
-          // Get existing bookings for this date
           var cardRef = db.collection('cards').doc(slug);
           cardRef.get().then(function(doc){
             var cardData = doc.data();
             var existingBookings = cardData.bookings || [];
             var bookedSlots = [];
-            
-            // Find booked slots for selected date
             existingBookings.forEach(function(b){
-              if(b.date === selectedDate && b.status !== 'cancelled'){
-                bookedSlots.push(b.time);
-              }
+              if(b.date === selectedDate && b.status !== 'cancelled'){ bookedSlots.push(b.time); }
             });
-            
             var times = ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00'];
-            
             times.forEach(function(t){
               var isBooked = bookedSlots.includes(t);
               var slot = document.createElement('span');
               slot.className = 'apt-slot';
               slot.textContent = t;
-              
               if(isBooked){
                 slot.style.cssText = 'padding:10px 16px;border:2px solid #e2e8f0;border-radius:25px;font-size:13px;color:#94a3b8;background:#f1f5f9;cursor:not-allowed;text-decoration:line-through;';
                 slot.title = 'Already booked';
@@ -381,15 +371,13 @@ if (!slug) {
                   slot.style.background='var(--c4)'; slot.style.color='#fff'; slot.style.borderColor='var(--c4)'; slot.classList.add('selected');
                 });
               }
-              
               slotsDiv.appendChild(slot);
-                     });
+            });
+          });
         }
-      }  // ← YEH BRACKET APPOINTMENT SECTION KO CLOSE KARTI HAI
+      }
 
       // PAYMENT - Hide if empty
-      else if (sec === 'payment' ...
-      else if (sec === 'payment' ...
       else if (sec === 'payment' && data.payment && (data.payment.paytm || data.payment.upi || data.payment.qrImage)) {
         let h = '<h3>💳 Payment Info</h3><div style="text-align:center;">';
         if (data.payment.qrImage) h += '<img src="' + data.payment.qrImage + '" style="width:180px;height:180px;object-fit:contain;border-radius:15px;margin-bottom:15px;">';
