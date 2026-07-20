@@ -224,8 +224,13 @@ async function createClient(){
       role:'client', createdAt:firebase.firestore.FieldValue.serverTimestamp()
     });
     
-    var slug = name.toLowerCase().replace(/[^a-z0-9]/g,'-').replace(/--+/g,'-').replace(/^-|-$/g,'');
-    if(!slug||slug.length<2) slug = 'card-'+Date.now();
+    var slug = cleanSlug(name);
+    if (!slug || slug.length < 2) {
+      slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/--+/g, '-').replace(/^-|-$/g, '');
+    }
+    if (!slug || slug.length < 2) {
+      slug = 'client-' + Date.now();
+    }
     var token = Math.random().toString(36).substring(2,10)+'@'+Math.random().toString(36).substring(2,6);
     
     await db.collection('cards').doc(slug).set({
