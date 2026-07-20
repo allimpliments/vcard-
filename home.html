@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>11 Avatar vCard SaaS — Digital Business Card</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #f8f8f5;
+      --text: #1a1a1a;
+      --text2: #666666;
+      --card: #ffffff;
+      --border: #e8e5df;
+      --gold: #c9a84c;
+      --gold2: #b8960f;
+      --dark: #1a1a1a;
+    }
+    [data-theme="dark"] {
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --text: #f5f0e8;
+      --text2: #a89880;
+      --card: #141414;
+      --border: #2a2520;
+      --dark: #f5f0e8;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);transition:all 0.3s}
+    
+    /* Nav */
+    nav{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+    nav .logo{font-size:22px;font-weight:800;color:var(--gold)}
+    nav .logo span{color:var(--text)}
+    nav a{color:var(--text);text-decoration:none;margin-left:25px;font-weight:500;font-size:14px}
+    .theme-btn{background:var(--border);border:none;padding:10px 16px;border-radius:50px;cursor:pointer;font-size:18px;color:var(--text)}
+    
+    /* Hero */
+    .hero{background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);padding:100px 20px;text-align:center}
+    .hero .badge{background:linear-gradient(135deg,#c9a84c,#b8960f);color:#000;padding:6px 16px;border-radius:50px;font-size:13px;font-weight:700;display:inline-block;margin-bottom:20px}
+    .hero h1{font-size:56px;font-weight:900;line-height:1.1;margin-bottom:20px;letter-spacing:-1px}
+    .hero h1 .gold{color:var(--gold)}
+    .hero p{font-size:18px;color:var(--text2);max-width:550px;margin:0 auto 35px;line-height:1.6}
+    .btn{padding:16px 36px;border-radius:50px;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;display:inline-block;margin:6px;transition:all 0.3s}
+    .btn-gold{background:linear-gradient(135deg,#c9a84c,#b8960f);color:#000}
+    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(201,168,76,0.3)}
+    .btn-outline{background:transparent;color:var(--text);border:2px solid var(--border)}
+    .btn-outline:hover{border-color:var(--gold)}
+    
+    /* Sections */
+    .section{padding:80px 20px;max-width:1100px;margin:0 auto}
+    .section h2{font-size:36px;text-align:center;margin-bottom:15px;font-weight:800;letter-spacing:-0.5px}
+    .section .sub{text-align:center;color:var(--text2);margin-bottom:50px;font-size:15px}
+    
+    /* Features */
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+    .feature{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:35px 25px;text-align:center;transition:all 0.3s}
+    .feature:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.08)}
+    .feature span{font-size:44px;display:block;margin-bottom:18px}
+    .feature h3{font-size:17px;margin-bottom:8px;font-weight:700}
+    .feature p{color:var(--text2);font-size:13px;line-height:1.5}
+    
+    /* Pricing */
+    .pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+    .plan{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:40px 30px;text-align:center;transition:all 0.3s;position:relative}
+    .plan:hover{border-color:var(--gold);box-shadow:0 12px 40px rgba(0,0,0,0.1)}
+    .plan.popular{border:2px solid var(--gold);background:var(--bg2)}
+    .plan .badge{background:var(--gold);color:#000;padding:4px 14px;border-radius:50px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:12px;letter-spacing:0.5px}
+    .plan h3{font-size:20px;margin-bottom:8px}
+    .plan .price{font-size:48px;font-weight:900;color:var(--gold);margin:18px 0}
+    .plan .price small{font-size:14px;color:var(--text2);font-weight:400}
+    .plan ul{list-style:none;text-align:left;margin:22px 0}
+    .plan ul li{padding:7px 0;color:var(--text2);font-size:13px}
+    .plan ul li::before{content:"✓ ";color:var(--gold);font-weight:700}
+    
+    /* CTA */
+    .cta{background:var(--bg2);text-align:center;padding:80px 20px;border-top:1px solid var(--border)}
+    .cta h2{font-size:36px;margin-bottom:15px;font-weight:800}
+    .cta p{color:var(--text2);margin-bottom:30px}
+    
+    /* Footer */
+    .footer{text-align:center;padding:30px;color:var(--text2);font-size:12px;border-top:1px solid var(--border)}
+    
+    @media(max-width:768px){
+      .hero h1{font-size:36px}
+      nav{padding:15px 20px}
+      nav a{margin-left:12px;font-size:12px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="logo">✦<span>vCard</span></div>
+  <div style="display:flex;align-items:center;gap:5px">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="login.html">Login</a>
+    <a href="signup.html" class="btn btn-gold" style="padding:10px 22px;font-size:13px">Get Started</a>
+    <button class="theme-btn" onclick="toggleTheme()">🌓</button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="badge">✦ PREMIUM DIGITAL VCARDS</div>
+  <h1>Your Business<br><span class="gold">In One Tap</span></h1>
+  <p>Create stunning digital business cards. Share via WhatsApp, QR, or link. Professional themes, analytics, and more.</p>
+  <a href="signup.html" class="btn btn-gold">Start Free Trial</a>
+  <a href="#pricing" class="btn btn-outline">View Plans</a>
+</div>
+
+<!-- Features -->
+<div class="section" id="features">
+  <h2>Everything You Need</h2>
+  <p class="sub">Professional digital presence in minutes</p>
+  <div class="features">
+    <div class="feature"><span>📇</span><h3>Digital vCard</h3><p>Photo, logo, contact & social links in one beautiful card.</p></div>
+    <div class="feature"><span>🎨</span><h3>Premium Themes</h3><p>10+ stunning themes with your brand colors.</p></div>
+    <div class="feature"><span>🛍️</span><h3>Online Shop</h3><p>Sell products with WhatsApp ordering built-in.</p></div>
+    <div class="feature"><span>📊</span><h3>QR Code</h3><p>Auto-generated QR. Download or share instantly.</p></div>
+    <div class="feature"><span>💬</span><h3>WhatsApp Ready</h3><p>One-tap Call, Email & WhatsApp buttons.</p></div>
+    <div class="feature"><span>🔗</span><h3>Branded Link</h3><p>Your own link: vcard.yourname.com</p></div>
+  </div>
+</div>
+
+<!-- Pricing -->
+<div class="section" id="pricing">
+  <h2>Simple Pricing</h2>
+  <p class="sub">Start free, upgrade when you grow</p>
+  <div class="pricing">
+    <div class="plan">
+      <h3>🆓 Free Trial</h3>
+      <div class="price">₹0 <small>/ 3 days</small></div>
+      <ul>
+        <li>1 vCard</li>
+        <li>All Themes</li>
+        <li>QR Code</li>
+        <li>3 Days Access</li>
+      </ul>
+      <a href="signup.html" class="btn btn-outline" style="width:100%">Start Free</a>
+    </div>
+    <div class="plan popular">
+      <div class="badge">MOST POPULAR</div>
+      <h3>💼 Pro</h3>
+      <div class="price">₹299 <small>/ year</small></div>
+      <ul>
+        <li>Up to 10 vCards</li>
+        <li>All Premium Themes</li>
+        <li>Online Shop</li>
+        <li>Gallery & Videos</li>
+        <li>WhatsApp Integration</li>
+        <li>Priority Support</li>
+      </ul>
+      <a href="signup.html" class="btn btn-gold" style="width:100%">Get Pro</a>
+    </div>
+    <div class="plan">
+      <h3>🏢 Agency</h3>
+      <div class="price">₹999 <small>/ year</small></div>
+      <ul>
+        <li>Up to 50 vCards</li>
+        <li>Everything in Pro</li>
+        <li>White Label</li>
+        <li>Team Management</li>
+        <li>API Access</li>
+      </ul>
+      <a href="signup.html" class="btn btn-outline" style="width:100%">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+  <h2>Ready to go digital?</h2>
+  <p>Create your first vCard in 60 seconds. Free.</p>
+  <a href="signup.html" class="btn btn-gold">🚀 Start Free Trial</a>
+</div>
+
+<div class="footer">© 2024 vCard by 11 Avatar Digital Hub. All rights reserved.</div>
+
+<script>
+  var theme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', theme);
+  
+  function toggleTheme(){
+    var current = document.documentElement.getAttribute('data-theme');
+    var next = current === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+</script>
+</body>
+</html>
