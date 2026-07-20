@@ -346,7 +346,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     renderAptServices(); 
   };
 
-  // Load existing bookings with Cancel option
+   // Load existing bookings with Cancel option
   var bookingsData = cardData.bookings || [];
   var bookingsDiv = document.getElementById('bookings-list-apt');
   if (bookingsDiv && bookingsData.length > 0) {
@@ -361,7 +361,6 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
       bh += '👤 ' + b.name + ' | 📞 ' + b.phone + ' | <span style="' + badge + '">' + statusText + '</span>';
       bh += '</div>';
       
-      // Cancel button (only for active bookings)
       if (b.status !== 'cancelled') {
         bh += '<button onclick="cancelBooking(' + idx + ')" style="background:#ef4444;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:11px;white-space:nowrap;">❌ Cancel</button>';
       }
@@ -370,7 +369,8 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     });
     bookingsDiv.innerHTML = bh;
   }
-    // Cancel booking function
+
+  // Cancel booking function
   window.cancelBooking = async function(idx) {
     if (!confirm('Cancel this booking? The slot will become available.')) return;
     
@@ -383,7 +383,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
         bookings[idx].status = 'cancelled';
         await cardRef.update({ bookings: bookings });
         alert('✅ Booking cancelled! Slot is now available.');
-        location.reload(); // Refresh to show updated list
+        location.reload();
       }
     } catch(e) {
       alert('Error: ' + e.message);
