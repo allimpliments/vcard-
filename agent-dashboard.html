@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Dashboard - vCard</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#f1f5f9;padding:20px}
+    .container{max-width:750px;margin:0 auto}
+    .header{background:#fff;border-radius:16px;padding:20px 30px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+    .card{background:#fff;border-radius:16px;padding:25px;margin-bottom:15px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+    h2,h3{color:#1e293b}
+    input,button,select{padding:12px 16px;border-radius:10px;border:1px solid #e2e8f0;font-size:14px;width:100%;margin-bottom:10px}
+    button{background:#10b981;color:#fff;border:none;cursor:pointer;font-weight:600;transition:all 0.3s}
+    button:hover{background:#059669}
+    button.danger{background:#ef4444}
+    button.danger:hover{background:#dc2626}
+    button.primary{background:#667eea}
+    button.primary:hover{background:#5a67d8}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .row input,.row select{flex:1;min-width:150px}
+    table{width:100%;border-collapse:collapse;margin-top:15px}
+    th,td{padding:10px;text-align:left;border-bottom:1px solid #e2e8f0;font-size:13px}
+    th{background:#f8fafc;font-weight:600;color:#475569}
+    .badge{padding:3px 8px;border-radius:12px;font-size:11px;font-weight:600}
+    .badge-paid{background:#d1fae5;color:#065f46}
+    .badge-pending{background:#fef3c7;color:#92400e}
+    .stat-box{text-align:center;padding:18px;background:#f8fafc;border-radius:14px;flex:1;min-width:110px}
+    .stat-box .num{font-size:26px;font-weight:800;color:#10b981}
+    .stat-box .lbl{font-size:11px;color:#64748b;margin-top:4px}
+    .msg{padding:10px;border-radius:8px;font-size:12px;margin-top:8px}
+    .msg-success{background:#d1fae5;color:#065f46}
+    .msg-error{background:#fee2e2;color:#991b1b}
+  </style>
+</head>
+<body>
+<div class="container" id="dashboard">
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <h2>🤝 Agent Panel</h2>
+      <span id="agent-info" style="font-size:12px;color:#64748b;"></span>
+    </div>
+    <button onclick="logout()" class="danger" style="width:auto;">Logout</button>
+  </div>
+
+  <!-- Stats -->
+  <div style="display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap;">
+    <div class="stat-box"><div class="num" id="stat-total">0</div><div class="lbl">Total Clients</div></div>
+    <div class="stat-box"><div class="num" id="stat-paid">0</div><div class="lbl">Paid</div></div>
+    <div class="stat-box"><div class="num" id="stat-pending">0</div><div class="lbl">Pending</div></div>
+    <div class="stat-box"><div class="num" id="stat-comm">₹0</div><div class="lbl">Commission</div></div>
+  </div>
+
+  <!-- Create Client -->
+  <div class="card">
+    <h3>➕ Create New Client (Paid Plans Only)</h3>
+    <div class="row">
+      <input type="text" id="c-name" placeholder="Client Full Name *">
+      <input type="email" id="c-email" placeholder="Client Email *">
+    </div>
+    <div class="row">
+      <input type="text" id="c-phone" placeholder="Phone Number">
+      <input type="password" id="c-pass" placeholder="Password (min 6 chars) *">
+    </div>
+    <div class="row">
+      <select id="c-plan">
+        <option value="">— Select Paid Plan —</option>
+        <option value="single">Single Card - ₹699/yr (Commission: ₹70)</option>
+        <option value="team">Small Team 5 Cards - ₹2,999/yr (Commission: ₹300)</option>
+        <option value="startup">Startup 10 Cards - ₹4,999/yr (Commission: ₹500)</option>
+        <option value="business">Business 30 Cards - ₹9,999/yr (Commission: ₹1,000)</option>
+        <option value="enterprise">Enterprise 50 Cards - ₹14,999/yr (Commission: ₹1,500)</option>
+      </select>
+    </div>
+    <button onclick="createClient()">🚀 Create Client & Send Payment Link</button>
+    <div id="create-msg"></div>
+  </div>
+
+  <!-- My Clients -->
+  <div class="card">
+    <h3>📋 My Clients</h3>
+    <button onclick="loadClients()" class="primary" style="width:auto;margin-bottom:10px;">🔄 Refresh</button>
+    <table>
+      <thead><tr><th>Client</th><th>Plan</th><th>Status</th><th>Commission</th><th>Date</th></tr></thead>
+      <tbody id="client-list"><tr><td colspan="5">Loading...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+var agentEmail = localStorage.getItem('agentEmail');
+var agentName = localStorage.getItem('agentName') || 'Agent';
+
+// Security check
+if(!agentEmail){ window.location.href = 'agent-login.html'; }
+
+document.getElementById('agent-info').textContent = agentName + ' | ' + agentEmail;
+
+var commissions = { single: 70, team: 300, startup: 500, business: 1000, enterprise: 1500 };
+var planPrices = { single: 699, team: 2999, startup: 4999, business: 9999, enterprise: 14999 };
+var planLimits = { single: 1, team: 5, startup: 10, business: 30, enterprise: 50 };
+var upiID = '8959592006@upi';
+
+// Load on start
+loadClients();
+
+function loadClients(){
+  var tbody = document.getElementById('client-list');
+  tbody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
+  
+  db.collection('agentClients')
+    .where('agentEmail','==',agentEmail)
+    .orderBy('createdAt','desc')
+    .get()
+    .then(function(snap){
+      tbody.innerHTML = '';
+      var total = snap.size;
+      var paidCount = 0;
+      var pendingCount = 0;
+      var totalComm = 0;
+      
+      snap.forEach(function(doc){
+        var d = doc.data();
+        totalComm += d.commission || 0;
+        if(d.status === 'paid') paidCount++;
+        else pendingCount++;
+        
+        var badgeClass = d.status === 'paid' ? 'badge-paid' : 'badge-pending';
+        var date = d.createdAt ? new Date(d.createdAt.toDate()).toLocaleDateString('en-IN') : '-';
+        
+        tbody.innerHTML += '<tr>'+
+          '<td><b>'+d.clientName+'</b><br><small style="color:#64748b;">'+d.clientEmail+'</small></td>'+
+          '<td>'+d.plan.toUpperCase()+'</td>'+
+          '<td><span class="badge '+badgeClass+'">'+d.status.toUpperCase()+'</span></td>'+
+          '<td style="font-weight:600;color:#10b981;">₹'+d.commission+'</td>'+
+          '<td style="font-size:11px;color:#64748b;">'+date+'</td>'+
+          '</tr>';
+      });
+      
+      if(snap.empty) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#64748b;">No clients yet. Create your first client!</td></tr>';
+      
+      // Update stats
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-paid').textContent = paidCount;
+      document.getElementById('stat-pending').textContent = pendingCount;
+      document.getElementById('stat-comm').textContent = '₹' + totalComm;
+    })
+    .catch(function(e){
+      tbody.innerHTML = '<tr><td colspan="5" style="color:red;">Error: '+e.message+'</td></tr>';
+    });
+}
+
+async function createClient(){
+  var name = document.getElementById('c-name').value.trim();
+  var email = document.getElementById('c-email').value.trim();
+  var phone = document.getElementById('c-phone').value.trim();
+  var pass = document.getElementById('c-pass').value;
+  var plan = document.getElementById('c-plan').value;
+  var msgDiv = document.getElementById('create-msg');
+  
+  // Validation
+  if(!name || !email || !plan || pass.length < 6){
+    msgDiv.innerHTML = '<div class="msg msg-error">❌ All fields required! Name, Email, Password (6+ chars), and Plan.</div>';
+    return;
+  }
+  
+  msgDiv.innerHTML = '<div class="msg">⏳ Creating client account...</div>';
+  
+  try {
+    // Step 1: Create Firebase Auth user
+    var userCred = await firebase.auth().createUserWithEmailAndPassword(email, pass);
+    var uid = userCred.user.uid;
+    
+    // Step 2: Save to users collection
+    await db.collection('users').doc(uid).set({
+      name: name,
+      email: email,
+      phone: phone || '',
+      plan: plan,
+      cardLimit: planLimits[plan] || 1,
+      cards: 0,
+      createdBy: agentEmail,
+      createdByAgent: agentName,
+      role: 'client',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    // Step 3: Create vCard
+    var slug = name.toLowerCase().replace(/[^a-z0-9]/g,'-').replace(/--+/g,'-').replace(/^-|-$/g,'');
+    if(!slug || slug.length < 2) slug = 'card-' + Date.now();
+    
+    var token = Math.random().toString(36).substring(2,10) + '@' + Math.random().toString(36).substring(2,6);
+    
+    await db.collection('cards').doc(slug).set({
+      owner: uid,
+      name: name,
+      phone: phone || '',
+      email: email,
+      editToken: token,
+      theme: 'default',
+      animation: 'wave',
+      status: 'active',
+      sectionOrder: ["about","contact","social"],
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    // Step 4: Agent commission record
+    await db.collection('agentClients').add({
+      agentEmail: agentEmail,
+      agentName: agentName,
+      clientId: uid,
+      clientName: name,
+      clientEmail: email,
+      plan: plan,
+      planPrice: planPrices[plan] || 0,
+      commission: commissions[plan] || 0,
+      status: 'pending',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    // Step 5: Generate links
+    var pub = 'https://vcard.11avatardigitalhub.cloud/?id=' + slug;
+    var edit = 'https://vcard.11avatardigitalhub.cloud/edit.html?slug=' + slug + '&token=' + token;
+    var upiUrl = 'upi://pay?pa=' + upiID + '&pn=11Avatar%20Digital%20Hub&am=' + planPrices[plan] + '.00&tn=' + plan + '_Plan&cu=INR';
+    
+    msgDiv.innerHTML = '<div class="msg msg-success">'+
+      '✅ <b>Client Created Successfully!</b><br><br>'+
+      '📧 <b>Email:</b> ' + email + '<br>'+
+      '🔑 <b>Password:</b> ' + pass + '<br>'+
+      '📦 <b>Plan:</b> ' + plan.toUpperCase() + ' (₹' + planPrices[plan] + '/yr)<br>'+
+      '💰 <b>Your Commission:</b> ₹' + commissions[plan] + '<br><br>'+
+      '📱 <a href="' + pub + '" target="_blank" style="color:#1a73e8;">Public Card Link</a><br>'+
+      '✏️ <a href="' + edit + '" target="_blank" style="color:#1a73e8;">Editor Link</a><br>'+
+      '💳 <a href="' + upiUrl + '" target="_blank" style="color:#10b981;font-weight:700;">📲 Send Payment Link to Client (₹' + planPrices[plan] + ')</a>'+
+      '</div>';
+    
+    // Clear form
+    document.getElementById('c-name').value = '';
+    document.getElementById('c-email').value = '';
+    document.getElementById('c-phone').value = '';
+    document.getElementById('c-pass').value = '';
+    document.getElementById('c-plan').value = '';
+    
+    // Refresh list
+    loadClients();
+    
+  } catch(e){
+    console.error(e);
+    var errMsg = e.message;
+    if(e.code === 'auth/email-already-in-use') errMsg = 'This email is already registered!';
+    msgDiv.innerHTML = '<div class="msg msg-error">❌ ' + errMsg + '</div>';
+  }
+}
+
+function logout(){
+  localStorage.clear();
+  window.location.href = 'agent-login.html';
+}
+</script>
+</body>
+</html>
