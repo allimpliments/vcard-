@@ -370,6 +370,25 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     });
     bookingsDiv.innerHTML = bh;
   }
+    // Cancel booking function
+  window.cancelBooking = async function(idx) {
+    if (!confirm('Cancel this booking? The slot will become available.')) return;
+    
+    try {
+      var cardRef = db.collection('cards').doc(slug);
+      var doc = await cardRef.get();
+      var bookings = doc.data().bookings || [];
+      
+      if (bookings[idx]) {
+        bookings[idx].status = 'cancelled';
+        await cardRef.update({ bookings: bookings });
+        alert('✅ Booking cancelled! Slot is now available.');
+        location.reload(); // Refresh to show updated list
+      }
+    } catch(e) {
+      alert('Error: ' + e.message);
+    }
+  };
 
   // Section order
   const sectionList = document.getElementById('section-order');
