@@ -346,16 +346,26 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     renderAptServices(); 
   };
 
-  // Load existing bookings
+  /  // Load existing bookings with Cancel option
   var bookingsData = cardData.bookings || [];
   var bookingsDiv = document.getElementById('bookings-list-apt');
   if (bookingsDiv && bookingsData.length > 0) {
     var bh = '<h4 style="margin-top:15px;color:#1e293b;font-size:14px;">📋 Recent Bookings</h4>';
-    bookingsData.forEach(function(b) {
+    bookingsData.forEach(function(b, idx) {
       var badge = b.status === 'cancelled' ? 'color:#ef4444;' : 'color:#10b981;';
-      bh += '<div style="background:#f8fafc;border-radius:8px;padding:10px;margin:5px 0;font-size:12px;">';
+      var statusText = (b.status || 'confirmed').toUpperCase();
+      
+      bh += '<div style="background:#f8fafc;border-radius:8px;padding:10px;margin:5px 0;font-size:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">';
+      bh += '<div style="flex:1;min-width:200px;">';
       bh += '<b>' + b.serviceName + '</b> - ' + b.date + ' at ' + b.time + '<br>';
-      bh += '👤 ' + b.name + ' | 📞 ' + b.phone + ' | <span style="' + badge + '">' + (b.status || 'confirmed').toUpperCase() + '</span>';
+      bh += '👤 ' + b.name + ' | 📞 ' + b.phone + ' | <span style="' + badge + '">' + statusText + '</span>';
+      bh += '</div>';
+      
+      // Cancel button (only for active bookings)
+      if (b.status !== 'cancelled') {
+        bh += '<button onclick="cancelBooking(' + idx + ')" style="background:#ef4444;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:11px;white-space:nowrap;">❌ Cancel</button>';
+      }
+      
       bh += '</div>';
     });
     bookingsDiv.innerHTML = bh;
