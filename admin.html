@@ -41,9 +41,9 @@
   <h2>🛠️ vCard Admin Panel</h2>
   
   <h3>➕ Create New Client</h3>
-  <input type="text" id="new-slug" placeholder="Client Slug (e.g. rahul-agency)">
-  <input type="text" id="new-name" placeholder="Client Name">
-  <input type="text" id="new-phone" placeholder="Phone">
+  <input type="text" id="new-name" placeholder="Client Full Name (required)">
+  <input type="text" id="new-phone" placeholder="Phone Number (optional)">
+  <p style="font-size:11px;color:#64748b;">Slug & Token auto-generate honge</p>
   <button onclick="createClient()" class="success">🚀 Create Client Card</button>
   <p id="create-msg" style="font-size:12px;margin-top:5px;"></p>
 
@@ -55,7 +55,7 @@
 </div>
 
 <script>
-const ADMIN_PASS = "Admin@11Avatar"; // Apna password set karen
+const ADMIN_PASS = "Admin@11Avatar"; // Apna password yahan set karen
 
 function login(){
   var pass = document.getElementById('admin-pass').value;
@@ -69,22 +69,30 @@ function login(){
 }
 
 function generateToken(){
-  return Math.random().toString(36).substring(2,10) + '@' + Math.random().toString(36).substring(2,6);
+  var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  var token = '';
+  for(var i=0; i<8; i++){ token += chars.charAt(Math.floor(Math.random() * chars.length)); }
+  token += '@';
+  for(var j=0; j<4; j++){ token += chars.charAt(Math.floor(Math.random() * chars.length)); }
+  return token;
 }
 
-function generateSlug(name){
-  return name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+function cleanSlug(text){
+  return text.toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-').replace(/--+/g,'-').replace(/^-|-$/g,'');
 }
 
 async function createClient(){
   var name = document.getElementById('new-name').value.trim();
   var phone = document.getElementById('new-phone').value.trim();
-  var slug = document.getElementById('new-slug').value.trim() || generateSlug(name);
   var msg = document.getElementById('create-msg');
   
   if(!name){ msg.textContent = '❌ Name required!'; msg.style.color='red'; return; }
   
+  var slug = cleanSlug(name);
+  if(!slug){ slug = 'client-' + Date.now(); }
+  
   var token = generateToken();
+  
   var defaultData = {
     name: name,
     phone: phone || '',
@@ -119,6 +127,8 @@ async function createClient(){
     var editLink = 'https://allimpliments.github.io/vcard-/edit.html?slug=' + slug + '&token=' + token;
     msg.innerHTML = '✅ Created!<br>📱 <a href="'+publicLink+'" target="_blank">Public Card</a><br>✏️ <a href="'+editLink+'" target="_blank">Editor</a><br>🔑 Token: <b>'+token+'</b>';
     msg.style.color = 'green';
+    document.getElementById('new-name').value = '';
+    document.getElementById('new-phone').value = '';
     loadClients();
   } catch(e) {
     msg.textContent = '❌ Error: ' + e.message;
