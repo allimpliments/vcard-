@@ -11,7 +11,7 @@
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Inter',sans-serif;background:#f1f5f9;padding:20px}
-    #login-box,#admin-panel{max-width:750px;margin:0 auto;background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+    #login-box,#admin-panel{max-width:850px;margin:0 auto;background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
     h2{color:#1e293b;margin-bottom:20px}
     h3{color:#1e293b;margin-top:25px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #e2e8f0}
     input,button,select{padding:12px 16px;border-radius:10px;border:1px solid #e2e8f0;font-size:14px;width:100%;margin-bottom:10px}
@@ -72,11 +72,19 @@
   <button onclick="createClient()" class="success">🚀 Create Client Account & Card</button>
   <p id="create-msg"></p>
 
-  <!-- All Clients -->
-  <h3>📋 All Clients</h3>
+  <!-- All Clients (Users) -->
+  <h3>👥 All Clients (User Accounts)</h3>
   <table>
     <thead><tr><th>Email</th><th>Name</th><th>Phone</th><th>Plan</th><th>Cards</th><th>Actions</th></tr></thead>
     <tbody id="client-table"><tr><td colspan="6">Loading...</td></tr></tbody>
+  </table>
+
+  <!-- All Cards (Legacy + New) -->
+  <h3>📇 All Cards (Including Legacy)</h3>
+  <button onclick="loadAllCards()" style="width:auto;padding:8px 16px;margin-bottom:10px;">🔄 Refresh Cards</button>
+  <table>
+    <thead><tr><th>Slug</th><th>Name</th><th>Owner/Email</th><th>Created</th><th>Public Link</th><th>Actions</th></tr></thead>
+    <tbody id="cards-table"><tr><td colspan="6">Loading...</td></tr></tbody>
   </table>
 </div>
 
@@ -90,6 +98,7 @@ function login(){
     document.getElementById('login-box').style.display = 'none';
     document.getElementById('admin-panel').style.display = 'block';
     loadClients();
+    loadAllCards();
   } else {
     document.getElementById('login-error').style.display = 'block';
   }
@@ -151,7 +160,7 @@ async function createClient(){
       editToken: token,
       theme: 'default',
       animation: 'wave',
-      sectionOrder: ["about","contact","social"],
+      sectionOrder: ["about","contact","social","products","services","gallery","youtube","reels","payment","bank","feedback","location","contactform"],
       trialEnds: plan === 'trial' ? new Date(Date.now() + 3*24*60*60*1000).toISOString() : null,
       status: 'active',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -169,6 +178,7 @@ async function createClient(){
     document.getElementById('new-pass').value = '';
     
     loadClients();
+    loadAllCards();
     
   } catch(e){
     msg.innerHTML = '<div class="msg msg-error">❌ Error: ' + e.message + '</div>';
@@ -183,12 +193,12 @@ async function loadClients(){
     snap.forEach(function(doc){
       var d = doc.data();
       var plan = d.plan || 'trial';
-      var badge = '<span class="badge badge-'+ (plan === 'trial' ? 'trial' : plan === 'single' ? 'single' : 'pro') +'">'+plan.toUpperCase()+'</span>';
+      var badgeClass = plan === 'trial' ? 'badge-trial' : plan === 'single' ? 'badge-single' : 'badge-pro';
       tbody.innerHTML += '<tr>'+
         '<td>'+d.email+'</td>'+
         '<td>'+ (d.name||'-') +'</td>'+
         '<td>'+ (d.phone||'-') +'</td>'+
-        '<td>'+badge+'</td>'+
+        '<td><span class="badge '+badgeClass+'">'+plan.toUpperCase()+'</span></td>'+
         '<td>'+(d.cards||0)+' / '+(planLimits[plan]||1)+'</td>'+
         '<td><button class="danger" onclick="deleteUser(\''+doc.id+'\',\''+d.email+'\')">🗑️</button></td>'+
         '</tr>';
@@ -199,8 +209,45 @@ async function loadClients(){
   }
 }
 
+async function loadAllCards(){
+  var tbody = document.getElementById('cards-table');
+  tbody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
+  try {
+    var snap = await db.collection('cards').orderBy('createdAt','desc').limit(100).get();
+    tbody.innerHTML = '';
+    snap.forEach(function(doc){
+      var d = doc.data();
+      var pub = 'https://vcard.11avatardigitalhub.cloud/?id=' + doc.id;
+      var created = d.createdAt ? new Date(d.createdAt.toDate()).toLocaleDateString() : 'N/A';
+      var owner = d.email || d.owner || 'Legacy';
+      tbody.innerHTML += '<tr>'+
+        '<td><b>'+doc.id+'</b></td>'+
+        '<td>'+ (d.name||'-') +'</td>'+
+        '<td>'+ owner +'</td>'+
+        '<td>'+ created +'</td>'+
+        '<td><a href="'+pub+'" target="_blank">📱 View</a></td>'+
+        '<td><button class="danger" onclick="deleteCard(\''+doc.id+'\')">🗑️</button></td>'+
+        '</tr>';
+    });
+    if(snap.empty) tbody.innerHTML = '<tr><td colspan="6">No cards found</td></tr>';
+  } catch(e){
+    tbody.innerHTML = '<tr><td colspan="6">Error: '+e.message+'</td></tr>';
+  }
+}
+
+async function deleteCard(slug){
+  if(!confirm('Delete card: ' + slug + '? This cannot be undone.')) return;
+  try {
+    await db.collection('cards').doc(slug).delete();
+    alert('✅ Card deleted!');
+    loadAllCards();
+  } catch(e){
+    alert('Error: ' + e.message);
+  }
+}
+
 async function deleteUser(uid, email){
-  if(!confirm('Permanently delete user: ' + email + '?\n\nThis will delete their account and all cards.')) return;
+  if(!confirm('Permanently delete user: ' + email + '?\n\nThis will delete their account and ALL their cards.')) return;
   try {
     // Delete all their cards
     var snap = await db.collection('cards').where('owner','==',uid).get();
@@ -211,8 +258,9 @@ async function deleteUser(uid, email){
     // Delete user document
     await db.collection('users').doc(uid).delete();
     
-    alert('✅ User deleted!');
+    alert('✅ User and all cards deleted!');
     loadClients();
+    loadAllCards();
   } catch(e){
     alert('Error: ' + e.message);
   }
