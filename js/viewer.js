@@ -383,11 +383,13 @@ if (!slug) {
               }
               
               slotsDiv.appendChild(slot);
-            });
-          });
+                     });
         }
+      }  // ← YEH BRACKET APPOINTMENT SECTION KO CLOSE KARTI HAI
 
       // PAYMENT - Hide if empty
+      else if (sec === 'payment' ...
+      else if (sec === 'payment' ...
       else if (sec === 'payment' && data.payment && (data.payment.paytm || data.payment.upi || data.payment.qrImage)) {
         let h = '<h3>💳 Payment Info</h3><div style="text-align:center;">';
         if (data.payment.qrImage) h += '<img src="' + data.payment.qrImage + '" style="width:180px;height:180px;object-fit:contain;border-radius:15px;margin-bottom:15px;">';
