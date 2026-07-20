@@ -41,6 +41,14 @@
 </head>
 <body>
 
+<!-- ========== ROUTER SCRIPT ========== -->
+<script>
+  // Agar URL mein ?id= nahi hai aur koi path nahi hai, to homepage par redirect karo
+  if (!window.location.search.includes('id=') && window.location.pathname === '/') {
+    window.location.href = '/home.html';
+  }
+</script>
+
 <!-- Desktop Sidebar -->
 <nav id="desktop-nav" style="position:fixed;left:8px;top:50%;transform:translateY(-50%);z-index:998;display:flex;flex-direction:column;gap:4px;max-height:75vh;overflow-y:auto;">
   <a href="#about-section" style="display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--glass-bg);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:20px;text-decoration:none;color:var(--text);font-size:11px;font-weight:600;white-space:nowrap;">👤 About</a>
@@ -76,7 +84,7 @@
   <a href="#location-section" onclick="closeMobileNav()" style="color:var(--text);text-decoration:none;padding:9px 12px;background:var(--card-bg);border-radius:10px;font-weight:600;font-size:12px;">📍 Location</a>
 </div>
 
-<!-- Main Card -->
+<!-- Main Card (ONLY shown when ?id= is present) -->
 <div id="card-container" style="display:none;">
   <div id="lottie-box"><div id="main-anim" style="width:100%;height:180px;"></div></div>
   <img id="profile-img" src="assets/default-user.png" alt="Profile" crossorigin="anonymous">
