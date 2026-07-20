@@ -8,6 +8,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="js/firebase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Inter',sans-serif;background:#f1f5f9;min-height:100vh;padding:20px}
@@ -19,11 +20,15 @@
     button.primary{background:#667eea;color:#fff;border:none;padding:12px 24px;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px}
     button.primary:hover{background:#5a67d8}
     button.primary:disabled{background:#94a3b8;cursor:not-allowed}
-    button.success{background:#10b981;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-weight:600;cursor:pointer;font-size:12px;margin-right:8px}
     table{width:100%;border-collapse:collapse;margin-top:15px}
     th,td{padding:12px;text-align:left;border-bottom:1px solid #e2e8f0;font-size:13px}
     th{background:#f8fafc;font-weight:600}
     .limit-warning{background:#fef3c7;border:1px solid #f59e0b;border-radius:10px;padding:12px;margin:10px 0;font-size:13px;color:#92400e}
+    .upi-btn{display:inline-block;padding:12px 20px;border-radius:12px;text-decoration:none;font-weight:700;font-size:14px;color:#fff;cursor:pointer;border:none;text-align:center;transition:all 0.3s}
+    .upi-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.15)}
+    .upi-phonepe{background:#5f259f}
+    .upi-gpay{background:#1a73e8}
+    .upi-paytm{background:#00baf2}
   </style>
 </head>
 <body>
@@ -54,8 +59,8 @@
   <div class="card">
     <h3>💳 Upgrade to Pro</h3>
     <p style="color:#64748b;font-size:13px;margin:8px 0;">₹299/year — Up to <b>10 cards</b></p>
-    <button class="success" onclick="payNow()">Pay ₹299 via UPI</button>
-    <p id="pay-msg" style="font-size:12px;margin-top:8px;"></p>
+    <button class="primary" onclick="payNow()" style="background:#10b981;margin-bottom:15px;">💰 Pay ₹299 via UPI</button>
+    <div id="pay-msg" style="font-size:12px;margin-top:8px;"></div>
   </div>
 </div>
 
@@ -66,6 +71,7 @@ var currentUser = null;
 var userPlan = 'free';
 var cardLimit = 1;
 var currentCards = 0;
+var qrGenerated = false;
 
 firebase.auth().onAuthStateChanged(function(user){
   if(!user){
@@ -77,7 +83,6 @@ firebase.auth().onAuthStateChanged(function(user){
   document.getElementById('login-msg').style.display = 'none';
   document.getElementById('user-name').textContent = user.email;
   
-  // Load user data
   db.collection('users').doc(user.uid).get().then(function(doc){
     if(doc.exists){
       userPlan = doc.data().plan || 'free';
@@ -96,7 +101,6 @@ function loadCards(uid){
     currentCards = snap.size;
     document.getElementById('card-count').textContent = currentCards;
     
-    // Check limit
     var btn = document.getElementById('create-btn');
     if(currentCards >= cardLimit){
       btn.disabled = true;
@@ -140,6 +144,8 @@ function createCard(){
     editToken: token,
     theme: 'default',
     sectionOrder: ["about","contact","social"],
+    trialEnds: new Date(Date.now() + 3*24*60*60*1000).toISOString(),
+    status: 'active',
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   }).then(function(){
     msg.innerHTML = '✅ Created! <a href="https://vcard.11avatardigitalhub.cloud/edit.html?slug='+slug+'&token='+token+'" target="_blank">Edit Your Card</a>';
@@ -153,17 +159,50 @@ function createCard(){
 }
 
 function payNow(){
-  var upiID = '8959592006@upi';  // 👈 APNA UPI ID YAHAN DALO
+  var upiID = '8959592006@upi';
   var name = '11Avatar Digital Hub';
   var amount = '299.00';
   var note = 'vCard_Pro_Yearly';
   
   var upiUrl = 'upi://pay?pa=' + upiID + '&pn=' + encodeURIComponent(name) + '&am=' + amount + '&tn=' + note + '&cu=INR';
   
-  document.getElementById('pay-msg').innerHTML = `
-    📱 <a href="${upiUrl}" target="_blank" style="color:#10b981;font-weight:600;">Click here to Pay ₹299 via UPI</a><br>
-    <small style="color:#64748b;">After payment, contact admin to activate your Pro plan. Your card limit will increase to 10.</small>
-  `;
+  var qrContainer = document.getElementById('pay-msg');
+  qrContainer.innerHTML = '';
+  
+  // QR Code section
+  qrContainer.innerHTML += '<div style="text-align:center;margin-bottom:15px;">';
+  qrContainer.innerHTML += '<p style="font-weight:600;margin-bottom:8px;color:#1e293b;">📱 Scan QR Code to Pay ₹299</p>';
+  qrContainer.innerHTML += '<div id="upi-qr" style="display:inline-block;padding:15px;background:#fff;border-radius:15px;margin-bottom:8px;border:2px solid #e2e8f0;"></div>';
+  qrContainer.innerHTML += '</div>';
+  
+  // Divider
+  qrContainer.innerHTML += '<p style="text-align:center;color:#94a3b8;font-size:12px;margin:12px 0;">— or pay directly via —</p>';
+  
+  // UPI App Buttons
+  qrContainer.innerHTML += '<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:10px;">';
+  qrContainer.innerHTML += '<a href="' + upiUrl + '" target="_blank" rel="noopener" class="upi-btn upi-phonepe" style="flex:1;min-width:100px;">📱 PhonePe</a>';
+  qrContainer.innerHTML += '<a href="' + upiUrl + '" target="_blank" rel="noopener" class="upi-btn upi-gpay" style="flex:1;min-width:100px;">💳 Google Pay</a>';
+  qrContainer.innerHTML += '<a href="' + upiUrl + '" target="_blank" rel="noopener" class="upi-btn upi-paytm" style="flex:1;min-width:100px;">💰 Paytm</a>';
+  qrContainer.innerHTML += '</div>';
+  
+  // Manual UPI ID
+  qrContainer.innerHTML += '<p style="text-align:center;color:#64748b;font-size:11px;margin-top:8px;">UPI ID: <b style="color:#1e293b;">' + upiID + '</b></p>';
+  qrContainer.innerHTML += '<p style="text-align:center;color:#64748b;font-size:11px;margin-top:5px;">After payment, contact admin to activate your Pro plan.</p>';
+  
+  // QR Generate karo
+  setTimeout(function(){
+    var qrDiv = document.getElementById('upi-qr');
+    if(qrDiv && typeof QRCode !== 'undefined'){
+      qrDiv.innerHTML = '';
+      new QRCode(qrDiv, {
+        text: upiUrl,
+        width: 150,
+        height: 150,
+        colorDark: '#1e293b',
+        colorLight: '#ffffff'
+      });
+    }
+  }, 300);
 }
 
 function logout(){
