@@ -57,15 +57,17 @@ if (!slug) {
         h += '<p style="font-size:14px;line-height:1.7;color:var(--text2);text-align:center;">' + data.about + '</p>';
         if (data.aboutPdf) h += '<div style="text-align:center;"><a href="' + data.aboutPdf + '" target="_blank" style="display:inline-block;padding:12px 25px;' + btnC4 + 'text-decoration:none;">📥 Download PDF</a></div>';
         div.innerHTML = h;
+        container.appendChild(div);
       }
 
-      // CONTACT
-      else if (sec === 'contact') {
+      // CONTACT - Hide if empty
+      else if (sec === 'contact' && (data.phone || data.email || data.website)) {
         div.innerHTML = '<h3>Contact</h3><p>📞 ' + (data.phone || '-') + '</p><p>✉️ ' + (data.email || '-') + '</p><p>🌐 <a href="' + (data.website || '#') + '">' + (data.website || '-') + '</a></p>';
+        container.appendChild(div);
       }
 
       // SOCIAL
-      else if (sec === 'social' && data.social) {
+      else if (sec === 'social' && data.social && Object.keys(data.social).length > 0) {
         div.innerHTML = '<h3>Social</h3><div class="social-icons"></div>';
         const iconsDiv = div.querySelector('.social-icons');
         Object.keys(data.social).forEach(function(k) {
@@ -83,6 +85,7 @@ if (!slug) {
             iconsDiv.innerHTML += '<a href="' + url + '" target="_blank" class="fa-brands ' + cls + '"></a>';
           }
         });
+        container.appendChild(div);
       }
 
       // PRODUCTS
@@ -108,6 +111,7 @@ if (!slug) {
         }
         h += '</div>';
         div.innerHTML = h;
+        container.appendChild(div);
       }
 
       // SERVICES
@@ -125,6 +129,7 @@ if (!slug) {
         }
         h += '</div>';
         div.innerHTML = h;
+        container.appendChild(div);
       }
 
       // GALLERY
@@ -144,6 +149,7 @@ if (!slug) {
           h += '</div>';
         }
         div.innerHTML = h;
+        container.appendChild(div);
         setTimeout(function() {
           const main = document.getElementById('gallery-main');
           const prev = document.getElementById('gal-prev');
@@ -170,32 +176,35 @@ if (!slug) {
           else if (url.includes('embed/')) id = url.split('embed/')[1].split('?')[0];
           if (id) videos.push({ id, isShort, thumb: 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg' });
         }
-        if (videos.length === 0) { container.appendChild(div); return; }
-        let curV = 0;
-        let h = '<h3>🎬 YouTube Videos</h3><div style="text-align:center;"><div style="border-radius:15px;overflow:hidden;"><div id="yt-container" style="position:relative;padding-bottom:' + (videos[0].isShort ? '177%' : '56.25%') + ';height:0;"><iframe id="yt-main" src="https://www.youtube.com/embed/' + videos[0].id + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:15px;" frameborder="0" allowfullscreen></iframe></div></div></div>';
-        if (videos.length > 1) {
-          h += '<div style="display:flex;align-items:center;justify-content:center;gap:15px;margin-top:10px;">';
-          h += '<button id="yt-prev" style="' + btnC4 + 'border:none;width:36px;height:36px;font-size:18px;cursor:pointer;">◀</button>';
-          h += '<div style="display:flex;gap:8px;overflow-x:auto;max-width:250px;">';
-          for (let t = 0; t < videos.length; t++) h += '<img src="' + videos[t].thumb + '" class="yt-thumb" data-index="' + t + '" style="width:70px;height:50px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid ' + (t === 0 ? 'var(--c4)' : 'transparent') + ';opacity:' + (t === 0 ? '1' : '0.6') + ';flex-shrink:0;">';
-          h += '</div>';
-          h += '<button id="yt-next" style="' + btnC4 + 'border:none;width:36px;height:36px;font-size:18px;cursor:pointer;">▶</button>';
-          h += '</div>';
-        }
-        div.innerHTML = h;
-        if (videos.length > 1) {
-          setTimeout(function() {
-            const iframe = document.getElementById('yt-main');
-            const ctr = document.getElementById('yt-container');
-            const prev = document.getElementById('yt-prev');
-            const next = document.getElementById('yt-next');
-            const thumbs = document.querySelectorAll('.yt-thumb');
-            if (!iframe) return;
-            function updV(idx) { curV = idx; iframe.src = 'https://www.youtube.com/embed/' + videos[curV].id; ctr.style.paddingBottom = videos[curV].isShort ? '177%' : '56.25%'; thumbs.forEach(function(t, i) { t.style.border = i === curV ? '2px solid var(--c4)' : '2px solid transparent'; t.style.opacity = i === curV ? '1' : '0.6'; }); }
-            if (next) next.onclick = function() { updV((curV + 1) % videos.length); };
-            if (prev) prev.onclick = function() { updV((curV - 1 + videos.length) % videos.length); };
-            thumbs.forEach(function(t) { t.onclick = function() { updV(parseInt(this.getAttribute('data-index'))); }; });
-          }, 100);
+        if (videos.length === 0) { /* skip */ }
+        else {
+          let curV = 0;
+          let h = '<h3>🎬 YouTube Videos</h3><div style="text-align:center;"><div style="border-radius:15px;overflow:hidden;"><div id="yt-container" style="position:relative;padding-bottom:' + (videos[0].isShort ? '177%' : '56.25%') + ';height:0;"><iframe id="yt-main" src="https://www.youtube.com/embed/' + videos[0].id + '" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:15px;" frameborder="0" allowfullscreen></iframe></div></div></div>';
+          if (videos.length > 1) {
+            h += '<div style="display:flex;align-items:center;justify-content:center;gap:15px;margin-top:10px;">';
+            h += '<button id="yt-prev" style="' + btnC4 + 'border:none;width:36px;height:36px;font-size:18px;cursor:pointer;">◀</button>';
+            h += '<div style="display:flex;gap:8px;overflow-x:auto;max-width:250px;">';
+            for (let t = 0; t < videos.length; t++) h += '<img src="' + videos[t].thumb + '" class="yt-thumb" data-index="' + t + '" style="width:70px;height:50px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid ' + (t === 0 ? 'var(--c4)' : 'transparent') + ';opacity:' + (t === 0 ? '1' : '0.6') + ';flex-shrink:0;">';
+            h += '</div>';
+            h += '<button id="yt-next" style="' + btnC4 + 'border:none;width:36px;height:36px;font-size:18px;cursor:pointer;">▶</button>';
+            h += '</div>';
+          }
+          div.innerHTML = h;
+          container.appendChild(div);
+          if (videos.length > 1) {
+            setTimeout(function() {
+              const iframe = document.getElementById('yt-main');
+              const ctr = document.getElementById('yt-container');
+              const prev = document.getElementById('yt-prev');
+              const next = document.getElementById('yt-next');
+              const thumbs = document.querySelectorAll('.yt-thumb');
+              if (!iframe) return;
+              function updV(idx) { curV = idx; iframe.src = 'https://www.youtube.com/embed/' + videos[curV].id; ctr.style.paddingBottom = videos[curV].isShort ? '177%' : '56.25%'; thumbs.forEach(function(t, i) { t.style.border = i === curV ? '2px solid var(--c4)' : '2px solid transparent'; t.style.opacity = i === curV ? '1' : '0.6'; }); }
+              if (next) next.onclick = function() { updV((curV + 1) % videos.length); };
+              if (prev) prev.onclick = function() { updV((curV - 1 + videos.length) % videos.length); };
+              thumbs.forEach(function(t) { t.onclick = function() { updV(parseInt(this.getAttribute('data-index'))); }; });
+            }, 100);
+          }
         }
       }
 
@@ -235,6 +244,7 @@ if (!slug) {
           h += '</div>';
         }
         div.innerHTML = h;
+        container.appendChild(div);
         function updateReelUI(index) {
           curR = index; const inf = getReelInfo(reels[index]);
           const area = document.getElementById('reel-thumb-area'); if (!area) return;
@@ -268,7 +278,7 @@ if (!slug) {
         }
       }
 
-      // APPOINTMENT BOOKING SYSTEM
+      // APPOINTMENT
       else if (sec === 'appointment' && data.servicesList && data.servicesList.length > 0) {
         let h = '<h3>📅 Book Appointment</h3>';
         h += '<div style="background:var(--card-bg2);border-radius:15px;padding:20px;">';
@@ -288,16 +298,13 @@ if (!slug) {
         h += '<input type="tel" id="apt-phone" placeholder="Your WhatsApp Number" style="width:100%;padding:12px;border:1px solid var(--c3);border-radius:10px;margin:8px 0;font-family:var(--font-body);background:var(--card-bg);color:var(--text);">';
         h += '<button id="apt-book" style="width:100%;padding:14px;background:var(--c4);color:#fff;border:none;border-radius:50px;font-weight:600;font-size:15px;cursor:pointer;margin-top:10px;">📅 Book Appointment</button>';
         h += '</div>';
-
-        // Google Calendar embed (optional)
         if (data.calendarUrl) {
           h += '<div style="margin-top:15px;border-radius:15px;overflow:hidden;box-shadow:var(--shadow-sm);">';
           h += '<iframe src="' + data.calendarUrl + '" style="border:0;width:100%;height:500px;border-radius:15px;" frameborder="0" scrolling="no"></iframe>';
           h += '</div>';
         }
-
         div.innerHTML = h;
-
+        container.appendChild(div);
         setTimeout(function(){
           document.getElementById('apt-date').addEventListener('change', function(){ generateTimeSlots(); });
           document.getElementById('apt-book').addEventListener('click', async function(){
@@ -330,7 +337,6 @@ if (!slug) {
             } catch(e){ alert('Error: '+e.message); }
           });
         }, 300);
-
         function generateTimeSlots(){
           var slotsDiv = document.getElementById('apt-slots');
           slotsDiv.innerHTML = '';
@@ -349,23 +355,25 @@ if (!slug) {
         }
       }
 
-      // PAYMENT
-      else if (sec === 'payment' && data.payment) {
+      // PAYMENT - Hide if empty
+      else if (sec === 'payment' && data.payment && (data.payment.paytm || data.payment.upi || data.payment.qrImage)) {
         let h = '<h3>💳 Payment Info</h3><div style="text-align:center;">';
         if (data.payment.qrImage) h += '<img src="' + data.payment.qrImage + '" style="width:180px;height:180px;object-fit:contain;border-radius:15px;margin-bottom:15px;">';
         if (data.payment.paytm) h += '<div style="background:var(--card-bg2);border-radius:12px;padding:15px;margin:8px 0;"><p style="font-weight:700;color:var(--c4);margin:0;">Paytm</p><p style="font-size:18px;font-weight:700;color:var(--text);">' + data.payment.paytm + '</p></div>';
         if (data.payment.upi) h += '<div style="background:var(--card-bg2);border-radius:12px;padding:15px;margin:8px 0;"><p style="font-weight:700;color:var(--c4);margin:0;">UPI</p><p style="font-size:18px;font-weight:700;color:var(--text);">' + data.payment.upi + '</p></div>';
         h += '</div>'; div.innerHTML = h;
+        container.appendChild(div);
       }
 
-      // BANK
-      else if (sec === 'bank' && data.bank) {
+      // BANK - Hide if empty
+      else if (sec === 'bank' && data.bank && (data.bank.accountNumber || data.bank.ifsc || data.bank.bankName || data.bank.holderName)) {
         let h = '<h3>🏦 Bank Details</h3><div style="background:var(--card-bg2);border-radius:15px;padding:20px;">';
         if (data.bank.accountNumber) h += '<p style="font-size:11px;color:var(--text2);margin:0;">Account Number</p><p style="font-size:16px;font-weight:700;color:var(--text);margin:2px 0 12px;">' + data.bank.accountNumber + '</p>';
         if (data.bank.ifsc) h += '<p style="font-size:11px;color:var(--text2);margin:0;">IFSC Code</p><p style="font-size:16px;font-weight:700;color:var(--text);margin:2px 0 12px;">' + data.bank.ifsc + '</p>';
         if (data.bank.bankName) h += '<p style="font-size:11px;color:var(--text2);margin:0;">Bank Name</p><p style="font-size:16px;font-weight:700;color:var(--text);margin:2px 0 12px;">' + data.bank.bankName + '</p>';
         if (data.bank.holderName) h += '<p style="font-size:11px;color:var(--text2);margin:0;">Account Holder</p><p style="font-size:16px;font-weight:700;color:var(--text);">' + data.bank.holderName + '</p>';
         h += '</div>'; div.innerHTML = h;
+        container.appendChild(div);
       }
 
       // FEEDBACK
@@ -387,6 +395,7 @@ if (!slug) {
           }
         } else h += '<p style="text-align:center;color:var(--text2);">No feedback yet.</p>';
         h += '</div>'; div.innerHTML = h;
+        container.appendChild(div);
         setTimeout(function() {
           const stars = document.querySelectorAll('.star'); const starInput = document.getElementById('feedback-star');
           stars.forEach(function(star) { star.addEventListener('click', function() { const val = parseInt(this.getAttribute('data-star')); starInput.value = val; stars.forEach(function(s, i) { s.style.color = i < val ? 'var(--c4)' : '#ccc'; }); }); });
@@ -400,14 +409,15 @@ if (!slug) {
         }, 100);
       }
 
-      // LOCATION
-      else if (sec === 'location' && data.location) {
+      // LOCATION - Hide if empty
+      else if (sec === 'location' && data.location && (data.location.mapLink || data.location.address)) {
         let h = '<h3>📍 Location</h3><div style="background:var(--card-bg2);border-radius:16px;padding:20px;text-align:center;">';
         if (data.location.mapLink) h += '<div style="border-radius:16px;overflow:hidden;margin-bottom:15px;background:var(--c2);height:200px;display:flex;align-items:center;justify-content:center;"><div style="text-align:center;"><span style="font-size:60px;">🗺️</span><p style="font-size:13px;color:var(--text2);margin-top:8px;">Tap below to view map</p></div></div>';
         if (data.location.address) h += '<p style="font-size:14px;color:var(--text);margin:10px 0;">📍 ' + data.location.address + '</p>';
         if (data.location.mapLink) h += '<a href="' + data.location.mapLink + '" target="_blank" style="display:inline-block;margin:6px;padding:14px 28px;' + btnC4 + 'text-decoration:none;font-size:15px;">🗺️ Open in Google Maps</a>';
         if (data.location.address) h += '<a href="https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(data.location.address) + '" target="_blank" style="display:inline-block;margin:6px;padding:14px 28px;' + btnC4 + 'text-decoration:none;font-size:15px;">🧭 Navigate</a>';
         h += '</div>'; div.innerHTML = h;
+        container.appendChild(div);
       }
 
       // CONTACT FORM
@@ -416,6 +426,7 @@ if (!slug) {
         h += '<textarea id="enquiry-msg" placeholder="Enter your enquiry..." rows="3" style="width:100%;padding:12px;border:1px solid var(--c3);border-radius:10px;font-size:14px;margin-bottom:12px;background:var(--card-bg);color:var(--text);"></textarea>';
         h += '<button id="enquiry-send" style="width:100%;padding:14px;' + btnC4 + 'border:none;cursor:pointer;font-size:15px;">📤 Send via WhatsApp</button></div>';
         div.innerHTML = h;
+        container.appendChild(div);
         setTimeout(function() {
           document.getElementById('enquiry-send').addEventListener('click', function() {
             const msg = document.getElementById('enquiry-msg').value.trim(); if (!msg) { alert('Please enter your message!'); return; }
@@ -423,8 +434,6 @@ if (!slug) {
           });
         }, 100);
       }
-
-      container.appendChild(div);
     }
 
     const sections = container.querySelectorAll('#sections-container > div');
