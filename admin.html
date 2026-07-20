@@ -6,24 +6,35 @@
   <title>vCard Admin Panel</title>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="js/firebase-config.js"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Inter',sans-serif;background:#f1f5f9;padding:20px}
-    #login-box,#admin-panel{max-width:700px;margin:0 auto;background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+    #login-box,#admin-panel{max-width:750px;margin:0 auto;background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
     h2{color:#1e293b;margin-bottom:20px}
-    input,button{padding:12px 16px;border-radius:10px;border:1px solid #e2e8f0;font-size:14px;width:100%;margin-bottom:10px}
-    button{background:#1a73e8;color:#fff;border:none;cursor:pointer;font-weight:600}
+    h3{color:#1e293b;margin-top:25px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #e2e8f0}
+    input,button,select{padding:12px 16px;border-radius:10px;border:1px solid #e2e8f0;font-size:14px;width:100%;margin-bottom:10px}
+    button{background:#1a73e8;color:#fff;border:none;cursor:pointer;font-weight:600;transition:all 0.3s}
     button:hover{background:#1557b0}
     button.danger{background:#ef4444}
     button.danger:hover{background:#dc2626}
     button.success{background:#10b981}
     button.success:hover{background:#059669}
+    button.warning{background:#f59e0b;color:#000}
+    button.warning:hover{background:#d97706}
     table{width:100%;border-collapse:collapse;margin-top:15px}
     th,td{padding:10px;text-align:left;border-bottom:1px solid #e2e8f0;font-size:13px}
-    th{background:#f8fafc;font-weight:600}
-    .badge{background:#10b981;color:#fff;padding:3px 8px;border-radius:12px;font-size:11px}
-    .link{cursor:pointer;color:#1a73e8;text-decoration:underline;font-size:12px}
+    th{background:#f8fafc;font-weight:600;color:#475569}
+    .badge{padding:3px 8px;border-radius:12px;font-size:11px;font-weight:600}
+    .badge-trial{background:#dbeafe;color:#1e40af}
+    .badge-single{background:#d1fae5;color:#065f46}
+    .badge-pro{background:#ede9fe;color:#5b21b6}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .row input{flex:1;min-width:200px}
+    .msg{font-size:12px;margin-top:5px;padding:10px;border-radius:8px}
+    .msg-success{background:#d1fae5;color:#065f46}
+    .msg-error{background:#fee2e2;color:#991b1b}
   </style>
 </head>
 <body>
@@ -40,22 +51,38 @@
 <div id="admin-panel" style="display:none;">
   <h2>🛠️ vCard Admin Panel</h2>
   
-  <h3>➕ Create New Client</h3>
-  <input type="text" id="new-name" placeholder="Client Full Name (required)">
-  <input type="text" id="new-phone" placeholder="Phone Number (optional)">
-  <p style="font-size:11px;color:#64748b;">Slug & Token auto-generate honge</p>
-  <button onclick="createClient()" class="success">🚀 Create Client Card</button>
-  <p id="create-msg" style="font-size:12px;margin-top:5px;"></p>
+  <!-- Create New Client -->
+  <h3>➕ Create New Client (with Email & Password)</h3>
+  <div class="row">
+    <input type="text" id="new-name" placeholder="Full Name *">
+    <input type="email" id="new-email" placeholder="Email Address *">
+  </div>
+  <div class="row">
+    <input type="text" id="new-phone" placeholder="Phone Number (optional)">
+    <input type="password" id="new-pass" placeholder="Password (min 6 chars) *">
+  </div>
+  <select id="new-plan">
+    <option value="trial">Free Trial (3 days, 1 card)</option>
+    <option value="single">Single Card - ₹699/yr (1 card)</option>
+    <option value="team">Small Team - ₹2,999/yr (5 cards)</option>
+    <option value="startup">Startup - ₹4,999/yr (10 cards)</option>
+    <option value="business">Business - ₹9,999/yr (30 cards)</option>
+    <option value="enterprise">Enterprise - ₹14,999/yr (50 cards)</option>
+  </select>
+  <button onclick="createClient()" class="success">🚀 Create Client Account & Card</button>
+  <p id="create-msg"></p>
 
-  <h3 style="margin-top:25px;">📋 All Clients</h3>
+  <!-- All Clients -->
+  <h3>📋 All Clients</h3>
   <table>
-    <thead><tr><th>Slug</th><th>Name</th><th>Phone</th><th>Links</th><th>Actions</th></tr></thead>
-    <tbody id="client-table"></tbody>
+    <thead><tr><th>Email</th><th>Name</th><th>Phone</th><th>Plan</th><th>Cards</th><th>Actions</th></tr></thead>
+    <tbody id="client-table"><tr><td colspan="6">Loading...</td></tr></tbody>
   </table>
 </div>
 
 <script>
-const ADMIN_PASS = "Admin@11Avatar"; // Apna password yahan set karen
+const ADMIN_PASS = 'Admin@11Avatar';
+var planLimits = { 'trial': 1, 'single': 1, 'team': 5, 'startup': 10, 'business': 30, 'enterprise': 50 };
 
 function login(){
   var pass = document.getElementById('admin-pass').value;
@@ -70,11 +97,11 @@ function login(){
 
 function generateToken(){
   var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  var token = '';
-  for(var i=0; i<8; i++){ token += chars.charAt(Math.floor(Math.random() * chars.length)); }
-  token += '@';
-  for(var j=0; j<4; j++){ token += chars.charAt(Math.floor(Math.random() * chars.length)); }
-  return token;
+  var t = '';
+  for(var i=0;i<8;i++) t += chars.charAt(Math.floor(Math.random()*chars.length));
+  t += '@';
+  for(var j=0;j<4;j++) t += chars.charAt(Math.floor(Math.random()*chars.length));
+  return t;
 }
 
 function cleanSlug(text){
@@ -83,88 +110,111 @@ function cleanSlug(text){
 
 async function createClient(){
   var name = document.getElementById('new-name').value.trim();
+  var email = document.getElementById('new-email').value.trim();
   var phone = document.getElementById('new-phone').value.trim();
+  var pass = document.getElementById('new-pass').value;
+  var plan = document.getElementById('new-plan').value;
   var msg = document.getElementById('create-msg');
   
-  if(!name){ msg.textContent = '❌ Name required!'; msg.style.color='red'; return; }
+  if(!name || !email || pass.length < 6){
+    msg.innerHTML = '<div class="msg msg-error">❌ Name, Email & Password (6+ chars) required!</div>';
+    return;
+  }
   
-  var slug = cleanSlug(name);
-  if(!slug){ slug = 'client-' + Date.now(); }
-  
-  var token = generateToken();
-  
-  var defaultData = {
-    name: name,
-    phone: phone || '',
-    title: '',
-    email: '',
-    website: '',
-    editToken: token,
-    theme: 'default',
-    animation: 'wave',
-    profileImage: '',
-    profileStyle: 'circle',
-    qrImage: '',
-    about: '',
-    aboutImage: '',
-    aboutPdf: '',
-    sectionOrder: ["about","contact","social","products","services","gallery","youtube","reels","payment","bank","feedback","location","contactform"],
-    social: {},
-    products: [],
-    services: [],
-    gallery: [],
-    youtube: [],
-    reels: [],
-    payment: {paytm:'', upi:'', qrImage:''},
-    bank: {accountNumber:'', ifsc:'', bankName:'', holderName:''},
-    location: {mapLink:'', address:''},
-    feedbacks: []
-  };
+  msg.innerHTML = '<div class="msg">⏳ Creating account...</div>';
   
   try {
-    await db.collection('cards').doc(slug).set(defaultData);
-    var publicLink = 'https://allimpliments.github.io/vcard-/?id=' + slug;
-    var editLink = 'https://allimpliments.github.io/vcard-/edit.html?slug=' + slug + '&token=' + token;
-    msg.innerHTML = '✅ Created!<br>📱 <a href="'+publicLink+'" target="_blank">Public Card</a><br>✏️ <a href="'+editLink+'" target="_blank">Editor</a><br>🔑 Token: <b>'+token+'</b>';
-    msg.style.color = 'green';
+    // Firebase Auth - Create user
+    var userCred = await firebase.auth().createUserWithEmailAndPassword(email, pass);
+    var uid = userCred.user.uid;
+    
+    // Save to users collection
+    await db.collection('users').doc(uid).set({
+      name: name,
+      email: email,
+      phone: phone || '',
+      plan: plan,
+      cardLimit: planLimits[plan] || 1,
+      cards: 0,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    // Create vCard
+    var slug = cleanSlug(name) || ('client-' + Date.now());
+    var token = generateToken();
+    
+    await db.collection('cards').doc(slug).set({
+      owner: uid,
+      name: name,
+      phone: phone || '',
+      email: email,
+      editToken: token,
+      theme: 'default',
+      animation: 'wave',
+      sectionOrder: ["about","contact","social"],
+      trialEnds: plan === 'trial' ? new Date(Date.now() + 3*24*60*60*1000).toISOString() : null,
+      status: 'active',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    var pub = 'https://vcard.11avatardigitalhub.cloud/?id=' + slug;
+    var edit = 'https://vcard.11avatardigitalhub.cloud/edit.html?slug=' + slug + '&token=' + token;
+    
+    msg.innerHTML = '<div class="msg msg-success">✅ Client Created!<br>📧 Email: <b>'+email+'</b><br>🔑 Password: <b>'+pass+'</b><br>📱 <a href="'+pub+'" target="_blank">Public Card</a><br>✏️ <a href="'+edit+'" target="_blank">Editor Link</a><br>🔐 Token: <b>'+token+'</b></div>';
+    
+    // Clear form
     document.getElementById('new-name').value = '';
+    document.getElementById('new-email').value = '';
     document.getElementById('new-phone').value = '';
+    document.getElementById('new-pass').value = '';
+    
     loadClients();
-  } catch(e) {
-    msg.textContent = '❌ Error: ' + e.message;
-    msg.style.color = 'red';
+    
+  } catch(e){
+    msg.innerHTML = '<div class="msg msg-error">❌ Error: ' + e.message + '</div>';
   }
 }
 
 async function loadClients(){
   var tbody = document.getElementById('client-table');
-  tbody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
   try {
-    var snap = await db.collection('cards').get();
+    var snap = await db.collection('users').orderBy('createdAt','desc').get();
     tbody.innerHTML = '';
     snap.forEach(function(doc){
       var d = doc.data();
-      var publicLink = 'https://allimpliments.github.io/vcard-/?id=' + doc.id;
-      var editLink = 'https://allimpliments.github.io/vcard-/edit.html?slug=' + doc.id + '&token=' + (d.editToken || '');
-      var row = '<tr>';
-      row += '<td><b>'+doc.id+'</b></td>';
-      row += '<td>'+ (d.name || '-') +'</td>';
-      row += '<td>'+ (d.phone || '-') +'</td>';
-      row += '<td><a href="'+publicLink+'" target="_blank">📱</a> <a href="'+editLink+'" target="_blank">✏️</a></td>';
-      row += '<td><button class="danger" onclick="deleteClient(\''+doc.id+'\')">🗑️</button></td>';
-      row += '</tr>';
-      tbody.innerHTML += row;
+      var plan = d.plan || 'trial';
+      var badge = '<span class="badge badge-'+ (plan === 'trial' ? 'trial' : plan === 'single' ? 'single' : 'pro') +'">'+plan.toUpperCase()+'</span>';
+      tbody.innerHTML += '<tr>'+
+        '<td>'+d.email+'</td>'+
+        '<td>'+ (d.name||'-') +'</td>'+
+        '<td>'+ (d.phone||'-') +'</td>'+
+        '<td>'+badge+'</td>'+
+        '<td>'+(d.cards||0)+' / '+(planLimits[plan]||1)+'</td>'+
+        '<td><button class="danger" onclick="deleteUser(\''+doc.id+'\',\''+d.email+'\')">🗑️</button></td>'+
+        '</tr>';
     });
-  } catch(e) {
-    tbody.innerHTML = '<tr><td colspan="5">Error loading</td></tr>';
+    if(snap.empty) tbody.innerHTML = '<tr><td colspan="6">No clients yet</td></tr>';
+  } catch(e){
+    tbody.innerHTML = '<tr><td colspan="6">Error: '+e.message+'</td></tr>';
   }
 }
 
-async function deleteClient(slug){
-  if(confirm('Delete ' + slug + ' permanently?')){
-    await db.collection('cards').doc(slug).delete();
+async function deleteUser(uid, email){
+  if(!confirm('Permanently delete user: ' + email + '?\n\nThis will delete their account and all cards.')) return;
+  try {
+    // Delete all their cards
+    var snap = await db.collection('cards').where('owner','==',uid).get();
+    var batch = db.batch();
+    snap.forEach(function(doc){ batch.delete(doc.ref); });
+    await batch.commit();
+    
+    // Delete user document
+    await db.collection('users').doc(uid).delete();
+    
+    alert('✅ User deleted!');
     loadClients();
-    alert('✅ Deleted!');
+  } catch(e){
+    alert('Error: ' + e.message);
   }
 }
 </script>
