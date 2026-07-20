@@ -11,7 +11,7 @@
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Inter',sans-serif;background:#f1f5f9;padding:20px}
-    #login-box,#admin-panel{max-width:850px;margin:0 auto;background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+    #login-box,#admin-panel{max-width:900px;margin:0 auto;background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
     h2{color:#1e293b;margin-bottom:20px}
     h3{color:#1e293b;margin-top:25px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #e2e8f0}
     input,button,select{padding:12px 16px;border-radius:10px;border:1px solid #e2e8f0;font-size:14px;width:100%;margin-bottom:10px}
@@ -29,7 +29,11 @@
     .badge{padding:3px 8px;border-radius:12px;font-size:11px;font-weight:600}
     .badge-trial{background:#dbeafe;color:#1e40af}
     .badge-single{background:#d1fae5;color:#065f46}
-    .badge-pro{background:#ede9fe;color:#5b21b6}
+    .badge-team{background:#ede9fe;color:#5b21b6}
+    .badge-startup{background:#fef3c7;color:#92400e}
+    .badge-business{background:#e0e7ff;color:#3730a3}
+    .badge-enterprise{background:#fce7f3;color:#9d174d}
+    .badge-agent{background:#fef3c7;color:#92400e}
     .row{display:flex;gap:10px;flex-wrap:wrap}
     .row input{flex:1;min-width:200px}
     .msg{font-size:12px;margin-top:5px;padding:10px;border-radius:8px}
@@ -49,9 +53,9 @@
 
 <!-- Admin Panel -->
 <div id="admin-panel" style="display:none;">
-  <h2>🛠️ vCard Admin Panel</h2>
-  
-  <!-- Create New Client -->
+  <h2>🛠️ vCard Super Admin Panel</h2>
+
+  <!-- ========== CREATE CLIENT ========== -->
   <h3>➕ Create New Client (with Email & Password)</h3>
   <div class="row">
     <input type="text" id="new-name" placeholder="Full Name *">
@@ -72,15 +76,32 @@
   <button onclick="createClient()" class="success">🚀 Create Client Account & Card</button>
   <p id="create-msg"></p>
 
-  <!-- All Clients (Users) -->
-  <h3>👥 All Clients (User Accounts)</h3>
+  <!-- ========== CREATE AGENT ========== -->
+  <h3>🤝 Create New Agent (One Click)</h3>
+  <div class="row">
+    <input type="text" id="agent-name" placeholder="Agent Full Name *">
+    <input type="email" id="agent-email" placeholder="Agent Email *">
+  </div>
+  <div class="row">
+    <input type="text" id="agent-phone" placeholder="Phone Number">
+    <input type="password" id="agent-pass" placeholder="Password (min 6 chars) *">
+  </div>
+  <div class="row">
+    <input type="text" id="agent-city" placeholder="City">
+  </div>
+  <button onclick="createAgent()" class="warning">🤝 Create Agent Account</button>
+  <p id="agent-msg"></p>
+
+  <!-- ========== ALL USERS ========== -->
+  <h3>👥 All Users</h3>
+  <button onclick="loadClients()" style="width:auto;padding:8px 16px;margin-bottom:10px;">🔄 Refresh Users</button>
   <table>
-    <thead><tr><th>Email</th><th>Name</th><th>Phone</th><th>Plan</th><th>Cards</th><th>Actions</th></tr></thead>
+    <thead><tr><th>Email</th><th>Name</th><th>Phone</th><th>Plan/Role</th><th>Cards</th><th>Actions</th></tr></thead>
     <tbody id="client-table"><tr><td colspan="6">Loading...</td></tr></tbody>
   </table>
 
-  <!-- All Cards (Legacy + New) -->
-  <h3>📇 All Cards (Including Legacy)</h3>
+  <!-- ========== ALL CARDS ========== -->
+  <h3>📇 All Cards</h3>
   <button onclick="loadAllCards()" style="width:auto;padding:8px 16px;margin-bottom:10px;">🔄 Refresh Cards</button>
   <table>
     <thead><tr><th>Slug</th><th>Name</th><th>Owner/Email</th><th>Created</th><th>Public Link</th><th>Actions</th></tr></thead>
@@ -91,6 +112,7 @@
 <script>
 const ADMIN_PASS = 'Admin@11Avatar';
 var planLimits = { 'trial': 1, 'single': 1, 'team': 5, 'startup': 10, 'business': 30, 'enterprise': 50 };
+var commissions = { single: 70, team: 300, startup: 500, business: 1000, enterprise: 1500 };
 
 function login(){
   var pass = document.getElementById('admin-pass').value;
@@ -117,6 +139,7 @@ function cleanSlug(text){
   return text.toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-').replace(/--+/g,'-').replace(/^-|-$/g,'');
 }
 
+// ========== CREATE CLIENT ==========
 async function createClient(){
   var name = document.getElementById('new-name').value.trim();
   var email = document.getElementById('new-email').value.trim();
@@ -133,45 +156,31 @@ async function createClient(){
   msg.innerHTML = '<div class="msg">⏳ Creating account...</div>';
   
   try {
-    // Firebase Auth - Create user
     var userCred = await firebase.auth().createUserWithEmailAndPassword(email, pass);
     var uid = userCred.user.uid;
     
-    // Save to users collection
     await db.collection('users').doc(uid).set({
-      name: name,
-      email: email,
-      phone: phone || '',
-      plan: plan,
-      cardLimit: planLimits[plan] || 1,
-      cards: 0,
+      name: name, email: email, phone: phone || '',
+      plan: plan, cardLimit: planLimits[plan] || 1, cards: 0, role: 'client',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     
-    // Create vCard
     var slug = cleanSlug(name) || ('client-' + Date.now());
     var token = generateToken();
     
     await db.collection('cards').doc(slug).set({
-      owner: uid,
-      name: name,
-      phone: phone || '',
-      email: email,
-      editToken: token,
-      theme: 'default',
-      animation: 'wave',
+      owner: uid, name: name, phone: phone || '', email: email,
+      editToken: token, theme: 'default', animation: 'wave', status: 'active',
       sectionOrder: ["about","contact","social","products","services","gallery","youtube","reels","payment","bank","feedback","location","contactform"],
       trialEnds: plan === 'trial' ? new Date(Date.now() + 3*24*60*60*1000).toISOString() : null,
-      status: 'active',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     
     var pub = 'https://vcard.11avatardigitalhub.cloud/?id=' + slug;
     var edit = 'https://vcard.11avatardigitalhub.cloud/edit.html?slug=' + slug + '&token=' + token;
     
-    msg.innerHTML = '<div class="msg msg-success">✅ Client Created!<br>📧 Email: <b>'+email+'</b><br>🔑 Password: <b>'+pass+'</b><br>📱 <a href="'+pub+'" target="_blank">Public Card</a><br>✏️ <a href="'+edit+'" target="_blank">Editor Link</a><br>🔐 Token: <b>'+token+'</b></div>';
+    msg.innerHTML = '<div class="msg msg-success">✅ Client Created!<br>📧 <b>'+email+'</b><br>🔑 <b>'+pass+'</b><br>📱 <a href="'+pub+'" target="_blank">Public Card</a><br>✏️ <a href="'+edit+'" target="_blank">Editor Link</a><br>🔐 Token: <b>'+token+'</b></div>';
     
-    // Clear form
     document.getElementById('new-name').value = '';
     document.getElementById('new-email').value = '';
     document.getElementById('new-phone').value = '';
@@ -179,12 +188,61 @@ async function createClient(){
     
     loadClients();
     loadAllCards();
-    
   } catch(e){
-    msg.innerHTML = '<div class="msg msg-error">❌ Error: ' + e.message + '</div>';
+    msg.innerHTML = '<div class="msg msg-error">❌ ' + e.message + '</div>';
   }
 }
 
+// ========== CREATE AGENT ==========
+async function createAgent(){
+  var name = document.getElementById('agent-name').value.trim();
+  var email = document.getElementById('agent-email').value.trim();
+  var phone = document.getElementById('agent-phone').value.trim();
+  var pass = document.getElementById('agent-pass').value;
+  var city = document.getElementById('agent-city').value.trim();
+  var msg = document.getElementById('agent-msg');
+  
+  if(!name || !email || pass.length < 6){
+    msg.innerHTML = '<div class="msg msg-error">❌ Name, Email & Password (6+ chars) required!</div>';
+    return;
+  }
+  
+  msg.innerHTML = '<div class="msg">⏳ Creating agent...</div>';
+  
+  try {
+    // Save to agent collection
+    await db.collection('agent').add({
+      Name: name, Email: email, password: pass,
+      'Phone no': phone || '', city: city || '',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    // Create Firebase Auth account
+    await firebase.auth().createUserWithEmailAndPassword(email, pass);
+    
+    // Save to users collection as agent
+    var userCred = await firebase.auth().signInWithEmailAndPassword(email, pass);
+    await db.collection('users').doc(userCred.user.uid).set({
+      name: name, email: email, phone: phone || '',
+      role: 'agent', plan: 'agent', cards: 0,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    msg.innerHTML = '<div class="msg msg-success">✅ Agent Created!<br>📧 <b>'+email+'</b><br>🔑 <b>'+pass+'</b><br>🔗 Share Link: <b>/agent-login.html</b></div>';
+    
+    document.getElementById('agent-name').value = '';
+    document.getElementById('agent-email').value = '';
+    document.getElementById('agent-phone').value = '';
+    document.getElementById('agent-pass').value = '';
+    document.getElementById('agent-city').value = '';
+    
+    loadClients();
+  } catch(e){
+    msg.innerHTML = '<div class="msg msg-error">❌ ' + e.message + '</div>';
+  }
+}
+
+// ========== LOAD USERS ==========
 async function loadClients(){
   var tbody = document.getElementById('client-table');
   try {
@@ -192,23 +250,26 @@ async function loadClients(){
     tbody.innerHTML = '';
     snap.forEach(function(doc){
       var d = doc.data();
+      var role = d.role || 'client';
       var plan = d.plan || 'trial';
-      var badgeClass = plan === 'trial' ? 'badge-trial' : plan === 'single' ? 'badge-single' : 'badge-pro';
+      var displayPlan = role === 'agent' ? 'AGENT' : plan.toUpperCase();
+      var badgeClass = role === 'agent' ? 'badge-agent' : 'badge-' + (plan === 'trial' ? 'trial' : 'single');
       tbody.innerHTML += '<tr>'+
         '<td>'+d.email+'</td>'+
         '<td>'+ (d.name||'-') +'</td>'+
         '<td>'+ (d.phone||'-') +'</td>'+
-        '<td><span class="badge '+badgeClass+'">'+plan.toUpperCase()+'</span></td>'+
-        '<td>'+(d.cards||0)+' / '+(planLimits[plan]||1)+'</td>'+
+        '<td><span class="badge '+badgeClass+'">'+displayPlan+'</span></td>'+
+        '<td>'+(d.cards||0)+' / '+(planLimits[plan]||'N/A')+'</td>'+
         '<td><button class="danger" onclick="deleteUser(\''+doc.id+'\',\''+d.email+'\')">🗑️</button></td>'+
         '</tr>';
     });
-    if(snap.empty) tbody.innerHTML = '<tr><td colspan="6">No clients yet</td></tr>';
+    if(snap.empty) tbody.innerHTML = '<tr><td colspan="6">No users yet</td></tr>';
   } catch(e){
     tbody.innerHTML = '<tr><td colspan="6">Error: '+e.message+'</td></tr>';
   }
 }
 
+// ========== LOAD CARDS ==========
 async function loadAllCards(){
   var tbody = document.getElementById('cards-table');
   tbody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
@@ -218,7 +279,7 @@ async function loadAllCards(){
     snap.forEach(function(doc){
       var d = doc.data();
       var pub = 'https://vcard.11avatardigitalhub.cloud/?id=' + doc.id;
-      var created = d.createdAt ? new Date(d.createdAt.toDate()).toLocaleDateString() : 'N/A';
+      var created = d.createdAt ? new Date(d.createdAt.toDate()).toLocaleDateString('en-IN') : 'N/A';
       var owner = d.email || d.owner || 'Legacy';
       tbody.innerHTML += '<tr>'+
         '<td><b>'+doc.id+'</b></td>'+
@@ -235,29 +296,22 @@ async function loadAllCards(){
   }
 }
 
+// ========== DELETE ==========
 async function deleteCard(slug){
-  if(!confirm('Delete card: ' + slug + '? This cannot be undone.')) return;
-  try {
-    await db.collection('cards').doc(slug).delete();
-    alert('✅ Card deleted!');
-    loadAllCards();
-  } catch(e){
-    alert('Error: ' + e.message);
-  }
+  if(!confirm('Delete card: ' + slug + '?')) return;
+  await db.collection('cards').doc(slug).delete();
+  alert('✅ Card deleted!');
+  loadAllCards();
 }
 
 async function deleteUser(uid, email){
-  if(!confirm('Permanently delete user: ' + email + '?\n\nThis will delete their account and ALL their cards.')) return;
+  if(!confirm('Delete user: ' + email + '?\n\nAll their cards will also be deleted.')) return;
   try {
-    // Delete all their cards
     var snap = await db.collection('cards').where('owner','==',uid).get();
     var batch = db.batch();
     snap.forEach(function(doc){ batch.delete(doc.ref); });
     await batch.commit();
-    
-    // Delete user document
     await db.collection('users').doc(uid).delete();
-    
     alert('✅ User and all cards deleted!');
     loadClients();
     loadAllCards();
