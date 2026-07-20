@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vCard Admin Panel</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#f1f5f9;padding:20px}
+    #login-box,#admin-panel{max-width:700px;margin:0 auto;background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+    h2{color:#1e293b;margin-bottom:20px}
+    input,button{padding:12px 16px;border-radius:10px;border:1px solid #e2e8f0;font-size:14px;width:100%;margin-bottom:10px}
+    button{background:#1a73e8;color:#fff;border:none;cursor:pointer;font-weight:600}
+    button:hover{background:#1557b0}
+    button.danger{background:#ef4444}
+    button.danger:hover{background:#dc2626}
+    button.success{background:#10b981}
+    button.success:hover{background:#059669}
+    table{width:100%;border-collapse:collapse;margin-top:15px}
+    th,td{padding:10px;text-align:left;border-bottom:1px solid #e2e8f0;font-size:13px}
+    th{background:#f8fafc;font-weight:600}
+    .badge{background:#10b981;color:#fff;padding:3px 8px;border-radius:12px;font-size:11px}
+    .link{cursor:pointer;color:#1a73e8;text-decoration:underline;font-size:12px}
+  </style>
+</head>
+<body>
+
+<!-- Login -->
+<div id="login-box">
+  <h2>🔐 Admin Login</h2>
+  <input type="password" id="admin-pass" placeholder="Enter Admin Password">
+  <button onclick="login()">Login</button>
+  <p id="login-error" style="color:red;font-size:12px;display:none;">Wrong Password!</p>
+</div>
+
+<!-- Admin Panel -->
+<div id="admin-panel" style="display:none;">
+  <h2>🛠️ vCard Admin Panel</h2>
+  
+  <h3>➕ Create New Client</h3>
+  <input type="text" id="new-slug" placeholder="Client Slug (e.g. rahul-agency)">
+  <input type="text" id="new-name" placeholder="Client Name">
+  <input type="text" id="new-phone" placeholder="Phone">
+  <button onclick="createClient()" class="success">🚀 Create Client Card</button>
+  <p id="create-msg" style="font-size:12px;margin-top:5px;"></p>
+
+  <h3 style="margin-top:25px;">📋 All Clients</h3>
+  <table>
+    <thead><tr><th>Slug</th><th>Name</th><th>Phone</th><th>Links</th><th>Actions</th></tr></thead>
+    <tbody id="client-table"></tbody>
+  </table>
+</div>
+
+<script>
+const ADMIN_PASS = "Admin@11Avatar"; // Apna password set karen
+
+function login(){
+  var pass = document.getElementById('admin-pass').value;
+  if(pass === ADMIN_PASS){
+    document.getElementById('login-box').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    loadClients();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+
+function generateToken(){
+  return Math.random().toString(36).substring(2,10) + '@' + Math.random().toString(36).substring(2,6);
+}
+
+function generateSlug(name){
+  return name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+
+async function createClient(){
+  var name = document.getElementById('new-name').value.trim();
+  var phone = document.getElementById('new-phone').value.trim();
+  var slug = document.getElementById('new-slug').value.trim() || generateSlug(name);
+  var msg = document.getElementById('create-msg');
+  
+  if(!name){ msg.textContent = '❌ Name required!'; msg.style.color='red'; return; }
+  
+  var token = generateToken();
+  var defaultData = {
+    name: name,
+    phone: phone || '',
+    title: '',
+    email: '',
+    website: '',
+    editToken: token,
+    theme: 'default',
+    animation: 'wave',
+    profileImage: '',
+    profileStyle: 'circle',
+    qrImage: '',
+    about: '',
+    aboutImage: '',
+    aboutPdf: '',
+    sectionOrder: ["about","contact","social","products","services","gallery","youtube","reels","payment","bank","feedback","location","contactform"],
+    social: {},
+    products: [],
+    services: [],
+    gallery: [],
+    youtube: [],
+    reels: [],
+    payment: {paytm:'', upi:'', qrImage:''},
+    bank: {accountNumber:'', ifsc:'', bankName:'', holderName:''},
+    location: {mapLink:'', address:''},
+    feedbacks: []
+  };
+  
+  try {
+    await db.collection('cards').doc(slug).set(defaultData);
+    var publicLink = 'https://allimpliments.github.io/vcard-/?id=' + slug;
+    var editLink = 'https://allimpliments.github.io/vcard-/edit.html?slug=' + slug + '&token=' + token;
+    msg.innerHTML = '✅ Created!<br>📱 <a href="'+publicLink+'" target="_blank">Public Card</a><br>✏️ <a href="'+editLink+'" target="_blank">Editor</a><br>🔑 Token: <b>'+token+'</b>';
+    msg.style.color = 'green';
+    loadClients();
+  } catch(e) {
+    msg.textContent = '❌ Error: ' + e.message;
+    msg.style.color = 'red';
+  }
+}
+
+async function loadClients(){
+  var tbody = document.getElementById('client-table');
+  tbody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
+  try {
+    var snap = await db.collection('cards').get();
+    tbody.innerHTML = '';
+    snap.forEach(function(doc){
+      var d = doc.data();
+      var publicLink = 'https://allimpliments.github.io/vcard-/?id=' + doc.id;
+      var editLink = 'https://allimpliments.github.io/vcard-/edit.html?slug=' + doc.id + '&token=' + (d.editToken || '');
+      var row = '<tr>';
+      row += '<td><b>'+doc.id+'</b></td>';
+      row += '<td>'+ (d.name || '-') +'</td>';
+      row += '<td>'+ (d.phone || '-') +'</td>';
+      row += '<td><a href="'+publicLink+'" target="_blank">📱</a> <a href="'+editLink+'" target="_blank">✏️</a></td>';
+      row += '<td><button class="danger" onclick="deleteClient(\''+doc.id+'\')">🗑️</button></td>';
+      row += '</tr>';
+      tbody.innerHTML += row;
+    });
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="5">Error loading</td></tr>';
+  }
+}
+
+async function deleteClient(slug){
+  if(confirm('Delete ' + slug + ' permanently?')){
+    await db.collection('cards').doc(slug).delete();
+    loadClients();
+    alert('✅ Deleted!');
+  }
+}
+</script>
+</body>
+</html>
