@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - vCard</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;display:flex;align-items:center;justify-content:center}
+    .box{background:#fff;border-radius:20px;padding:40px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
+    h2{text-align:center;color:#1e293b;margin-bottom:25px}
+    input{width:100%;padding:14px;margin-bottom:12px;border:2px solid #e2e8f0;border-radius:12px;font-size:14px}
+    button{width:100%;padding:14px;background:#667eea;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer}
+    button:hover{background:#5a67d8}
+    p{text-align:center;margin-top:15px;color:#64748b;font-size:13px}
+    a{color:#667eea;text-decoration:none;font-weight:600}
+    .error{color:#ef4444;text-align:center;font-size:12px;display:none}
+  </style>
+</head>
+<body>
+<div class="box">
+  <h2>Create Account</h2>
+  <input type="text" id="signup-name" placeholder="Full Name">
+  <input type="email" id="signup-email" placeholder="Email">
+  <input type="password" id="signup-pass" placeholder="Password (6+ chars)">
+  <button onclick="signup()">Sign Up</button>
+  <p class="error" id="signup-error"></p>
+  <p>Already have account? <a href="login.html">Login</a></p>
+</div>
+
+<script>
+function signup(){
+  var name = document.getElementById('signup-name').value.trim();
+  var email = document.getElementById('signup-email').value.trim();
+  var pass = document.getElementById('signup-pass').value;
+  var err = document.getElementById('signup-error');
+  
+  if(!name || !email || pass.length < 6){
+    err.textContent = 'All fields required. Password 6+ chars.';
+    err.style.display = 'block';
+    return;
+  }
+  
+  firebase.auth().createUserWithEmailAndPassword(email, pass)
+  .then(function(result){
+    return db.collection('users').doc(result.user.uid).set({
+      name: name,
+      email: email,
+      cards: 0,
+      plan: 'free',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  })
+  .then(function(){
+    window.location.href = 'dashboard.html';
+  })
+  .catch(function(e){
+    err.textContent = e.message;
+    err.style.display = 'block';
+  });
+}
+</script>
+</body>
+</html>
