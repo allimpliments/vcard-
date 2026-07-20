@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - vCard</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;display:flex;align-items:center;justify-content:center}
+    .box{background:#fff;border-radius:20px;padding:40px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
+    h2{text-align:center;color:#1e293b;margin-bottom:25px}
+    input{width:100%;padding:14px;margin-bottom:12px;border:2px solid #e2e8f0;border-radius:12px;font-size:14px}
+    button{width:100%;padding:14px;background:#667eea;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer}
+    button:hover{background:#5a67d8}
+    p{text-align:center;margin-top:15px;color:#64748b;font-size:13px}
+    a{color:#667eea;text-decoration:none;font-weight:600}
+    .error{color:#ef4444;text-align:center;font-size:12px;display:none}
+  </style>
+</head>
+<body>
+<div class="box">
+  <h2>Login</h2>
+  <input type="email" id="login-email" placeholder="Email">
+  <input type="password" id="login-pass" placeholder="Password">
+  <button onclick="login()">Login</button>
+  <p class="error" id="login-error"></p>
+  <p>Don't have account? <a href="signup.html">Sign Up</a></p>
+</div>
+
+<script>
+function login(){
+  var email = document.getElementById('login-email').value.trim();
+  var pass = document.getElementById('login-pass').value;
+  var err = document.getElementById('login-error');
+  
+  firebase.auth().signInWithEmailAndPassword(email, pass)
+  .then(function(){
+    window.location.href = 'dashboard.html';
+  })
+  .catch(function(e){
+    err.textContent = e.message;
+    err.style.display = 'block';
+  });
+}
+</script>
+</body>
+</html>
