@@ -325,9 +325,10 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
   renderSocial();
   document.getElementById('add-social').onclick = () => { const p = prompt('Platform name?'); if(p){ socialData[p]=''; renderSocial(); } };
 
-  // Appointment Services
+    // Appointment Services
   var aptServicesData = cardData.servicesList || [];
   var aptServicesDiv = document.getElementById('services-list-apt');
+  
   function renderAptServices(){
     aptServicesDiv.innerHTML = '';
     aptServicesData.forEach(function(s, i){
@@ -339,7 +340,26 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     });
   }
   renderAptServices();
-  document.getElementById('add-service-apt').onclick = function(){ aptServicesData.push({name:'', duration:'30', price:''}); renderAptServices(); };
+  
+  document.getElementById('add-service-apt').onclick = function(){ 
+    aptServicesData.push({name:'', duration:'30', price:''}); 
+    renderAptServices(); 
+  };
+
+  // Load existing bookings
+  var bookingsData = cardData.bookings || [];
+  var bookingsDiv = document.getElementById('bookings-list-apt');
+  if (bookingsDiv && bookingsData.length > 0) {
+    var bh = '<h4 style="margin-top:15px;color:#1e293b;font-size:14px;">📋 Recent Bookings</h4>';
+    bookingsData.forEach(function(b) {
+      var badge = b.status === 'cancelled' ? 'color:#ef4444;' : 'color:#10b981;';
+      bh += '<div style="background:#f8fafc;border-radius:8px;padding:10px;margin:5px 0;font-size:12px;">';
+      bh += '<b>' + b.serviceName + '</b> - ' + b.date + ' at ' + b.time + '<br>';
+      bh += '👤 ' + b.name + ' | 📞 ' + b.phone + ' | <span style="' + badge + '">' + (b.status || 'confirmed').toUpperCase() + '</span>';
+      bh += '</div>';
+    });
+    bookingsDiv.innerHTML = bh;
+  }
 
   // Section order
   const sectionList = document.getElementById('section-order');
