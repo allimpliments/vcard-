@@ -18,10 +18,12 @@
     h2{color:#1e293b}
     button.primary{background:#667eea;color:#fff;border:none;padding:12px 24px;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px}
     button.primary:hover{background:#5a67d8}
+    button.primary:disabled{background:#94a3b8;cursor:not-allowed}
     button.success{background:#10b981;color:#fff;border:none;padding:8px 16px;border-radius:8px;font-weight:600;cursor:pointer;font-size:12px;margin-right:8px}
     table{width:100%;border-collapse:collapse;margin-top:15px}
     th,td{padding:12px;text-align:left;border-bottom:1px solid #e2e8f0;font-size:13px}
     th{background:#f8fafc;font-weight:600}
+    .limit-warning{background:#fef3c7;border:1px solid #f59e0b;border-radius:10px;padding:12px;margin:10px 0;font-size:13px;color:#92400e}
   </style>
 </head>
 <body>
@@ -33,8 +35,14 @@
 
   <div class="card">
     <h3>📇 My vCards</h3>
-    <p style="color:#64748b;font-size:13px;margin:8px 0;">Plan: <b id="user-plan">Free</b> | Cards: <b id="card-count">0</b></p>
-    <button class="primary" onclick="createCard()">+ Create New vCard</button>
+    <p style="color:#64748b;font-size:13px;margin:8px 0;">
+      Plan: <b id="user-plan">Free</b> | 
+      Cards Used: <b id="card-count">0</b> / <b id="card-limit">1</b>
+    </p>
+    <div id="limit-warning" class="limit-warning" style="display:none;">
+      ⚠️ Free plan limit reached! <b>Upgrade to ₹299/year</b> for up to 10 cards.
+    </div>
+    <button class="primary" id="create-btn" onclick="createCard()">+ Create New vCard</button>
     <p id="create-msg" style="font-size:12px;margin-top:8px;"></p>
     
     <table>
@@ -44,8 +52,8 @@
   </div>
 
   <div class="card">
-    <h3>💳 Upgrade Plan</h3>
-    <p style="color:#64748b;font-size:13px;margin:8px 0;">₹299/year per card</p>
+    <h3>💳 Upgrade to Pro</h3>
+    <p style="color:#64748b;font-size:13px;margin:8px 0;">₹299/year — Up to <b>10 cards</b></p>
     <button class="success" onclick="payNow()">Pay ₹299 via UPI</button>
     <p id="pay-msg" style="font-size:12px;margin-top:8px;"></p>
   </div>
@@ -54,74 +62,108 @@
 <div id="login-msg" style="text-align:center;padding:60px;font-size:18px;">🔐 Please <a href="login.html">Login</a></div>
 
 <script>
+var currentUser = null;
+var userPlan = 'free';
+var cardLimit = 1;
+var currentCards = 0;
+
 firebase.auth().onAuthStateChanged(function(user){
   if(!user){
     document.getElementById('login-msg').style.display = 'block';
     return;
   }
+  currentUser = user;
   document.getElementById('dashboard').style.display = 'block';
   document.getElementById('login-msg').style.display = 'none';
   document.getElementById('user-name').textContent = user.email;
   
+  // Load user data
   db.collection('users').doc(user.uid).get().then(function(doc){
     if(doc.exists){
-      document.getElementById('user-plan').textContent = doc.data().plan || 'Free';
-      document.getElementById('card-count').textContent = doc.data().cards || 0;
+      userPlan = doc.data().plan || 'free';
+      cardLimit = userPlan === 'pro' ? 10 : 1;
+      document.getElementById('user-plan').textContent = userPlan === 'pro' ? 'Pro' : 'Free';
+      document.getElementById('card-limit').textContent = cardLimit;
     }
+    loadCards(user.uid);
   });
-  
-  loadCards(user.uid);
 });
 
 function loadCards(uid){
   var tbody = document.getElementById('card-list');
   db.collection('cards').where('owner','==',uid).get().then(function(snap){
     tbody.innerHTML = '';
+    currentCards = snap.size;
+    document.getElementById('card-count').textContent = currentCards;
+    
+    // Check limit
+    var btn = document.getElementById('create-btn');
+    if(currentCards >= cardLimit){
+      btn.disabled = true;
+      btn.textContent = '🚫 Limit Reached — Upgrade to Pro';
+      document.getElementById('limit-warning').style.display = 'block';
+    } else {
+      btn.disabled = false;
+      btn.textContent = '+ Create New vCard';
+      document.getElementById('limit-warning').style.display = 'none';
+    }
+    
     snap.forEach(function(doc){
       var d = doc.data();
       var pub = 'https://vcard.11avatardigitalhub.cloud/?id=' + doc.id;
       var edit = 'https://vcard.11avatardigitalhub.cloud/edit.html?slug=' + doc.id + '&token=' + (d.editToken || '');
       tbody.innerHTML += '<tr><td><b>'+doc.id+'</b></td><td>'+ (d.name||'-') +'</td><td><a href="'+pub+'" target="_blank">📱</a> <a href="'+edit+'" target="_blank">✏️</a></td></tr>';
     });
-    if(snap.empty) tbody.innerHTML = '<tr><td colspan="3">No cards yet</td></tr>';
+    if(snap.empty) tbody.innerHTML = '<tr><td colspan="3">No cards yet. Create your first vCard!</td></tr>';
   });
 }
 
 function createCard(){
-  var user = firebase.auth().currentUser;
+  if(!currentUser) return;
+  if(currentCards >= cardLimit){
+    alert('🚫 Free plan limit (1 card) reached! Please upgrade to Pro for ₹299/year.');
+    return;
+  }
+  
   var msg = document.getElementById('create-msg');
-  msg.textContent = 'Creating...';
+  msg.textContent = '⏳ Creating...';
   
   var slug = 'card-' + Date.now();
   var token = Math.random().toString(36).substring(2,10) + '@' + Math.random().toString(36).substring(2,6);
   
   db.collection('cards').doc(slug).set({
-    owner: user.uid,
+    owner: currentUser.uid,
     name: '',
     title: '',
     phone: '',
-    email: user.email,
+    email: currentUser.email,
     editToken: token,
     theme: 'default',
     sectionOrder: ["about","contact","social"],
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   }).then(function(){
-    msg.innerHTML = '✅ Created! <a href="https://vcard.11avatardigitalhub.cloud/edit.html?slug='+slug+'&token='+token+'" target="_blank">Edit Card</a>';
-    loadCards(user.uid);
+    msg.innerHTML = '✅ Created! <a href="https://vcard.11avatardigitalhub.cloud/edit.html?slug='+slug+'&token='+token+'" target="_blank">Edit Your Card</a>';
+    loadCards(currentUser.uid);
+    db.collection('users').doc(currentUser.uid).update({
+      cards: firebase.firestore.FieldValue.increment(1)
+    });
   }).catch(function(e){
-    msg.textContent = 'Error: ' + e.message;
+    msg.textContent = '❌ Error: ' + e.message;
   });
 }
 
 function payNow(){
-  var upiID = 'your-upi-id@upi';  // 👈 APNA UPI ID YAHAN DALO
+  var upiID = '8959592006@upi';  // 👈 APNA UPI ID YAHAN DALO
   var name = '11Avatar Digital Hub';
   var amount = '299.00';
-  var note = 'vCard_Yearly';
+  var note = 'vCard_Pro_Yearly';
   
   var upiUrl = 'upi://pay?pa=' + upiID + '&pn=' + encodeURIComponent(name) + '&am=' + amount + '&tn=' + note + '&cu=INR';
   
-  document.getElementById('pay-msg').innerHTML = '📱 <a href="'+upiUrl+'" target="_blank">Click here to Pay ₹299 via UPI</a><br><small>After payment, your card limit will increase.</small>';
+  document.getElementById('pay-msg').innerHTML = `
+    📱 <a href="${upiUrl}" target="_blank" style="color:#10b981;font-weight:600;">Click here to Pay ₹299 via UPI</a><br>
+    <small style="color:#64748b;">After payment, contact admin to activate your Pro plan. Your card limit will increase to 10.</small>
+  `;
 }
 
 function logout(){
