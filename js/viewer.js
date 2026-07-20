@@ -32,7 +32,7 @@ if (!slug) {
     const profileImg = document.getElementById('profile-img');
     if (profileImg) {
       if (data.profileImage && data.profileImage.trim() !== '') profileImg.src = data.profileImage;
-      else profileImg.src = 'data:image/svg+xml;base64,' + btoa('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><rect width="120" height="120" fill="#e2e8f0"/><text x="60" y="65" text-anchor="middle" font-size="40" fill="#94a3b8">👤</text></svg>');
+      else profileImg.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><rect width="120" height="120" fill="#e2e8f0"/><text x="60" y="65" text-anchor="middle" font-size="40" fill="#94a3b8">?</text></svg>');
       profileImg.className = 'profile-' + (data.profileStyle || 'circle');
     }
 
