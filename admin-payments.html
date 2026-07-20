@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Payment Management</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#f1f5f9;padding:20px}
+    .container{max-width:900px;margin:0 auto}
+    .header{background:#fff;border-radius:16px;padding:20px 30px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+    h2{color:#1e293b}
+    table{width:100%;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+    th,td{padding:14px 16px;text-align:left;border-bottom:1px solid #e2e8f0;font-size:13px}
+    th{background:#f8fafc;font-weight:700;color:#475569}
+    .badge{padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600}
+    .badge-trial{background:#dbeafe;color:#1e40af}
+    .badge-single{background:#d1fae5;color:#065f46}
+    .badge-team{background:#ede9fe;color:#5b21b6}
+    .badge-startup{background:#fef3c7;color:#92400e}
+    .badge-business{background:#e0e7ff;color:#3730a3}
+    .badge-enterprise{background:#fce7f3;color:#9d174d}
+    select{padding:8px 12px;border-radius:8px;border:1px solid #e2e8f0;font-weight:600;cursor:pointer;font-size:12px}
+    button{padding:8px 16px;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:12px;color:#fff}
+    input{padding:8px 12px;border:1px solid #e2e8f0;border-radius:8px;width:200px}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h2>💳 Payment & Plan Management</h2>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <input type="password" id="admin-pass" placeholder="Admin Password">
+      <button onclick="login()" style="background:#667eea;">Login</button>
+    </div>
+  </div>
+
+  <div id="panel" style="display:none;">
+    <h3 style="margin-bottom:15px;color:#1e293b;">👥 All Users</h3>
+    <table>
+      <thead><tr><th>Email</th><th>Name</th><th>Current Plan</th><th>Cards</th><th>Change Plan</th></tr></thead>
+      <tbody id="user-list"><tr><td colspan="5">Loading...</td></tr></tbody>
+    </table>
+    <p style="margin-top:15px;color:#64748b;font-size:12px;">
+      💡 <b>UPI ID:</b> 8959592006@upi | Payment hone par yahan user ka plan upgrade karein.
+    </p>
+  </div>
+</div>
+
+<script>
+var ADMIN_PASS = 'Admin@11Avatar';
+
+var planLimits = {
+  'trial': 1,
+  'single': 1,
+  'team': 5,
+  'startup': 10,
+  'business': 30,
+  'enterprise': 50
+};
+
+var planBadges = {
+  'trial': 'badge-trial',
+  'single': 'badge-single',
+  'team': 'badge-team',
+  'startup': 'badge-startup',
+  'business': 'badge-business',
+  'enterprise': 'badge-enterprise'
+};
+
+function login(){
+  var pass = document.getElementById('admin-pass').value;
+  if(pass === ADMIN_PASS){
+    document.getElementById('panel').style.display = 'block';
+    loadUsers();
+  } else {
+    alert('Wrong password!');
+  }
+}
+
+function loadUsers(){
+  var tbody = document.getElementById('user-list');
+  db.collection('users').orderBy('createdAt','desc').get().then(function(snap){
+    tbody.innerHTML = '';
+    snap.forEach(function(doc){
+      var d = doc.data();
+      var plan = d.plan || 'trial';
+      var badgeClass = planBadges[plan] || 'badge-trial';
+      var badge = '<span class="badge '+badgeClass+'">'+plan.toUpperCase()+'</span>';
+      
+      var options = '';
+      Object.keys(planLimits).forEach(function(p){
+        var sel = plan === p ? ' selected' : '';
+        options += '<option value="'+p+'"'+sel+'>'+p.toUpperCase()+' ('+planLimits[p]+' cards)</option>';
+      });
+      
+      tbody.innerHTML += '<tr>'+
+        '<td>'+d.email+'</td>'+
+        '<td>'+(d.name||'-')+'</td>'+
+        '<td>'+badge+'</td>'+
+        '<td>'+(d.cards||0)+' / '+planLimits[plan]+'</td>'+
+        '<td><select onchange="changePlan(\''+doc.id+'\', this.value)" style="padding:6px 10px;border-radius:6px;border:1px solid #e2e8f0;">'+options+'</select></td>'+
+        '</tr>';
+    });
+    if(snap.empty) tbody.innerHTML = '<tr><td colspan="5">No users yet</td></tr>';
+  });
+}
+
+function changePlan(uid, plan){
+  db.collection('users').doc(uid).update({
+    plan: plan,
+    cardLimit: planLimits[plan] || 1
+  }).then(function(){
+    alert('✅ Plan updated to ' + plan.toUpperCase() + '!');
+    loadUsers();
+  }).catch(function(e){
+    alert('Error: ' + e.message);
+  });
+}
+</script>
+</body>
+</html>
