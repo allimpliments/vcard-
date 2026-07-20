@@ -337,23 +337,55 @@ if (!slug) {
             } catch(e){ alert('Error: '+e.message); }
           });
         }, 300);
-        function generateTimeSlots(){
+                function generateTimeSlots(){
           var slotsDiv = document.getElementById('apt-slots');
           slotsDiv.innerHTML = '';
-          var times = ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00'];
-          times.forEach(function(t){
-            var slot = document.createElement('span');
-            slot.className = 'apt-slot';
-            slot.textContent = t;
-            slot.style.cssText = 'padding:10px 16px;border:2px solid var(--c3);border-radius:25px;cursor:pointer;font-size:13px;color:var(--text);transition:all 0.3s;';
-            slot.addEventListener('click',function(){
-              document.querySelectorAll('.apt-slot').forEach(function(s){ s.style.background='transparent'; s.style.color='var(--text)'; s.style.borderColor='var(--c3)'; s.classList.remove('selected'); });
-              slot.style.background='var(--c4)'; slot.style.color='#fff'; slot.style.borderColor='var(--c4)'; slot.classList.add('selected');
+          
+          // Get selected date
+          var selectedDate = document.getElementById('apt-date').value;
+          if(!selectedDate) return;
+          
+          // Get existing bookings for this date
+          var cardRef = db.collection('cards').doc(slug);
+          cardRef.get().then(function(doc){
+            var cardData = doc.data();
+            var existingBookings = cardData.bookings || [];
+            var bookedSlots = [];
+            
+            // Find booked slots for selected date
+            existingBookings.forEach(function(b){
+              if(b.date === selectedDate && b.status !== 'cancelled'){
+                bookedSlots.push(b.time);
+              }
             });
-            slotsDiv.appendChild(slot);
+            
+            var times = ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00'];
+            
+            times.forEach(function(t){
+              var isBooked = bookedSlots.includes(t);
+              var slot = document.createElement('span');
+              slot.className = 'apt-slot';
+              slot.textContent = t;
+              
+              if(isBooked){
+                slot.style.cssText = 'padding:10px 16px;border:2px solid #e2e8f0;border-radius:25px;font-size:13px;color:#94a3b8;background:#f1f5f9;cursor:not-allowed;text-decoration:line-through;';
+                slot.title = 'Already booked';
+              } else {
+                slot.style.cssText = 'padding:10px 16px;border:2px solid var(--c3);border-radius:25px;cursor:pointer;font-size:13px;color:var(--text);transition:all 0.3s;';
+                slot.addEventListener('click',function(){
+                  document.querySelectorAll('.apt-slot').forEach(function(s){ 
+                    if(!s.classList.contains('booked-slot')){
+                      s.style.background='transparent'; s.style.color='var(--text)'; s.style.borderColor='var(--c3)'; s.classList.remove('selected'); 
+                    }
+                  });
+                  slot.style.background='var(--c4)'; slot.style.color='#fff'; slot.style.borderColor='var(--c4)'; slot.classList.add('selected');
+                });
+              }
+              
+              slotsDiv.appendChild(slot);
+            });
           });
         }
-      }
 
       // PAYMENT - Hide if empty
       else if (sec === 'payment' && data.payment && (data.payment.paytm || data.payment.upi || data.payment.qrImage)) {
