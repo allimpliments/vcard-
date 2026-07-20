@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Panel - vCard</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#f1f5f9;padding:20px}
+    .container{max-width:800px;margin:0 auto}
+    .header{background:#fff;border-radius:16px;padding:20px 30px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06);flex-wrap:wrap;gap:10px}
+    .card{background:#fff;border-radius:16px;padding:25px;margin-bottom:15px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+    h2,h3{color:#1e293b}
+    input,button,select{padding:12px 16px;border-radius:10px;border:1px solid #e2e8f0;font-size:14px;width:100%;margin-bottom:10px}
+    button{background:#1a73e8;color:#fff;border:none;cursor:pointer;font-weight:600}
+    button:hover{background:#1557b0}
+    button.success{background:#10b981}
+    button.danger{background:#ef4444}
+    table{width:100%;border-collapse:collapse;margin-top:15px}
+    th,td{padding:10px;text-align:left;border-bottom:1px solid #e2e8f0;font-size:13px}
+    th{background:#f8fafc;font-weight:600}
+    .badge{padding:3px 8px;border-radius:12px;font-size:11px;font-weight:600}
+    .badge-active{background:#d1fae5;color:#065f46}
+    .badge-pending{background:#fef3c7;color:#92400e}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .row input,.row select{flex:1;min-width:150px}
+    .stat{text-align:center;padding:15px;background:#f8fafc;border-radius:12px}
+    .stat .num{font-size:28px;font-weight:800;color:#1a73e8}
+    .stat .label{font-size:12px;color:#64748b}
+  </style>
+</head>
+<body>
+<div class="container" id="agent-panel" style="display:none;">
+  <div class="header">
+    <div>
+      <h2>🤝 Agent Panel</h2>
+      <span id="agent-email" style="font-size:12px;color:#64748b;"></span>
+    </div>
+    <button onclick="logout()" style="width:auto;">Logout</button>
+  </div>
+
+  <!-- Stats -->
+  <div style="display:flex;gap:12px;margin-bottom:15px;flex-wrap:wrap;">
+    <div class="stat" style="flex:1;min-width:120px;">
+      <div class="num" id="stat-clients">0</div>
+      <div class="label">Total Clients</div>
+    </div>
+    <div class="stat" style="flex:1;min-width:120px;">
+      <div class="num" id="stat-commission">₹0</div>
+      <div class="label">Total Commission</div>
+    </div>
+    <div class="stat" style="flex:1;min-width:120px;">
+      <div class="num" id="stat-pending">₹0</div>
+      <div class="label">Pending</div>
+    </div>
+  </div>
+
+  <!-- Create Client -->
+  <div class="card">
+    <h3>➕ Create New Client (Paid Only)</h3>
+    <div class="row">
+      <input type="text" id="client-name" placeholder="Client Full Name *">
+      <input type="email" id="client-email" placeholder="Client Email *">
+    </div>
+    <div class="row">
+      <input type="text" id="client-phone" placeholder="Phone">
+      <input type="password" id="client-pass" placeholder="Password (6+ chars) *">
+    </div>
+    <div class="row">
+      <select id="client-plan">
+        <option value="">Select Plan</option>
+        <option value="single">Single Card - ₹699/yr (Comm: ₹70)</option>
+        <option value="team">Small Team - ₹2,999/yr (Comm: ₹300)</option>
+        <option value="startup">Startup - ₹4,999/yr (Comm: ₹500)</option>
+        <option value="business">Business - ₹9,999/yr (Comm: ₹1,000)</option>
+        <option value="enterprise">Enterprise - ₹14,999/yr (Comm: ₹1,500)</option>
+      </select>
+    </div>
+    <button onclick="createClient()" class="success">🚀 Create Client & Send Payment Link</button>
+    <p id="create-msg" style="font-size:12px;margin-top:8px;"></p>
+  </div>
+
+  <!-- My Clients -->
+  <div class="card">
+    <h3>📋 My Clients</h3>
+    <table>
+      <thead><tr><th>Client</th><th>Plan</th><th>Status</th><th>Commission</th><th>Date</th></tr></thead>
+      <tbody id="agent-clients"><tr><td colspan="5">Loading...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="login-msg" style="text-align:center;padding:60px;">🔐 <a href="login.html">Login</a> as Agent</div>
+
+<script>
+var currentAgent = null;
+var agentData = null;
+var commissions = { single: 70, team: 300, startup: 500, business: 1000, enterprise: 1500 };
+var planLimits = { single: 1, team: 5, startup: 10, business: 30, enterprise: 50 };
+
+firebase.auth().onAuthStateChanged(function(user){
+  if(!user){ document.getElementById('login-msg').style.display='block'; return; }
+  
+  // Check if user is agent
+  db.collection('users').doc(user.uid).get().then(function(doc){
+    if(!doc.exists || doc.data().role !== 'agent'){
+      alert('Access denied! Agent only.');
+      firebase.auth().signOut();
+      return;
+    }
+    currentAgent = user;
+    agentData = doc.data();
+    document.getElementById('agent-panel').style.display='block';
+    document.getElementById('login-msg').style.display='none';
+    document.getElementById('agent-email').textContent = user.email + ' (Agent ID: ' + user.uid.substring(0,8) + ')';
+    loadAgentStats();
+    loadAgentClients();
+  });
+});
+
+function loadAgentStats(){
+  db.collection('agentClients').where('agentId','==',currentAgent.uid).get().then(function(snap){
+    var total = snap.size;
+    var totalComm = 0;
+    var pending = 0;
+    snap.forEach(function(doc){
+      var d = doc.data();
+      totalComm += d.commission || 0;
+      if(d.status === 'pending') pending += d.commission || 0;
+    });
+    document.getElementById('stat-clients').textContent = total;
+    document.getElementById('stat-commission').textContent = '₹' + totalComm;
+    document.getElementById('stat-pending').textContent = '₹' + pending;
+  });
+}
+
+function loadAgentClients(){
+  var tbody = document.getElementById('agent-clients');
+  db.collection('agentClients').where('agentId','==',currentAgent.uid).orderBy('createdAt','desc').get().then(function(snap){
+    tbody.innerHTML = '';
+    snap.forEach(function(doc){
+      var d = doc.data();
+      var badge = d.status === 'paid' ? 'badge-active' : 'badge-pending';
+      var date = d.createdAt ? new Date(d.createdAt.toDate()).toLocaleDateString() : '-';
+      tbody.innerHTML += '<tr>'+
+        '<td>'+d.clientName+'<br><small>'+d.clientEmail+'</small></td>'+
+        '<td>'+d.plan.toUpperCase()+'</td>'+
+        '<td><span class="badge '+badge+'">'+d.status.toUpperCase()+'</span></td>'+
+        '<td>₹'+d.commission+'</td>'+
+        '<td>'+date+'</td>'+
+        '</tr>';
+    });
+    if(snap.empty) tbody.innerHTML = '<tr><td colspan="5">No clients yet</td></tr>';
+  });
+}
+
+async function createClient(){
+  var name = document.getElementById('client-name').value.trim();
+  var email = document.getElementById('client-email').value.trim();
+  var phone = document.getElementById('client-phone').value.trim();
+  var pass = document.getElementById('client-pass').value;
+  var plan = document.getElementById('client-plan').value;
+  var msg = document.getElementById('create-msg');
+  
+  if(!name || !email || !plan || pass.length < 6){
+    msg.innerHTML = '<span style="color:red;">❌ All fields required!</span>'; return;
+  }
+  
+  msg.innerHTML = '⏳ Creating...';
+  
+  try {
+    // Create Firebase Auth user
+    var userCred = await firebase.auth().createUserWithEmailAndPassword(email, pass);
+    var uid = userCred.user.uid;
+    
+    // Save user
+    await db.collection('users').doc(uid).set({
+      name: name, email: email, phone: phone || '',
+      plan: plan, cardLimit: planLimits[plan] || 1, cards: 0,
+      createdBy: currentAgent.uid, role: 'client',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    // Create vCard
+    var slug = name.toLowerCase().replace(/[^a-z0-9]/g,'-').replace(/--+/g,'-') || ('card-'+Date.now());
+    var token = Math.random().toString(36).substring(2,10) + '@' + Math.random().toString(36).substring(2,6);
+    
+    await db.collection('cards').doc(slug).set({
+      owner: uid, name: name, phone: phone || '', email: email,
+      editToken: token, theme: 'default', status: 'active',
+      sectionOrder: ["about","contact","social"],
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    // Save agent commission record
+    await db.collection('agentClients').add({
+      agentId: currentAgent.uid,
+      clientId: uid, clientName: name, clientEmail: email,
+      plan: plan, commission: commissions[plan] || 0, status: 'pending',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    var pub = 'https://vcard.11avatardigitalhub.cloud/?id=' + slug;
+    var edit = 'https://vcard.11avatardigitalhub.cloud/edit.html?slug=' + slug + '&token=' + token;
+    var upiUrl = 'upi://pay?pa=8959592006@upi&pn=11Avatar&am=' + 
+      (plan==='single'?699:plan==='team'?2999:plan==='startup'?4999:plan==='business'?9999:14999) + 
+      '.00&tn='+plan+'_Plan&cu=INR';
+    
+    msg.innerHTML = '✅ Created!<br>📧 '+email+' | 🔑 '+pass+
+      '<br>📱 <a href="'+pub+'" target="_blank">Card</a> | ✏️ <a href="'+edit+'" target="_blank">Edit</a>'+
+      '<br>💳 <a href="'+upiUrl+'" target="_blank">Send Payment Link (₹'+
+      (plan==='single'?699:plan==='team'?2999:plan==='startup'?4999:plan==='business'?9999:14999)+
+      ')</a><br>💰 Your Commission: ₹'+commissions[plan];
+    
+    document.getElementById('client-name').value='';
+    document.getElementById('client-email').value='';
+    document.getElementById('client-phone').value='';
+    document.getElementById('client-pass').value='';
+    
+    loadAgentStats();
+    loadAgentClients();
+  } catch(e){
+    msg.innerHTML = '<span style="color:red;">❌ '+e.message+'</span>';
+  }
+}
+
+function logout(){ firebase.auth().signOut().then(function(){ window.location.href='login.html'; }); }
+</script>
+</body>
+</html>
