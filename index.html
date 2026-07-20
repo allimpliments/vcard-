@@ -25,27 +25,19 @@
     }
   </style>
   <script>
-  // OG Thumbnail Fetcher using Microlink (Free)
   async function fetchOGData(url, callback) {
     try {
       const apiUrl = 'https://api.microlink.io/?url=' + encodeURIComponent(url);
       const response = await fetch(apiUrl);
       const result = await response.json();
       if (result.status === 'success' && result.data) {
-        callback({
-          title: result.data.title || '',
-          image: result.data.image?.url || '',
-          description: result.data.description || ''
-        });
+        callback({ title: result.data.title || '', image: result.data.image?.url || '', description: result.data.description || '' });
       } else {
         callback({ title: '', image: '', description: '' });
       }
-    } catch (e) {
-      console.log('OG fetch failed, using fallback');
-      callback({ title: '', image: '', description: '' });
-    }
+    } catch (e) { callback({ title: '', image: '', description: '' }); }
   }
-</script>
+  </script>
 </head>
 <body>
 
@@ -91,20 +83,18 @@
   <h1 id="name"></h1>
   <p id="title"></p>
 
-      <div id="action-buttons" style="display:flex;gap:8px;justify-content:center;padding:0 10px 20px;flex-wrap:wrap;">
-      <a id="btn-call" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--c4);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:500;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);"><span style="font-size:22px;">📞</span> Call</a>
-      <a id="btn-email" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--c3);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:500;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);"><span style="font-size:22px;">✉️</span> Email</a>
-      <a id="btn-whatsapp" href="#" target="_blank" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--c4);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:500;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);"><span style="font-size:22px;">💬</span> WhatsApp</a>
-    </div>
+  <div id="action-buttons" style="display:flex;gap:8px;justify-content:center;padding:0 10px 20px;flex-wrap:wrap;">
+    <a id="btn-call" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--c4);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:500;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);"><span style="font-size:22px;">📞</span> Call</a>
+    <a id="btn-email" href="#" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--c3);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:500;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);"><span style="font-size:22px;">✉️</span> Email</a>
+    <a id="btn-whatsapp" href="#" target="_blank" style="flex:1;min-width:70px;max-width:100px;padding:14px 6px;background:var(--c4);color:#fff;text-align:center;text-decoration:none;border-radius:var(--btn-radius);font-weight:500;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:var(--font-body);"><span style="font-size:22px;">💬</span> WhatsApp</a>
+  </div>
 
   <div id="sections-container"></div>
-      <button id="save-contact" style="display:block;width:calc(100% - 40px);margin:20px auto;padding:14px;background:var(--c4);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:16px;cursor:pointer;">📇 Save to Phone</button>
+  <button id="save-contact" style="display:block;width:calc(100% - 40px);margin:20px auto;padding:14px;background:var(--c4);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:16px;cursor:pointer;">📇 Save to Phone</button>
 
   <div style="padding:0 20px 10px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-        <div style="padding:0 20px 10px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-      <button id="btn-share" style="flex:1;min-width:100px;padding:var(--btn-padding);background:var(--c4);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:14px;cursor:pointer;">📤 Share</button>
-      <button id="btn-pdf" style="flex:1;min-width:100px;padding:var(--btn-padding);background:var(--c3);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:14px;cursor:pointer;">📄 PDF</button>
-    </div>
+    <button id="btn-share" style="flex:1;min-width:100px;padding:var(--btn-padding);background:var(--c4);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:14px;cursor:pointer;">📤 Share</button>
+    <button id="btn-pdf" style="flex:1;min-width:100px;padding:var(--btn-padding);background:var(--c3);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:14px;cursor:pointer;">📄 PDF</button>
   </div>
 
   <div id="qr-section" style="padding:20px;text-align:center;">
@@ -113,31 +103,8 @@
       <img id="qr-image" src="" alt="QR Code" style="display:none;width:200px;height:200px;">
     </div>
     <p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;"><span id="card-url-text"></span></p>
-          <button id="btn-copy-url" style="padding:var(--btn-padding);background:var(--c4);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:14px;cursor:pointer;">📋 Copy URL</button>
+    <button id="btn-copy-url" style="padding:var(--btn-padding);background:var(--c4);color:#fff;border:none;border-radius:var(--btn-radius);font-family:var(--font-body);font-weight:500;font-size:14px;cursor:pointer;">📋 Copy URL</button>
   </div>
-</div>
-
-<!-- Language Selector -->
-<div id="lang-section" style="text-align:center;padding:10px 20px;display:none;">
-  <select id="lang-select" onchange="changeLanguage()" style="padding:10px 20px;border-radius:25px;background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);color:var(--text);font-weight:600;font-size:14px;cursor:pointer;">
-    <option value="en">🇬🇧 English</option>
-    <option value="hi">🇮🇳 हिंदी</option>
-    <option value="mr">🇮🇳 मराठी</option>
-    <option value="gu">🇮🇳 ગુજરાતી</option>
-    <option value="ta">🇮🇳 தமிழ்</option>
-    <option value="te">🇮🇳 తెలుగు</option>
-    <option value="bn">🇮🇳 বাংলা</option>
-    <option value="kn">🇮🇳 ಕನ್ನಡ</option>
-    <option value="ml">🇮🇳 മലയാളം</option>
-    <option value="pa">🇮🇳 ਪੰਜਾਬੀ</option>
-    <option value="or">🇮🇳 ଓଡ଼ିଆ</option>
-    <option value="ur">🇮🇳 اردو</option>
-    <option value="fr">🇫🇷 Français</option>
-    <option value="es">🇪🇸 Español</option>
-    <option value="ar">🇸🇦 العربية</option>
-    <option value="de">🇩🇪 Deutsch</option>
-    <option value="pt">🇵🇹 Português</option>
-  </select>
 </div>
 
 <div id="loader">⏳ Loading...</div>
@@ -175,89 +142,61 @@ function closeMobileNav() {
   document.getElementById('mobile-nav-overlay').style.display = 'none';
 }
 
-var lbImages = [], lbIndex = 0;
-function openLightbox(images, index) {
-  lbImages = images; lbIndex = index;
-  document.getElementById('lightbox').style.display = 'block';
-  document.getElementById('lightbox-img').src = lbImages[lbIndex];
-  document.body.style.overflow = 'hidden';
+var lbImages=[],lbIndex=0;
+function openLightbox(images,index){
+  lbImages=images;lbIndex=index;
+  document.getElementById('lightbox').style.display='block';
+  document.getElementById('lightbox-img').src=lbImages[lbIndex];
+  document.body.style.overflow='hidden';
 }
-document.getElementById('lightbox-close').onclick = function() {
-  document.getElementById('lightbox').style.display = 'none';
-  document.body.style.overflow = '';
+document.getElementById('lightbox-close').onclick=function(){
+  document.getElementById('lightbox').style.display='none';document.body.style.overflow='';
 };
-document.getElementById('lightbox').onclick = function(e) {
-  if (e.target === this) { this.style.display = 'none'; document.body.style.overflow = ''; }
+document.getElementById('lightbox').onclick=function(e){
+  if(e.target===this){this.style.display='none';document.body.style.overflow='';}
 };
-document.getElementById('lightbox-next').onclick = function() {
-  lbIndex = (lbIndex + 1) % lbImages.length;
-  document.getElementById('lightbox-img').src = lbImages[lbIndex];
+document.getElementById('lightbox-next').onclick=function(){
+  lbIndex=(lbIndex+1)%lbImages.length;
+  document.getElementById('lightbox-img').src=lbImages[lbIndex];
 };
-document.getElementById('lightbox-prev').onclick = function() {
-  lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length;
-  document.getElementById('lightbox-img').src = lbImages[lbIndex];
+document.getElementById('lightbox-prev').onclick=function(){
+  lbIndex=(lbIndex-1+lbImages.length)%lbImages.length;
+  document.getElementById('lightbox-img').src=lbImages[lbIndex];
 };
 
-function changeQty(id, delta) {
-  var el = document.getElementById(id); if (!el) return;
-  var qty = parseInt(el.textContent) + delta;
-  if (qty < 1) qty = 1; if (qty > 99) qty = 99;
-  el.textContent = qty;
+function changeQty(id,delta){
+  var el=document.getElementById(id);if(!el)return;
+  var qty=parseInt(el.textContent)+delta;
+  if(qty<1)qty=1;if(qty>99)qty=99;
+  el.textContent=qty;
 }
-function orderNow(name, price, qtyId, phone) {
-  var qtyEl = document.getElementById(qtyId);
-  var qty = qtyEl ? parseInt(qtyEl.textContent) : 1;
-  if (!phone) { alert('Phone not available!'); return; }
-  var total = parseFloat(price) * qty;
-  var msg = '%F0%9F%9B%8D%EF%B8%8F *New Order!*%0A%0A';
-  msg += '*Product:* ' + encodeURIComponent(name) + '%0A';
-  msg += '*Price:* %E2%82%B9' + price + '%0A';
-  msg += '*Quantity:* ' + qty + '%0A';
-  msg += '*Total:* %E2%82%B9' + total;
-  window.open('https://wa.me/' + phone + '?text=' + msg, '_blank');
+function orderNow(name,price,qtyId,phone){
+  var qtyEl=document.getElementById(qtyId);
+  var qty=qtyEl?parseInt(qtyEl.textContent):1;
+  if(!phone){alert('Phone not available!');return;}
+  var total=parseFloat(price)*qty;
+  var msg='%F0%9F%9B%8D%EF%B8%8F *New Order!*%0A%0A';
+  msg+='*Product:* '+encodeURIComponent(name)+'%0A';
+  msg+='*Price:* %E2%82%B9'+price+'%0A';
+  msg+='*Quantity:* '+qty+'%0A';
+  msg+='*Total:* %E2%82%B9'+total;
+  window.open('https://wa.me/'+phone+'?text='+msg,'_blank');
 }
 
-document.addEventListener('click', function(e) {
-  var btn = e.target.closest('button, a.btn, #save-contact, #action-buttons a');
-  if (!btn) return;
-  var ripple = document.createElement('span');
-  ripple.className = 'ripple';
-  var rect = btn.getBoundingClientRect();
-  var size = Math.max(rect.width, rect.height);
-  ripple.style.width = ripple.style.height = size + 'px';
-  ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
-  ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
-  btn.style.position = 'relative';
-  btn.style.overflow = 'hidden';
+document.addEventListener('click',function(e){
+  var btn=e.target.closest('button, a.btn, #save-contact, #action-buttons a');
+  if(!btn)return;
+  var ripple=document.createElement('span');
+  ripple.className='ripple';
+  var rect=btn.getBoundingClientRect();
+  var size=Math.max(rect.width,rect.height);
+  ripple.style.width=ripple.style.height=size+'px';
+  ripple.style.left=(e.clientX-rect.left-size/2)+'px';
+  ripple.style.top=(e.clientY-rect.top-size/2)+'px';
+  btn.style.position='relative';btn.style.overflow='hidden';
   btn.appendChild(ripple);
-  setTimeout(function(){ ripple.remove(); }, 600);
+  setTimeout(function(){ripple.remove();},600);
 });
-
-// Language
-var translations = {
-  en:{about:"About Us",contact:"Contact",social:"Social Links",products:"Online Shop",services:"Products & Services",gallery:"Gallery",youtube:"YouTube Videos",reels:"Reels & Posts",payment:"Payment Info",bank:"Bank Details",feedback:"Feedback",location:"Location",contactform:"Contact Us",save:"Save to Phone",share:"Share Card",pdf:"Save as PDF",qr:"Scan QR Code",copy:"Copy URL",call:"Call",email:"Email",whatsapp:"WhatsApp"},
-  hi:{about:"हमारे बारे में",contact:"संपर्क",social:"सोशल लिंक्स",products:"ऑनलाइन शॉप",services:"प्रोडक्ट्स और सर्विसेज़",gallery:"गैलरी",youtube:"यूट्यूब वीडियो",reels:"रील्स और पोस्ट",payment:"पेमेंट जानकारी",bank:"बैंक डिटेल",feedback:"फीडबैक",location:"लोकेशन",contactform:"संपर्क फॉर्म",save:"फ़ोन में सेव करें",share:"कार्ड शेयर करें",pdf:"PDF सेव करें",qr:"QR कोड स्कैन करें",copy:"URL कॉपी करें",call:"कॉल",email:"ईमेल",whatsapp:"व्हाट्सएप"}
-};
-function changeLanguage() {
-  var lang = document.getElementById('lang-select').value;
-  var t = translations[lang] || translations.en;
-  var headings = document.querySelectorAll('#sections-container h3');
-  var keys = ['about','contact','social','products','services','gallery','youtube','reels','payment','bank','feedback','location','contactform'];
-  headings.forEach(function(h,i){ if(keys[i]&&t[keys[i]]) h.textContent = t[keys[i]]; });
-  var btnSave = document.getElementById('save-contact');
-  if(btnSave) btnSave.textContent = '📇 ' + (t.save||'Save to Phone');
-  var btnShare = document.getElementById('btn-share');
-  if(btnShare) btnShare.textContent = '📤 ' + (t.share||'Share');
-  var btnPdf = document.getElementById('btn-pdf');
-  if(btnPdf) btnPdf.textContent = '📄 ' + (t.pdf||'PDF');
-  localStorage.setItem('vcard-lang', lang);
-}
-(function(){
-  var saved = localStorage.getItem('vcard-lang');
-  if(saved) document.getElementById('lang-select').value = saved;
-  document.getElementById('lang-section').style.display = 'block';
-  if(saved && saved !== 'en') changeLanguage();
-})();
 </script>
 </body>
 </html>
