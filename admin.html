@@ -384,9 +384,9 @@ async function loadAllCards(){
       var owner = d.email || d.owner || 'Legacy';
       tbody.innerHTML += '<tr>'+
         '<td><b>'+doc.id+'</b></td>'+
-        '<td>'+(d.name||'-')+'</td>'+
-        '<td>'+owner+'</td>'+
-        '<td>'+created+'</td>'+
+        '<td>'+ (d.name||'-') +'</td>'+
+        '<td>'+ owner +'</td>'+
+        '<td>'+ created +'</td>'+
         '<td><a href="'+pub+'" target="_blank">📱 View</a></td>'+
         '<td><button class="danger" onclick="deleteCard(\''+doc.id+'\')">🗑️</button></td>'+
         '</tr>';
