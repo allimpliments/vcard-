@@ -13,7 +13,7 @@
     body{font-family:'Inter',sans-serif;background:#f1f5f9;padding:20px}
     .container{max-width:750px;margin:0 auto}
     .header{background:#fff;border-radius:16px;padding:20px 30px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-    .card{background:#fff;border-radius:16px;padding:25px;margin-bottom:15px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+    .card-box{background:#fff;border-radius:16px;padding:25px;margin-bottom:15px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
     h2,h3{color:#1e293b}
     input,button,select{padding:12px 16px;border-radius:10px;border:1px solid #e2e8f0;font-size:14px;width:100%;margin-bottom:10px}
     button{background:#10b981;color:#fff;border:none;cursor:pointer;font-weight:600;transition:all 0.3s}
@@ -22,6 +22,8 @@
     button.danger:hover{background:#dc2626}
     button.primary{background:#667eea}
     button.primary:hover{background:#5a67d8}
+    button.info{background:#6366f1}
+    button.info:hover{background:#4f46e5}
     .row{display:flex;gap:10px;flex-wrap:wrap}
     .row input,.row select{flex:1;min-width:150px}
     table{width:100%;border-collapse:collapse;margin-top:15px}
@@ -36,6 +38,7 @@
     .msg{padding:10px;border-radius:8px;font-size:12px;margin-top:8px}
     .msg-success{background:#d1fae5;color:#065f46}
     .msg-error{background:#fee2e2;color:#991b1b}
+    .agent-link-box{background:#f0fdf4;border:2px dashed #10b981;border-radius:12px;padding:15px;margin-top:10px}
   </style>
 </head>
 <body>
@@ -46,7 +49,10 @@
       <h2>🤝 Agent Panel</h2>
       <span id="agent-info" style="font-size:12px;color:#64748b;"></span>
     </div>
-    <button onclick="logout()" class="danger" style="width:auto;">Logout</button>
+    <div>
+      <button onclick="copyAgentLink()" class="info" style="width:auto;margin-right:5px;">🔗 My Link</button>
+      <button onclick="logout()" class="danger" style="width:auto;">Logout</button>
+    </div>
   </div>
 
   <!-- Stats -->
@@ -54,11 +60,12 @@
     <div class="stat-box"><div class="num" id="stat-total">0</div><div class="lbl">Total Clients</div></div>
     <div class="stat-box"><div class="num" id="stat-paid">0</div><div class="lbl">Paid</div></div>
     <div class="stat-box"><div class="num" id="stat-pending">0</div><div class="lbl">Pending</div></div>
-    <div class="stat-box"><div class="num" id="stat-comm">₹0</div><div class="lbl">Commission</div></div>
+    <div class="stat-box"><div class="num" id="stat-comm">₹0</div><div class="lbl">Total Commission</div></div>
+    <div class="stat-box"><div class="num" id="stat-cards">0</div><div class="lbl">Cards Created</div></div>
   </div>
 
   <!-- Create Client -->
-  <div class="card">
+  <div class="card-box">
     <h3>➕ Create New Client (Paid Plans Only)</h3>
     <div class="row">
       <input type="text" id="c-name" placeholder="Client Full Name *">
@@ -83,12 +90,12 @@
   </div>
 
   <!-- My Clients -->
-  <div class="card">
+  <div class="card-box">
     <h3>📋 My Clients</h3>
     <button onclick="loadClients()" class="primary" style="width:auto;margin-bottom:10px;">🔄 Refresh</button>
     <table>
-      <thead><tr><th>Client</th><th>Plan</th><th>Status</th><th>Commission</th><th>Date</th></tr></thead>
-      <tbody id="client-list"><tr><td colspan="5">Loading...</td></tr></tbody>
+      <thead><tr><th>Client</th><th>Plan</th><th>Card Slug</th><th>Status</th><th>Commission</th><th>Date</th></tr></thead>
+      <tbody id="client-list"><tr><td colspan="6">Loading...</td></tr></tbody>
     </table>
   </div>
 </div>
@@ -110,9 +117,16 @@ var upiID = '8959592006@upi';
 // Load on start
 loadClients();
 
+function copyAgentLink(){
+  var link = 'https://vcard.11avatardigitalhub.cloud/agent-login.html';
+  navigator.clipboard.writeText(link).then(function(){
+    alert('✅ Agent login link copied!\n\nShare this with your clients:\n' + link + '\n\nEmail: ' + agentEmail);
+  });
+}
+
 function loadClients(){
   var tbody = document.getElementById('client-list');
-  tbody.innerHTML = '<tr><td colspan="5">Loading...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
   
   db.collection('agentClients')
     .where('agentEmail','==',agentEmail)
@@ -124,6 +138,7 @@ function loadClients(){
       var paidCount = 0;
       var pendingCount = 0;
       var totalComm = 0;
+      var totalCards = 0;
       
       snap.forEach(function(doc){
         var d = doc.data();
@@ -133,17 +148,19 @@ function loadClients(){
         
         var badgeClass = d.status === 'paid' ? 'badge-paid' : 'badge-pending';
         var date = d.createdAt ? new Date(d.createdAt.toDate()).toLocaleDateString('en-IN') : '-';
+        var cardSlug = d.cardSlug || '-';
         
         tbody.innerHTML += '<tr>'+
           '<td><b>'+d.clientName+'</b><br><small style="color:#64748b;">'+d.clientEmail+'</small></td>'+
           '<td>'+d.plan.toUpperCase()+'</td>'+
+          '<td style="font-size:11px;">'+cardSlug+'</td>'+
           '<td><span class="badge '+badgeClass+'">'+d.status.toUpperCase()+'</span></td>'+
           '<td style="font-weight:600;color:#10b981;">₹'+d.commission+'</td>'+
           '<td style="font-size:11px;color:#64748b;">'+date+'</td>'+
           '</tr>';
       });
       
-      if(snap.empty) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#64748b;">No clients yet. Create your first client!</td></tr>';
+      if(snap.empty) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#64748b;">No clients yet. Create your first client!</td></tr>';
       
       // Update stats
       document.getElementById('stat-total').textContent = total;
@@ -152,8 +169,12 @@ function loadClients(){
       document.getElementById('stat-comm').textContent = '₹' + totalComm;
     })
     .catch(function(e){
-      tbody.innerHTML = '<tr><td colspan="5" style="color:red;">Error: '+e.message+'</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" style="color:red;">Error: '+e.message+'</td></tr>';
     });
+}
+
+function cleanSlug(text){
+  return text.toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-').replace(/--+/g,'-').replace(/^-|-$/g,'');
 }
 
 async function createClient(){
@@ -186,7 +207,8 @@ async function createClient(){
       cardLimit: planLimits[plan] || 1,
       cards: 0,
       createdBy: agentEmail,
-      createdByAgent: agentName,
+      createdByName: agentName,
+      createdByRole: 'agent',
       role: 'client',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -211,7 +233,10 @@ async function createClient(){
       theme: 'default',
       animation: 'wave',
       status: 'active',
-      sectionOrder: ["about","contact","social"],
+      createdBy: 'agent',
+      createdByName: agentName,
+      createdByEmail: agentEmail,
+      sectionOrder: ["about","contact","social","products","services","gallery","youtube","reels","appointment","payment","bank","feedback","location","contactform"],
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     
@@ -222,6 +247,7 @@ async function createClient(){
       clientId: uid,
       clientName: name,
       clientEmail: email,
+      cardSlug: slug,
       plan: plan,
       planPrice: planPrices[plan] || 0,
       commission: commissions[plan] || 0,
