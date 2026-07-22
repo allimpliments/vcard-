@@ -11,7 +11,7 @@
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Inter',sans-serif;background:#f1f5f9;padding:20px}
-    #login-box,#admin-panel{max-width:900px;margin:0 auto;background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+    #login-box,#admin-panel{max-width:950px;margin:0 auto;background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
     h2{color:#1e293b;margin-bottom:20px}
     h3{color:#1e293b;margin-top:25px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #e2e8f0}
     input,button,select{padding:12px 16px;border-radius:10px;border:1px solid #e2e8f0;font-size:14px;width:100%;margin-bottom:10px}
@@ -23,6 +23,8 @@
     button.success:hover{background:#059669}
     button.warning{background:#f59e0b;color:#000}
     button.warning:hover{background:#d97706}
+    button.info{background:#6366f1}
+    button.info:hover{background:#4f46e5}
     table{width:100%;border-collapse:collapse;margin-top:15px}
     th,td{padding:10px;text-align:left;border-bottom:1px solid #e2e8f0;font-size:13px}
     th{background:#f8fafc;font-weight:600;color:#475569}
@@ -34,11 +36,14 @@
     .badge-business{background:#e0e7ff;color:#3730a3}
     .badge-enterprise{background:#fce7f3;color:#9d174d}
     .badge-agent{background:#fef3c7;color:#92400e}
+    .badge-active{background:#d1fae5;color:#065f46}
+    .badge-disabled{background:#fee2e2;color:#991b1b}
     .row{display:flex;gap:10px;flex-wrap:wrap}
     .row input{flex:1;min-width:200px}
     .msg{font-size:12px;margin-top:5px;padding:10px;border-radius:8px}
     .msg-success{background:#d1fae5;color:#065f46}
     .msg-error{background:#fee2e2;color:#991b1b}
+    .logout-btn{background:#ef4444;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600;float:right}
   </style>
 </head>
 <body>
@@ -53,7 +58,23 @@
 
 <!-- Admin Panel -->
 <div id="admin-panel" style="display:none;">
-  <h2>🛠️ vCard Super Admin Panel</h2>
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <h2>🛠️ vCard Super Admin Panel</h2>
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+  </div>
+
+  <!-- ========== CREATE CARD FOR EXISTING USER ========== -->
+  <h3>📇 Create Card for Existing User (Owner/Yourself)</h3>
+  <div class="row">
+    <input type="text" id="existing-uid" placeholder="Firebase User UID *">
+    <input type="text" id="existing-name" placeholder="Card Display Name *">
+  </div>
+  <div class="row">
+    <input type="text" id="existing-email-display" placeholder="Email on Card">
+    <input type="text" id="existing-phone-display" placeholder="Phone on Card">
+  </div>
+  <button onclick="createCardForExisting()" class="info">📇 Create Card Only</button>
+  <p id="existing-msg"></p>
 
   <!-- ========== CREATE CLIENT ========== -->
   <h3>➕ Create New Client (with Email & Password)</h3>
@@ -77,7 +98,7 @@
   <p id="create-msg"></p>
 
   <!-- ========== CREATE AGENT ========== -->
-  <h3>🤝 Create New Agent (One Click)</h3>
+  <h3>🤝 Create New Agent</h3>
   <div class="row">
     <input type="text" id="agent-name" placeholder="Agent Full Name *">
     <input type="email" id="agent-email" placeholder="Agent Email *">
@@ -96,7 +117,7 @@
   <h3>👥 All Users</h3>
   <button onclick="loadClients()" style="width:auto;padding:8px 16px;margin-bottom:10px;">🔄 Refresh Users</button>
   <table>
-    <thead><tr><th>Email</th><th>Name</th><th>Phone</th><th>Plan/Role</th><th>Cards</th><th>Actions</th></tr></thead>
+    <thead><tr><th>Email</th><th>Name</th><th>Plan/Role</th><th>Status</th><th>Cards</th><th>Actions</th></tr></thead>
     <tbody id="client-table"><tr><td colspan="6">Loading...</td></tr></tbody>
   </table>
 
@@ -110,21 +131,21 @@
 </div>
 
 <script>
-// Check if already logged in
-if (localStorage.getItem('adminLoggedIn') === 'true') {
-  document.getElementById('login-box').style.display = 'none';
-  document.getElementById('admin-panel').style.display = 'block';
-  loadClients();
-  loadAllCards();
-}
 const ADMIN_PASS = 'Admin@11Avatar';
 var planLimits = { 'trial': 1, 'single': 1, 'team': 5, 'startup': 10, 'business': 30, 'enterprise': 50 };
 var commissions = { single: 70, team: 300, startup: 500, business: 1000, enterprise: 1500 };
 
+// Auto-login check
+if (localStorage.getItem('adminLoggedIn') === 'true') {
+  document.getElementById('login-box').style.display = 'none';
+  document.getElementById('admin-panel').style.display = 'block';
+  setTimeout(function(){ loadClients(); loadAllCards(); }, 500);
+}
+
 function login(){
   var pass = document.getElementById('admin-pass').value;
   if(pass === ADMIN_PASS){
-    localStorage.setItem('adminLoggedIn', 'true');  // ← YEH LINE ADD KARO
+    localStorage.setItem('adminLoggedIn', 'true');
     document.getElementById('login-box').style.display = 'none';
     document.getElementById('admin-panel').style.display = 'block';
     loadClients();
@@ -132,6 +153,11 @@ function login(){
   } else {
     document.getElementById('login-error').style.display = 'block';
   }
+}
+
+function logout(){
+  localStorage.removeItem('adminLoggedIn');
+  location.reload();
 }
 
 function generateToken(){
@@ -145,6 +171,54 @@ function generateToken(){
 
 function cleanSlug(text){
   return text.toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-').replace(/--+/g,'-').replace(/^-|-$/g,'');
+}
+
+// ========== CREATE CARD FOR EXISTING USER ==========
+async function createCardForExisting(){
+  var uid = document.getElementById('existing-uid').value.trim();
+  var name = document.getElementById('existing-name').value.trim();
+  var email = document.getElementById('existing-email-display').value.trim();
+  var phone = document.getElementById('existing-phone-display').value.trim();
+  var msg = document.getElementById('existing-msg');
+  
+  if(!uid || !name){
+    msg.innerHTML = '<div class="msg msg-error">❌ UID and Name required!</div>';
+    return;
+  }
+  
+  msg.innerHTML = '<div class="msg">⏳ Creating card...</div>';
+  
+  try {
+    var slug = cleanSlug(name);
+    if (!slug || slug.length < 2) {
+      slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/--+/g, '-').replace(/^-|-$/g, '');
+    }
+    if (!slug || slug.length < 2) {
+      slug = 'card-' + Date.now();
+    }
+    var token = generateToken();
+    
+    await db.collection('cards').doc(slug).set({
+      owner: uid, name: name, phone: phone || '', email: email || '',
+      editToken: token, theme: 'default', animation: 'wave', status: 'active',
+      sectionOrder: ["about","contact","social","products","services","gallery","youtube","reels","appointment","payment","bank","feedback","location","contactform"],
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    var pub = 'https://vcard.11avatardigitalhub.cloud/?id=' + slug;
+    var edit = 'https://vcard.11avatardigitalhub.cloud/edit.html?slug=' + slug + '&token=' + token;
+    
+    msg.innerHTML = '<div class="msg msg-success">✅ Card Created!<br>📱 <a href="'+pub+'" target="_blank">Public Card</a><br>✏️ <a href="'+edit+'" target="_blank">Editor Link</a><br>🔐 Token: <b>'+token+'</b></div>';
+    
+    document.getElementById('existing-uid').value = '';
+    document.getElementById('existing-name').value = '';
+    document.getElementById('existing-email-display').value = '';
+    document.getElementById('existing-phone-display').value = '';
+    
+    loadAllCards();
+  } catch(e){
+    msg.innerHTML = '<div class="msg msg-error">❌ ' + e.message + '</div>';
+  }
 }
 
 // ========== CREATE CLIENT ==========
@@ -169,11 +243,11 @@ async function createClient(){
     
     await db.collection('users').doc(uid).set({
       name: name, email: email, phone: phone || '',
-      plan: plan, cardLimit: planLimits[plan] || 1, cards: 0, role: 'client',
+      plan: plan, cardLimit: planLimits[plan] || 1, cards: 0, role: 'client', status: 'active',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     
-        var slug = cleanSlug(name);
+    var slug = cleanSlug(name);
     if (!slug || slug.length < 2) {
       slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/--+/g, '-').replace(/^-|-$/g, '');
     }
@@ -185,7 +259,7 @@ async function createClient(){
     await db.collection('cards').doc(slug).set({
       owner: uid, name: name, phone: phone || '', email: email,
       editToken: token, theme: 'default', animation: 'wave', status: 'active',
-      sectionOrder: ["about","contact","social","products","services","gallery","youtube","reels","payment","bank","feedback","location","contactform"],
+      sectionOrder: ["about","contact","social","products","services","gallery","youtube","reels","appointment","payment","bank","feedback","location","contactform"],
       trialEnds: plan === 'trial' ? new Date(Date.now() + 3*24*60*60*1000).toISOString() : null,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -224,25 +298,22 @@ async function createAgent(){
   msg.innerHTML = '<div class="msg">⏳ Creating agent...</div>';
   
   try {
-    // Save to agent collection
     await db.collection('agent').add({
       Name: name, Email: email, password: pass,
       'Phone no': phone || '', city: city || '',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     
-    // Create Firebase Auth account
     await firebase.auth().createUserWithEmailAndPassword(email, pass);
     
-    // Save to users collection as agent
     var userCred = await firebase.auth().signInWithEmailAndPassword(email, pass);
     await db.collection('users').doc(userCred.user.uid).set({
       name: name, email: email, phone: phone || '',
-      role: 'agent', plan: 'agent', cards: 0,
+      role: 'agent', plan: 'agent', cards: 0, status: 'active',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     
-    msg.innerHTML = '<div class="msg msg-success">✅ Agent Created!<br>📧 <b>'+email+'</b><br>🔑 <b>'+pass+'</b><br>🔗 Share Link: <b>/agent-login.html</b></div>';
+    msg.innerHTML = '<div class="msg msg-success">✅ Agent Created!<br>📧 <b>'+email+'</b><br>🔑 <b>'+pass+'</b><br>🔗 Share: <b>/agent-login.html</b></div>';
     
     document.getElementById('agent-name').value = '';
     document.getElementById('agent-email').value = '';
@@ -266,26 +337,32 @@ async function loadClients(){
       var d = doc.data();
       var role = d.role || 'client';
       var plan = d.plan || 'trial';
+      var status = d.status || 'active';
       var displayPlan = role === 'agent' ? 'AGENT' : plan.toUpperCase();
       var badgeClass = role === 'agent' ? 'badge-agent' : 'badge-' + (plan === 'trial' ? 'trial' : 'single');
+      var statusBadge = status === 'disabled' ? 'badge-disabled' : 'badge-active';
+      var statusText = status === 'disabled' ? 'DISABLED' : 'ACTIVE';
+      
       tbody.innerHTML += '<tr>'+
         '<td>'+d.email+'</td>'+
-        '<td>'+ (d.name||'-') +'</td>'+
-        '<td>'+ (d.phone||'-') +'</td>'+
+        '<td>'+(d.name||'-')+'</td>'+
         '<td><span class="badge '+badgeClass+'">'+displayPlan+'</span></td>'+
+        '<td><span class="badge '+statusBadge+'">'+statusText+'</span></td>'+
         '<td>'+(d.cards||0)+' / '+(d.cardLimit||planLimits[plan]||1)+'</td>'+
-        '<td>'+
-        '<select onchange="changeUserPlan(\''+doc.id+'\', this.value)" style="padding:4px 8px;border-radius:6px;border:1px solid #e2e8f0;font-size:11px;margin-right:5px;width:auto;">'+
-          '<option value="trial" '+(plan==='trial'?'selected':'')+'>Trial</option>'+
-          '<option value="single" '+(plan==='single'?'selected':'')+'>Single</option>'+
-          '<option value="team" '+(plan==='team'?'selected':'')+'>Team</option>'+
-          '<option value="startup" '+(plan==='startup'?'selected':'')+'>Startup</option>'+
-          '<option value="business" '+(plan==='business'?'selected':'')+'>Business</option>'+
-          '<option value="enterprise" '+(plan==='enterprise'?'selected':'')+'>Enterprise</option>'+
-        '</select> '+
-        '<button class="danger" onclick="deleteUser(\''+doc.id+'\',\''+d.email+'\')">🗑️</button>'+
-      '</td>'+
-              '</tr>';
+        '<td style="white-space:nowrap;">'+
+          '<select onchange="changeUserPlan(\''+doc.id+'\', this.value)" style="padding:4px 6px;border-radius:6px;border:1px solid #e2e8f0;font-size:11px;width:auto;">'+
+            '<option value="trial" '+(plan==='trial'?'selected':'')+'>Trial</option>'+
+            '<option value="single" '+(plan==='single'?'selected':'')+'>Single</option>'+
+            '<option value="team" '+(plan==='team'?'selected':'')+'>Team</option>'+
+            '<option value="startup" '+(plan==='startup'?'selected':'')+'>Startup</option>'+
+            '<option value="business" '+(plan==='business'?'selected':'')+'>Business</option>'+
+            '<option value="enterprise" '+(plan==='enterprise'?'selected':'')+'>Enterprise</option>'+
+          '</select> '+
+          '<button class="info" onclick="resetUserPassword(\''+d.email+'\')" style="width:auto;padding:4px 8px;font-size:10px;" title="Send Password Reset Email">🔑</button> '+
+          '<button class="warning" onclick="toggleUserStatus(\''+doc.id+'\',\''+status+'\')" style="width:auto;padding:4px 8px;font-size:10px;" title="Enable/Disable User">'+(status==='disabled'?'✅':'🚫')+'</button> '+
+          '<button class="danger" onclick="deleteUser(\''+doc.id+'\',\''+d.email+'\')" style="width:auto;padding:4px 8px;font-size:10px;">🗑️</button>'+
+        '</td>'+
+        '</tr>';
     });
     if(snap.empty) tbody.innerHTML = '<tr><td colspan="6">No users yet</td></tr>';
   } catch(e){
@@ -307,9 +384,9 @@ async function loadAllCards(){
       var owner = d.email || d.owner || 'Legacy';
       tbody.innerHTML += '<tr>'+
         '<td><b>'+doc.id+'</b></td>'+
-        '<td>'+ (d.name||'-') +'</td>'+
-        '<td>'+ owner +'</td>'+
-        '<td>'+ created +'</td>'+
+        '<td>'+(d.name||'-')+'</td>'+
+        '<td>'+owner+'</td>'+
+        '<td>'+created+'</td>'+
         '<td><a href="'+pub+'" target="_blank">📱 View</a></td>'+
         '<td><button class="danger" onclick="deleteCard(\''+doc.id+'\')">🗑️</button></td>'+
         '</tr>';
@@ -320,7 +397,32 @@ async function loadAllCards(){
   }
 }
 
-// ========== DELETE ==========
+// ========== USER MANAGEMENT ==========
+async function changeUserPlan(uid, plan){
+  var limits = {trial:1, single:1, team:5, startup:10, business:30, enterprise:50};
+  await db.collection('users').doc(uid).update({ plan: plan, cardLimit: limits[plan] || 1 });
+  alert('✅ Plan updated to ' + plan.toUpperCase() + '!');
+  loadClients();
+}
+
+async function resetUserPassword(email){
+  try {
+    await firebase.auth().sendPasswordResetEmail(email);
+    alert('✅ Password reset link sent to ' + email);
+  } catch(e){
+    alert('❌ Error: ' + e.message);
+  }
+}
+
+async function toggleUserStatus(uid, currentStatus){
+  var newStatus = currentStatus === 'disabled' ? 'active' : 'disabled';
+  var action = newStatus === 'disabled' ? 'Disable' : 'Enable';
+  if(!confirm(action + ' this user?')) return;
+  await db.collection('users').doc(uid).update({ status: newStatus });
+  alert('✅ User ' + newStatus + '!');
+  loadClients();
+}
+
 async function deleteCard(slug){
   if(!confirm('Delete card: ' + slug + '?')) return;
   await db.collection('cards').doc(slug).delete();
@@ -329,7 +431,7 @@ async function deleteCard(slug){
 }
 
 async function deleteUser(uid, email){
-  if(!confirm('Delete user: ' + email + '?\n\nAll their cards will also be deleted.')) return;
+  if(!confirm('DELETE user: ' + email + '?\n\nALL their cards will also be deleted.')) return;
   try {
     var snap = await db.collection('cards').where('owner','==',uid).get();
     var batch = db.batch();
@@ -342,15 +444,6 @@ async function deleteUser(uid, email){
   } catch(e){
     alert('Error: ' + e.message);
   }
-  async function changeUserPlan(uid, plan){
-  var limits = {trial:1, single:1, team:5, startup:10, business:30, enterprise:50};
-  await db.collection('users').doc(uid).update({
-    plan: plan,
-    cardLimit: limits[plan] || 1
-  });
-  alert('✅ Plan updated to ' + plan.toUpperCase() + '!');
-  loadClients();
-}
 }
 </script>
 </body>
