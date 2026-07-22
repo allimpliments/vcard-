@@ -106,7 +106,7 @@ if (!slug) {
           h += '<span id="' + pid + '" style="padding:4px 8px;font-weight:600;font-size:14px;min-width:30px;text-align:center;color:var(--text);">1</span>';
           h += '<button onclick="changeQty(\'' + pid + '\', 1)" style="background:none;border:none;padding:8px 12px;font-size:16px;cursor:pointer;color:var(--text);">+</button>';
           h += '</div>';
-          h += '<button onclick="orderNow(\'' + p.name.replace(/'/g, "\\'") + '\',\'' + p.sellingPrice + '\',\'' + pid + '\',\'' + phone + '\')" style="padding:10px 16px;' + btnC4 + 'border:none;cursor:pointer;white-space:nowrap;font-size:13px;">💬 Order</button>';
+          h += '<button onclick="orderNow(\'' + p.name.replace(/'/g, "\\'") + '\',\'' + p.sellingPrice.replace(/[^0-9.]/g, '') + '\',\'' + pid + '\',\'' + phone + '\')" style="padding:10px 16px;' + btnC4 + 'border:none;cursor:pointer;white-space:nowrap;font-size:13px;">💬 Order</button>';
           h += '</div></div>';
         }
         h += '</div>';
