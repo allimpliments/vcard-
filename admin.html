@@ -380,6 +380,7 @@ async function loadAllCards(){
     snap.forEach(function(doc){
       var d = doc.data();
       var pub = 'https://vcard.11avatardigitalhub.cloud/?id=' + doc.id;
+      var edit = 'https://vcard.11avatardigitalhub.cloud/edit.html?slug=' + doc.id + '&token=' + (d.editToken || '');
       var created = d.createdAt ? new Date(d.createdAt.toDate()).toLocaleDateString('en-IN') : 'N/A';
       var owner = d.email || d.owner || 'Legacy';
       tbody.innerHTML += '<tr>'+
@@ -387,8 +388,8 @@ async function loadAllCards(){
         '<td>'+ (d.name||'-') +'</td>'+
         '<td>'+ owner +'</td>'+
         '<td>'+ created +'</td>'+
-        '<td><a href="'+pub+'" target="_blank">📱 View</a></td>'+
-        '<td><button class="danger" onclick="deleteCard(\''+doc.id+'\')">🗑️</button></td>'+
+        '<td><a href="'+pub+'" target="_blank" title="View Card">📱</a> <a href="'+edit+'" target="_blank" title="Edit Card">✏️</a></td>'+
+        '<td><button class="danger" onclick="deleteCard(\''+doc.id+'\')" style="cursor:pointer;">🗑️</button></td>'+
         '</tr>';
     });
     if(snap.empty) tbody.innerHTML = '<tr><td colspan="6">No cards found</td></tr>';
