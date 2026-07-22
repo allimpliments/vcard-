@@ -44,11 +44,13 @@
     .msg-success{background:#d1fae5;color:#065f46}
     .msg-error{background:#fee2e2;color:#991b1b}
     .logout-btn{background:#ef4444;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:600;float:right}
+    .stat-card{flex:1;min-width:120px;background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+    .stat-card .num{font-size:28px;font-weight:800}
+    .stat-card .lbl{font-size:11px;color:#64748b;margin-top:4px}
   </style>
 </head>
 <body>
 
-<!-- Login -->
 <div id="login-box">
   <h2>🔐 Admin Login</h2>
   <input type="password" id="admin-pass" placeholder="Enter Admin Password">
@@ -56,14 +58,20 @@
   <p id="login-error" style="color:red;font-size:12px;display:none;">Wrong Password!</p>
 </div>
 
-<!-- Admin Panel -->
 <div id="admin-panel" style="display:none;">
   <div style="display:flex;justify-content:space-between;align-items:center;">
     <h2>🛠️ vCard Super Admin Panel</h2>
     <button class="logout-btn" onclick="logout()">🚪 Logout</button>
   </div>
 
-  <!-- ========== CREATE CARD FOR EXISTING USER ========== -->
+  <!-- Stats -->
+  <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+    <div class="stat-card"><div class="num" style="color:#1a73e8;" id="stat-my-cards">0</div><div class="lbl">👑 My Cards</div></div>
+    <div class="stat-card"><div class="num" style="color:#10b981;" id="stat-agent-cards">0</div><div class="lbl">🤝 Agent Cards</div></div>
+    <div class="stat-card"><div class="num" style="color:#f59e0b;" id="stat-total-cards">0</div><div class="lbl">📇 Total Cards</div></div>
+    <div class="stat-card"><div class="num" style="color:#6366f1;" id="stat-total-users">0</div><div class="lbl">👥 Total Users</div></div>
+  </div>
+
   <h3>📇 Create Card for Existing User (Owner/Yourself)</h3>
   <div class="row">
     <input type="text" id="existing-uid" placeholder="Firebase User UID *">
@@ -76,7 +84,6 @@
   <button onclick="createCardForExisting()" class="info">📇 Create Card Only</button>
   <p id="existing-msg"></p>
 
-  <!-- ========== CREATE CLIENT ========== -->
   <h3>➕ Create New Client (with Email & Password)</h3>
   <div class="row">
     <input type="text" id="new-name" placeholder="Full Name *">
@@ -97,7 +104,6 @@
   <button onclick="createClient()" class="success">🚀 Create Client Account & Card</button>
   <p id="create-msg"></p>
 
-  <!-- ========== CREATE AGENT ========== -->
   <h3>🤝 Create New Agent</h3>
   <div class="row">
     <input type="text" id="agent-name" placeholder="Agent Full Name *">
@@ -113,7 +119,6 @@
   <button onclick="createAgent()" class="warning">🤝 Create Agent Account</button>
   <p id="agent-msg"></p>
 
-  <!-- ========== ALL USERS ========== -->
   <h3>👥 All Users</h3>
   <button onclick="loadClients()" style="width:auto;padding:8px 16px;margin-bottom:10px;">🔄 Refresh Users</button>
   <table>
@@ -121,25 +126,22 @@
     <tbody id="client-table"><tr><td colspan="6">Loading...</td></tr></tbody>
   </table>
 
-  <!-- ========== ALL CARDS ========== -->
   <h3>📇 All Cards</h3>
   <button onclick="loadAllCards()" style="width:auto;padding:8px 16px;margin-bottom:10px;">🔄 Refresh Cards</button>
   <table>
-    <thead><tr><th>Slug</th><th>Name</th><th>Owner/Email</th><th>Created</th><th>Public Link</th><th>Actions</th></tr></thead>
-    <tbody id="cards-table"><tr><td colspan="6">Loading...</td></tr></tbody>
+    <thead><tr><th>Slug</th><th>Name</th><th>Owner</th><th>Created By</th><th>Created</th><th>Links</th><th>Actions</th></tr></thead>
+    <tbody id="cards-table"><tr><td colspan="7">Loading...</td></tr></tbody>
   </table>
 </div>
 
 <script>
 const ADMIN_PASS = 'Admin@11Avatar';
 var planLimits = { 'trial': 1, 'single': 1, 'team': 5, 'startup': 10, 'business': 30, 'enterprise': 50 };
-var commissions = { single: 70, team: 300, startup: 500, business: 1000, enterprise: 1500 };
 
-// Auto-login check
 if (localStorage.getItem('adminLoggedIn') === 'true') {
   document.getElementById('login-box').style.display = 'none';
   document.getElementById('admin-panel').style.display = 'block';
-  setTimeout(function(){ loadClients(); loadAllCards(); }, 500);
+  setTimeout(function(){ loadStats(); loadClients(); loadAllCards(); }, 500);
 }
 
 function login(){
@@ -148,18 +150,13 @@ function login(){
     localStorage.setItem('adminLoggedIn', 'true');
     document.getElementById('login-box').style.display = 'none';
     document.getElementById('admin-panel').style.display = 'block';
-    loadClients();
-    loadAllCards();
+    loadStats(); loadClients(); loadAllCards();
   } else {
     document.getElementById('login-error').style.display = 'block';
   }
 }
 
-function logout(){
-  localStorage.removeItem('adminLoggedIn');
-  location.reload();
-}
-
+function logout(){ localStorage.removeItem('adminLoggedIn'); location.reload(); }
 function generateToken(){
   var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
   var t = '';
@@ -168,9 +165,29 @@ function generateToken(){
   for(var j=0;j<4;j++) t += chars.charAt(Math.floor(Math.random()*chars.length));
   return t;
 }
-
 function cleanSlug(text){
   return text.toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,'-').replace(/--+/g,'-').replace(/^-|-$/g,'');
+}
+
+// ========== STATS ==========
+async function loadStats(){
+  var cardsSnap = await db.collection('cards').get();
+  var totalCards = cardsSnap.size;
+  var myCards = 0;
+  var agentCards = 0;
+  
+  cardsSnap.forEach(function(doc){
+    var d = doc.data();
+    if(d.createdByName === 'Super Admin' || d.createdBy === 'admin') myCards++;
+    else if(d.createdByName && d.createdBy === 'agent') agentCards++;
+  });
+  
+  var usersSnap = await db.collection('users').get();
+  
+  document.getElementById('stat-my-cards').textContent = myCards;
+  document.getElementById('stat-agent-cards').textContent = agentCards;
+  document.getElementById('stat-total-cards').textContent = totalCards;
+  document.getElementById('stat-total-users').textContent = usersSnap.size;
 }
 
 // ========== CREATE CARD FOR EXISTING USER ==========
@@ -181,26 +198,19 @@ async function createCardForExisting(){
   var phone = document.getElementById('existing-phone-display').value.trim();
   var msg = document.getElementById('existing-msg');
   
-  if(!uid || !name){
-    msg.innerHTML = '<div class="msg msg-error">❌ UID and Name required!</div>';
-    return;
-  }
-  
+  if(!uid || !name){ msg.innerHTML = '<div class="msg msg-error">❌ UID and Name required!</div>'; return; }
   msg.innerHTML = '<div class="msg">⏳ Creating card...</div>';
   
   try {
     var slug = cleanSlug(name);
-    if (!slug || slug.length < 2) {
-      slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/--+/g, '-').replace(/^-|-$/g, '');
-    }
-    if (!slug || slug.length < 2) {
-      slug = 'card-' + Date.now();
-    }
+    if (!slug || slug.length < 2) { slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/--+/g, '-').replace(/^-|-$/g, ''); }
+    if (!slug || slug.length < 2) { slug = 'card-' + Date.now(); }
     var token = generateToken();
     
     await db.collection('cards').doc(slug).set({
       owner: uid, name: name, phone: phone || '', email: email || '',
       editToken: token, theme: 'default', animation: 'wave', status: 'active',
+      createdBy: 'admin', createdByName: 'Super Admin',
       sectionOrder: ["about","contact","social","products","services","gallery","youtube","reels","appointment","payment","bank","feedback","location","contactform"],
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -209,16 +219,12 @@ async function createCardForExisting(){
     var edit = 'https://vcard.11avatardigitalhub.cloud/edit.html?slug=' + slug + '&token=' + token;
     
     msg.innerHTML = '<div class="msg msg-success">✅ Card Created!<br>📱 <a href="'+pub+'" target="_blank">Public Card</a><br>✏️ <a href="'+edit+'" target="_blank">Editor Link</a><br>🔐 Token: <b>'+token+'</b></div>';
-    
     document.getElementById('existing-uid').value = '';
     document.getElementById('existing-name').value = '';
     document.getElementById('existing-email-display').value = '';
     document.getElementById('existing-phone-display').value = '';
-    
-    loadAllCards();
-  } catch(e){
-    msg.innerHTML = '<div class="msg msg-error">❌ ' + e.message + '</div>';
-  }
+    loadStats(); loadAllCards();
+  } catch(e){ msg.innerHTML = '<div class="msg msg-error">❌ ' + e.message + '</div>'; }
 }
 
 // ========== CREATE CLIENT ==========
@@ -230,11 +236,7 @@ async function createClient(){
   var plan = document.getElementById('new-plan').value;
   var msg = document.getElementById('create-msg');
   
-  if(!name || !email || pass.length < 6){
-    msg.innerHTML = '<div class="msg msg-error">❌ Name, Email & Password (6+ chars) required!</div>';
-    return;
-  }
-  
+  if(!name || !email || pass.length < 6){ msg.innerHTML = '<div class="msg msg-error">❌ Name, Email & Password (6+ chars) required!</div>'; return; }
   msg.innerHTML = '<div class="msg">⏳ Creating account...</div>';
   
   try {
@@ -244,21 +246,19 @@ async function createClient(){
     await db.collection('users').doc(uid).set({
       name: name, email: email, phone: phone || '',
       plan: plan, cardLimit: planLimits[plan] || 1, cards: 0, role: 'client', status: 'active',
+      createdBy: 'admin', createdByName: 'Super Admin',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     
     var slug = cleanSlug(name);
-    if (!slug || slug.length < 2) {
-      slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/--+/g, '-').replace(/^-|-$/g, '');
-    }
-    if (!slug || slug.length < 2) {
-      slug = 'client-' + Date.now();
-    }
+    if (!slug || slug.length < 2) { slug = name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/--+/g, '-').replace(/^-|-$/g, ''); }
+    if (!slug || slug.length < 2) { slug = 'client-' + Date.now(); }
     var token = generateToken();
     
     await db.collection('cards').doc(slug).set({
       owner: uid, name: name, phone: phone || '', email: email,
       editToken: token, theme: 'default', animation: 'wave', status: 'active',
+      createdBy: 'admin', createdByName: 'Super Admin',
       sectionOrder: ["about","contact","social","products","services","gallery","youtube","reels","appointment","payment","bank","feedback","location","contactform"],
       trialEnds: plan === 'trial' ? new Date(Date.now() + 3*24*60*60*1000).toISOString() : null,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -268,17 +268,12 @@ async function createClient(){
     var edit = 'https://vcard.11avatardigitalhub.cloud/edit.html?slug=' + slug + '&token=' + token;
     
     msg.innerHTML = '<div class="msg msg-success">✅ Client Created!<br>📧 <b>'+email+'</b><br>🔑 <b>'+pass+'</b><br>📱 <a href="'+pub+'" target="_blank">Public Card</a><br>✏️ <a href="'+edit+'" target="_blank">Editor Link</a><br>🔐 Token: <b>'+token+'</b></div>';
-    
     document.getElementById('new-name').value = '';
     document.getElementById('new-email').value = '';
     document.getElementById('new-phone').value = '';
     document.getElementById('new-pass').value = '';
-    
-    loadClients();
-    loadAllCards();
-  } catch(e){
-    msg.innerHTML = '<div class="msg msg-error">❌ ' + e.message + '</div>';
-  }
+    loadStats(); loadClients(); loadAllCards();
+  } catch(e){ msg.innerHTML = '<div class="msg msg-error">❌ ' + e.message + '</div>'; }
 }
 
 // ========== CREATE AGENT ==========
@@ -290,41 +285,27 @@ async function createAgent(){
   var city = document.getElementById('agent-city').value.trim();
   var msg = document.getElementById('agent-msg');
   
-  if(!name || !email || pass.length < 6){
-    msg.innerHTML = '<div class="msg msg-error">❌ Name, Email & Password (6+ chars) required!</div>';
-    return;
-  }
-  
+  if(!name || !email || pass.length < 6){ msg.innerHTML = '<div class="msg msg-error">❌ Name, Email & Password (6+ chars) required!</div>'; return; }
   msg.innerHTML = '<div class="msg">⏳ Creating agent...</div>';
   
   try {
-    await db.collection('agent').add({
-      Name: name, Email: email, password: pass,
-      'Phone no': phone || '', city: city || '',
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    
+    await db.collection('agent').add({ Name: name, Email: email, password: pass, 'Phone no': phone || '', city: city || '', createdAt: firebase.firestore.FieldValue.serverTimestamp() });
     await firebase.auth().createUserWithEmailAndPassword(email, pass);
-    
     var userCred = await firebase.auth().signInWithEmailAndPassword(email, pass);
     await db.collection('users').doc(userCred.user.uid).set({
       name: name, email: email, phone: phone || '',
       role: 'agent', plan: 'agent', cards: 0, status: 'active',
+      createdBy: 'admin', createdByName: 'Super Admin',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    
     msg.innerHTML = '<div class="msg msg-success">✅ Agent Created!<br>📧 <b>'+email+'</b><br>🔑 <b>'+pass+'</b><br>🔗 Share: <b>/agent-login.html</b></div>';
-    
     document.getElementById('agent-name').value = '';
     document.getElementById('agent-email').value = '';
     document.getElementById('agent-phone').value = '';
     document.getElementById('agent-pass').value = '';
     document.getElementById('agent-city').value = '';
-    
-    loadClients();
-  } catch(e){
-    msg.innerHTML = '<div class="msg msg-error">❌ ' + e.message + '</div>';
-  }
+    loadStats(); loadClients();
+  } catch(e){ msg.innerHTML = '<div class="msg msg-error">❌ ' + e.message + '</div>'; }
 }
 
 // ========== LOAD USERS ==========
@@ -358,22 +339,19 @@ async function loadClients(){
             '<option value="business" '+(plan==='business'?'selected':'')+'>Business</option>'+
             '<option value="enterprise" '+(plan==='enterprise'?'selected':'')+'>Enterprise</option>'+
           '</select> '+
-          '<button class="info" onclick="resetUserPassword(\''+d.email+'\')" style="width:auto;padding:4px 8px;font-size:10px;" title="Send Password Reset Email">🔑</button> '+
-          '<button class="warning" onclick="toggleUserStatus(\''+doc.id+'\',\''+status+'\')" style="width:auto;padding:4px 8px;font-size:10px;" title="Enable/Disable User">'+(status==='disabled'?'✅':'🚫')+'</button> '+
+          '<button class="info" onclick="resetUserPassword(\''+d.email+'\')" style="width:auto;padding:4px 8px;font-size:10px;">🔑</button> '+
+          '<button class="warning" onclick="toggleUserStatus(\''+doc.id+'\',\''+status+'\')" style="width:auto;padding:4px 8px;font-size:10px;">'+(status==='disabled'?'✅':'🚫')+'</button> '+
           '<button class="danger" onclick="deleteUser(\''+doc.id+'\',\''+d.email+'\')" style="width:auto;padding:4px 8px;font-size:10px;">🗑️</button>'+
-        '</td>'+
-        '</tr>';
+        '</td></tr>';
     });
     if(snap.empty) tbody.innerHTML = '<tr><td colspan="6">No users yet</td></tr>';
-  } catch(e){
-    tbody.innerHTML = '<tr><td colspan="6">Error: '+e.message+'</td></tr>';
-  }
+  } catch(e){ tbody.innerHTML = '<tr><td colspan="6">Error: '+e.message+'</td></tr>'; }
 }
 
-// ========== LOAD CARDS ==========
+// ========== LOAD CARDS with Created By ==========
 async function loadAllCards(){
   var tbody = document.getElementById('cards-table');
-  tbody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="7">Loading...</td></tr>';
   try {
     var snap = await db.collection('cards').orderBy('createdAt','desc').limit(100).get();
     tbody.innerHTML = '';
@@ -383,54 +361,43 @@ async function loadAllCards(){
       var edit = 'https://vcard.11avatardigitalhub.cloud/edit.html?slug=' + doc.id + '&token=' + (d.editToken || '');
       var created = d.createdAt ? new Date(d.createdAt.toDate()).toLocaleDateString('en-IN') : 'N/A';
       var owner = d.email || d.owner || 'Legacy';
+      var createdBy = d.createdByName || 'Unknown';
+      var icon = createdBy === 'Super Admin' ? '👑 ' : (d.createdBy === 'agent' ? '🤝 ' : '📝 ');
+      
       tbody.innerHTML += '<tr>'+
         '<td><b>'+doc.id+'</b></td>'+
         '<td>'+ (d.name||'-') +'</td>'+
-        '<td>'+ owner +'</td>'+
+        '<td style="font-size:11px;">'+ owner +'</td>'+
+        '<td style="font-size:11px;">'+ icon + createdBy +'</td>'+
         '<td>'+ created +'</td>'+
-        '<td><a href="'+pub+'" target="_blank" title="View Card">📱</a> <a href="'+edit+'" target="_blank" title="Edit Card">✏️</a></td>'+
-        '<td><button class="danger" onclick="deleteCard(\''+doc.id+'\')" style="cursor:pointer;">🗑️</button></td>'+
+        '<td><a href="'+pub+'" target="_blank" title="View">📱</a> <a href="'+edit+'" target="_blank" title="Edit">✏️</a></td>'+
+        '<td><button class="danger" onclick="deleteCard(\''+doc.id+'\')" style="cursor:pointer;padding:4px 8px;font-size:11px;">🗑️</button></td>'+
         '</tr>';
     });
-    if(snap.empty) tbody.innerHTML = '<tr><td colspan="6">No cards found</td></tr>';
-  } catch(e){
-    tbody.innerHTML = '<tr><td colspan="6">Error: '+e.message+'</td></tr>';
-  }
+    if(snap.empty) tbody.innerHTML = '<tr><td colspan="7">No cards found</td></tr>';
+  } catch(e){ tbody.innerHTML = '<tr><td colspan="7">Error: '+e.message+'</td></tr>'; }
 }
 
 // ========== USER MANAGEMENT ==========
 async function changeUserPlan(uid, plan){
   var limits = {trial:1, single:1, team:5, startup:10, business:30, enterprise:50};
   await db.collection('users').doc(uid).update({ plan: plan, cardLimit: limits[plan] || 1 });
-  alert('✅ Plan updated to ' + plan.toUpperCase() + '!');
-  loadClients();
+  alert('✅ Plan updated!'); loadClients();
 }
-
 async function resetUserPassword(email){
-  try {
-    await firebase.auth().sendPasswordResetEmail(email);
-    alert('✅ Password reset link sent to ' + email);
-  } catch(e){
-    alert('❌ Error: ' + e.message);
-  }
+  try { await firebase.auth().sendPasswordResetEmail(email); alert('✅ Password reset link sent!'); } catch(e){ alert('❌ Error: '+e.message); }
 }
-
 async function toggleUserStatus(uid, currentStatus){
   var newStatus = currentStatus === 'disabled' ? 'active' : 'disabled';
-  var action = newStatus === 'disabled' ? 'Disable' : 'Enable';
-  if(!confirm(action + ' this user?')) return;
+  if(!confirm((newStatus==='disabled'?'Disable':'Enable')+' this user?')) return;
   await db.collection('users').doc(uid).update({ status: newStatus });
-  alert('✅ User ' + newStatus + '!');
-  loadClients();
+  alert('✅ User ' + newStatus + '!'); loadClients();
 }
-
 async function deleteCard(slug){
   if(!confirm('Delete card: ' + slug + '?')) return;
   await db.collection('cards').doc(slug).delete();
-  alert('✅ Card deleted!');
-  loadAllCards();
+  alert('✅ Card deleted!'); loadStats(); loadAllCards();
 }
-
 async function deleteUser(uid, email){
   if(!confirm('DELETE user: ' + email + '?\n\nALL their cards will also be deleted.')) return;
   try {
@@ -440,11 +407,8 @@ async function deleteUser(uid, email){
     await batch.commit();
     await db.collection('users').doc(uid).delete();
     alert('✅ User and all cards deleted!');
-    loadClients();
-    loadAllCards();
-  } catch(e){
-    alert('Error: ' + e.message);
-  }
+    loadStats(); loadClients(); loadAllCards();
+  } catch(e){ alert('Error: ' + e.message); }
 }
 </script>
 </body>
