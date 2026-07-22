@@ -265,9 +265,19 @@ async function loadClients(){
         '<td>'+ (d.name||'-') +'</td>'+
         '<td>'+ (d.phone||'-') +'</td>'+
         '<td><span class="badge '+badgeClass+'">'+displayPlan+'</span></td>'+
-        '<td>'+(d.cards||0)+' / '+(planLimits[plan]||'N/A')+'</td>'+
-        '<td><button class="danger" onclick="deleteUser(\''+doc.id+'\',\''+d.email+'\')">🗑️</button></td>'+
-        '</tr>';
+        '<td>'+(d.cards||0)+' / '+(d.cardLimit||planLimits[plan]||1)+'</td>'+
+        '<td>'+
+        '<select onchange="changeUserPlan(\''+doc.id+'\', this.value)" style="padding:4px 8px;border-radius:6px;border:1px solid #e2e8f0;font-size:11px;margin-right:5px;width:auto;">'+
+          '<option value="trial" '+(plan==='trial'?'selected':'')+'>Trial</option>'+
+          '<option value="single" '+(plan==='single'?'selected':'')+'>Single</option>'+
+          '<option value="team" '+(plan==='team'?'selected':'')+'>Team</option>'+
+          '<option value="startup" '+(plan==='startup'?'selected':'')+'>Startup</option>'+
+          '<option value="business" '+(plan==='business'?'selected':'')+'>Business</option>'+
+          '<option value="enterprise" '+(plan==='enterprise'?'selected':'')+'>Enterprise</option>'+
+        '</select> '+
+        '<button class="danger" onclick="deleteUser(\''+doc.id+'\',\''+d.email+'\')">🗑️</button>'+
+      '</td>'+
+              '</tr>';
     });
     if(snap.empty) tbody.innerHTML = '<tr><td colspan="6">No users yet</td></tr>';
   } catch(e){
@@ -324,6 +334,15 @@ async function deleteUser(uid, email){
   } catch(e){
     alert('Error: ' + e.message);
   }
+  async function changeUserPlan(uid, plan){
+  var limits = {trial:1, single:1, team:5, startup:10, business:30, enterprise:50};
+  await db.collection('users').doc(uid).update({
+    plan: plan,
+    cardLimit: limits[plan] || 1
+  });
+  alert('✅ Plan updated to ' + plan.toUpperCase() + '!');
+  loadClients();
+}
 }
 </script>
 </body>
