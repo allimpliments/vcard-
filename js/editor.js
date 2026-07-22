@@ -50,6 +50,23 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
   });
 }
 
+// ========== SHOW SAVE POPUP ==========
+function showSavePopup(message, isError) {
+  var popup = document.createElement('div');
+  popup.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:16px 30px;border-radius:12px;font-weight:700;font-size:16px;z-index:9999;text-align:center;min-width:300px;box-shadow:0 10px 40px rgba(0,0,0,0.2);animation:fadeInOut 2.5s forwards;';
+  popup.style.background = isError ? '#fee2e2' : '#d1fae5';
+  popup.style.color = isError ? '#991b1b' : '#065f46';
+  popup.textContent = message;
+  document.body.appendChild(popup);
+  
+  setTimeout(function(){ popup.remove(); }, 2500);
+}
+
+// Add CSS animation
+var styleTag = document.createElement('style');
+styleTag.textContent = '@keyframes fadeInOut { 0%{opacity:0;top:10px} 15%{opacity:1;top:20px} 85%{opacity:1;top:20px} 100%{opacity:0;top:10px} }';
+document.head.appendChild(styleTag);
+
 (async () => {
   const params = new URLSearchParams(window.location.search);
   const slug = params.get('slug');
@@ -113,9 +130,10 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
   setupImageUpload('e-about-img-file', 'e-about-img-preview', 'e-about-img');
   setupImageUpload('e-qr-file', 'e-qr-preview', 'e-qr');
 
-  // Products
+  // Products - Data store karo render se pehle
+  var productsData = JSON.parse(JSON.stringify(cardData.products || []));
   const productsDiv = document.getElementById('products-list');
-  const productsData = cardData.products || [];
+  
   function renderProducts() {
     productsDiv.innerHTML = '';
     productsData.forEach((p, i) => {
@@ -160,8 +178,9 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
   document.getElementById('add-product').onclick = () => { productsData.push({ name:'', sellingPrice:'', actualPrice:'', image:'' }); renderProducts(); };
 
   // Services
+  var servicesData = JSON.parse(JSON.stringify(cardData.services || []));
   const servicesDiv = document.getElementById('services-list');
-  const servicesData = cardData.services || [];
+  
   function renderServices() {
     servicesDiv.innerHTML = '';
     servicesData.forEach((s, i) => {
@@ -205,8 +224,9 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
   document.getElementById('add-service').onclick = () => { servicesData.push({ title:'', image:'' }); renderServices(); };
 
   // Gallery
+  var galleryData = JSON.parse(JSON.stringify(cardData.gallery || []));
   const galleryDiv = document.getElementById('gallery-list');
-  const galleryData = cardData.gallery || [];
+  
   function renderGallery() {
     galleryDiv.innerHTML = '';
     galleryData.forEach((img, i) => {
@@ -250,16 +270,13 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
   document.getElementById('add-gallery').onclick = () => { galleryData.push(''); renderGallery(); };
 
   // YouTube
+  var youtubeData = JSON.parse(JSON.stringify(cardData.youtube || []));
   const youtubeDiv = document.getElementById('youtube-list');
-  const youtubeData = cardData.youtube || [];
   function renderYoutube() {
     youtubeDiv.innerHTML = '';
     youtubeData.forEach((url, i) => {
       const row = document.createElement('div');
-      row.style.border = '1px solid #e2e8f0';
-      row.style.padding = '10px';
-      row.style.margin = '8px 0';
-      row.style.borderRadius = '10px';
+      row.style.border = '1px solid #e2e8f0'; row.style.padding = '10px'; row.style.margin = '8px 0'; row.style.borderRadius = '10px';
       row.innerHTML = '<label>YouTube URL:</label><input type="url" class="yt-url" value="'+(url||'')+'" placeholder="https://youtube.com/watch?v=..." style="width:100%;"><button type="button" class="remove-yt" style="background:#ef4444;color:#fff;border:none;padding:6px 12px;border-radius:6px;margin-top:8px;">Remove</button>';
       row.querySelector('.remove-yt').onclick = () => { youtubeData.splice(i, 1); renderYoutube(); };
       youtubeDiv.appendChild(row);
@@ -269,16 +286,13 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
   document.getElementById('add-youtube').onclick = () => { youtubeData.push(''); renderYoutube(); };
 
   // Reels
+  var reelsData = JSON.parse(JSON.stringify(cardData.reels || []));
   const reelsDiv = document.getElementById('reels-list');
-  const reelsData = cardData.reels || [];
   function renderReels() {
     reelsDiv.innerHTML = '';
     reelsData.forEach((url, i) => {
       const row = document.createElement('div');
-      row.style.border = '1px solid #e2e8f0';
-      row.style.padding = '10px';
-      row.style.margin = '8px 0';
-      row.style.borderRadius = '10px';
+      row.style.border = '1px solid #e2e8f0'; row.style.padding = '10px'; row.style.margin = '8px 0'; row.style.borderRadius = '10px';
       row.innerHTML = '<label>Reel URL:</label><input type="url" class="reel-url" value="'+(url||'')+'" placeholder="https://instagram.com/reel/..." style="width:100%;"><button type="button" class="remove-reel" style="background:#ef4444;color:#fff;border:none;padding:6px 12px;border-radius:6px;margin-top:8px;">Remove</button>';
       row.querySelector('.remove-reel').onclick = () => { reelsData.splice(i, 1); renderReels(); };
       reelsDiv.appendChild(row);
@@ -310,23 +324,45 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
   document.getElementById('e-map-link').value = locationData.mapLink || '';
   document.getElementById('e-address').value = locationData.address || '';
 
-  // Social
+  // Social - DEEP CLONE
+  var socialData = JSON.parse(JSON.stringify(cardData.social || {}));
   const socialDiv = document.getElementById('social-links');
-  const socialData = cardData.social || {};
+  
   function renderSocial() {
     socialDiv.innerHTML = '';
-    for (const [platform, url] of Object.entries(socialData)) {
-      const row = document.createElement('div');
-      row.innerHTML = '<input type="text" class="social-platform" value="'+platform+'" placeholder="Platform"><input type="url" class="social-url" value="'+url+'" placeholder="URL"><button type="button" class="remove-social">X</button>';
-      row.querySelector('.remove-social').onclick = () => { delete socialData[platform]; renderSocial(); };
+    var keys = Object.keys(socialData);
+    for (var i = 0; i < keys.length; i++) {
+      var platform = keys[i];
+      var url = socialData[platform];
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:8px;';
+      row.innerHTML = '<input type="text" class="social-platform" value="'+platform+'" placeholder="Platform" style="flex:1;padding:8px;border:1px solid #e2e8f0;border-radius:6px;"><input type="url" class="social-url" value="'+url+'" placeholder="URL" style="flex:2;padding:8px;border:1px solid #e2e8f0;border-radius:6px;"><button type="button" class="remove-social" style="background:#ef4444;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;">X</button>';
+      
+      row.querySelector('.remove-social').onclick = function() {
+        var currentPlatform = row.querySelector('.social-platform').value;
+        delete socialData[currentPlatform];
+        renderSocial();
+      };
+      
       socialDiv.appendChild(row);
     }
   }
   renderSocial();
-  document.getElementById('add-social').onclick = () => { const p = prompt('Platform name?'); if(p){ socialData[p]=''; renderSocial(); } };
+  document.getElementById('add-social').onclick = function() {
+    var p = prompt('Platform name? (e.g. instagram, youtube, facebook)');
+    if (p && p.trim()) {
+      var cleanPlatform = p.trim().toLowerCase();
+      if (socialData[cleanPlatform]) {
+        alert('This platform already exists!');
+      } else {
+        socialData[cleanPlatform] = '';
+        renderSocial();
+      }
+    }
+  };
 
   // Appointment Services
-  var aptServicesData = cardData.servicesList || [];
+  var aptServicesData = JSON.parse(JSON.stringify(cardData.servicesList || []));
   var aptServicesDiv = document.getElementById('services-list-apt');
   
   function renderAptServices(){
@@ -340,13 +376,9 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     });
   }
   renderAptServices();
-  
-  document.getElementById('add-service-apt').onclick = function(){ 
-    aptServicesData.push({name:'', duration:'30', price:''}); 
-    renderAptServices(); 
-  };
+  document.getElementById('add-service-apt').onclick = function(){ aptServicesData.push({name:'', duration:'30', price:''}); renderAptServices(); };
 
-  // Load existing bookings with Cancel option
+  // Load existing bookings
   var bookingsData = cardData.bookings || [];
   var bookingsDiv = document.getElementById('bookings-list-apt');
   if (bookingsDiv && bookingsData.length > 0) {
@@ -354,54 +386,36 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     bookingsData.forEach(function(b, idx) {
       var badge = b.status === 'cancelled' ? 'color:#ef4444;' : 'color:#10b981;';
       var statusText = (b.status || 'confirmed').toUpperCase();
-      
       bh += '<div style="background:#f8fafc;border-radius:8px;padding:10px;margin:5px 0;font-size:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">';
       bh += '<div style="flex:1;min-width:200px;">';
       bh += '<b>' + b.serviceName + '</b> - ' + b.date + ' at ' + b.time + '<br>';
       bh += '👤 ' + b.name + ' | 📞 ' + b.phone + ' | <span style="' + badge + '">' + statusText + '</span>';
       bh += '</div>';
-      
       if (b.status !== 'cancelled') {
         bh += '<button onclick="cancelBooking(' + idx + ')" style="background:#ef4444;color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:11px;white-space:nowrap;">❌ Cancel</button>';
       }
-      
       bh += '</div>';
     });
     bookingsDiv.innerHTML = bh;
   }
 
-  // Cancel booking function
   window.cancelBooking = async function(idx) {
     if (!confirm('Cancel this booking? The slot will become available.')) return;
-    
     try {
       var cardRef = db.collection('cards').doc(slug);
       var doc = await cardRef.get();
       var bookings = doc.data().bookings || [];
-      
-      if (bookings[idx]) {
-        bookings[idx].status = 'cancelled';
-        await cardRef.update({ bookings: bookings });
-        alert('✅ Booking cancelled! Slot is now available.');
-        location.reload();
-      }
-    } catch(e) {
-      alert('Error: ' + e.message);
-    }
+      if (bookings[idx]) { bookings[idx].status = 'cancelled'; await cardRef.update({ bookings: bookings }); showSavePopup('✅ Booking Cancelled! Slot is now available.'); location.reload(); }
+    } catch(e) { showSavePopup('❌ Error: ' + e.message, true); }
   };
 
-  // Default full section order
-  var DEFAULT_SECTION_ORDER = ["about", "contact", "social", "products", "services", "gallery", "youtube", "reels", "appointment", "payment", "bank", "feedback", "location", "contactform"];
-
   // Section order
+  var DEFAULT_SECTION_ORDER = ["about", "contact", "social", "products", "services", "gallery", "youtube", "reels", "appointment", "payment", "bank", "feedback", "location", "contactform"];
   const sectionList = document.getElementById('section-order');
-  let currentOrder = cardData.sectionOrder || DEFAULT_SECTION_ORDER;
+  let currentOrder = JSON.parse(JSON.stringify(cardData.sectionOrder || DEFAULT_SECTION_ORDER));
   
-  // Ensure all sections are in currentOrder
   DEFAULT_SECTION_ORDER.forEach(function(defSec) {
-    if (currentOrder.indexOf(defSec) === -1) {
-      currentOrder.push(defSec);
-    }
+    if (currentOrder.indexOf(defSec) === -1) { currentOrder.push(defSec); }
   });
   
   sectionList.innerHTML = '';
@@ -412,28 +426,79 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     sectionList.appendChild(li);
   });
   
-  new Sortable(sectionList, {
-    animation: 150,
-    onEnd: () => { currentOrder = Array.from(sectionList.querySelectorAll('li')).map(li => li.dataset.section); }
-  });
-
+  new Sortable(sectionList, { animation: 150, onEnd: () => { currentOrder = Array.from(sectionList.querySelectorAll('li')).map(li => li.dataset.section); } });
   document.getElementById('editor-container').style.display = 'block';
 
-  // Save
+  // ========== SAVE ==========
   document.getElementById('edit-form').onsubmit = async (e) => {
     e.preventDefault();
-    const platformInputs = document.querySelectorAll('.social-platform');
-    const urlInputs = document.querySelectorAll('.social-url');
-    const newSocial = {};
-    platformInputs.forEach((p, i) => { if (p.value.trim()) newSocial[p.value.trim()] = urlInputs[i].value.trim(); });
+    
+    // Social data from form
+    var newSocial = {};
+    var platformInputs = document.querySelectorAll('.social-platform');
+    var urlInputs = document.querySelectorAll('.social-url');
+    for (var i = 0; i < platformInputs.length; i++) {
+      var plat = platformInputs[i].value.trim();
+      var url = urlInputs[i].value.trim();
+      if (plat) { newSocial[plat] = url; }
+    }
 
-    // Ensure sectionOrder has all sections
-    var finalOrder = currentOrder;
+    var finalOrder = JSON.parse(JSON.stringify(currentOrder));
     DEFAULT_SECTION_ORDER.forEach(function(defSec) {
-      if (finalOrder.indexOf(defSec) === -1) {
-        finalOrder.push(defSec);
-      }
+      if (finalOrder.indexOf(defSec) === -1) { finalOrder.push(defSec); }
     });
+
+    // Collect data from DOM
+    var prodRows = productsDiv.children;
+    var prodData = [];
+    for (var i = 0; i < prodRows.length; i++) {
+      prodData.push({
+        name: prodRows[i].querySelector('.prod-name')?.value?.trim() || '',
+        sellingPrice: prodRows[i].querySelector('.prod-selling')?.value?.trim() || '',
+        actualPrice: prodRows[i].querySelector('.prod-actual')?.value?.trim() || '',
+        image: prodRows[i].querySelector('.prod-img-url')?.value?.trim() || ''
+      });
+    }
+
+    var servRows = servicesDiv.children;
+    var servData = [];
+    for (var i = 0; i < servRows.length; i++) {
+      servData.push({
+        title: servRows[i].querySelector('.serv-title')?.value?.trim() || '',
+        image: servRows[i].querySelector('.serv-img-url')?.value?.trim() || ''
+      });
+    }
+
+    var galRows = galleryDiv.children;
+    var galData = [];
+    for (var i = 0; i < galRows.length; i++) {
+      var u = galRows[i].querySelector('.gal-img-url');
+      if (u && u.value.trim()) galData.push(u.value.trim());
+    }
+
+    var ytRows = youtubeDiv.children;
+    var ytData = [];
+    for (var i = 0; i < ytRows.length; i++) {
+      var u = ytRows[i].querySelector('.yt-url');
+      if (u && u.value.trim()) ytData.push(u.value.trim());
+    }
+
+    var reelRows = reelsDiv.children;
+    var reelData = [];
+    for (var i = 0; i < reelRows.length; i++) {
+      var u = reelRows[i].querySelector('.reel-url');
+      if (u && u.value.trim()) reelData.push(u.value.trim());
+    }
+
+    var aptRows = aptServicesDiv.children;
+    var aptData = [];
+    for (var i = 0; i < aptRows.length; i++) {
+      aptData.push({
+        name: aptRows[i].querySelector('.apt-svc-name')?.value?.trim() || '',
+        duration: aptRows[i].querySelector('.apt-svc-duration')?.value?.trim() || '30',
+        price: aptRows[i].querySelector('.apt-svc-price')?.value?.trim() || ''
+      });
+    }
 
     const updates = {
       name: document.getElementById('e-name').value.trim(),
@@ -450,28 +515,28 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
       theme: document.getElementById('e-theme').value,
       calendarUrl: document.getElementById('e-calendar').value.trim(),
       social: newSocial,
-      products: (function(){ var r=[]; var rows=productsDiv.children; for(var i=0;i<rows.length;i++){ r.push({name:rows[i].querySelector('.prod-name')?.value?.trim()||'', sellingPrice:rows[i].querySelector('.prod-selling')?.value?.trim()||'', actualPrice:rows[i].querySelector('.prod-actual')?.value?.trim()||'', image:rows[i].querySelector('.prod-img-url')?.value?.trim()||''}); } return r; })(),
-      services: (function(){ var r=[]; var rows=servicesDiv.children; for(var i=0;i<rows.length;i++){ r.push({title:rows[i].querySelector('.serv-title')?.value?.trim()||'', image:rows[i].querySelector('.serv-img-url')?.value?.trim()||''}); } return r; })(),
-      gallery: (function(){ var r=[]; var rows=galleryDiv.children; for(var i=0;i<rows.length;i++){ var u=rows[i].querySelector('.gal-img-url'); if(u&&u.value.trim()) r.push(u.value.trim()); } return r; })(),
-      youtube: (function(){ var r=[]; var rows=youtubeDiv.children; for(var i=0;i<rows.length;i++){ var u=rows[i].querySelector('.yt-url'); if(u&&u.value.trim()) r.push(u.value.trim()); } return r; })(),
-      reels: (function(){ var r=[]; var rows=reelsDiv.children; for(var i=0;i<rows.length;i++){ var u=rows[i].querySelector('.reel-url'); if(u&&u.value.trim()) r.push(u.value.trim()); } return r; })(),
+      products: prodData,
+      services: servData,
+      gallery: galData,
+      youtube: ytData,
+      reels: reelData,
       payment: { paytm: document.getElementById('e-paytm').value.trim(), upi: document.getElementById('e-upi').value.trim(), qrImage: document.getElementById('e-payment-qr').value.trim() },
       bank: { accountNumber: document.getElementById('e-acc-num').value.trim(), ifsc: document.getElementById('e-ifsc').value.trim(), bankName: document.getElementById('e-bank-name').value.trim(), holderName: document.getElementById('e-holder-name').value.trim() },
       location: { mapLink: document.getElementById('e-map-link').value.trim(), address: document.getElementById('e-address').value.trim() },
-      servicesList: (function(){ var r=[]; var rows=aptServicesDiv.children; for(var i=0;i<rows.length;i++){ r.push({name:rows[i].querySelector('.apt-svc-name')?.value?.trim()||'', duration:rows[i].querySelector('.apt-svc-duration')?.value?.trim()||'30', price:rows[i].querySelector('.apt-svc-price')?.value?.trim()||''}); } return r; })(),
+      servicesList: aptData,
       sectionOrder: finalOrder
     };
 
     try {
       const cardRef = db.collection('cards').doc(slug);
       const cardSnap = await cardRef.get();
-      if (cardSnap.data().editToken !== token) { alert('❌ Unauthorized!'); return; }
+      if (cardSnap.data().editToken !== token) { showSavePopup('❌ Unauthorized! Invalid token.', true); return; }
       await cardRef.update(updates);
-      alert('✅ Saved Successfully!');
+      showSavePopup('✅ Saved & Published Successfully!');
       document.getElementById('publish-link').innerHTML = '<p>Your Public Card: <a href="index.html?id='+slug+'" target="_blank">Click Here</a></p>';
       document.getElementById('publish-link').style.display = 'block';
     } catch (err) {
-      alert('❌ Error: ' + err.message);
+      showSavePopup('❌ Error: ' + err.message, true);
     }
   };
 })();
