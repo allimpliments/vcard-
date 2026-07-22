@@ -110,6 +110,13 @@
 </div>
 
 <script>
+// Check if already logged in
+if (localStorage.getItem('adminLoggedIn') === 'true') {
+  document.getElementById('login-box').style.display = 'none';
+  document.getElementById('admin-panel').style.display = 'block';
+  loadClients();
+  loadAllCards();
+}
 const ADMIN_PASS = 'Admin@11Avatar';
 var planLimits = { 'trial': 1, 'single': 1, 'team': 5, 'startup': 10, 'business': 30, 'enterprise': 50 };
 var commissions = { single: 70, team: 300, startup: 500, business: 1000, enterprise: 1500 };
@@ -117,6 +124,7 @@ var commissions = { single: 70, team: 300, startup: 500, business: 1000, enterpr
 function login(){
   var pass = document.getElementById('admin-pass').value;
   if(pass === ADMIN_PASS){
+    localStorage.setItem('adminLoggedIn', 'true');  // ← YEH LINE ADD KARO
     document.getElementById('login-box').style.display = 'none';
     document.getElementById('admin-panel').style.display = 'block';
     loadClients();
