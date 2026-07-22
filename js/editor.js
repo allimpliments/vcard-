@@ -348,17 +348,51 @@ document.head.appendChild(styleTag);
     }
   }
   renderSocial();
-  document.getElementById('add-social').onclick = function() {
-    var p = prompt('Platform name? (e.g. instagram, youtube, facebook)');
-    if (p && p.trim()) {
-      var cleanPlatform = p.trim().toLowerCase();
-      if (socialData[cleanPlatform]) {
-        alert('This platform already exists!');
-      } else {
-        socialData[cleanPlatform] = '';
+    document.getElementById('add-social').onclick = function() {
+    // Create custom input instead of prompt()
+    var existingRow = document.getElementById('new-social-row');
+    if (existingRow) {
+      // Save current input if exists
+      var platInput = existingRow.querySelector('.new-social-platform');
+      var urlInput = existingRow.querySelector('.new-social-url');
+      if (platInput && platInput.value.trim()) {
+        var p = platInput.value.trim().toLowerCase();
+        socialData[p] = urlInput ? urlInput.value.trim() : '';
+        existingRow.remove();
         renderSocial();
+        return;
       }
+      existingRow.remove();
     }
+    
+    // Create new input row
+    var row = document.createElement('div');
+    row.id = 'new-social-row';
+    row.style.cssText = 'display:flex;gap:8px;align-items:center;margin:10px 0;padding:10px;background:#f0fdf4;border-radius:8px;border:2px dashed #10b981;';
+    row.innerHTML = '<input type="text" class="new-social-platform" placeholder="Platform (e.g. instagram)" style="flex:1;padding:10px;border:2px solid #10b981;border-radius:8px;font-size:14px;"><input type="url" class="new-social-url" placeholder="URL" style="flex:2;padding:10px;border:2px solid #10b981;border-radius:8px;font-size:14px;"><button type="button" id="save-new-social" style="background:#10b981;color:#fff;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:600;">✅ Add</button><button type="button" id="cancel-new-social" style="background:#ef4444;color:#fff;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:600;">✕</button>';
+    
+    socialDiv.insertBefore(row, socialDiv.firstChild);
+    
+    document.getElementById('save-new-social').onclick = function() {
+      var plat = row.querySelector('.new-social-platform').value.trim().toLowerCase();
+      var url = row.querySelector('.new-social-url').value.trim();
+      if (plat) {
+        if (socialData[plat]) {
+          alert('This platform already exists!');
+        } else {
+          socialData[plat] = url;
+          row.remove();
+          renderSocial();
+        }
+      }
+    };
+    
+    document.getElementById('cancel-new-social').onclick = function() {
+      row.remove();
+    };
+    
+    // Focus on platform input
+    setTimeout(function(){ row.querySelector('.new-social-platform').focus(); }, 100);
   };
 
   // Appointment Services
