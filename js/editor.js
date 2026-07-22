@@ -325,7 +325,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
   renderSocial();
   document.getElementById('add-social').onclick = () => { const p = prompt('Platform name?'); if(p){ socialData[p]=''; renderSocial(); } };
 
-    // Appointment Services
+  // Appointment Services
   var aptServicesData = cardData.servicesList || [];
   var aptServicesDiv = document.getElementById('services-list-apt');
   
@@ -346,7 +346,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     renderAptServices(); 
   };
 
-   // Load existing bookings with Cancel option
+  // Load existing bookings with Cancel option
   var bookingsData = cardData.bookings || [];
   var bookingsDiv = document.getElementById('bookings-list-apt');
   if (bookingsDiv && bookingsData.length > 0) {
@@ -390,9 +390,20 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     }
   };
 
+  // Default full section order
+  var DEFAULT_SECTION_ORDER = ["about", "contact", "social", "products", "services", "gallery", "youtube", "reels", "appointment", "payment", "bank", "feedback", "location", "contactform"];
+
   // Section order
   const sectionList = document.getElementById('section-order');
-  let currentOrder = cardData.sectionOrder || ['about', 'contact', 'social'];
+  let currentOrder = cardData.sectionOrder || DEFAULT_SECTION_ORDER;
+  
+  // Ensure all sections are in currentOrder
+  DEFAULT_SECTION_ORDER.forEach(function(defSec) {
+    if (currentOrder.indexOf(defSec) === -1) {
+      currentOrder.push(defSec);
+    }
+  });
+  
   sectionList.innerHTML = '';
   currentOrder.forEach(sec => {
     const li = document.createElement('li');
@@ -400,6 +411,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     li.setAttribute('data-section', sec);
     sectionList.appendChild(li);
   });
+  
   new Sortable(sectionList, {
     animation: 150,
     onEnd: () => { currentOrder = Array.from(sectionList.querySelectorAll('li')).map(li => li.dataset.section); }
@@ -414,6 +426,14 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
     const urlInputs = document.querySelectorAll('.social-url');
     const newSocial = {};
     platformInputs.forEach((p, i) => { if (p.value.trim()) newSocial[p.value.trim()] = urlInputs[i].value.trim(); });
+
+    // Ensure sectionOrder has all sections
+    var finalOrder = currentOrder;
+    DEFAULT_SECTION_ORDER.forEach(function(defSec) {
+      if (finalOrder.indexOf(defSec) === -1) {
+        finalOrder.push(defSec);
+      }
+    });
 
     const updates = {
       name: document.getElementById('e-name').value.trim(),
@@ -439,7 +459,7 @@ function setupImageUpload(fileInputId, previewId, urlInputId) {
       bank: { accountNumber: document.getElementById('e-acc-num').value.trim(), ifsc: document.getElementById('e-ifsc').value.trim(), bankName: document.getElementById('e-bank-name').value.trim(), holderName: document.getElementById('e-holder-name').value.trim() },
       location: { mapLink: document.getElementById('e-map-link').value.trim(), address: document.getElementById('e-address').value.trim() },
       servicesList: (function(){ var r=[]; var rows=aptServicesDiv.children; for(var i=0;i<rows.length;i++){ r.push({name:rows[i].querySelector('.apt-svc-name')?.value?.trim()||'', duration:rows[i].querySelector('.apt-svc-duration')?.value?.trim()||'30', price:rows[i].querySelector('.apt-svc-price')?.value?.trim()||''}); } return r; })(),
-      sectionOrder: currentOrder
+      sectionOrder: finalOrder
     };
 
     try {
