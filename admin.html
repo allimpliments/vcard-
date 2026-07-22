@@ -47,6 +47,62 @@
     .stat-card{flex:1;min-width:120px;background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
     .stat-card .num{font-size:28px;font-weight:800}
     .stat-card .lbl{font-size:11px;color:#64748b;margin-top:4px}
+    
+    /* Custom Modal Styles */
+    .custom-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .custom-modal {
+      background: #fff;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+    .custom-modal h3 {
+      margin-bottom: 12px;
+      color: #1e293b;
+      border: none;
+      margin-top: 0;
+    }
+    .custom-modal p {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .custom-modal button {
+      padding: 12px 24px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 4px;
+      width: auto;
+    }
+    .custom-modal .btn-yes {
+      background: #ef4444;
+      color: #fff;
+    }
+    .custom-modal .btn-no {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+    .custom-modal .btn-ok {
+      background: #1a73e8;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -135,6 +191,30 @@
 </div>
 
 <script>
+// Custom Alert and Confirm Functions (MUST BE AT TOP)
+function showAlert(msg) {
+  var overlay = document.createElement('div');
+  overlay.className = 'custom-modal-overlay';
+  overlay.innerHTML = '<div class="custom-modal"><h3>📢 Notice</h3><p>' + msg + '</p><button class="btn-ok" onclick="this.closest(\'.custom-modal-overlay\').remove()">OK</button></div>';
+  document.body.appendChild(overlay);
+}
+
+function showConfirm(msg, callback) {
+  var overlay = document.createElement('div');
+  overlay.className = 'custom-modal-overlay';
+  overlay.innerHTML = '<div class="custom-modal"><h3>⚠️ Confirm</h3><p>' + msg + '</p><button class="btn-yes" id="confirm-yes">Yes</button> <button class="btn-no" id="confirm-no">No</button></div>';
+  document.body.appendChild(overlay);
+  
+  document.getElementById('confirm-yes').onclick = function() { 
+    overlay.remove(); 
+    callback(true); 
+  };
+  document.getElementById('confirm-no').onclick = function() { 
+    overlay.remove(); 
+    callback(false); 
+  };
+}
+
 const ADMIN_PASS = 'Admin@11Avatar';
 var planLimits = { 'trial': 1, 'single': 1, 'team': 5, 'startup': 10, 'business': 30, 'enterprise': 50 };
 
@@ -382,33 +462,56 @@ async function loadAllCards(){
 async function changeUserPlan(uid, plan){
   var limits = {trial:1, single:1, team:5, startup:10, business:30, enterprise:50};
   await db.collection('users').doc(uid).update({ plan: plan, cardLimit: limits[plan] || 1 });
-  alert('✅ Plan updated!'); loadClients();
+  showAlert('✅ Plan updated!');
+  loadClients();
 }
+
 async function resetUserPassword(email){
-  try { await firebase.auth().sendPasswordResetEmail(email); alert('✅ Password reset link sent!'); } catch(e){ alert('❌ Error: '+e.message); }
+  try { 
+    await firebase.auth().sendPasswordResetEmail(email); 
+    showAlert('✅ Password reset link sent!'); 
+  } catch(e){ 
+    showAlert('❌ Error: '+e.message); 
+  }
 }
+
 async function toggleUserStatus(uid, currentStatus){
   var newStatus = currentStatus === 'disabled' ? 'active' : 'disabled';
-  if(!confirm((newStatus==='disabled'?'Disable':'Enable')+' this user?')) return;
-  await db.collection('users').doc(uid).update({ status: newStatus });
-  alert('✅ User ' + newStatus + '!'); loadClients();
+  showConfirm((newStatus==='disabled'?'Disable':'Enable')+' this user?', async function(ok){
+    if(!ok) return;
+    await db.collection('users').doc(uid).update({ status: newStatus });
+    showAlert('✅ User ' + newStatus + '!');
+    loadClients();
+  });
 }
+
 async function deleteCard(slug){
-  if(!confirm('Delete card: ' + slug + '?')) return;
-  await db.collection('cards').doc(slug).delete();
-  alert('✅ Card deleted!'); loadStats(); loadAllCards();
+  showConfirm('Delete card: ' + slug + '?', async function(ok){
+    if(!ok) return;
+    await db.collection('cards').doc(slug).delete();
+    showAlert('✅ Card deleted!');
+    loadStats();
+    loadAllCards();
+  });
 }
+
 async function deleteUser(uid, email){
-  if(!confirm('DELETE user: ' + email + '?\n\nALL their cards will also be deleted.')) return;
-  try {
-    var snap = await db.collection('cards').where('owner','==',uid).get();
-    var batch = db.batch();
-    snap.forEach(function(doc){ batch.delete(doc.ref); });
-    await batch.commit();
-    await db.collection('users').doc(uid).delete();
-    alert('✅ User and all cards deleted!');
-    loadStats(); loadClients(); loadAllCards();
-  } catch(e){ alert('Error: ' + e.message); }
+  showConfirm('DELETE user: ' + email + '?\n\nALL their cards will also be deleted.', async function(ok){
+    if(!ok) return;
+    try {
+      var snap = await db.collection('cards').where('owner','==',uid).get();
+      var batch = db.batch();
+      snap.forEach(function(doc){ batch.delete(doc.ref); });
+      await batch.commit();
+      await db.collection('users').doc(uid).delete();
+      showAlert('✅ User and all cards deleted!');
+      loadStats();
+      loadClients();
+      loadAllCards();
+    } catch(e){ 
+      showAlert('Error: ' + e.message); 
+    }
+  });
 }
 </script>
 </body>
